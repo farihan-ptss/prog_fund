@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hub Pembelajaran Interaktif: 1.3 Problem Solving Concept</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for beautiful icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        eduBlue: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            200: '#bae0fd',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                        },
+                        eduAmber: {
+                            100: '#fef3c7',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        .glow-effect {
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.15);
+        }
+        @keyframes wave {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+        .animate-wave {
+            animation: wave 3s ease-in-out infinite;
+        }
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-indigo-50 via-slate-50 to-blue-50 text-slate-800 min-h-screen font-sans">
+
+    <!-- NAVIGATION BAR -->
+    <nav class="sticky top-0 z-50 glassmorphism border-b border-slate-200/80 px-4 py-3 shadow-sm">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="bg-gradient-to-tr from-eduBlue-600 to-indigo-600 text-white p-2.5 rounded-xl shadow-md">
+                    <i class="fa-solid fa-brain-circuit text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-lg md:text-xl text-slate-800 tracking-tight">Hub Pengaturcaraan</h1>
+                    <p class="text-xs text-eduBlue-600 font-semibold tracking-wider uppercase">1.3 Problem Solving Concept</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-2 overflow-x-auto pb-1 md:pb-0 max-w-full custom-scrollbar">
+                <a href="#pengenalan" class="px-3 py-1.5 text-xs md:text-sm font-medium rounded-lg text-slate-600 hover:text-eduBlue-600 hover:bg-eduBlue-50 transition-all">Pengenalan</a>
+                <a href="#analogisirap" class="px-3 py-1.5 text-xs md:text-sm font-medium rounded-lg text-slate-600 hover:text-eduBlue-600 hover:bg-eduBlue-50 transition-all">Analogi Sirap</a>
+                <a href="#ipoplayground" class="px-3 py-1.5 text-xs md:text-sm font-medium rounded-lg text-slate-600 hover:text-eduBlue-600 hover:bg-eduBlue-50 transition-all">Playground IPO</a>
+                <a href="#langkahlangkah" class="px-3 py-1.5 text-xs md:text-sm font-medium rounded-lg text-slate-600 hover:text-eduBlue-600 hover:bg-eduBlue-50 transition-all">Langkah Penyelesaian</a>
+                <a href="#kuiz" class="px-4 py-1.5 text-xs md:text-sm font-bold rounded-lg bg-eduBlue-600 text-white hover:bg-eduBlue-700 shadow-sm transition-all flex items-center gap-1"><i class="fa-solid fa-gamepad"></i> Kuiz</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="relative overflow-hidden pt-12 pb-20 px-4 max-w-7xl mx-auto">
+        <!-- Floating decorative backgrounds -->
+        <div class="absolute -top-10 -left-10 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
+        <div class="absolute -top-20 -right-20 w-80 h-80 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse" style="animation-delay: 2s;"></div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+            <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-eduBlue-100 text-eduBlue-700">
+                    <span class="w-2 h-2 rounded-full bg-eduBlue-600 animate-ping"></span>
+                    Modul Pembelajaran Pintar C++
+                </span>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                    Fikir Dahulu,<br>
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-eduBlue-600 via-indigo-600 to-purple-600">Baru Tulis Kod!</span>
+                </h1>
+                <p class="text-slate-600 text-base md:text-lg max-w-2xl mx-auto lg:mx-0">
+                    Sambut kedatangan anda ke hub pembelajaran interaktif. Kuasai konsep <strong class="text-slate-800">Problem Solving (Penyelesaian Masalah)</strong>, analisis <strong class="text-slate-800">IPO</strong>, dan pemikiran komputasional dengan simulasi secara visual yang menarik.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
+                    <a href="#analogisirap" class="px-6 py-3 bg-gradient-to-r from-eduBlue-600 to-indigo-600 text-white rounded-xl shadow-lg shadow-eduBlue-500/20 hover:scale-105 transition-transform font-bold text-center">
+                        Mula Belajar Sekarang
+                    </a>
+                    <a href="#kuiz" class="px-6 py-3 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-xl font-semibold transition-all text-center flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-circle-play text-eduBlue-600"></i> Uji Kefahaman (Kuiz)
+                    </a>
+                </div>
+            </div>
+            
+            <div class="lg:col-span-5 flex justify-center">
+                <!-- Interactive Welcome Visual Card -->
+                <div class="bg-white p-6 rounded-2xl shadow-xl border border-slate-100 relative w-full max-w-sm glow-effect transform rotate-1 hover:rotate-0 transition-all duration-300">
+                    <div class="absolute -top-4 -right-4 bg-amber-400 text-slate-900 font-bold px-3 py-1 rounded-lg text-xs shadow-md transform rotate-12">
+                        Siri 1.3
+                    </div>
+                    <div class="flex items-center gap-3 border-b border-slate-100 pb-4 mb-4">
+                        <div class="w-3 h-3 rounded-full bg-red-400"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-400"></div>
+                        <span class="text-xs text-slate-400 font-mono">problem_solving_basics.cpp</span>
+                    </div>
+                    <div class="space-y-3 font-mono text-xs text-slate-700 bg-slate-900 p-4 rounded-xl text-white/95">
+                        <p class="text-emerald-400">// PERATURAN EMAS:</p>
+                        <p class="text-pink-400">if <span class="text-white">(faham_masalah == false) {</span></p>
+                        <p class="pl-4 text-amber-400">jangan_tulis_kod();</p>
+                        <p class="pl-4 text-slate-400">// Fahami input & output dahulu!</p>
+                        <p class="text-pink-400">} else {</p>
+                        <p class="pl-4 text-emerald-400">mula_rancang_solusi();</p>
+                        <p class="text-pink-400">}</p>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-slate-100 text-center">
+                        <p class="text-xs text-slate-500 italic">"Penyelesaian masalah ialah kunci utama pengaturcara berjaya!"</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN BODY CONTAINER -->
+    <main class="max-w-7xl mx-auto px-4 pb-24 space-y-16">
+
+        <!-- SECTION 1: APA ITU PROBLEM SOLVING? -->
+        <section id="pengenalan" class="scroll-mt-24">
+            <div class="bg-white rounded-3xl p-6 md:p-10 shadow-sm border border-slate-100">
+                <div class="flex flex-col md:flex-row gap-8 items-center">
+                    <div class="md:w-1/2 space-y-6">
+                        <div class="inline-block p-3 bg-indigo-50 rounded-2xl text-indigo-600">
+                            <i class="fa-solid fa-lightbulb text-3xl"></i>
+                        </div>
+                        <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Apakah itu Problem Solving?</h2>
+                        <p class="text-slate-600 leading-relaxed text-base">
+                            <strong>Problem solving</strong> ialah proses mengenal pasti sesuatu masalah dan merancang langkah-langkah untuk menghasilkan penyelesaian sebelum anda menulis sebarang kod program.
+                        </p>
+                        <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-xl">
+                            <div class="flex gap-3">
+                                <i class="fa-solid fa-circle-exclamation text-amber-600 text-lg mt-0.5"></i>
+                                <div>
+                                    <h4 class="font-bold text-amber-900 text-sm">KONSEP PENTING</h4>
+                                    <p class="text-amber-800 text-sm mt-0.5 font-medium">Jangan terus menulis kod. Fahami masalah dahulu sepenuhnya!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="md:w-1/2 bg-slate-50 p-6 rounded-2xl border border-slate-200/60 w-full space-y-4">
+                        <h3 class="font-bold text-slate-800 flex items-center gap-2 text-lg">
+                            <i class="fa-solid fa-circle-question text-eduBlue-600"></i> Contoh Situasi Nyata
+                        </h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Pensyarah ingin membina sistem untuk <strong>mengira markah akhir pelajar</strong> secara automatik. Sebelum kita tergesa-gesa membuka perisian C++ dan menulis kod, kita wajib tahu:
+                        </p>
+                        
+                        <div class="grid grid-cols-1 gap-3 mt-2">
+                            <div class="bg-white p-3.5 rounded-xl border border-slate-100 flex gap-3 items-start hover:shadow-md transition-all">
+                                <span class="bg-blue-100 text-blue-700 font-bold text-xs h-6 w-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">1</span>
+                                <p class="text-sm text-slate-700 font-medium">Data apa yang diperlukan? <span class="text-xs text-slate-400 block">(cth: Markah Kuiz, Ujian, Final)</span></p>
+                            </div>
+                            <div class="bg-white p-3.5 rounded-xl border border-slate-100 flex gap-3 items-start hover:shadow-md transition-all">
+                                <span class="bg-indigo-100 text-indigo-700 font-bold text-xs h-6 w-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">2</span>
+                                <p class="text-sm text-slate-700 font-medium">Formula apa yang digunakan? <span class="text-xs text-slate-400 block">(cth: Purata = Hasil Tambah / 3)</span></p>
+                            </div>
+                            <div class="bg-white p-3.5 rounded-xl border border-slate-100 flex gap-3 items-start hover:shadow-md transition-all">
+                                <span class="bg-purple-100 text-purple-700 font-bold text-xs h-6 w-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">3</span>
+                                <p class="text-sm text-slate-700 font-medium">Apakah keputusan yang ingin dipaparkan? <span class="text-xs text-slate-400 block">(cth: Gred atau Status Lulus/Gagal)</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: ANALOGI SIRAP (INTERACTIVE) -->
+        <section id="analogisirap" class="scroll-mt-24">
+            <div class="text-center max-w-3xl mx-auto space-y-4 mb-10">
+                <span class="text-xs font-extrabold uppercase tracking-widest text-pink-600 bg-pink-100 px-3 py-1 rounded-full">Analogi Mudah & Seronok</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-950">Analogi Membuat Air Sirap Ais</h2>
+                <p class="text-slate-600 text-sm md:text-base">
+                    Sama seperti pengaturcaraan, proses membancuh air sirap juga mengikut aliran sistem komputer yang standard: <strong>Input &rarr; Process &rarr; Output</strong>. Cuba bancuh sendiri di bawah!
+                </p>
+            </div>
+
+            <!-- INTERACTIVE SIRAP SIMULATOR CARD -->
+            <div class="bg-white rounded-3xl p-6 md:p-8 shadow-md border border-slate-100 max-w-4xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+                    
+                    <!-- COLUMN 1: INPUT CONTROLS -->
+                    <div class="bg-pink-50/50 p-5 rounded-2xl border border-pink-100/50 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="bg-pink-600 text-white text-xs font-bold px-2 py-0.5 rounded-md">BAHAGIAN 1</span>
+                                <h3 class="font-extrabold text-slate-800">1. Sediakan Input</h3>
+                            </div>
+                            <p class="text-xs text-slate-500 mb-4">Pilih bahan-bahan yang ingin anda masukkan ke dalam bekas bancuhan:</p>
+                            
+                            <div class="space-y-3">
+                                <!-- Input 1 -->
+                                <label class="flex items-center justify-between p-3 bg-white rounded-xl border border-pink-100 cursor-pointer hover:border-pink-300 transition-all">
+                                    <span class="flex items-center gap-2.5 text-sm font-semibold text-slate-700">
+                                        <span class="text-xl">💧</span> Air Bersih
+                                    </span>
+                                    <input type="checkbox" id="inputWater" checked class="w-5 h-5 rounded text-pink-600 focus:ring-pink-500 border-slate-300">
+                                </label>
+                                <!-- Input 2 -->
+                                <label class="flex items-center justify-between p-3 bg-white rounded-xl border border-pink-100 cursor-pointer hover:border-pink-300 transition-all">
+                                    <span class="flex items-center gap-2.5 text-sm font-semibold text-slate-700">
+                                        <span class="text-xl">🥤</span> Ibu Sirap Rose
+                                    </span>
+                                    <input type="checkbox" id="inputSyrup" checked class="w-5 h-5 rounded text-pink-600 focus:ring-pink-500 border-slate-300">
+                                </label>
+                                <!-- Input 3 -->
+                                <label class="flex items-center justify-between p-3 bg-white rounded-xl border border-pink-100 cursor-pointer hover:border-pink-300 transition-all">
+                                    <span class="flex items-center gap-2.5 text-sm font-semibold text-slate-700">
+                                        <span class="text-xl">🧊</span> Ketulan Ais
+                                    </span>
+                                    <input type="checkbox" id="inputIce" checked class="w-5 h-5 rounded text-pink-600 focus:ring-pink-500 border-slate-300">
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 pt-4 border-t border-pink-100">
+                            <span class="text-xs font-mono text-pink-700 block">Status Input:</span>
+                            <div class="flex gap-1.5 flex-wrap mt-1" id="inputStatusTags">
+                                <span class="bg-pink-100 text-pink-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Air</span>
+                                <span class="bg-pink-100 text-pink-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Sirap</span>
+                                <span class="bg-pink-100 text-pink-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Ais</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- COLUMN 2: PROCESS TRIGGER -->
+                    <div class="bg-purple-50/50 p-5 rounded-2xl border border-purple-100/50 flex flex-col items-center justify-center text-center space-y-4">
+                        <span class="bg-purple-600 text-white text-xs font-bold px-2 py-0.5 rounded-md">BAHAGIAN 2</span>
+                        <h3 class="font-extrabold text-slate-800">2. Proses Bancuhan</h3>
+                        <p class="text-xs text-slate-500 max-w-[200px]">Campurkan dan kacau rata semua bahan yang telah dimasukkan tadi.</p>
+                        
+                        <!-- Brew button -->
+                        <button id="btnBrew" class="w-full py-4 px-6 bg-gradient-to-r from-pink-600 to-purple-600 text-white font-bold rounded-xl shadow-lg shadow-purple-500/20 hover:shadow-purple-500/30 active:scale-95 transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-blender animate-pulse"></i> Bancuh Sirap!
+                        </button>
+
+                        <!-- Visual feedback of progress -->
+                        <div class="w-full space-y-2 opacity-0 transition-opacity duration-300" id="brewProgressContainer">
+                            <div class="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden">
+                                <div id="brewProgressBar" class="bg-gradient-to-r from-pink-500 to-purple-600 h-2.5 rounded-full w-0 transition-all duration-1000"></div>
+                            </div>
+                            <span class="text-[11px] font-semibold text-purple-700 animate-pulse" id="brewStatusText">Sedang membancuh...</span>
+                        </div>
+                    </div>
+
+                    <!-- COLUMN 3: OUTPUT RESULT -->
+                    <div class="bg-emerald-50/50 p-5 rounded-2xl border border-emerald-100/50 flex flex-col justify-between items-center text-center relative overflow-hidden">
+                        <div class="w-full">
+                            <span class="bg-emerald-600 text-white text-xs font-bold px-2 py-0.5 rounded-md inline-block">BAHAGIAN 3</span>
+                            <h3 class="font-extrabold text-slate-800 mt-2">3. Output Hasil</h3>
+                        </div>
+
+                        <!-- Graphic Container for drink -->
+                        <div class="relative w-28 h-40 flex items-end justify-center my-4">
+                            <!-- Empty Cup container -->
+                            <div class="absolute inset-0 border-4 border-slate-300 border-t-0 rounded-b-3xl bg-white/20 shadow-inner overflow-hidden flex items-end">
+                                <!-- Drink liquid inside cup -->
+                                <div id="drinkLiquid" class="w-full h-0 bg-transparent transition-all duration-1000 ease-out flex items-center justify-center">
+                                    <!-- Floating Ice cubes inside cup -->
+                                    <div id="drinkIceCubes" class="absolute hidden bottom-4 inset-x-0 justify-center gap-1.5">
+                                        <span class="bg-white/80 border border-white text-[10px] w-5 h-5 rounded flex items-center justify-center shadow-sm font-bold">🧊</span>
+                                        <span class="bg-white/80 border border-white text-[10px] w-5 h-5 rounded flex items-center justify-center shadow-sm font-bold transform rotate-12">🧊</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Straw -->
+                            <div class="absolute -top-6 right-4 w-2 h-36 bg-red-400 rounded-full transform rotate-12 origin-bottom shadow-sm"></div>
+                        </div>
+
+                        <div class="w-full">
+                            <span class="text-xs font-bold text-emerald-800 block" id="drinkTitle">Menunggu Bancuhan...</span>
+                            <p class="text-[11px] text-slate-500 mt-1 leading-tight" id="drinkDesc">Sila tekan butang bancuh untuk mulakan proses komputer.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: PENERANGAN IPO & INTERACTIVE PLAYGROUND -->
+        <section id="ipoplayground" class="scroll-mt-24 space-y-8">
+            <div class="text-center max-w-2xl mx-auto space-y-3">
+                <span class="text-xs font-bold text-eduBlue-600 bg-eduBlue-100 px-3 py-1 rounded-full uppercase">Aliran Sistem Komputer</span>
+                <h2 class="text-3xl font-extrabold text-slate-900">1.3.1 Define Input, Process, Output (IPO)</h2>
+                <p class="text-slate-600 text-sm">
+                    Setiap atur cara komputer dibina berasaskan 3 komponen utama. Masukkan data di bawah dan saksikan bagaimana sistem memprosesnya secara live.
+                </p>
+            </div>
+
+            <!-- SIMULATOR CONTROL TAB -->
+            <div class="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-100">
+                <div class="flex flex-wrap gap-2 justify-center border-b border-slate-100 pb-5 mb-6">
+                    <button onclick="switchIpoTab('bmi')" id="tabBtn-bmi" class="ipo-tab-btn active px-4 py-2 text-sm font-bold rounded-xl bg-eduBlue-600 text-white shadow-sm transition-all flex items-center gap-2">
+                        ⚖️ Program BMI
+                    </button>
+                    <button onclick="switchIpoTab('luas')" id="tabBtn-luas" class="ipo-tab-btn px-4 py-2 text-sm font-medium rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-all flex items-center gap-2">
+                        📐 Luas Segi Empat
+                    </button>
+                    <button onclick="switchIpoTab('shopee')" id="tabBtn-shopee" class="ipo-tab-btn px-4 py-2 text-sm font-medium rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-all flex items-center gap-2">
+                        🛒 Jumlah Bayaran Shopee
+                    </button>
+                    <button onclick="switchIpoTab('purata')" id="tabBtn-purata" class="ipo-tab-btn px-4 py-2 text-sm font-medium rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-all flex items-center gap-2">
+                        📊 Purata Markah
+                    </button>
+                </div>
+
+                <!-- LIVE INTERACTIVE IPO WORKFLOW GRAPH -->
+                <div class="grid grid-cols-1 lg:grid-cols-11 gap-6 items-center">
+                    
+                    <!-- 1. INPUT BOX -->
+                    <div class="lg:col-span-3 bg-sky-50/50 p-5 rounded-2xl border border-sky-100/60 flex flex-col justify-between h-full">
+                        <div>
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="w-6 h-6 rounded-lg bg-sky-500 text-white flex items-center justify-center font-bold text-xs">IN</span>
+                                <h4 class="font-bold text-slate-800">A. Input Data</h4>
+                            </div>
+                            <p class="text-xs text-slate-500 mb-4">Pengguna memasukkan maklumat berikut:</p>
+                            
+                            <!-- Dynamic Inputs container depending on active tab -->
+                            <div id="ipoInputsContainer" class="space-y-4">
+                                <!-- Generated by JS dynamically -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ARROW 1 -->
+                    <div class="lg:col-span-1 flex justify-center text-sky-400">
+                        <i class="fa-solid fa-arrow-right text-3xl hidden lg:block animate-pulse"></i>
+                        <i class="fa-solid fa-arrow-down text-3xl lg:hidden animate-pulse"></i>
+                    </div>
+
+                    <!-- 2. PROCESS BOX -->
+                    <div class="lg:col-span-3 bg-indigo-50/50 p-5 rounded-2xl border border-indigo-100/60 flex flex-col justify-between h-full">
+                        <div>
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="w-6 h-6 rounded-lg bg-indigo-500 text-white flex items-center justify-center font-bold text-xs">PR</span>
+                                <h4 class="font-bold text-slate-800">B. Process (Pengiraan)</h4>
+                            </div>
+                            <p class="text-xs text-slate-500 mb-4">Operasi logik & aritmetik komputer:</p>
+                            
+                            <div class="bg-white p-4 rounded-xl border border-indigo-100 font-mono text-xs text-indigo-900 space-y-3">
+                                <span class="text-[10px] font-bold text-indigo-500 block uppercase tracking-wider">Formula komputer:</span>
+                                <div id="ipoProcessFormula" class="font-bold whitespace-pre-line text-sm break-all leading-relaxed">
+                                    <!-- Dynamic -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ARROW 2 -->
+                    <div class="lg:col-span-1 flex justify-center text-indigo-400">
+                        <i class="fa-solid fa-arrow-right text-3xl hidden lg:block animate-pulse"></i>
+                        <i class="fa-solid fa-arrow-down text-3xl lg:hidden animate-pulse"></i>
+                    </div>
+
+                    <!-- 3. OUTPUT BOX -->
+                    <div class="lg:col-span-3 bg-emerald-50/50 p-5 rounded-2xl border border-emerald-100/60 flex flex-col justify-between h-full">
+                        <div>
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="w-6 h-6 rounded-lg bg-emerald-500 text-white flex items-center justify-center font-bold text-xs">OUT</span>
+                                <h4 class="font-bold text-slate-800">C. Output Keputusan</h4>
+                            </div>
+                            <p class="text-xs text-slate-500 mb-4">Hasil maklumat yang dipaparkan di skrin:</p>
+                            
+                            <div class="bg-emerald-600 text-white p-4 rounded-xl shadow-inner space-y-2">
+                                <span class="text-[10px] font-bold text-emerald-100 block uppercase tracking-wider">Hasil Paparan:</span>
+                                <div id="ipoOutputContainer" class="font-extrabold text-xl font-mono text-center py-2">
+                                    <!-- Dynamic -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: STEPS IN PROBLEM SOLVING -->
+        <section id="langkahlangkah" class="scroll-mt-24 space-y-8">
+            <div class="text-center max-w-2xl mx-auto space-y-3">
+                <span class="text-xs font-bold text-purple-600 bg-purple-100 px-3 py-1 rounded-full uppercase">Metodologi Profesional</span>
+                <h2 class="text-3xl font-extrabold text-slate-900">1.3.2 Steps in Problem Solving</h2>
+                <p class="text-slate-600 text-sm">
+                    Sebelum memulakan pengaturcaraan, ikuti 3 langkah berstruktur ini untuk menjamin kod anda teratur tanpa ralat logik.
+                </p>
+            </div>
+
+            <!-- INTERACTIVE ACCORDION STEPS -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                
+                <!-- Left Hand Steps List -->
+                <div class="lg:col-span-4 space-y-3">
+                    <button onclick="activateStep(1)" id="stepTab-1" class="step-tab w-full text-left p-4 rounded-2xl border bg-white border-slate-100 hover:border-slate-300 transition-all flex items-center gap-4 active shadow-sm ring-2 ring-eduBlue-500/10">
+                        <span class="w-10 h-10 rounded-xl bg-eduBlue-100 text-eduBlue-600 flex items-center justify-center font-extrabold text-base">S1</span>
+                        <div>
+                            <h4 class="font-bold text-sm text-slate-800">Step 1: Input & Output</h4>
+                            <p class="text-xs text-slate-500">Kenal pasti apa yang diperlukan & dicari.</p>
+                        </div>
+                    </button>
+                    
+                    <button onclick="activateStep(2)" id="stepTab-2" class="step-tab w-full text-left p-4 rounded-2xl border bg-white border-slate-100 hover:border-slate-300 transition-all flex items-center gap-4">
+                        <span class="w-10 h-10 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center font-extrabold text-base">S2</span>
+                        <div>
+                            <h4 class="font-bold text-sm text-slate-800">Step 2: Other Data & Constants</h4>
+                            <p class="text-xs text-slate-500">Kenal pasti nilai tetap (constant).</p>
+                        </div>
+                    </button>
+
+                    <button onclick="activateStep(3)" id="stepTab-3" class="step-tab w-full text-left p-4 rounded-2xl border bg-white border-slate-100 hover:border-slate-300 transition-all flex items-center gap-4">
+                        <span class="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center font-extrabold text-base">S3</span>
+                        <div>
+                            <h4 class="font-bold text-sm text-slate-800">Step 3: What to Compute</h4>
+                            <p class="text-xs text-slate-500">Formula & proses aritmetik/logik.</p>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Right Hand Content Detail -->
+                <div class="lg:col-span-8 bg-white rounded-3xl p-6 md:p-8 border border-slate-100 shadow-sm flex flex-col justify-between">
+                    
+                    <!-- STEP 1 CONTENT -->
+                    <div id="stepContent-1" class="step-content space-y-6">
+                        <div class="flex items-center gap-3">
+                            <span class="px-2.5 py-1 text-xs font-bold bg-eduBlue-100 text-eduBlue-700 rounded">LANGKAH 1</span>
+                            <h3 class="text-xl font-extrabold text-slate-900">Identify the Inputs and Outputs</h3>
+                        </div>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            Kenal pasti apakah data awal yang perlu dimasukkan oleh pengguna komputer, serta apakah bentuk keputusan terakhir yang hendak dipaparkan di skrin program.
+                        </p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 space-y-2">
+                                <h4 class="font-bold text-xs text-eduBlue-600 uppercase tracking-wider">Contoh Kes 1: Kira Gaji Pekerja</h4>
+                                <ul class="space-y-1 text-xs text-slate-600">
+                                    <li>📥 <strong class="text-slate-800">Input:</strong> Nama pekerja, Gaji sejam, Bilangan jam bekerja</li>
+                                    <li>📤 <strong class="text-slate-800">Output:</strong> Jumlah gaji kasar mingguan</li>
+                                </ul>
+                            </div>
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 space-y-2">
+                                <h4 class="font-bold text-xs text-eduBlue-600 uppercase tracking-wider">Contoh Kes 2: Kira Umur</h4>
+                                <ul class="space-y-1 text-xs text-slate-600">
+                                    <li>📥 <strong class="text-slate-800">Input:</strong> Tahun lahir</li>
+                                    <li>📤 <strong class="text-slate-800">Output:</strong> Nilai umur terkini pelajar</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STEP 2 CONTENT -->
+                    <div id="stepContent-2" class="step-content hidden space-y-6">
+                        <div class="flex items-center gap-3">
+                            <span class="px-2.5 py-1 text-xs font-bold bg-purple-100 text-purple-700 rounded">LANGKAH 2</span>
+                            <h3 class="text-xl font-extrabold text-slate-900">Identify Other Data and Constants Required</h3>
+                        </div>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            Kadangkala program memerlukan nilai tetap (<strong class="text-purple-600">constant</strong>) yang disimpan terus dalam sistem tanpa perlu dimasukkan oleh pengguna berulang kali. Nilai constant ini <strong>tidak akan berubah</strong> sepanjang atur cara sedang dijalankan.
+                        </p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                            <div class="p-4 bg-purple-50/50 rounded-xl border border-purple-100/50 space-y-1 text-center">
+                                <span class="text-2xl">🍰</span>
+                                <h4 class="font-bold text-xs text-slate-800">Nilai Pi (&pi;)</h4>
+                                <p class="text-[11px] text-purple-800 font-mono font-bold">3.142</p>
+                                <p class="text-[10px] text-slate-500">(Formula Luas Bulatan)</p>
+                            </div>
+                            <div class="p-4 bg-purple-50/50 rounded-xl border border-purple-100/50 space-y-1 text-center">
+                                <span class="text-2xl">💵</span>
+                                <h4 class="font-bold text-xs text-slate-800">Kadar SST Malaysia</h4>
+                                <p class="text-[11px] text-purple-800 font-mono font-bold">0.06 (6%)</p>
+                                <p class="text-[10px] text-slate-500">(Kira Cukai Perkhidmatan)</p>
+                            </div>
+                            <div class="p-4 bg-purple-50/50 rounded-xl border border-purple-100/50 space-y-1 text-center">
+                                <span class="text-2xl">📅</span>
+                                <h4 class="font-bold text-xs text-slate-800">Tahun Semasa</h4>
+                                <p class="text-[11px] text-purple-800 font-mono font-bold">2026</p>
+                                <p class="text-[10px] text-slate-500">(Kira Umur Automatik)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STEP 3 CONTENT -->
+                    <div id="stepContent-3" class="step-content hidden space-y-6">
+                        <div class="flex items-center gap-3">
+                            <span class="px-2.5 py-1 text-xs font-bold bg-amber-100 text-amber-700 rounded">LANGKAH 3</span>
+                            <h3 class="text-xl font-extrabold text-slate-900">Identify What Needs to be Computed</h3>
+                        </div>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            Ini adalah teras logik komputer di mana semua formula diatur dengan teliti menggunakan tanda operasi matematik (cth: <code class="bg-amber-50 text-amber-700 px-1 py-0.5 rounded">*</code> untuk darab, <code class="bg-amber-50 text-amber-700 px-1 py-0.5 rounded">/</code> untuk bahagi).
+                        </p>
+                        
+                        <div class="space-y-2 pt-2">
+                            <div class="flex justify-between items-center p-3 bg-slate-50 rounded-xl border border-slate-100 text-xs">
+                                <span class="font-bold text-slate-700">Jumlah Harga Barang:</span>
+                                <code class="font-bold text-amber-600 bg-white px-2 py-1 rounded border border-slate-200">Total = Price * Quantity</code>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-slate-50 rounded-xl border border-slate-100 text-xs">
+                                <span class="font-bold text-slate-700">Formula BMI Standard:</span>
+                                <code class="font-bold text-amber-600 bg-white px-2 py-1 rounded border border-slate-200">BMI = Weight / (Height * Height)</code>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-slate-50 rounded-xl border border-slate-100 text-xs">
+                                <span class="font-bold text-slate-700">Purata Markah Pelajar:</span>
+                                <code class="font-bold text-amber-600 bg-white px-2 py-1 rounded border border-slate-200">Average = (Quiz + Test + Final) / 3</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CONSTANT PROGRESS INDICATOR FOOTER -->
+                    <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+                        <span>Langkah-langkah Problem Solving C++</span>
+                        <span id="stepProgressNum">Bahagian 1 daripada 3</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: COMPREHENSIVE STUDY CASE -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            <!-- STYLESHEET EX 1: YURAN SEMESTER -->
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-100 shadow-sm space-y-6">
+                <div class="flex items-center gap-3">
+                    <span class="text-3xl">🎓</span>
+                    <div>
+                        <h3 class="font-extrabold text-lg text-slate-900 leading-tight">Sistem Kira Yuran Semester</h3>
+                        <p class="text-xs text-slate-400">Situasi Kehidupan Pelajar Kolej</p>
+                    </div>
+                </div>
+                
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Masalah: Pelajar ingin mengetahui jumlah yuran yang perlu dibayar setiap awal semester.
+                </p>
+
+                <div class="space-y-4 pt-2">
+                    <div class="border-l-4 border-eduBlue-500 pl-3 py-1 space-y-1">
+                        <span class="text-[10px] font-bold text-eduBlue-600 uppercase tracking-widest block">Langkah 1 & 2: Data & Constant</span>
+                        <p class="text-xs text-slate-600"><strong class="text-slate-800">Input:</strong> Bilangan kredit, Harga setiap kredit</p>
+                        <p class="text-xs text-slate-600"><strong class="text-slate-800">Constant:</strong> Yuran Pendaftaran Tetap = <span class="font-mono text-eduBlue-600 font-bold">RM 100</span></p>
+                    </div>
+
+                    <div class="border-l-4 border-indigo-500 pl-3 py-1 space-y-1">
+                        <span class="text-[10px] font-bold text-indigo-600 uppercase tracking-widest block">Langkah 3: Pengiraan (Computation)</span>
+                        <code class="text-xs bg-slate-900 text-indigo-300 block p-2 rounded-lg font-mono">
+                            Tuition = Credit * FeePerCredit<br>
+                            TotalFee = Tuition + 100
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Live Mini Calculator Yuran -->
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200/60 space-y-3">
+                    <h4 class="font-bold text-xs text-slate-700 flex items-center justify-between">
+                        <span>Simulasi Yuran Semester:</span>
+                        <span class="text-[10px] text-slate-400 font-normal">Cuba ubah nilai!</span>
+                    </h4>
+                    <div class="grid grid-cols-2 gap-3 text-xs">
+                        <div>
+                            <label class="block text-slate-500 mb-1">Bil. Kredit:</label>
+                            <input type="number" id="feeCredit" value="18" class="w-full p-2 bg-white rounded-lg border border-slate-200 focus:outline-none focus:ring-1 focus:ring-eduBlue-500 font-semibold text-slate-700" oninput="calcYuranSemester()">
+                        </div>
+                        <div>
+                            <label class="block text-slate-500 mb-1">Yuran Per Kredit (RM):</label>
+                            <input type="number" id="feePerCredit" value="80" class="w-full p-2 bg-white rounded-lg border border-slate-200 focus:outline-none focus:ring-1 focus:ring-eduBlue-500 font-semibold text-slate-700" oninput="calcYuranSemester()">
+                        </div>
+                    </div>
+                    <div class="pt-2 border-t border-slate-200 flex justify-between items-center">
+                        <span class="text-xs font-bold text-slate-600">Jumlah Yuran Akhir:</span>
+                        <span id="feeResultVal" class="text-base font-extrabold text-eduBlue-600 font-mono">RM 1,540.00</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STYLESHEET EX 2: SHOPEE CART -->
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-100 shadow-sm space-y-6">
+                <div class="flex items-center gap-3">
+                    <span class="text-3xl">🛍️</span>
+                    <div>
+                        <h3 class="font-extrabold text-lg text-slate-900 leading-tight">Aplikasi Pembelian Shopee</h3>
+                        <p class="text-xs text-slate-400">Analisis Sistem Pembayaran</p>
+                    </div>
+                </div>
+                
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Masalah: Sistem perlu mengira jumlah bayaran pelanggan berserta kos penghantaran (SST) tetap.
+                </p>
+
+                <div class="space-y-4 pt-2">
+                    <div class="border-l-4 border-pink-500 pl-3 py-1 space-y-1">
+                        <span class="text-[10px] font-bold text-pink-600 uppercase tracking-widest block">Langkah 1 & 2: Data & Constant</span>
+                        <p class="text-xs text-slate-600"><strong class="text-slate-800">Input:</strong> Harga barang, Kuantiti barang</p>
+                        <p class="text-xs text-slate-600"><strong class="text-slate-800">Constant:</strong> Kos Penghantaran Tetap = <span class="font-mono text-pink-600 font-bold">RM 5</span></p>
+                    </div>
+
+                    <div class="border-l-4 border-purple-500 pl-3 py-1 space-y-1">
+                        <span class="text-[10px] font-bold text-purple-600 uppercase tracking-widest block">Langkah 3: Pengiraan (Computation)</span>
+                        <code class="text-xs bg-slate-900 text-purple-300 block p-2 rounded-lg font-mono">
+                            Subtotal = Harga * Kuantiti<br>
+                            JumlahBayar = Subtotal + 5
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Live Mini Calculator Shopee -->
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200/60 space-y-3">
+                    <h4 class="font-bold text-xs text-slate-700 flex items-center justify-between">
+                        <span>Simulasi Shopee Cart:</span>
+                        <span class="text-[10px] text-slate-400 font-normal">Ubah nilai!</span>
+                    </h4>
+                    <div class="grid grid-cols-2 gap-3 text-xs">
+                        <div>
+                            <label class="block text-slate-500 mb-1">Harga Barang (RM):</label>
+                            <input type="number" id="shopeePrice" value="15" class="w-full p-2 bg-white rounded-lg border border-slate-200 focus:outline-none focus:ring-1 focus:ring-pink-500 font-semibold text-slate-700" oninput="calcShopeePayment()">
+                        </div>
+                        <div>
+                            <label class="block text-slate-500 mb-1">Kuantiti:</label>
+                            <input type="number" id="shopeeQty" value="2" class="w-full p-2 bg-white rounded-lg border border-slate-200 focus:outline-none focus:ring-1 focus:ring-pink-500 font-semibold text-slate-700" oninput="calcShopeePayment()">
+                        </div>
+                    </div>
+                    <div class="pt-2 border-t border-slate-200 flex justify-between items-center">
+                        <span class="text-xs font-bold text-slate-600">Jumlah Bayaran Akhir:</span>
+                        <span id="shopeeResultVal" class="text-base font-extrabold text-pink-600 font-mono">RM 35.00</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- INTUITIVE DIY INTERACTIVE SANDBOX -->
+        <section class="bg-slate-900 text-white rounded-3xl p-6 md:p-10 shadow-xl relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-eduBlue-600 rounded-full filter blur-[100px] opacity-25"></div>
+            
+            <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div class="lg:col-span-5 space-y-4">
+                    <span class="text-xs font-extrabold uppercase tracking-widest text-emerald-400 bg-emerald-950/80 border border-emerald-800 px-3 py-1 rounded-full">IPO Sandbox</span>
+                    <h3 class="text-2xl md:text-3xl font-extrabold leading-tight">Mari Rancang IPO Sendiri!</h3>
+                    <p class="text-slate-400 text-xs md:text-sm leading-relaxed">
+                        Tuliskan sebarang masalah pengaturcaraan anda, tentukan input yang diperlukan serta hasil akhir yang diidamkan. Latih minda computational thinking anda di sini!
+                    </p>
+                    <div class="space-y-2 pt-2 text-xs text-slate-400">
+                        <p class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400"></i> Membiasakan diri sebelum mula coding C++</p>
+                        <p class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400"></i> Mengurangkan ralat sintaksis & logik</p>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-7 bg-slate-850 bg-slate-800/80 p-6 rounded-2xl border border-slate-700/80 space-y-4">
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-xs text-slate-300 font-bold mb-1.5 uppercase tracking-wider">Tuliskan Masalah / Situasi:</label>
+                            <input type="text" id="diyProblem" placeholder="Cth: Mengira luas bulatan..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-eduBlue-500" oninput="updateDiyOutput()">
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            <div>
+                                <label class="block text-xs text-slate-300 font-bold mb-1.5 uppercase tracking-wider">📥 Input:</label>
+                                <input type="text" id="diyInput" placeholder="Cth: Jejari (radius)" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-eduBlue-500" oninput="updateDiyOutput()">
+                            </div>
+                            <div>
+                                <label class="block text-xs text-slate-300 font-bold mb-1.5 uppercase tracking-wider">⚙️ Process (Formula):</label>
+                                <input type="text" id="diyProcess" placeholder="Cth: Luas = 3.142 * j * j" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-eduBlue-500" oninput="updateDiyOutput()">
+                            </div>
+                            <div>
+                                <label class="block text-xs text-slate-300 font-bold mb-1.5 uppercase tracking-wider">📤 Output:</label>
+                                <input type="text" id="diyOutput" placeholder="Cth: Luas bulatan" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-eduBlue-500" oninput="updateDiyOutput()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sandbox Interactive Visual Canvas -->
+                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-750 font-mono text-[11px] space-y-2 mt-4 text-slate-300">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-2 text-slate-500">
+                            <span>Sistem IPO Dijana:</span>
+                            <span class="text-emerald-400">● Sedia</span>
+                        </div>
+                        <p class="font-semibold text-slate-400 text-xs">SITUASI: <span id="diyPreviewProblem" class="text-white italic">Mengira luas bulatan...</span></p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-2 pt-2 text-center">
+                            <div class="bg-slate-850 p-2.5 rounded border border-slate-800">
+                                <span class="text-[10px] text-slate-500 block">INPUT</span>
+                                <span id="diyPreviewInput" class="font-bold text-sky-400">-</span>
+                            </div>
+                            <div class="bg-slate-850 p-2.5 rounded border border-slate-800">
+                                <span class="text-[10px] text-slate-500 block">PROCESS</span>
+                                <span id="diyPreviewProcess" class="font-bold text-indigo-400">-</span>
+                            </div>
+                            <div class="bg-slate-850 p-2.5 rounded border border-slate-800">
+                                <span class="text-[10px] text-slate-500 block">OUTPUT</span>
+                                <span id="diyPreviewOutput" class="font-bold text-emerald-400">-</span>
+                            </div>
+                        </div>
+                        <div class="text-center pt-2">
+                            <button onclick="downloadIpoScheme()" class="text-[10px] px-3 py-1 bg-slate-800 hover:bg-slate-700 rounded border border-slate-700 text-white font-bold transition-all inline-flex items-center gap-1.5">
+                                <i class="fa-solid fa-copy"></i> Salin Struktur IPO Anda
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 6: KUIZ INTERAKTIF MINDA -->
+        <section id="kuiz" class="scroll-mt-24">
+            <div class="max-w-4xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100">
+                <div class="bg-gradient-to-r from-eduBlue-600 to-indigo-600 text-white p-6 md:p-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                    <div class="text-center md:text-left">
+                        <span class="text-xs font-bold uppercase bg-white/20 px-3 py-1 rounded-full text-white">Uji Kemahiran</span>
+                        <h3 class="text-2xl md:text-3xl font-extrabold mt-1">Kuiz Interaktif: Problem Solving</h3>
+                        <p class="text-xs text-slate-100 mt-1">Mari uji kefahaman anda mengenai konsep Siri 1.3 ini.</p>
+                    </div>
+                    <div class="bg-white/10 px-4 py-2 rounded-2xl border border-white/20 text-center flex-shrink-0">
+                        <span class="text-2xl font-bold font-mono" id="scoreIndicator">0</span>
+                        <span class="text-xs text-white/80 block uppercase font-bold tracking-wider">Mata Terkumpul</span>
+                    </div>
+                </div>
+
+                <!-- PLAYING CONTAINER -->
+                <div id="quizPlayArea" class="p-6 md:p-8 space-y-6">
+                    <!-- Progress Bar -->
+                    <div class="space-y-1">
+                        <div class="flex justify-between items-center text-xs text-slate-400">
+                            <span class="font-bold text-eduBlue-600" id="quizProgressText">Soalan 1 daripada 5</span>
+                            <span id="quizPercent">20% Selesai</span>
+                        </div>
+                        <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                            <div id="quizProgressBar" class="bg-eduBlue-500 h-2 w-[20%] transition-all duration-300"></div>
+                        </div>
+                    </div>
+
+                    <!-- Question -->
+                    <div class="space-y-3">
+                        <span class="text-xs font-bold text-slate-400 block uppercase tracking-wide" id="questionCategory">KATEGORI: KONSEP IPO</span>
+                        <h4 class="text-lg md:text-xl font-extrabold text-slate-900 leading-snug" id="quizQuestion">
+                            Apakah maksud 'Problem Solving' yang paling tepat sebelum menulis kod program?
+                        </h4>
+                    </div>
+
+                    <!-- Answers options -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="quizAnswersContainer">
+                        <!-- Dynamically filled by JS -->
+                    </div>
+
+                    <!-- Explanation Area (Hidden initially) -->
+                    <div id="quizExplanationCard" class="hidden p-4 rounded-xl border transition-all">
+                        <div class="flex gap-3">
+                            <span class="text-xl" id="explanationIcon">💡</span>
+                            <div class="text-xs md:text-sm">
+                                <h5 class="font-bold text-slate-800" id="explanationTitle">Jawapan Betul!</h5>
+                                <p class="text-slate-600 mt-0.5" id="explanationText">Penerangan di sini...</p>
+                            </div>
+                        </div>
+                        <button onclick="nextQuestion()" class="mt-4 w-full md:w-auto px-5 py-2.5 bg-slate-800 text-white font-bold rounded-lg text-xs hover:bg-slate-900 transition-all ml-auto block">
+                            Seterusnya <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- END SCORE CONTAINER -->
+                <div id="quizResultArea" class="hidden p-8 text-center space-y-6">
+                    <div class="w-24 h-24 bg-amber-100 text-amber-500 rounded-full flex items-center justify-center mx-auto text-4xl shadow-inner animate-bounce">
+                        👑
+                    </div>
+                    
+                    <div class="space-y-2">
+                        <h4 class="text-2xl font-extrabold text-slate-900">Tahniah! Anda Selesai!</h4>
+                        <p class="text-slate-500 text-sm max-w-sm mx-auto">
+                            Anda telah menamatkan kuiz interaktif. Anda mempunyai potensi besar dalam penyelesaian masalah komputer!
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200/60 max-w-sm mx-auto flex justify-around">
+                        <div class="text-center">
+                            <span class="text-3xl font-extrabold text-eduBlue-600 font-mono" id="finalCorrectAns">0/5</span>
+                            <span class="text-[10px] text-slate-400 block uppercase font-bold mt-1">Betul</span>
+                        </div>
+                        <div class="border-l border-slate-200"></div>
+                        <div class="text-center">
+                            <span class="text-3xl font-extrabold text-emerald-500 font-mono" id="finalScoreVal">0</span>
+                            <span class="text-[10px] text-slate-400 block uppercase font-bold mt-1">Mata Akhir</span>
+                        </div>
+                    </div>
+
+                    <button onclick="resetQuiz()" class="px-6 py-3 bg-eduBlue-600 text-white font-bold rounded-xl hover:bg-eduBlue-700 transition-all shadow-md inline-flex items-center gap-2">
+                        <i class="fa-solid fa-arrows-rotate"></i> Cuba Lagi Kuiz
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- STUDENT'S TIPS SECTION -->
+        <section class="bg-amber-50/70 border border-amber-200 rounded-3xl p-6 md:p-8 space-y-4">
+            <h3 class="text-xl font-extrabold text-amber-900 flex items-center gap-2">
+                💡 Tip Penting untuk Pelajar C++
+            </h3>
+            <p class="text-sm text-amber-800 leading-relaxed">
+                Sebelum menulis sebarang kod C++, biasakan diri menjawab empat soalan utama ini. Jika anda dapat menjawab keempat-empat soalan ini dengan jelas, proses menulis kod akan menjadi 80% lebih mudah dan teratur. Ini adalah asas utama kepada kemahiran <strong>computational thinking</strong> anda!
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 pt-2">
+                <div class="bg-white p-4 rounded-xl border border-amber-100 text-center">
+                    <span class="text-lg block">📥</span>
+                    <p class="text-xs font-bold text-amber-900 mt-1">1. Apakah input yang diperlukan?</p>
+                </div>
+                <div class="bg-white p-4 rounded-xl border border-amber-100 text-center">
+                    <span class="text-lg block">📤</span>
+                    <p class="text-xs font-bold text-amber-900 mt-1">2. Apakah output yang ingin dihasilkan?</p>
+                </div>
+                <div class="bg-white p-4 rounded-xl border border-amber-100 text-center">
+                    <span class="text-lg block">⚙️</span>
+                    <p class="text-xs font-bold text-amber-900 mt-1">3. Adakah terdapat data tambahan / constant?</p>
+                </div>
+                <div class="bg-white p-4 rounded-xl border border-amber-100 text-center">
+                    <span class="text-lg block">🧮</span>
+                    <p class="text-xs font-bold text-amber-900 mt-1">4. Apakah formula pengiraan diperlukan?</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-slate-200 py-12 px-4 text-center text-slate-500 text-xs md:text-sm">
+        <div class="max-w-7xl mx-auto space-y-4">
+            <div class="flex justify-center items-center gap-2">
+                <span class="p-1.5 bg-slate-100 text-slate-700 rounded-lg"><i class="fa-solid fa-code text-xs"></i></span>
+                <span class="font-extrabold text-slate-800 tracking-tight">Hub Pengaturcaraan Komputer</span>
+            </div>
+            <p class="max-w-md mx-auto text-slate-400">
+                Dibangunkan khas sebagai bahan bantuan mengajar interaktif topik Problem Solving C++ bagi meningkatkan pemahaman secara aktif.
+            </p>
+            <div class="pt-6 border-t border-slate-100 text-slate-400 flex flex-col md:flex-row justify-between items-center gap-3">
+                <p>&copy; 2026 Hub Pengaturcaraan Interaktif. Hak Cipta Terpelihara.</p>
+                <div class="flex gap-4">
+                    <span class="hover:text-slate-600 cursor-pointer">Siri 1.3</span>
+                    <span>•</span>
+                    <span class="hover:text-slate-600 cursor-pointer">Konsep Asas</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 1. ANALOGI SIRAP SIMULATOR SCRIPT
+        const btnBrew = document.getElementById('btnBrew');
+        const inputWater = document.getElementById('inputWater');
+        const inputSyrup = document.getElementById('inputSyrup');
+        const inputIce = document.getElementById('inputIce');
+        const inputStatusTags = document.getElementById('inputStatusTags');
+        const brewProgressContainer = document.getElementById('brewProgressContainer');
+        const brewProgressBar = document.getElementById('brewProgressBar');
+        const brewStatusText = document.getElementById('brewStatusText');
+        const drinkLiquid = document.getElementById('drinkLiquid');
+        const drinkIceCubes = document.getElementById('drinkIceCubes');
+        const drinkTitle = document.getElementById('drinkTitle');
+        const drinkDesc = document.getElementById('drinkDesc');
+
+        // Update active input tags on load/change
+        function updateInputTags() {
+            let tags = '';
+            if (inputWater.checked) tags += `<span class="bg-sky-100 text-sky-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Air</span>`;
+            if (inputSyrup.checked) tags += `<span class="bg-red-100 text-red-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Ibu Sirap</span>`;
+            if (inputIce.checked) tags += `<span class="bg-blue-100 text-blue-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Ais</span>`;
+            
+            if (!inputWater.checked && !inputSyrup.checked && !inputIce.checked) {
+                tags = `<span class="bg-slate-100 text-slate-500 text-[10px] font-bold px-2 py-0.5 rounded-full">Tiada Bahan</span>`;
+            }
+            inputStatusTags.innerHTML = tags;
+        }
+
+        inputWater.addEventListener('change', updateInputTags);
+        inputSyrup.addEventListener('change', updateInputTags);
+        inputIce.addEventListener('change', updateInputTags);
+
+        // Simulation process logic
+        btnBrew.addEventListener('click', () => {
+            // Reset Cup
+            drinkLiquid.className = "w-full h-0 bg-transparent transition-all duration-1000 ease-out flex items-center justify-center";
+            drinkIceCubes.className = "absolute hidden bottom-4 inset-x-0 justify-center gap-1.5";
+            drinkTitle.textContent = "Sedang Memproses...";
+            drinkDesc.textContent = "Komputer sedang memproses arahan bancuhan anda.";
+
+            // Show brew progress
+            brewProgressContainer.classList.remove('opacity-0');
+            brewProgressBar.style.width = '0%';
+            
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                progress += 25;
+                brewProgressBar.style.width = `${progress}%`;
+                
+                if (progress === 25) brewStatusText.textContent = "Mencampurkan cecair...";
+                if (progress === 50) brewStatusText.textContent = "Mengacau gula & sirap...";
+                if (progress === 75) brewStatusText.textContent = "Menyusun ketulan ais...";
+                
+                if (progress >= 100) {
+                    clearInterval(progressInterval);
+                    setTimeout(() => {
+                        finishBrewing();
+                    }, 400);
+                }
+            }, 300);
+        });
+
+        function finishBrewing() {
+            brewProgressContainer.classList.add('opacity-0');
+            
+            const hasWater = inputWater.checked;
+            const hasSyrup = inputSyrup.checked;
+            const hasIce = inputIce.checked;
+
+            // Determine output state
+            if (hasWater && hasSyrup && hasIce) {
+                // perfect sirap ice
+                drinkLiquid.className = "w-full h-32 bg-red-600 transition-all duration-1000 ease-out flex items-center justify-center";
+                drinkIceCubes.className = "absolute flex bottom-4 inset-x-0 justify-center gap-1.5";
+                drinkTitle.textContent = "🥤 Sirap Ais Menyegarkan!";
+                drinkDesc.textContent = "Output Sempurna! Campuran manis, sejuk, dan warna merah yang menarik siap sedia diminum.";
+            } else if (hasWater && hasSyrup && !hasIce) {
+                // Warm sirap
+                drinkLiquid.className = "w-full h-32 bg-red-500 transition-all duration-1000 ease-out flex items-center justify-center";
+                drinkTitle.textContent = "☕ Air Sirap Suam/Panas";
+                drinkDesc.textContent = "Rasa manis sedap tapi kurang memuaskan pada hari panas kerana ketiadaan ais.";
+            } else if (!hasWater && hasSyrup && hasIce) {
+                // Ice Syrup (Super thick)
+                drinkLiquid.className = "w-full h-16 bg-red-900 transition-all duration-1000 ease-out flex items-center justify-center";
+                drinkIceCubes.className = "absolute flex bottom-2 inset-x-0 justify-center gap-1.5";
+                drinkTitle.textContent = "💀 Sirap Pekat Ais";
+                drinkDesc.textContent = "Terlalu manis dan pekat! Ketiadaan air bersih sebagai input merosakkan kualiti output.";
+            } else if (hasWater && !hasSyrup && hasIce) {
+                // Ice water only
+                drinkLiquid.className = "w-full h-32 bg-sky-200/60 transition-all duration-1000 ease-out flex items-center justify-center";
+                drinkIceCubes.className = "absolute flex bottom-4 inset-x-0 justify-center gap-1.5";
+                drinkTitle.textContent = "🧊 Air Kosong Sejuk";
+                drinkDesc.textContent = "Hanya air kosong yang dingin. Tiada rasa sirap kerana input sirap tidak dimasukkan.";
+            } else {
+                drinkLiquid.className = "w-full h-0 bg-transparent transition-all duration-1000 ease-out";
+                drinkTitle.textContent = "❌ Gagal Menghasilkan Air";
+                drinkDesc.textContent = "Input tidak lengkap! Proses tidak dapat diteruskan atau menghasilkan output kosong.";
+            }
+        }
+
+
+        // 2. LIVE INTERACTIVE IPO TAB PLAYGROUND
+        let activeIpoTab = 'bmi';
+
+        const ipoData = {
+            bmi: {
+                title: "Program BMI",
+                formula: "BMI = Berat / (Tinggi × Tinggi)",
+                inputs: [
+                    { id: 'bmiWeight', label: 'Berat badan (kg):', type: 'number', value: 70, min: 20, max: 200, unit: 'kg' },
+                    { id: 'bmiHeight', label: 'Tinggi (meter):', type: 'number', value: 1.70, min: 0.5, max: 2.5, step: 0.01, unit: 'm' }
+                ],
+                compute: () => {
+                    const weight = parseFloat(document.getElementById('bmiWeight').value) || 0;
+                    const height = parseFloat(document.getElementById('bmiHeight').value) || 0;
+                    if (height === 0) return "0.0 (Tinggi Ralat)";
+                    const bmi = weight / (height * height);
+                    let category = "";
+                    if (bmi < 18.5) category = "Kurang Berat";
+                    else if (bmi < 24.9) category = "Normal";
+                    else if (bmi < 29.9) category = "Berlebihan Berat";
+                    else category = "Obesiti";
+                    return `BMI: ${bmi.toFixed(1)}<br><span class="text-xs bg-white text-emerald-800 px-2 py-0.5 rounded-full mt-1 inline-block font-sans font-bold">${category}</span>`;
+                }
+            },
+            luas: {
+                title: "Luas Segi Empat",
+                formula: "Luas = Panjang × Lebar",
+                inputs: [
+                    { id: 'luasPanjang', label: 'Panjang segi empat:', type: 'number', value: 12, min: 1, max: 1000, unit: 'unit' },
+                    { id: 'luasLebar', label: 'Lebar segi empat:', type: 'number', value: 5, min: 1, max: 1000, unit: 'unit' }
+                ],
+                compute: () => {
+                    const panjang = parseFloat(document.getElementById('luasPanjang').value) || 0;
+                    const lebar = parseFloat(document.getElementById('luasLebar').value) || 0;
+                    const luas = panjang * lebar;
+                    return `${luas} unit²`;
+                }
+            },
+            shopee: {
+                title: "Jumlah Bayaran Shopee",
+                formula: "Subtotal = Harga × Kuantiti\nJumlah = Subtotal + RM5 (Kos Pos)",
+                inputs: [
+                    { id: 'shPrice', label: 'Harga Seunit (RM):', type: 'number', value: 25, min: 1, max: 5000, unit: 'RM' },
+                    { id: 'shQty', label: 'Kuantiti Barang:', type: 'number', value: 3, min: 1, max: 100, unit: 'unit' }
+                ],
+                compute: () => {
+                    const price = parseFloat(document.getElementById('shPrice').value) || 0;
+                    const qty = parseFloat(document.getElementById('shQty').value) || 0;
+                    const subtotal = price * qty;
+                    const total = subtotal + 5;
+                    return `RM ${total.toFixed(2)}`;
+                }
+            },
+            purata: {
+                title: "Purata Markah",
+                formula: "Purata = (Quiz + Test + Final) ÷ 3",
+                inputs: [
+                    { id: 'mkQuiz', label: 'Markah Quiz:', type: 'number', value: 85, min: 0, max: 100, unit: '%' },
+                    { id: 'mkTest', label: 'Markah Test:', type: 'number', value: 78, min: 0, max: 100, unit: '%' },
+                    { id: 'mkFinal', label: 'Markah Final Exam:', type: 'number', value: 92, min: 0, max: 100, unit: '%' }
+                ],
+                compute: () => {
+                    const quiz = parseFloat(document.getElementById('mkQuiz').value) || 0;
+                    const test = parseFloat(document.getElementById('mkTest').value) || 0;
+                    const final = parseFloat(document.getElementById('mkFinal').value) || 0;
+                    const purata = (quiz + test + final) / 3;
+                    return `${purata.toFixed(1)}%`;
+                }
+            }
+        };
+
+        function switchIpoTab(tabKey) {
+            activeIpoTab = tabKey;
+            
+            // Toggle active classes in buttons
+            document.querySelectorAll('.ipo-tab-btn').forEach(btn => {
+                btn.className = "ipo-tab-btn px-4 py-2 text-sm font-medium rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-all flex items-center gap-2";
+            });
+            const activeBtn = document.getElementById(`tabBtn-${tabKey}`);
+            if (activeBtn) {
+                activeBtn.className = "ipo-tab-btn active px-4 py-2 text-sm font-bold rounded-xl bg-eduBlue-600 text-white shadow-sm transition-all flex items-center gap-2";
+            }
+
+            renderIpoInputs();
+        }
+
+        function renderIpoInputs() {
+            const data = ipoData[activeIpoTab];
+            const container = document.getElementById('ipoInputsContainer');
+            document.getElementById('ipoProcessFormula').textContent = data.formula;
+            
+            let html = '';
+            data.inputs.forEach(input => {
+                html += `
+                    <div class="space-y-1">
+                        <label class="block text-xs font-semibold text-slate-600">${input.label}</label>
+                        <div class="relative rounded-lg shadow-sm">
+                            <input type="${input.type}" id="${input.id}" value="${input.value}" min="${input.min || ''}" max="${input.max || ''}" step="${input.step || ''}" oninput="runIpoComputation()" class="w-full text-xs font-semibold p-2.5 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 text-slate-700">
+                            <span class="absolute right-3 top-2 text-[10px] font-bold text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded border border-slate-100 uppercase">${input.unit}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+            runIpoComputation();
+        }
+
+        function runIpoComputation() {
+            const outputVal = ipoData[activeIpoTab].compute();
+            document.getElementById('ipoOutputContainer').innerHTML = outputVal;
+        }
+
+        // Initialize first tab
+        window.onload = function() {
+            updateInputTags();
+            switchIpoTab('bmi');
+            updateDiyOutput();
+        };
+
+
+        // 3. STEPS IN PROBLEM SOLVING SYSTEM SCRIPT
+        function activateStep(stepNum) {
+            // Remove active style from tabs
+            document.querySelectorAll('.step-tab').forEach(tab => {
+                tab.className = "step-tab w-full text-left p-4 rounded-2xl border bg-white border-slate-100 hover:border-slate-300 transition-all flex items-center gap-4";
+            });
+            // Hide all content blocks
+            document.querySelectorAll('.step-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+
+            // Set current tab active
+            const activeTab = document.getElementById(`stepTab-${stepNum}`);
+            if (activeTab) {
+                let borderTheme = stepNum === 1 ? 'ring-eduBlue-500/10 border-eduBlue-300' : stepNum === 2 ? 'ring-purple-500/10 border-purple-300' : 'ring-amber-500/10 border-amber-300';
+                activeTab.className = `step-tab w-full text-left p-4 rounded-2xl border bg-white hover:border-slate-300 transition-all flex items-center gap-4 active shadow-sm ring-2 ${borderTheme}`;
+            }
+
+            // Show active content
+            const activeContent = document.getElementById(`stepContent-${stepNum}`);
+            if (activeContent) {
+                activeContent.classList.remove('hidden');
+            }
+
+            document.getElementById('stepProgressNum').textContent = `Bahagian ${stepNum} daripada 3`;
+        }
+
+
+        // 4. MINI CALCULATORS LOGIC (YURAN & SHOPEE STUDY CASE)
+        function calcYuranSemester() {
+            const credit = parseFloat(document.getElementById('feeCredit').value) || 0;
+            const fee = parseFloat(document.getElementById('feePerCredit').value) || 0;
+            const total = (credit * fee) + 100;
+            document.getElementById('feeResultVal').textContent = `RM ${total.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+        }
+
+        function calcShopeePayment() {
+            const price = parseFloat(document.getElementById('shopeePrice').value) || 0;
+            const qty = parseFloat(document.getElementById('shopeeQty').value) || 0;
+            const total = (price * qty) + 5;
+            document.getElementById('shopeeResultVal').textContent = `RM ${total.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+        }
+
+
+        // 5. DIY IPO SANDBOX SCRIPT
+        function updateDiyOutput() {
+            const problem = document.getElementById('diyProblem').value || "Sila taip masalah anda...";
+            const inputVal = document.getElementById('diyInput').value || "Tiada";
+            const processVal = document.getElementById('diyProcess').value || "Tiada";
+            const outputVal = document.getElementById('diyOutput').value || "Tiada";
+
+            document.getElementById('diyPreviewProblem').textContent = problem;
+            document.getElementById('diyPreviewInput').textContent = inputVal;
+            document.getElementById('diyPreviewProcess').textContent = processVal;
+            document.getElementById('diyPreviewOutput').textContent = outputVal;
+        }
+
+        function downloadIpoScheme() {
+            const problem = document.getElementById('diyProblem').value || "Luas Bulatan";
+            const inputVal = document.getElementById('diyInput').value || "Jejari";
+            const processVal = document.getElementById('diyProcess').value || "Luas = 3.142 * j * j";
+            const outputVal = document.getElementById('diyOutput').value || "Luas bulatan";
+
+            const ipoText = `MODEL IPO SAYA:\n\nSITUASI: ${problem}\nINPUT: ${inputVal}\nPROCESS: ${processVal}\nOUTPUT: ${outputVal}`;
+            
+            // Use old fallback copy method as requested in instructions
+            const tempTextarea = document.createElement('textarea');
+            tempTextarea.value = ipoText;
+            document.body.appendChild(tempTextarea);
+            tempTextarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextarea);
+
+            // Give responsive user feedback
+            const btn = event.currentTarget;
+            const origHTML = btn.innerHTML;
+            btn.className = "text-[10px] px-3 py-1 bg-emerald-600 hover:bg-emerald-700 rounded border border-emerald-500 text-white font-bold transition-all inline-flex items-center gap-1.5";
+            btn.innerHTML = `<i class="fa-solid fa-check"></i> Berjaya Disalin!`;
+            setTimeout(() => {
+                btn.className = "text-[10px] px-3 py-1 bg-slate-800 hover:bg-slate-700 rounded border border-slate-700 text-white font-bold transition-all inline-flex items-center gap-1.5";
+                btn.innerHTML = origHTML;
+            }, 2000);
+        }
+
+
+        // 6. INTERACTIVE QUIZ ENGINE SCRIPT
+        const quizQuestions = [
+            {
+                category: "KONSEP PROBLEM SOLVING",
+                question: "Apakah tindakan terbaik seorang pengaturcara sebelum terus menulis kod program?",
+                options: [
+                    "Terus menulis kod sintaks di kompiler C++.",
+                    "Fahami dan analisis masalah secara berstruktur dahulu.",
+                    "Menghias paparan luaran program terlebih dahulu.",
+                    "Mencari template kod sedia ada di internet tanpa merancang."
+                ],
+                correct: 1,
+                explanation: "Peraturan utama: Jangan terus menulis kod. Fahami masalah dahulu dengan mengenal pasti Input, Process, dan Output agar program dibina dengan betul tanpa ralat logik."
+            },
+            {
+                category: "KONSEP IPO",
+                question: "Berdasarkan analogi membuat air sirap ais, 'ketulan ais, air, dan ibu sirap' dikategorikan sebagai apa?",
+                options: [
+                    "Process",
+                    "Output",
+                    "Input",
+                    "Constant"
+                ],
+                correct: 2,
+                explanation: "Bahan-bahan asas seperti ais, air, dan sirap ialah data yang dimasukkan sebelum diproses. Maka ia adalah 'Input'."
+            },
+            {
+                category: "CONSTANT (NILAI TETAP)",
+                question: "Antara berikut, yang manakah merupakan contoh CONSTANT (nilai tetap) dalam sistem?",
+                options: [
+                    "Berat badan pengguna (kg)",
+                    "Harga peranti elektronik Shopee",
+                    "Bilangan kuantiti barang yang dibeli",
+                    "Kadar cukai perkhidmatan SST (6%)"
+                ],
+                correct: 3,
+                explanation: "Constant ialah nilai tetap yang tidak akan berubah sepanjang program berjalan, contohnya cukai SST (0.06) atau nilai Pi (3.142)."
+            },
+            {
+                category: "ANALISIS IPO",
+                question: "Jika diberi masalah mengira luas segi empat (Luas = Panjang × Lebar), apakah Output bagi atur cara ini?",
+                options: [
+                    "Nilai Panjang segi empat",
+                    "Nilai Luas segi empat",
+                    "Formula Luas = Panjang × Lebar",
+                    "Nilai Lebar segi empat"
+                ],
+                correct: 1,
+                explanation: "Output ialah hasil akhir yang dipaparkan setelah proses pengiraan tamat. Maka 'Nilai Luas segi empat' adalah outputnya."
+            },
+            {
+                category: "LANGKAH PROBLEM SOLVING",
+                question: "Apakah 'Step 3' dalam langkah-langkah penyelesaian masalah komputer (Problem Solving Steps)?",
+                options: [
+                    "Identify What Needs to be Computed (Kenal pasti pengiraan)",
+                    "Identify the Inputs and Outputs (Kenal pasti input/output)",
+                    "Identify Constants Required (Kenal pasti nilai tetap)",
+                    "Mula menulis kod C++ secara langsung"
+                ],
+                correct: 0,
+                explanation: "Langkah 3 (Step 3) menghendaki kita menentukan formula aritmetik atau proses logik komputer (What needs to be computed) bagi menyelesaikan masalah."
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let hasAnsweredCurrent = false;
+
+        function renderQuizQuestion() {
+            const q = quizQuestions[currentQuestionIndex];
+            hasAnsweredCurrent = false;
+
+            // Update Progress Bar & Counter
+            document.getElementById('quizProgressText').textContent = `Soalan ${currentQuestionIndex + 1} daripada ${quizQuestions.length}`;
+            const pct = Math.round(((currentQuestionIndex + 1) / quizQuestions.length) * 100);
+            document.getElementById('quizPercent').textContent = `${pct}% Selesai`;
+            document.getElementById('quizProgressBar').style.width = `${pct}%`;
+
+            // Setup Question texts
+            document.getElementById('questionCategory').textContent = `KATEGORI: ${q.category}`;
+            document.getElementById('quizQuestion').textContent = q.question;
+
+            // Reset explanation card
+            const expCard = document.getElementById('quizExplanationCard');
+            expCard.className = "hidden p-4 rounded-xl border transition-all";
+
+            // Render buttons
+            const ansContainer = document.getElementById('quizAnswersContainer');
+            ansContainer.innerHTML = '';
+            
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "text-left p-4 rounded-xl border border-slate-200 hover:border-eduBlue-500 hover:bg-eduBlue-50/50 font-medium text-xs md:text-sm text-slate-700 transition-all flex items-start gap-3 w-full bg-white";
+                btn.innerHTML = `
+                    <span class="w-6 h-6 rounded-lg bg-slate-100 text-slate-500 font-bold flex items-center justify-center flex-shrink-0 text-xs">${String.fromCharCode(65 + idx)}</span>
+                    <span class="pt-0.5">${opt}</span>
+                `;
+                btn.onclick = () => selectAnswer(idx, btn);
+                ansContainer.appendChild(btn);
+            });
+        }
+
+        function selectAnswer(selectedIndex, clickedBtn) {
+            if (hasAnsweredCurrent) return;
+            hasAnsweredCurrent = true;
+
+            const q = quizQuestions[currentQuestionIndex];
+            const ansContainer = document.getElementById('quizAnswersContainer');
+            const buttons = ansContainer.getElementsByTagName('button');
+
+            // Visualise success or failure
+            if (selectedIndex === q.correct) {
+                // Correct
+                score += 20;
+                document.getElementById('scoreIndicator').textContent = score;
+                clickedBtn.className = "text-left p-4 rounded-xl border-emerald-500 bg-emerald-50 text-emerald-900 font-semibold text-xs md:text-sm transition-all flex items-start gap-3 w-full";
+                clickedBtn.querySelector('span').className = "w-6 h-6 rounded-lg bg-emerald-500 text-white font-bold flex items-center justify-center flex-shrink-0 text-xs";
+                
+                showExplanation(true, q.explanation);
+            } else {
+                // Wrong
+                clickedBtn.className = "text-left p-4 rounded-xl border-red-500 bg-red-50 text-red-900 font-semibold text-xs md:text-sm transition-all flex items-start gap-3 w-full";
+                clickedBtn.querySelector('span').className = "w-6 h-6 rounded-lg bg-red-500 text-white font-bold flex items-center justify-center flex-shrink-0 text-xs";
+                
+                // Highlight the correct one
+                const correctBtn = buttons[q.correct];
+                correctBtn.className = "text-left p-4 rounded-xl border-emerald-300 bg-emerald-50/30 text-emerald-800 font-medium text-xs md:text-sm transition-all flex items-start gap-3 w-full";
+                correctBtn.querySelector('span').className = "w-6 h-6 rounded-lg bg-emerald-500 text-white font-bold flex items-center justify-center flex-shrink-0 text-xs";
+                
+                showExplanation(false, q.explanation);
+            }
+
+            // Disable all buttons in answer section
+            for (let btn of buttons) {
+                btn.disabled = true;
+                if (btn !== clickedBtn && btn !== buttons[q.correct]) {
+                    btn.classList.add('opacity-50');
+                }
+            }
+        }
+
+        function showExplanation(isCorrect, text) {
+            const expCard = document.getElementById('quizExplanationCard');
+            const expIcon = document.getElementById('explanationIcon');
+            const expTitle = document.getElementById('explanationTitle');
+            const expText = document.getElementById('explanationText');
+
+            expCard.classList.remove('hidden');
+            if (isCorrect) {
+                expCard.className = "p-4 rounded-xl border border-emerald-100 bg-emerald-50/50 text-emerald-900 space-y-1";
+                expIcon.textContent = "🎉";
+                expTitle.textContent = "Syabas! Jawapan Betul.";
+            } else {
+                expCard.className = "p-4 rounded-xl border border-red-100 bg-red-50/50 text-red-900 space-y-1";
+                expIcon.textContent = "💡";
+                expTitle.textContent = "Sipi Sedikit! Cuba pelajari:";
+            }
+            expText.textContent = text;
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < quizQuestions.length - 1) {
+                currentQuestionIndex++;
+                renderQuizQuestion();
+            } else {
+                // Show result screen
+                document.getElementById('quizPlayArea').classList.add('hidden');
+                document.getElementById('quizResultArea').classList.remove('hidden');
+                document.getElementById('finalCorrectAns').textContent = `${score / 20} / ${quizQuestions.length}`;
+                document.getElementById('finalScoreVal').textContent = score;
+            }
+        }
+
+        function resetQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            document.getElementById('scoreIndicator').textContent = score;
+            document.getElementById('quizResultArea').classList.add('hidden');
+            document.getElementById('quizPlayArea').classList.remove('hidden');
+            renderQuizQuestion();
+        }
+
+        // Run on start
+        renderQuizQuestion();
+    </script>
+</body>
+</html>
