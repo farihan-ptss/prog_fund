@@ -1,15 +1,38 @@
 <!DOCTYPE html>
-<html lang="ms">
+<html lang="ms" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hub Pembelajaran Algoritma C++</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <link rel="stylesheet" href="style.css">
   
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fadeIn {
+      animation: fadeIn 0.4s ease-out forwards;
+    }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.6);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(99, 102, 241, 0.4);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(99, 102, 241, 0.7);
+    }
+  </style>
+
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -25,10 +48,1670 @@
     }
   </script>
 </head>
-<body class="bg-slate-950 text-slate-100 transition-colors duration-300 dark">
+<body class="bg-slate-950 text-slate-100 min-h-screen transition-colors duration-300 dark:bg-slate-950 dark:text-slate-100 bg-slate-50 text-slate-900">
 
-  <div id="root"></div>
+  <!-- HEADER SECTION -->
+  <header class="border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur sticky top-0 z-50 px-6 py-4">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+      <div class="flex items-center gap-3">
+        <!-- SVG Logo Code -->
+        <div class="bg-gradient-to-tr from-indigo-500 to-purple-600 p-2.5 rounded-xl shadow-lg shadow-indigo-500/20">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        </div>
+        <div>
+          <h1 class="text-xl font-bold tracking-tight bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 dark:from-indigo-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
+            Hub Pembelajaran Algoritma C++
+          </h1>
+          <p class="text-xs text-slate-500 dark:text-slate-400">Modul 1.4: Reka Bentuk Algoritma Pintar & Interaktif</p>
+        </div>
+      </div>
 
-  <script type="text/babel" src="script.js"></script>
+      <div class="flex items-center gap-2">
+        <!-- Offline HTML Downloader -->
+        <button
+          onclick="downloadStandaloneHTML()"
+          class="flex items-center gap-2 px-4 py-2.5 text-xs md:text-sm rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white transition font-semibold shadow-lg shadow-emerald-600/20"
+          title="Muat Turun Aplikasi dalam Format HTML"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>📥 Muat Turun HTML Offline</span>
+        </button>
+
+        <!-- Light/Dark Mode Switcher -->
+        <button
+          onclick="toggleTheme()"
+          class="px-4 py-2.5 text-xs md:text-sm rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-300 transition font-medium"
+        >
+          <span id="theme-btn-text">☀️ Mode Terang</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- DOWNLOAD INSTRUCTIONS BANNER -->
+  <div id="download-alert" class="max-w-7xl mx-auto px-6 pt-4 hidden">
+    <div class="bg-emerald-500/10 border border-emerald-500/35 p-4 rounded-xl flex items-start gap-3 text-emerald-600 dark:text-emerald-400">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 flex-shrink-0"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      <div class="flex-1">
+        <div class="flex justify-between items-start">
+          <h5 class="font-bold text-sm">Proses Muat Turun Bermula!</h5>
+          <button onclick="closeDownloadAlert()" class="text-emerald-500 hover:text-emerald-300 font-semibold text-xs">Tutup ×</button>
+        </div>
+        <p class="text-xs mt-1 leading-relaxed text-slate-600 dark:text-emerald-300/90">
+          Fail <strong>'Hub_Pembelajaran_Algoritma_Offline.html'</strong> sedia disimpan pada peranti anda. Anda boleh membuka fail ini secara langsung pada bila-bila masa tanpa internet (dwi-klik di komputer atau telefon anda) untuk terus belajar secara penuh!
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION TABS -->
+  <nav class="max-w-7xl mx-auto px-6 py-4">
+    <div class="flex flex-wrap gap-2 bg-slate-200/50 dark:bg-slate-900/40 p-1.5 rounded-xl border border-slate-300/40 dark:border-slate-800/60">
+      <button
+        onclick="switchTab('notes')"
+        id="tab-btn-notes"
+        class="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 bg-indigo-600 text-white shadow-md"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        <span>Nota Interaktif</span>
+      </button>
+
+      <button
+        onclick="switchTab('game')"
+        id="tab-btn-game"
+        class="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800/50"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/></svg>
+        <span>Cabaran Teh Tarik</span>
+      </button>
+
+      <button
+        onclick="switchTab('simulator')"
+        id="tab-btn-simulator"
+        class="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800/50"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+        <span>Simulator Algoritma</span>
+      </button>
+
+      <button
+        onclick="switchTab('ai')"
+        id="tab-btn-ai"
+        class="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800/50"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275Z"/><path d="m5 3 1 2.5L8.5 6 6 7 5 9.5 4 7 1.5 6 4 5.5Z"/><path d="m19 17 1 2.5 2.5.5-2.5 1-1 2.5-1-2.5-2.5-1 2.5-1Z"/></svg>
+        <span>Penjana Algoritma AI</span>
+      </button>
+
+      <button
+        onclick="switchTab('quiz')"
+        id="tab-btn-quiz"
+        class="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800/50"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <span>Uji Minda (Kuiz)</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="max-w-7xl mx-auto px-6 pb-16">
+    
+    <!-- TAB 1: NOTA INTERAKTIF -->
+    <section id="tab-notes" class="space-y-8 animate-fadeIn">
+      <!-- HERO CARD -->
+      <div class="relative overflow-hidden rounded-2xl bg-white dark:bg-slate-900 p-8 border border-slate-200 dark:border-slate-800 shadow-xl">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl -z-10"></div>
+        <div class="max-w-3xl">
+          <span class="text-xs font-semibold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 bg-indigo-500/10 px-3 py-1 rounded-full">
+            Asas Pengaturcaraan
+          </span>
+          <h2 class="text-3xl font-extrabold mt-3 text-slate-900 dark:text-white leading-tight">
+            Memahami Konsep Asas Algoritma
+          </h2>
+          <p class="mt-2 text-slate-600 dark:text-slate-300 text-base leading-relaxed">
+            Sebelum pelajar mula menulis kod C++, mereka perlu memahami bahawa program ialah satu set arahan yang disusun mengikut urutan tertentu untuk menyelesaikan sesuatu masalah. Algoritma bertindak sebagai <strong>pelan rancangan bertulis (resepi)</strong> manakala program komputer adalah <strong>pelaksanaan rancangan</strong> menggunakan bahasa pengaturcaraan (C++).
+          </p>
+          <div class="mt-6 flex flex-wrap gap-4 text-sm">
+            <div class="bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl p-3 flex items-center gap-3">
+              <div class="text-indigo-500 dark:text-indigo-400 text-xl font-bold font-mono">Plan</div>
+              <div class="text-slate-600 dark:text-slate-400">Algoritma = Perancangan berstruktur</div>
+            </div>
+            <div className="bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl p-3 flex items-center gap-3">
+              <div class="text-purple-500 dark:text-purple-400 text-xl font-bold font-mono">Code</div>
+              <div class="text-slate-600 dark:text-slate-400">Program = Pelaksanaan menggunakan C++</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- THREE CONSTRUCTS EXPLORER -->
+      <div class="space-y-6">
+        <div class="flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-500 dark:text-indigo-400"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polygon points="2 17 12 22 22 17"/><polygon points="2 12 12 17 22 12"/></svg>
+          <h3 class="text-2xl font-bold text-slate-900 dark:text-white">Tiga Struktur Asas (Constructs)</h3>
+        </div>
+        <p class="text-slate-500 dark:text-slate-400 -mt-4 text-sm">Hampir kesemua perisian kompleks di dunia dibina menggunakan kombinasi gabungan tiga struktur ini sahaja.</p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- SEQUENTIAL -->
+          <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800 hover:border-emerald-500/40 transition duration-300 flex flex-col justify-between shadow-sm">
+            <div>
+              <div class="flex justify-between items-start mb-4">
+                <span class="text-xs bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-2.5 py-1 rounded-full font-medium">Struktur 1</span>
+                <span class="text-xs text-slate-500">Turutan Satu-Hala</span>
+              </div>
+              <h4 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Sequential (Sequence)</h4>
+              <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4 font-normal">
+                Arahan dilaksanakan selangkah demi selangkah secara linear <strong>dari atas ke bawah</strong> tanpa sebarang loncatan, syarat, atau pengulangan. Setiap arahan hanya berjalan sekali sahaja.
+              </p>
+              <div class="bg-slate-100 dark:bg-slate-950 p-3.5 rounded-lg border border-slate-200 dark:border-slate-800/80 mb-4 font-mono text-xs text-slate-600 dark:text-slate-300">
+                <span class="text-emerald-500">// Contoh Pengiraan Jumlah</span><br />
+                Harga = 15;<br />
+                Kuantiti = 3;<br />
+                Jumlah = Harga * Kuantiti;<br />
+                cout &lt;&lt; Jumlah;
+              </div>
+            </div>
+            <div class="border-t border-slate-200 dark:border-slate-800 pt-4">
+              <span class="text-xs text-indigo-500 dark:text-indigo-400 font-medium">Contoh Realiti:</span>
+              <p class="text-xs text-slate-500 dark:text-slate-400 italic">Membuat secawan kopi bancuh, memasak mee segera instant.</p>
+            </div>
+          </div>
+
+          <!-- CONDITIONAL -->
+          <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800 hover:border-amber-500/40 transition duration-300 flex flex-col justify-between shadow-sm">
+            <div>
+              <div class="flex justify-between items-start mb-4">
+                <span class="text-xs bg-amber-500/10 text-amber-600 dark:text-amber-400 px-2.5 py-1 rounded-full font-medium">Struktur 2</span>
+                <span class="text-xs text-slate-500">Membuat Pilihan</span>
+              </div>
+              <h4 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Conditional (Selection)</h4>
+              <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4 font-normal">
+                Program membuat semakan syarat logik sebelum memilih jalan mana yang harus diambil. Jika syarat dipenuhi (Ya), satu set tindakan diambil; jika gagal (Tidak), tindakan berbeza dilaksanakan.
+              </p>
+              <div class="bg-slate-100 dark:bg-slate-950 p-3.5 rounded-lg border border-slate-200 dark:border-slate-800/80 mb-4 font-mono text-xs text-slate-600 dark:text-slate-300">
+                <span class="text-amber-500">// Contoh Semakan Keputusan</span><br />
+                <span class="text-purple-500 dark:text-purple-400">if</span> (markah &gt;= 50) &#123;<br />
+                &nbsp;&nbsp;cout &lt;&lt; <span class="text-emerald-500 dark:text-emerald-400">"Lulus"</span>;<br />
+                &#125; <span class="text-purple-500 dark:text-purple-400">else</span> &#123;<br />
+                &nbsp;&nbsp;cout &lt;&lt; <span class="text-rose-500 dark:text-rose-400">"Gagal"</span>;<br />
+                &#125;
+              </div>
+            </div>
+            <div class="border-t border-slate-200 dark:border-slate-800 pt-4">
+              <span class="text-xs text-indigo-500 dark:text-indigo-400 font-medium">Contoh Realiti:</span>
+              <p class="text-xs text-slate-500 dark:text-slate-400 italic">Membawa payung (jika hari hujan), mengesahkan PIN kad ATM pelanggan.</p>
+            </div>
+          </div>
+
+          <!-- ITERATIONAL -->
+          <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800 hover:border-purple-500/40 transition duration-300 flex flex-col justify-between shadow-sm">
+            <div>
+              <div class="flex justify-between items-start mb-4">
+                <span class="text-xs bg-purple-500/10 text-purple-600 dark:text-purple-400 px-2.5 py-1 rounded-full font-medium">Struktur 3</span>
+                <span class="text-xs text-slate-500">Pengulangan Pintar</span>
+              </div>
+              <h4 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Iterational (Looping)</h4>
+              <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4 font-normal">
+                Melakukan pengulangan satu atau beberapa baris tindakan secara <strong>berulang kali selagi sesuatu syarat dipenuhi</strong>. Amat efisien untuk melakukan tugas berskala besar dengan pantas.
+              </p>
+              <div class="bg-slate-100 dark:bg-slate-950 p-3.5 rounded-lg border border-slate-200 dark:border-slate-800/80 mb-4 font-mono text-xs text-slate-600 dark:text-slate-300">
+                <span class="text-purple-500 dark:text-purple-400">// Papar nombor 1 hingga 5</span><br />
+                <span class="text-purple-500 dark:text-purple-400">for</span> (<span class="text-sky-500 dark:text-sky-300">int</span> i = 1; i &lt;= 5; i++) &#123;<br />
+                &nbsp;&nbsp;cout &lt;&lt; i &lt;&lt; <span class="text-slate-500">" "</span>;<br />
+                &#125;
+              </div>
+            </div>
+            <div class="border-t border-slate-200 dark:border-slate-800 pt-4">
+              <span class="text-xs text-indigo-500 dark:text-indigo-400 font-medium">Contoh Realiti:</span>
+              <p class="text-xs text-slate-500 dark:text-slate-400 italic">Memanggil senarai nama pelajar dalam kelas, mencuba PIN keselamatan telefon sebanyak 3 kali.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DYNAMIC ADDITIONAL EXAMPLES SECTION - GALERI CONTOH PENGAYAAN -->
+      <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-4">
+          <div class="flex items-center gap-3">
+            <div class="bg-indigo-500/10 p-2 rounded-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-500 dark:text-indigo-400"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275Z"/></svg>
+            </div>
+            <div>
+              <h4 class="text-xl font-bold text-slate-900 dark:text-white">✨ Galeri Contoh Pengayaan (Program Tambahan)</h4>
+              <p class="text-xs text-slate-500 dark:text-slate-400">Terokai variasi program berbeza bagi mengukuhkan lagi pemahaman anda.</p>
+            </div>
+          </div>
+
+          <!-- Categories Switcher -->
+          <div class="flex gap-1.5 bg-slate-100 dark:bg-slate-950 p-1 rounded-xl border border-slate-200 dark:border-slate-800">
+            <button
+              onclick="switchExtraCategory('sequential')"
+              id="cat-btn-sequential"
+              class="px-3 py-1.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition bg-indigo-600 text-white shadow"
+            >
+              Sequential
+            </button>
+            <button
+              onclick="switchExtraCategory('conditional')"
+              id="cat-btn-conditional"
+              class="px-3 py-1.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
+            >
+              Conditional
+            </button>
+            <button
+              onclick="switchExtraCategory('iterational')"
+              id="cat-btn-iterational"
+              class="px-3 py-1.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
+            >
+              Iterational
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <!-- Side Selection List -->
+          <div id="extra-list-box" class="md:col-span-1 space-y-2">
+            <!-- Rendered dynamically by javascript -->
+          </div>
+
+          <!-- Details Display Card -->
+          <div class="md:col-span-3 bg-slate-50 dark:bg-slate-950/60 rounded-2xl p-6 border border-slate-200 dark:border-slate-800/80 space-y-6">
+            <div class="border-b border-slate-200 dark:border-slate-800 pb-3">
+              <h5 id="extra-title" class="text-lg font-bold text-slate-900 dark:text-white"><!-- Title --></h5>
+              <p id="extra-masalah" class="text-xs text-indigo-600 dark:text-indigo-400 mt-1 flex items-center gap-1.5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>
+                <span>Masalah: </span>
+              </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="space-y-4">
+                <!-- IPO Panel -->
+                <div class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800/60 space-y-2">
+                  <span class="text-xs font-bold uppercase text-indigo-600 dark:text-indigo-400 flex items-center gap-1.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="15" x2="23" y2="15"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="15" x2="4" y2="15"/></svg>
+                    Spesifikasi IPO (Input-Proses-Output)
+                  </span>
+                  <div class="space-y-1.5 text-xs text-slate-600 dark:text-slate-300">
+                    <div><strong class="text-slate-400">Input:</strong> <span id="extra-input"></span></div>
+                    <div><strong class="text-slate-400">Proses:</strong> <span id="extra-proses"></span></div>
+                    <div><strong class="text-slate-400">Output:</strong> <span id="extra-output"></span></div>
+                  </div>
+                </div>
+
+                <!-- Algoritma -->
+                <div class="space-y-2">
+                  <span class="text-xs font-bold uppercase text-indigo-600 dark:text-indigo-400 flex items-center gap-1.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+                    Rancangan Algoritma
+                  </span>
+                  <div id="extra-algoritma-steps" class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2">
+                    <!-- Steps -->
+                  </div>
+                </div>
+              </div>
+
+              <!-- Code C++ -->
+              <div class="space-y-2">
+                <span class="text-xs font-bold uppercase text-indigo-600 dark:text-indigo-400 flex items-center gap-1.5">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                  Kod Atur Cara C++ Lengkap
+                </span>
+                <pre id="extra-code" class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 font-mono text-xs text-slate-700 dark:text-slate-300 overflow-x-auto leading-relaxed max-h-[310px] overflow-y-auto"><!-- Code --></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROBLEM SOLVING & ALGORITHM WORKFLOW -->
+      <div class="bg-slate-100/50 dark:bg-slate-900/30 rounded-2xl p-6 border border-slate-200 dark:border-slate-800">
+        <h4 class="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          Aliran Penyelesaian Masalah ke Kod C++
+        </h4>
+        <div class="grid grid-cols-2 md:grid-cols-6 gap-4 text-center">
+          <div class="bg-white dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-800 relative shadow-sm">
+            <div class="absolute -top-3 -left-3 bg-indigo-600 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shadow-md">1</div>
+            <h5 class="font-semibold text-xs text-indigo-600 dark:text-indigo-300 mt-2 mb-1">Kenal Pasti Masalah</h5>
+            <p class="text-[10px] text-slate-500">Fahami keperluan pengguna</p>
+            <div class="hidden md:block absolute top-1/2 -right-3 -translate-y-1/2 z-10 bg-white dark:bg-slate-800 p-1 rounded-full border border-slate-200 dark:border-slate-750"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+          </div>
+
+          <div class="bg-white dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-800 relative shadow-sm">
+            <div class="absolute -top-3 -left-3 bg-indigo-600 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shadow-md">2</div>
+            <h5 class="font-semibold text-xs text-indigo-600 dark:text-indigo-300 mt-2 mb-1">Input & Output</h5>
+            <p class="text-[10px] text-slate-500">Tentukan data masuk & keluar</p>
+            <div class="hidden md:block absolute top-1/2 -right-3 -translate-y-1/2 z-10 bg-white dark:bg-slate-800 p-1 rounded-full border border-slate-200 dark:border-slate-750"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+          </div>
+
+          <div class="bg-white dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-800 relative shadow-sm">
+            <div class="absolute -top-3 -left-3 bg-indigo-600 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shadow-md">3</div>
+            <h5 class="font-semibold text-xs text-indigo-600 dark:text-indigo-300 mt-2 mb-1">Bina Algoritma</h5>
+            <p class="text-[10px] text-slate-500">Rancang resepi langkah logik</p>
+            <div class="hidden md:block absolute top-1/2 -right-3 -translate-y-1/2 z-10 bg-white dark:bg-slate-800 p-1 rounded-full border border-slate-200 dark:border-slate-750"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+          </div>
+
+          <div class="bg-white dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-800 relative shadow-sm">
+            <div class="absolute -top-3 -left-3 bg-indigo-600 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shadow-md">4</div>
+            <h5 class="font-semibold text-xs text-indigo-600 dark:text-indigo-300 mt-2 mb-1">Carta Alir</h5>
+            <p class="text-[10px] text-slate-500">Visualisasi guna Flowchart</p>
+            <div class="hidden md:block absolute top-1/2 -right-3 -translate-y-1/2 z-10 bg-white dark:bg-slate-800 p-1 rounded-full border border-slate-200 dark:border-slate-750"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+          </div>
+
+          <div class="bg-white dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-800 relative shadow-sm">
+            <div class="absolute -top-3 -left-3 bg-indigo-600 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shadow-md">5</div>
+            <h5 class="font-semibold text-xs text-indigo-600 dark:text-indigo-300 mt-2 mb-1">Tulis Kod C++</h5>
+            <p class="text-[10px] text-slate-500">Terjemah algoritma ke C++</p>
+            <div class="hidden md:block absolute top-1/2 -right-3 -translate-y-1/2 z-10 bg-white dark:bg-slate-800 p-1 rounded-full border border-slate-200 dark:border-slate-750"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+          </div>
+
+          <div class="bg-white dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-800 relative shadow-sm">
+            <div class="absolute -top-3 -left-3 bg-indigo-600 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shadow-md">6</div>
+            <h5 class="font-semibold text-xs text-indigo-600 dark:text-indigo-300 mt-2 mb-1">Jalankan Atur Cara</h5>
+            <p class="text-[10px] text-slate-500">Uji output program anda</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: MINI GAME "TEH TARIK" -->
+    <section id="tab-game" class="max-w-3xl mx-auto space-y-6 hidden animate-fadeIn">
+      <div class="text-center space-y-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-400 mx-auto"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/></svg>
+        <h3 class="text-2xl font-bold text-slate-900 dark:text-white">
+          Cabaran Susunan Algoritma: Pembancuh Teh Tarik
+        </h3>
+        <p class="text-slate-600 dark:text-slate-400 text-sm">
+          Satu ciri utama algoritma yang baik ialah mempunyai <strong>langkah-langkah yang tersusun betul secara logik</strong>. Jom susun langkah-langkah di bawah untuk menghasilkan secawan Teh Tarik maya yang sedap!
+        </p>
+      </div>
+
+      <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4 shadow-xl">
+        <div class="flex justify-between items-center text-xs text-slate-500 border-b border-slate-100 dark:border-slate-800 pb-2">
+          <span>Susun Semula Menggunakan Butang Laras (▲ Atas / ▼ Bawah)</span>
+          <span class="font-semibold text-indigo-600 dark:text-indigo-400">Kedudukan Betul = Sempurna!</span>
+        </div>
+
+        <div id="game-steps-container" class="space-y-2">
+          <!-- Game steps will be dynamically generated by JS -->
+        </div>
+
+        <div id="game-feedback" class="hidden p-4 rounded-xl flex items-start gap-3 mt-4">
+          <!-- Rendered dynamically -->
+        </div>
+
+        <div class="flex gap-3 pt-2">
+          <button
+            onclick="checkTehTarikGame()"
+            class="flex-1 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white rounded-xl font-semibold shadow-lg transition"
+          >
+            Sahkan Susunan Algoritma
+          </button>
+          <button
+            onclick="resetTehTarikGame()"
+            class="px-5 py-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-300 rounded-xl transition flex items-center gap-2"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+            <span>Reset</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: SIMULATOR ALGORITMA -->
+    <section id="tab-simulator" class="space-y-6 hidden animate-fadeIn">
+      <div class="text-center max-w-3xl mx-auto space-y-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-500 mx-auto"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+        <h3 class="text-2xl font-bold text-slate-900 dark:text-white">
+          Simulator Algoritma Langkah Demi Langkah
+        </h3>
+        <p class="text-slate-600 dark:text-slate-400 text-sm">
+          Lihat bagaimana komputer melarikan satu siri algoritma secara visual. Anda boleh menukar pemboleh ubah input dan melihat kesannya terhadap aliran logik!
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Configuration & Input Panel -->
+        <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-6 shadow-xl">
+          <div>
+            <h4 class="font-bold text-slate-900 dark:text-white mb-3 text-sm flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polygon points="2 17 12 22 22 17"/><polygon points="2 12 12 17 22 12"/></svg>
+              Pilih Senario Algoritma
+            </h4>
+            <div class="grid grid-cols-3 gap-2">
+              <button
+                onclick="setSimScenario('area')"
+                id="sim-scen-area"
+                class="p-2.5 rounded-xl border text-center transition bg-indigo-600/10 border-indigo-500 text-indigo-500 dark:text-white"
+              >
+                <span class="block text-xs font-semibold">Luas Sg. Empat</span>
+                <span class="text-[9px] text-slate-500 dark:text-slate-400 mt-1 block">Sequential</span>
+              </button>
+
+              <button
+                onclick="setSimScenario('grade')"
+                id="sim-scen-grade"
+                class="p-2.5 rounded-xl border text-center transition bg-white dark:bg-slate-950/60 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-250"
+              >
+                <span class="block text-xs font-semibold">Semakan Gred</span>
+                <span class="text-[9px] text-slate-500 dark:text-slate-400 mt-1 block">Conditional</span>
+              </button>
+
+              <button
+                onclick="setSimScenario('atm')"
+                id="sim-scen-atm"
+                class="p-2.5 rounded-xl border text-center transition bg-white dark:bg-slate-950/60 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-250"
+              >
+                <span class="block text-xs font-semibold">Log Masuk ATM</span>
+                <span class="text-[9px] text-slate-500 dark:text-slate-400 mt-1 block">Selection</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="space-y-4 border-t border-slate-100 dark:border-slate-800 pt-4">
+            <h4 class="font-bold text-slate-900 dark:text-white text-sm">Konfigurasi Input Simulasi</h4>
+            
+            <!-- Area Inputs -->
+            <div id="sim-inputs-area" class="space-y-3">
+              <div>
+                <label class="text-xs text-slate-500 dark:text-slate-400 block mb-1">Nilai Panjang (m):</label>
+                <input
+                  type="number"
+                  id="sim-input-panjang"
+                  value="10"
+                  class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg p-2 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-indigo-500"
+                />
+              </div>
+              <div>
+                <label class="text-xs text-slate-500 dark:text-slate-400 block mb-1">Nilai Lebar (m):</label>
+                <input
+                  type="number"
+                  id="sim-input-lebar"
+                  value="5"
+                  class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg p-2 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-indigo-500"
+                />
+              </div>
+            </div>
+
+            <!-- Grade Inputs -->
+            <div id="sim-inputs-grade" class="space-y-3 hidden">
+              <div>
+                <label class="text-xs text-slate-500 dark:text-slate-400 block mb-1">Nilai Markah Pelajar (0 - 100):</label>
+                <input
+                  type="number"
+                  id="sim-input-markah"
+                  value="75"
+                  min="0"
+                  max="100"
+                  class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg p-2 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-indigo-500"
+                />
+                <div class="mt-2 text-[11px] text-slate-500 dark:text-slate-400 italic">
+                  Nota: Syarat kelayakan LULUS ialah sekurang-kurangnya 50 markah.
+                </div>
+              </div>
+            </div>
+
+            <!-- ATM Inputs -->
+            <div id="sim-inputs-atm" class="space-y-3 hidden">
+              <div>
+                <label class="text-xs text-slate-500 dark:text-slate-400 block mb-1">Masukkan PIN ATM Cubaan:</label>
+                <input
+                  type="text"
+                  id="sim-input-pin"
+                  maxLength="4"
+                  placeholder="Contoh: 1234 atau 9999"
+                  value="1234"
+                  class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg p-2 text-sm text-slate-800 dark:text-slate-200 tracking-wider focus:outline-none focus:border-indigo-500 font-mono"
+                />
+                <div class="mt-2 text-[11px] text-indigo-600 dark:text-indigo-400 font-semibold">
+                  Info Sistem: PIN yang sah dalam sistem simulasi ialah "1234".
+                </div>
+              </div>
+            </div>
+
+            <button
+              onclick="startSimulation()"
+              id="sim-run-btn"
+              class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-semibold flex items-center justify-center gap-2 shadow-lg transition"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              <span>Jalankan Simulasi</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Algorithm Tracker Display -->
+        <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 lg:col-span-2 flex flex-col justify-between shadow-xl">
+          <div>
+            <h4 class="font-bold text-slate-900 dark:text-white mb-4 text-sm flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              Penjejak Langkah Algoritma Semasa
+            </h4>
+
+            <div id="sim-trace-container" class="space-y-2 font-mono text-xs md:text-sm">
+              <!-- Rendered dynamically by JS -->
+            </div>
+          </div>
+
+          <!-- Console logs -->
+          <div class="mt-6">
+            <h5 class="text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wider">Log Output Sistem (Konsol):</h5>
+            <div id="sim-console" class="bg-slate-100 dark:bg-slate-950 p-4 rounded-xl border border-slate-200 dark:border-slate-850 h-36 font-mono text-xs overflow-y-auto space-y-1">
+              <span class="text-slate-500 italic">// Klik 'Jalankan Simulasi' untuk melihat log di sini.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: PENJANA ALGORITMA AI -->
+    <section id="tab-ai" class="max-w-4xl mx-auto space-y-6 hidden animate-fadeIn">
+      <div class="text-center space-y-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-500 mx-auto"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275Z"/><path d="m5 3 1 2.5L8.5 6 6 7 5 9.5 4 7 1.5 6 4 5.5Z"/></svg>
+        <h3 class="text-2xl font-bold text-slate-900 dark:text-white">
+          Penjana Algoritma AI Pintar (Gemini)
+        </h3>
+        <p class="text-slate-600 dark:text-slate-400 text-sm">
+          Masukkan sebarang aktiviti harian, masalah, atau proses fizikal yang anda mahukan. AI kami akan menterjemahkannya kepada struktur Algoritma C++ yang mudah difahami!
+        </p>
+      </div>
+
+      <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4 shadow-xl">
+        <div class="flex flex-col md:flex-row gap-3">
+          <input
+            type="text"
+            id="ai-prompt-input"
+            placeholder="Contoh: memasak nasi lemak, memesan Grab, menukar lampu rosak..."
+            class="flex-1 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl p-3 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-indigo-500"
+          />
+          <button
+            onclick="generateAIAlgorithm()"
+            id="ai-generate-btn"
+            class="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white rounded-xl font-semibold flex items-center justify-center gap-2 shadow-lg transition"
+          >
+            <span>Jana Algoritma</span>
+          </button>
+        </div>
+
+        <!-- Quick Suggestions -->
+        <div class="flex flex-wrap items-center gap-2 pt-2">
+          <span class="text-xs text-slate-400">Cadangan Cepat:</span>
+          <button onclick="selectAiSuggestion('Membuat mi maggi rebus')" class="text-xs bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 transition">Membuat mi maggi rebus</button>
+          <button onclick="selectAiSuggestion('Mengeluarkan wang di ATM')" class="text-xs bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 transition">Mengeluarkan wang di ATM</button>
+          <button onclick="selectAiSuggestion('Membeli tiket bioskop online')" class="text-xs bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 transition">Membeli tiket bioskop online</button>
+        </div>
+
+        <div id="ai-error-banner" class="hidden p-3 bg-rose-500/10 border border-rose-500/20 text-rose-500 dark:text-rose-400 text-xs rounded-xl flex items-center gap-2">
+          <!-- Dynamically filled if error -->
+        </div>
+      </div>
+
+      <!-- AI Result Card Area -->
+      <div id="ai-result-area" class="hidden space-y-6 animate-fadeIn">
+        <div class="bg-white dark:bg-slate-900/40 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4 shadow-xl">
+          <div class="border-b border-slate-200 dark:border-slate-800 pb-3">
+            <span class="text-xs text-indigo-500 dark:text-indigo-400 font-bold uppercase tracking-wider">Hasil Analisis AI</span>
+            <h4 id="ai-result-title" class="text-xl font-bold text-slate-900 dark:text-white mt-1"><!-- Title --></h4>
+            <p id="ai-result-intro" class="text-sm text-slate-500 dark:text-slate-400 mt-1"><!-- Intro --></p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Sequential steps -->
+            <div class="bg-slate-50 dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 space-y-3">
+              <div class="flex items-center gap-2 border-b border-slate-200 dark:border-slate-850 pb-2">
+                <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs flex items-center justify-center font-bold">1</span>
+                <h5 class="font-bold text-sm text-slate-900 dark:text-white">Sequential Steps</h5>
+              </div>
+              <ul id="ai-result-seq" class="space-y-2 text-xs text-slate-600 dark:text-slate-300 list-disc list-inside">
+                <!-- Seq steps -->
+              </ul>
+            </div>
+
+            <!-- Conditional Steps -->
+            <div class="bg-slate-50 dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 space-y-3">
+              <div class="flex items-center gap-2 border-b border-slate-200 dark:border-slate-850 pb-2">
+                <span class="w-5 h-5 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400 text-xs flex items-center justify-center font-bold">2</span>
+                <h5 class="font-bold text-sm text-slate-900 dark:text-white">Conditional Choice</h5>
+              </div>
+              <div class="space-y-2 text-xs">
+                <div class="p-2 bg-white dark:bg-slate-950 rounded border border-slate-100 dark:border-slate-850">
+                  <span class="font-semibold text-amber-600 dark:text-amber-400">Syarat:</span>
+                  <p id="ai-result-cond-syarat" class="text-slate-600 dark:text-slate-300 mt-0.5"><!-- Syarat --></p>
+                </div>
+                <div class="p-2 bg-emerald-500/10 rounded border border-emerald-500/10">
+                  <span class="font-semibold text-emerald-600 dark:text-emerald-400">Jika Ya:</span>
+                  <p id="ai-result-cond-ya" class="text-slate-600 dark:text-slate-300 mt-0.5"><!-- Ya --></p>
+                </div>
+                <div class="p-2 bg-rose-500/10 rounded border border-rose-500/10">
+                  <span class="font-semibold text-rose-500 dark:text-rose-400">Jika Tidak:</span>
+                  <p id="ai-result-cond-tidak" class="text-slate-600 dark:text-slate-300 mt-0.5"><!-- Tidak --></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Iterational Loop -->
+            <div class="bg-slate-50 dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 space-y-3">
+              <div class="flex items-center gap-2 border-b border-slate-200 dark:border-slate-850 pb-2">
+                <span class="w-5 h-5 rounded-full bg-purple-500/20 text-purple-600 dark:text-purple-400 text-xs flex items-center justify-center font-bold">3</span>
+                <h5 class="font-bold text-sm text-slate-900 dark:text-white">Iterational Loop</h5>
+              </div>
+              <div class="space-y-2 text-xs">
+                <div class="p-2 bg-white dark:bg-slate-950 rounded border border-slate-100 dark:border-slate-850">
+                  <span class="font-semibold text-purple-600 dark:text-purple-400">Syarat Gelung:</span>
+                  <p id="ai-result-iter-syarat" class="text-slate-600 dark:text-slate-300 mt-0.5"><!-- Syarat Loop --></p>
+                </div>
+                <div class="p-2 bg-purple-500/10 rounded border border-purple-500/10">
+                  <span class="font-semibold text-purple-600 dark:text-purple-400">Tindakan Diulang:</span>
+                  <p id="ai-result-iter-langkah" class="text-slate-600 dark:text-slate-300 mt-0.5"><!-- Langkah Loop --></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-indigo-600/10 p-4 rounded-xl border border-indigo-500/20 mt-4 flex items-start gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-500 dark:text-indigo-400 mt-0.5 flex-shrink-0"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            <div>
+              <h5 class="font-bold text-xs text-slate-900 dark:text-white uppercase tracking-wider">Tip C++ Pengaturcaraan</h5>
+              <p id="ai-result-cpptip" class="text-xs text-slate-600 dark:text-slate-300 mt-1"><!-- Tip C++ --></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: UJI MINDA (QUIZ) -->
+    <section id="tab-quiz" class="max-w-3xl mx-auto space-y-6 hidden animate-fadeIn">
+      <div class="text-center space-y-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-yellow-400 mx-auto"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+        <h3 class="text-2xl font-bold text-slate-900 dark:text-white">
+          Ujian Pintar Konsep Algoritma
+        </h3>
+        <p class="text-slate-600 dark:text-slate-400 text-sm">
+          Uji kefahaman anda tentang modul 1.4 Algoritma C++ ini. Jawab semua soalan di bawah dan dapatkan gred pencapaian anda.
+        </p>
+      </div>
+
+      <div id="quiz-questions-container" class="space-y-4">
+        <!-- Rendered dynamically by JS -->
+      </div>
+
+      <!-- Submit Section -->
+      <div class="bg-white dark:bg-slate-900/60 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 text-center space-y-4 shadow-xl">
+        <div id="quiz-action-area">
+          <button
+            onclick="submitQuizAnswers()"
+            id="quiz-submit-btn"
+            disabled
+            class="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-semibold shadow-lg disabled:opacity-40 transition"
+          >
+            Hantar Jawapan Kuiz
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-slate-200 dark:border-slate-900/80 bg-white dark:bg-slate-950 text-center py-8 text-xs text-slate-500 px-6 transition-colors">
+    <p class="font-semibold text-slate-700 dark:text-slate-300">Hak Milik 2026@Pn Farihan Elyana binti Zahari - POLITEKNIK TUANKU SYED SIRAJUDDIN</p>
+    <p class="mt-1 text-slate-400 dark:text-slate-500">Dibuat menggunakan HTML5, CSS3, dan JavaScript tulen (Vanilla JS).</p>
+  </footer>
+
+  <!-- JAVASCRIPT LOGIC BLOCK -->
+  <script>
+    // --- GLOBAL DATA ---
+    const extraExamples = {
+      sequential: [
+        {
+          title: "Kira Purata Nilai Tiga Nombor",
+          masalah: "Pelajar mahu mengira purata nilai bagi tiga nombor berbeza yang dimasukkan oleh pengguna.",
+          input: "Tiga nombor nyata (cth: A, B, C)",
+          proses: "Purata = (A + B + C) / 3",
+          output: "Paparan nilai purata nombor tersebut",
+          algoritma: [
+            "Mula.",
+            "Masukkan nombor pertama (A).",
+            "Masukkan nombor kedua (B).",
+            "Masukkan nombor ketiga (C).",
+            "Kira Jumlah = A + B + C.",
+            "Kira Purata = Jumlah / 3.",
+            "Paparkan nilai Purata.",
+            "Tamat."
+          ],
+          cpp: `// Program C++ Sequential: Kira Purata\n#include <iostream>\nusing namespace std;\n\nint main() {\n    float A, B, C;\n    float jumlah, purata;\n\n    // 1. Ambil input secara turutan\n    cout << "Masukkan nombor pertama: ";\n    cin >> A;\n    cout << "Masukkan nombor kedua: ";\n    cin >> B;\n    cout << "Masukkan nombor ketiga: ";\n    cin >> C;\n\n    // 2. Proses pengiraan sequential\n    jumlah = A + B + C;\n    purata = jumlah / 3.0;\n\n    // 3. Papar output\n    cout << "Jumlah keseluruhan: " << jumlah << endl;\n    cout << "Purata nilai ialah: " << purata << endl;\n\n    return 0;\n}`
+        },
+        {
+          title: "Penukaran Suhu Celsius ke Fahrenheit",
+          masalah: "Menukar unit suhu Celsius kepada unit Fahrenheit dengan formula standard.",
+          input: "Suhu dalam unit Celsius (C)",
+          proses: "Fahrenheit = (C × 9/5) + 32",
+          output: "Suhu dalam unit Fahrenheit (F)",
+          algoritma: [
+            "Mula.",
+            "Masukkan suhu dalam Celsius.",
+            "Kira Fahrenheit = (Celsius * 9.0 / 5.0) + 32.",
+            "Paparkan suhu dalam Fahrenheit.",
+            "Tamat."
+          ],
+          cpp: `// Program C++ Sequential: Penukaran Suhu\n#include <iostream>\nusing namespace std;\n\nint main() {\n    double celsius, fahrenheit;\n\n    // Input suhu\n    cout << "Masukkan suhu dalam Celsius (°C): ";\n    cin >> celsius;\n\n    // Formula dijalankan linear\n    fahrenheit = (celsius * 9.0 / 5.0) + 32.0;\n\n    // Paparan output fahrenheit\n    cout << "Suhu bersamaan dengan: " << fahrenheit << " °F" << endl;\n\n    return 0;\n}`
+        }
+      ],
+      conditional: [
+        {
+          title: "Semakan Nombor Genap atau Ganjil",
+          masalah: "Sistem menerima satu nombor bulat dan menentukan sama ada nombor tersebut genap atau ganjil.",
+          input: "Satu nombor bulat (N)",
+          proses: "Semak baki pembahagian nombor dengan 2 (N % 2)",
+          output: "Mesej menyatakan 'Nombor Genap' atau 'Nombor Ganjil'",
+          algoritma: [
+            "Mula.",
+            "Masukkan satu nombor bulat (N).",
+            "Jika baki pembahagian (N % 2) adalah sifar (0):",
+            "    Paparkan 'Nombor Genap'.",
+            "Jika tidak:",
+            "    Paparkan 'Nombor Ganjil'.",
+            "Tamat."
+          ],
+          cpp: `// Program C++ Conditional: Genap atau Ganjil\n#include <iostream>\nusing namespace std;\n\nint main() {\n    int nombor;\n    cout << "Masukkan sebarang nombor bulat: ";\n    cin >> nombor;\n\n    // Struktur kawalan keputusan (if...else)\n    if (nombor % 2 == 0) {\n        cout << nombor << " ialah Nombor GENAP." << endl;\n    } else {\n        cout << nombor << " ialah Nombor GANJIL." << endl;\n    }\n\n    return 0;\n}`
+        },
+        {
+          title: "Sistem Kelayakan Diskaun Belanja",
+          masalah: "Kira jumlah bayaran bersih selepas diskaun 10% jika perbelanjaan asal pelanggan melebihi RM100.",
+          input: "Jumlah harga perbelanjaan asal",
+          proses: "Semak syarat perbelanjaan > 100 untuk kelayakan potongan harga",
+          output: "Jumlah diskaun dan harga bayaran bersih baharu",
+          algoritma: [
+            "Mula.",
+            "Masukkan jumlah belanja asal.",
+            "Jika belanja asal > 100:",
+            "    Kira Diskaun = belanja asal * 0.10.",
+            "    Bayaran Bersih = belanja asal - Diskaun.",
+            "Jika tidak:",
+            "    Diskaun = 0.",
+            "    Bayaran Bersih = belanja asal.",
+            "Paparkan Diskaun dan Bayaran Bersih.",
+            "Tamat."
+          ],
+          cpp: `// Program C++ Conditional: Sistem Diskaun Kedai\n#include <iostream>\nusing namespace std;\n\nint main() {\n    double belanja, diskaun = 0.0, bayaran_bersih;\n    cout << "Masukkan jumlah perbelanjaan asal: RM";\n    cin >> belanja;\n\n    // Semakan syarat kelayakan diskaun\n    if (belanja > 100.0) {\n        diskaun = belanja * 0.10; // Diskaun 10%\n        bayaran_bersih = belanja - diskaun;\n        cout << "Tahniah! Anda layak diskaun RM" << diskaun << endl;\n    } else {\n        bayaran_bersih = belanja;\n        cout << "Maaf, tiada diskaun diberikan (belanja bawah RM100)." << endl;\n    }\n\n    cout << "Jumlah bayaran bersih anda: RM" << bayaran_bersih << endl;\n    return 0;\n}`
+        }
+      ],
+      iterational: [
+        {
+          title: "Penjana Sifir Matematik Pintar",
+          masalah: "Memaparkan sifir gandaan bagi nombor yang dimasukkan oleh pengguna daripada gandaan 1 sehingga 10 secara automatik.",
+          input: "Nombor asas sifir (cth: 5)",
+          proses: "Ulangi pengiraan pendaraban (i * asas) bermula dari i = 1 sehingga i = 10",
+          output: "Senarai lengkap sifir 1 hingga 10",
+          algoritma: [
+            "Mula.",
+            "Masukkan nombor sifir (Asas).",
+            "Tetapkan nilai pembilang (i) = 1.",
+            "Selagi i <= 10, ulangi langkah berikut:",
+            "    Kira Hasil = i * Asas.",
+            "    Paparkan 'i x Asas = Hasil'.",
+            "    Tambah nilai i sebanyak 1 (i = i + 1).",
+            "Tamat."
+          ],
+          cpp: `// Program C++ Iterational: Penjana Sifir Pintar\n#include <iostream>\nusing namespace std;\n\nint main() {\n    int asas;\n    cout << "Masukkan nombor sifir yang anda inginkan: ";\n    cin >> asas;\n\n    cout << "--- Sifir " << asas << " ---" << endl;\n    // Menggunakan gelung 'for' untuk pengulangan berstruktur\n    for (int i = 1; i <= 10; i++) {\n        cout << i << " x " << asas << " = " << (i * asas) << endl;\n    }\n\n    return 0;\n}`
+        },
+        {
+          title: "Sistem Had Cuba Laluan Telefon",
+          masalah: "Telefon meminta PIN keselamatan. Jika PIN salah, pengguna dibenarkan mencuba semula sehingga maksimum 3 kali sahaja sebelum disekat.",
+          input: "PIN keselamatan dimasukkan pengguna",
+          proses: "Mengulangi permintaan input selagi PIN salah dan bilangan cubaan kurang daripada 3",
+          output: "Akses dibenarkan atau telefon disekat",
+          algoritma: [
+            "Mula.",
+            "Tetapkan PIN_Betul = '9988'.",
+            "Tetapkan cubaan = 0.",
+            "Mula Gelung (Selagi cubaan < 3):",
+            "    Masukkan PIN_Input.",
+            "    Tambah 1 kepada nilai cubaan.",
+            "    Jika PIN_Input == PIN_Betul:",
+            "        Paparkan 'Akses Dibenarkan'.",
+            "        Keluar daripada gelung (Berjaya).",
+            "    Jika salah dan cubaan < 3:",
+            "        Paparkan 'Cuba lagi'.",
+            "Jika cubaan == 3 dan akses masih gagal:",
+            "    Paparkan 'Telefon Disekat'.",
+            "Tamat."
+          ],
+          cpp: `// Program C++ Iterational: Sistem PIN Had Cubaan\n#include <iostream>\nusing namespace std;\n\nint main() {\n    const string PIN_BETUL = "9988";\n    string pin_input;\n    int cubaan = 0;\n    bool berjaya = false;\n\n    // Gelung 'while' mengulangi proses sehingga had cubaan dipenuhi\n    while (cubaan < 3) {\n        cout << "Masukkan PIN telefon anda (" << (3 - cubaan) << " cubaan berbaki): ";\n        cin >> pin_input;\n        cubaan++;\n\n        if (pin_input == PIN_BETUL) {\n            cout << "PIN betul! Akses dibenarkan." << endl;\n            berjaya = true;\n            break; // Keluar gelung secara paksa\n        }\n        cout << "PIN salah!" << endl;\n    }\n\n    if (!berjaya) {\n        cout << "Amaran! Telefon anda telah disekat selepas 3 kali gagal." << endl;\n    }\n\n    return 0;\n}`
+        }
+      ]
+    };
+
+    const quizQuestions = [
+      {
+        id: 1,
+        question: "Apakah takrifan yang paling tepat bagi 'Algorithm'?",
+        options: [
+          "Satu program komputer yang ditulis dalam bahasa C++.",
+          "Satu siri langkah-langkah tersusun secara logik untuk menyelesaikan sesuatu masalah.",
+          "Proses menukar kod pengaturcaraan kepada fail boleh laksana (executable).",
+          "Peralatan perkakasan komputer yang digunakan untuk mengira laju."
+        ],
+        correct: 1,
+        explanation: "Algoritma ialah satu siri langkah-langkah yang tersusun secara logik dan teratur (seperti resepi) untuk menyelesaikan masalah sebelum kita menulis kod pengaturcaraan."
+      },
+      {
+        id: 2,
+        question: "Struktur asas (construct) manakah yang melaksanakan arahan dari atas ke bawah tanpa sebarang syarat atau ulangan?",
+        options: [
+          "Conditional (Selection)",
+          "Iterational (Loop)",
+          "Sequential (Sequence)",
+          "Multi-branching"
+        ],
+        correct: 2,
+        explanation: "Sequential melaksanakan arahan satu demi satu secara teratur dari atas ke bawah tanpa melompat atau berpatah balik."
+      },
+      {
+        id: 3,
+        question: "Dalam sistem ATM, tindakan memeriksa 'Adakah PIN betul?' tergolong dalam struktur...",
+        options: [
+          "Sequential",
+          "Conditional (Selection)",
+          "Iterational (Loop)",
+          "Semua di atas"
+        ],
+        correct: 1,
+        explanation: "Keputusan berdasarkan syarat (PIN betul/salah) ialah contoh Conditional (Selection) yang biasanya diwakili oleh struktur if...else."
+      },
+      {
+        id: 4,
+        question: "Apakah kata kunci C++ yang kerap digunakan untuk struktur 'Iterational'?",
+        options: [
+          "if, else, switch",
+          "cin, cout",
+          "for, while, do...while",
+          "int, float, char"
+        ],
+        correct: 2,
+        explanation: "for, while, dan do...while ialah struktur kawalan gelung (loops) yang digunakan untuk melakukan lelaran (iteration) dalam C++."
+      },
+      {
+        id: 5,
+        question: "Jika anda ingin menulis atur cara untuk mengira jumlah markah bagi 40 orang pelajar secara automatik, struktur manakah yang paling sesuai digabungkan?",
+        options: [
+          "Hanya Sequential sahaja",
+          "Hanya Conditional sahaja",
+          "Sequential dan Iterational (untuk mengulangi proses pengiraan bagi setiap pelajar)",
+          "Tiada struktur yang sesuai"
+        ],
+        correct: 2,
+        explanation: "Untuk memproses 40 pelajar, kita memerlukan Iterational (gelung sebanyak 40 kali) digabungkan dengan pengiraan Sequential dalam setiap pusingan gelung."
+      }
+    ];
+
+    // --- STATE VARIABLES ---
+    let currentTheme = 'dark';
+    let activeTabId = 'notes';
+    let selectedExtraCategory = 'sequential';
+    let selectedExtraIdx = 0;
+
+    // Teh Tarik Game State
+    const originalTehTarikSteps = [
+      { id: '1', text: 'Sediakan cawan.', correctOrder: 1 },
+      { id: '2', text: 'Masukkan uncang teh.', correctOrder: 2 },
+      { id: '3', text: 'Tuangkan air panas.', correctOrder: 3 },
+      { id: '4', text: 'Biarkan teh seketika.', correctOrder: 4 },
+      { id: '5', text: 'Masukkan susu.', correctOrder: 5 },
+      { id: '6', text: 'Tambahkan gula.', correctOrder: 6 },
+      { id: '7', text: 'Kacau.', correctOrder: 7 },
+      { id: '8', text: 'Hidangkan.', correctOrder: 8 },
+    ];
+    let gameSteps = [];
+    let gameSubmitted = false;
+
+    // Simulator State
+    let simScenario = 'area';
+    let simStepIdx = 0;
+    let isSimulating = false;
+    let simTimeoutId = null;
+
+    // Quiz State
+    let quizAnswers = {};
+    let quizSubmitted = false;
+
+    // --- ON LOAD INITIALIZATION ---
+    window.onload = function() {
+      // Set Theme to Dark initially
+      document.documentElement.classList.add('dark');
+      
+      // Load initial components
+      renderExtraExamples();
+      resetTehTarikGame();
+      setSimScenario('area');
+      renderQuiz();
+    };
+
+    // --- UNIVERSAL TRANSITIONS & TAB CONTROL ---
+    function switchTab(tabId) {
+      if (isSimulating) {
+        // Force stop simulation if tab switches
+        stopSimulation();
+      }
+
+      // Hide all tabs
+      document.getElementById('tab-notes').classList.add('hidden');
+      document.getElementById('tab-game').classList.add('hidden');
+      document.getElementById('tab-simulator').classList.add('hidden');
+      document.getElementById('tab-ai').classList.add('hidden');
+      document.getElementById('tab-quiz').classList.add('hidden');
+
+      // Remove active button classes
+      const tabBtns = ['notes', 'game', 'simulator', 'ai', 'quiz'];
+      tabBtns.forEach(btn => {
+        const el = document.getElementById(`tab-btn-${btn}`);
+        el.className = "flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800/50";
+      });
+
+      // Show selected tab & set active button class
+      document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+      const activeBtn = document.getElementById(`tab-btn-${tabId}`);
+      activeBtn.className = "flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 bg-indigo-600 text-white shadow-md";
+      
+      activeTabId = tabId;
+    }
+
+    // --- THEME SWITCHER ---
+    function toggleTheme() {
+      const htmlEl = document.documentElement;
+      const themeText = document.getElementById('theme-btn-text');
+
+      if (htmlEl.classList.contains('dark')) {
+        htmlEl.classList.remove('dark');
+        themeText.innerText = '🌙 Mode Gelap';
+        currentTheme = 'light';
+      } else {
+        htmlEl.classList.add('dark');
+        themeText.innerText = '☀️ Mode Terang';
+        currentTheme = 'dark';
+      }
+    }
+
+    // --- STANDALONE HTML DOWNLOADER ---
+    function downloadStandaloneHTML() {
+      const alertBox = document.getElementById('download-alert');
+      alertBox.classList.remove('hidden');
+      
+      // Self-contained package generator
+      const cleanHTML = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+      const blob = new Blob([cleanHTML], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'Hub_Pembelajaran_Algoritma_Offline.html';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }
+
+    function closeDownloadAlert() {
+      document.getElementById('download-alert').classList.add('hidden');
+    }
+
+    // --- EXTRA EXAMPLES (GALERI PENGAYAAN) LOGIC ---
+    function switchExtraCategory(cat) {
+      selectedExtraCategory = cat;
+      selectedExtraIdx = 0;
+      
+      // Update UI active category button
+      const categories = ['sequential', 'conditional', 'iterational'];
+      categories.forEach(c => {
+        const btn = document.getElementById(`cat-btn-${c}`);
+        if (c === cat) {
+          btn.className = "px-3 py-1.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition bg-indigo-600 text-white shadow";
+        } else {
+          btn.className = "px-3 py-1.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200";
+        }
+      });
+
+      renderExtraExamples();
+    }
+
+    function selectExtraExample(idx) {
+      selectedExtraIdx = idx;
+      renderExtraExamples();
+    }
+
+    function renderExtraExamples() {
+      const examples = extraExamples[selectedExtraCategory];
+      const listContainer = document.getElementById('extra-list-box');
+      
+      // Clean previous side list
+      listContainer.innerHTML = '';
+      
+      // Render list items
+      examples.forEach((ex, idx) => {
+        const activeClass = selectedExtraIdx === idx 
+          ? "bg-indigo-500/10 border-indigo-500 text-indigo-600 dark:text-indigo-300 font-bold"
+          : "bg-white dark:bg-slate-950/40 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200";
+        
+        const btn = document.createElement('button');
+        btn.onclick = () => selectExtraExample(idx);
+        btn.className = `w-full text-left p-3 rounded-xl border text-xs font-medium transition flex items-center justify-between ${activeClass}`;
+        btn.innerHTML = `
+          <span>${ex.title}</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3 flex-shrink-0"><polyline points="9 18 15 12 9 6"/></svg>
+        `;
+        listContainer.appendChild(btn);
+      });
+
+      // Render Active Details
+      const activeData = examples[selectedExtraIdx];
+      document.getElementById('extra-title').innerText = activeData.title;
+      document.getElementById('extra-masalah').innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>
+        <span>Masalah: ${activeData.masalah}</span>
+      `;
+      document.getElementById('extra-input').innerText = activeData.input;
+      document.getElementById('extra-proses').innerText = activeData.proses;
+      document.getElementById('extra-output').innerText = activeData.output;
+      document.getElementById('extra-code').innerText = activeData.cpp;
+
+      // Render Steps List
+      const stepsContainer = document.getElementById('extra-algoritma-steps');
+      stepsContainer.innerHTML = '';
+      activeData.algoritma.forEach((step, sIdx) => {
+        const div = document.createElement('div');
+        div.className = "text-xs text-slate-700 dark:text-slate-300 font-mono";
+        div.innerHTML = `<span class="text-indigo-500 font-bold font-mono">${sIdx + 1}.</span> ${step}`;
+        stepsContainer.appendChild(div);
+      });
+    }
+
+    // --- TEH TARIK GAME ---
+    function resetTehTarikGame() {
+      // Shuffle the original steps array
+      gameSteps = [...originalTehTarikSteps].sort(() => Math.random() - 0.5);
+      gameSubmitted = false;
+      
+      const feedbackBox = document.getElementById('game-feedback');
+      feedbackBox.className = "hidden p-4 rounded-xl flex items-start gap-3 mt-4";
+      feedbackBox.innerHTML = '';
+      
+      renderTehTarik();
+    }
+
+    function renderTehTarik() {
+      const container = document.getElementById('game-steps-container');
+      container.innerHTML = '';
+
+      gameSteps.forEach((step, idx) => {
+        let badgeColor = "bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400";
+        
+        if (gameSubmitted) {
+          badgeColor = step.correctOrder === idx + 1
+            ? "bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 font-bold"
+            : "bg-rose-500/20 text-rose-600 dark:text-rose-400 border border-rose-500/30 font-bold";
+        }
+
+        const div = document.createElement('div');
+        div.className = "flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-indigo-500/40 transition duration-150";
+        div.innerHTML = `
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${badgeColor}">
+              ${idx + 1}
+            </div>
+            <span class="text-sm font-medium text-slate-800 dark:text-slate-200">${step.text}</span>
+          </div>
+          <div class="flex items-center gap-1">
+            <button
+              onclick="moveTehTarikStep(${idx}, 'up')"
+              ${idx === 0 || gameSubmitted ? 'disabled' : ''}
+              class="p-1.5 rounded bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 disabled:opacity-30 disabled:hover:bg-slate-200 dark:disabled:hover:bg-slate-800 transition"
+              title="Naikkan Langkah"
+            >
+              ▲
+            </button>
+            <button
+              onclick="moveTehTarikStep(${idx}, 'down')"
+              ${idx === gameSteps.length - 1 || gameSubmitted ? 'disabled' : ''}
+              class="p-1.5 rounded bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 disabled:opacity-30 disabled:hover:bg-slate-200 dark:disabled:hover:bg-slate-800 transition"
+              title="Turunkan Langkah"
+            >
+              ▼
+            </button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function moveTehTarikStep(index, direction) {
+      if (gameSubmitted) return;
+      
+      const newSteps = [...gameSteps];
+      if (direction === 'up' && index > 0) {
+        const temp = newSteps[index];
+        newSteps[index] = newSteps[index - 1];
+        newSteps[index - 1] = temp;
+      } else if (direction === 'down' && index < newSteps.length - 1) {
+        const temp = newSteps[index];
+        newSteps[index] = newSteps[index + 1];
+        newSteps[index + 1] = temp;
+      }
+      gameSteps = newSteps;
+      renderTehTarik();
+    }
+
+    function checkTehTarikGame() {
+      gameSubmitted = true;
+      let correctCount = 0;
+      
+      gameSteps.forEach((step, idx) => {
+        if (step.correctOrder === idx + 1) {
+          correctCount++;
+        }
+      });
+
+      renderTehTarik();
+
+      const feedbackBox = document.getElementById('game-feedback');
+      feedbackBox.classList.remove('hidden');
+
+      if (correctCount === 8) {
+        feedbackBox.className = "p-4 rounded-xl flex items-start gap-3 mt-4 bg-emerald-500/10 border border-emerald-500/20 text-emerald-800 dark:text-emerald-300";
+        feedbackBox.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-emerald-500 flex-shrink-0 mt-0.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          <div>
+            <h5 class="font-bold text-sm">Syabas! Langkah algoritma anda sempurna!</h5>
+            <p class="text-xs mt-1 leading-relaxed">Susunan membuat Teh Tarik maya anda adalah tepat sepenuhnya mengikut kronologi sediaan. ☕✨</p>
+          </div>
+        `;
+      } else {
+        feedbackBox.className = "p-4 rounded-xl flex items-start gap-3 mt-4 bg-amber-500/10 border border-amber-500/20 text-amber-800 dark:text-amber-300";
+        feedbackBox.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-amber-500 flex-shrink-0 mt-0.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <div>
+            <h5 class="font-bold text-sm">Hampir Tepat!</h5>
+            <p class="text-xs mt-1 leading-relaxed">Anda mendapat ${correctCount}/8 langkah di kedudukan betul. Cuba klik butang 'Reset' untuk mencuba menyusun semula secara logik.</p>
+          </div>
+        `;
+      }
+    }
+
+    // --- SIMULATOR ALGORITMA ---
+    function setSimScenario(scen) {
+      if (isSimulating) stopSimulation();
+      
+      simScenario = scen;
+      simStepIdx = 0;
+
+      // Update active scenarios buttons
+      const scenarios = ['area', 'grade', 'atm'];
+      scenarios.forEach(s => {
+        const btn = document.getElementById(`sim-scen-${s}`);
+        const inputs = document.getElementById(`sim-inputs-${s}`);
+        
+        if (s === scen) {
+          btn.className = "p-2.5 rounded-xl border text-center transition bg-indigo-600/10 border-indigo-500 text-indigo-500 dark:text-white";
+          inputs.classList.remove('hidden');
+        } else {
+          btn.className = "p-2.5 rounded-xl border text-center transition bg-white dark:bg-slate-950/60 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-250";
+          inputs.classList.add('hidden');
+        }
+      });
+
+      // Clear Console and steps trace
+      document.getElementById('sim-console').innerHTML = `<span class="text-slate-500 italic">// Klik 'Jalankan Simulasi' untuk melihat log di sini.</span>`;
+      renderSimStepsTrace();
+    }
+
+    function renderSimStepsTrace() {
+      const container = document.getElementById('sim-trace-container');
+      container.innerHTML = '';
+
+      let steps = [];
+      const inputs = getSimulationInputs();
+
+      if (simScenario === 'area') {
+        steps = [
+          `1. Mula.`,
+          `2. Masukkan Panjang (${simStepIdx >= 2 ? inputs.panjang : '?'})`,
+          `3. Masukkan Lebar (${simStepIdx >= 3 ? inputs.lebar : '?'})`,
+          `4. Kira Luas = Panjang × Lebar (${simStepIdx >= 4 ? `${inputs.panjang} × ${inputs.lebar} = ${inputs.panjang * inputs.lebar}` : '?'})`,
+          `5. Paparkan Luas (${simStepIdx >= 5 ? `Hasil: ${inputs.panjang * inputs.lebar}` : '?'})`,
+          `6. Tamat.`
+        ];
+      } else if (simScenario === 'grade') {
+        const checkPass = inputs.markah >= 50;
+        steps = [
+          `1. Mula Semakan Markah.`,
+          `2. Input Markah Pelajar = ${inputs.markah}`,
+          `3. Adakah Markah (${inputs.markah}) ≥ 50?`,
+          `4.   └─> Keputusan Syarat: ${simStepIdx >= 4 ? (checkPass ? 'Ya! Lulus' : 'Tidak! Gagal') : 'Menilai...'}`,
+          `5.   └─> Paparkan: ${simStepIdx >= 5 ? (checkPass ? '"Lulus"' : '"Gagal"') : '?'}`,
+          `6. Tamat Semakan.`
+        ];
+      } else if (simScenario === 'atm') {
+        const correctPin = "1234";
+        const isPinCorrect = inputs.pinInput === correctPin;
+        steps = [
+          `1. Masukkan Kad ATM.`,
+          `2. Masukkan PIN Cubaan (Nilai: "${inputs.pinInput || 'Tiada PIN'}")`,
+          `3. Syarat: Adakah PIN betul? (Semakan padanan...)`,
+          `4.   └─> Keputusan Syarat: ${simStepIdx >= 4 ? (isPinCorrect ? 'BENAR (Akses Menu)' : 'SALAH (PIN Ralat)') : 'Menilai...'}`,
+          `5.   └─> Paparkan: ${simStepIdx >= 5 ? (isPinCorrect ? 'Menu Transaksi Kewangan' : 'Mesej "PIN Tidak Sah"') : '?'}`,
+          `6. Tamat Sesi Keselamatan ATM.`
+        ];
+      }
+
+      steps.forEach((step, idx) => {
+        const div = document.createElement('div');
+        const isActive = simStepIdx === idx + 1;
+        
+        div.className = `p-2.5 rounded transition duration-200 ${isActive ? 'bg-indigo-500/20 text-indigo-600 dark:text-white border-l-4 border-indigo-500 font-bold' : 'text-slate-500 dark:text-slate-400'}`;
+        div.innerText = step;
+        container.appendChild(div);
+      });
+    }
+
+    function getSimulationInputs() {
+      return {
+        panjang: parseInt(document.getElementById('sim-input-panjang').value) || 0,
+        lebar: parseInt(document.getElementById('sim-input-lebar').value) || 0,
+        markah: parseInt(document.getElementById('sim-input-markah').value) || 0,
+        pinInput: document.getElementById('sim-input-pin').value || ''
+      };
+    }
+
+    function startSimulation() {
+      if (isSimulating) stopSimulation();
+
+      isSimulating = true;
+      simStepIdx = 0;
+      
+      const consoleBox = document.getElementById('sim-console');
+      consoleBox.innerHTML = '';
+      
+      const btn = document.getElementById('sim-run-btn');
+      btn.className = "w-full py-2.5 bg-amber-600 hover:bg-amber-500 text-white rounded-xl font-semibold flex items-center justify-center gap-2 shadow-lg transition";
+      btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="animate-spin"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg> <span>Hentikan Simulasi</span>`;
+      btn.onclick = stopSimulation;
+
+      runSimStep();
+    }
+
+    function stopSimulation() {
+      isSimulating = false;
+      if (simTimeoutId) clearTimeout(simTimeoutId);
+      
+      const btn = document.getElementById('sim-run-btn');
+      btn.className = "w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-semibold flex items-center justify-center gap-2 shadow-lg transition";
+      btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg> <span>Jalankan Simulasi</span>`;
+      btn.onclick = startSimulation;
+
+      simStepIdx = 0;
+      renderSimStepsTrace();
+    }
+
+    function addSimLog(msg) {
+      const consoleBox = document.getElementById('sim-console');
+      const div = document.createElement('div');
+      div.className = "flex gap-2";
+      div.innerHTML = `<span class="text-emerald-500">[SYSTEM]</span><span class="text-slate-700 dark:text-slate-300 font-mono">${msg}</span>`;
+      consoleBox.appendChild(div);
+      consoleBox.scrollTop = consoleBox.scrollHeight;
+    }
+
+    function runSimStep() {
+      if (!isSimulating) return;
+
+      simStepIdx++;
+      const inputs = getSimulationInputs();
+      let logMsg = '';
+      let isLastStep = false;
+
+      if (simScenario === 'area') {
+        const logs = [
+          "",
+          "Mula simulasi pengiraan luas...",
+          `Input Panjang dibaca: ${inputs.panjang}m`,
+          `Input Lebar dibaca: ${inputs.lebar}m`,
+          `Kira Luas = ${inputs.panjang} × ${inputs.lebar}`,
+          `Paparan Output: Luas Segi Empat ialah ${inputs.panjang * inputs.lebar}`,
+          "Tamat pengiraan. Selesai secara Sequential!"
+        ];
+        logMsg = logs[simStepIdx];
+        isLastStep = simStepIdx === 6;
+      } else if (simScenario === 'grade') {
+        const checkPass = inputs.markah >= 50;
+        const logs = [
+          "",
+          "Memulakan semakan keputusan markah...",
+          `Input Markah dibaca: ${inputs.markah}`,
+          `Membuat keputusan: Adakah ${inputs.markah} ≥ 50?`,
+          checkPass ? "Keputusan Logik: BENAR! Pelajar lulus syarat minimum." : "Keputusan Logik: PALSU! Markah di bawah tahap lulus.",
+          `Paparan Output: Pelajar diisytiharkan [${checkPass ? 'LULUS' : 'GAGAL'}]`,
+          "Tamat pemprosesan keputusan. Cabangan Conditional tamat!"
+        ];
+        logMsg = logs[simStepIdx];
+        isLastStep = simStepIdx === 6;
+      } else if (simScenario === 'atm') {
+        const isPinCorrect = inputs.pinInput === "1234";
+        const logs = [
+          "",
+          "Sistem ATM diaktifkan.",
+          "Masukkan PIN pengguna.",
+          `Memeriksa PIN yang dimasukkan: [${inputs.pinInput || 'Tiada PIN'}]`,
+          isPinCorrect ? "Keputusan Logik: BENAR! Membuka akses akaun..." : "Keputusan Logik: SALAH! Memaparkan amaran...",
+          isPinCorrect ? "Paparan: Menu Utama ATM dipaparkan." : "Paparan: 'Mesej Ralat: PIN Tidak Sah.'",
+          "Tamat transaksi."
+        ];
+        logMsg = logs[simStepIdx];
+        isLastStep = simStepIdx === 6;
+      }
+
+      if (logMsg) {
+        addSimLog(logMsg);
+      }
+      renderSimStepsTrace();
+
+      if (!isLastStep) {
+        simTimeoutId = setTimeout(runSimStep, 1000);
+      } else {
+        setTimeout(() => {
+          stopSimulation();
+        }, 1000);
+      }
+    }
+
+    // --- AI PENJANA ALGORITMA (GEMINI Integration) ---
+    function selectAiSuggestion(val) {
+      document.getElementById('ai-prompt-input').value = val;
+      generateAIAlgorithm();
+    }
+
+    async function generateAIAlgorithm() {
+      const prompt = document.getElementById('ai-prompt-input').value.trim();
+      const errorBox = document.getElementById('ai-error-banner');
+      const btn = document.getElementById('ai-generate-btn');
+      const resultArea = document.getElementById('ai-result-area');
+
+      if (!prompt) {
+        errorBox.classList.remove('hidden');
+        errorBox.innerText = 'Sila masukkan satu senario atau aktiviti harian.';
+        return;
+      }
+
+      errorBox.classList.add('hidden');
+      resultArea.classList.add('hidden');
+      
+      btn.disabled = true;
+      btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="animate-spin"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg> <span>Sedang Menjana...</span>`;
+
+      const apiKey = ""; // Set API key to empty (the environment injects the credential dynamically)
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+
+      const systemPrompt = `You are an expert C++ programming tutor. Help the user create an algorithm for an everyday real-world activity they mention (in Malay language). 
+You MUST respond strictly with a JSON object. No markdown wraps other than raw JSON.
+The JSON object must have exactly this structure:
+{
+  "aktiviti": "Aktiviti yang diminta",
+  "pengenalan": "Satu ayat pengenalan santai tentang aktiviti ini.",
+  "sequential": [
+    "Langkah 1...",
+    "Langkah 2...",
+    "Langkah 3..."
+  ],
+  "conditional": {
+    "syarat": "Apakah situasi membuat keputusan (e.g., Jika hujan...)",
+    "ya": "Tindakan jika benar (Ya)",
+    "tidak": "Tindakan jika salah (Tidak)"
+  },
+  "iterational": {
+    "syaratUlang": "Bilakah tindakan perlu diulang",
+    "langkahUlang": "Apakah langkah yang diulang-ulang"
+  },
+  "cppTip": "Tips ringkas bagaimana konsep ini boleh ditukar kepada sintaks C++ (e.g. if-else atau for loop)."
+}`;
+
+      const payload = {
+        contents: [{ parts: [{ text: `Aktiviti: ${prompt}` }] }],
+        systemInstruction: { parts: [{ text: systemPrompt }] },
+        generationConfig: {
+          responseMimeType: "application/json"
+        }
+      };
+
+      // Exponential Backoff Fetcher
+      const fetchWithRetry = async (retries = 5, delay = 1000) => {
+        try {
+          const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (!response.ok) throw new Error(`HTTP status ${response.status}`);
+          return await response.json();
+        } catch (err) {
+          if (retries > 0) {
+            await new Promise(res => setTimeout(res, delay));
+            return fetchWithRetry(retries - 1, delay * 2);
+          }
+          throw err;
+        }
+      };
+
+      try {
+        const result = await fetchWithRetry();
+        const responseText = result.candidates?.[0]?.content?.parts?.[0]?.text;
+        const parsed = JSON.parse(responseText);
+        renderAiResults(parsed);
+      } catch (err) {
+        console.error(err);
+        // Fallback offline handler
+        setTimeout(() => {
+          const mockData = {
+            aktiviti: prompt,
+            pengenalan: `Berikut adalah contoh draf algoritma bagi "${prompt}" yang dijana secara automatik secara luar talian (offline fallback mode).`,
+            sequential: [
+              `Sediakan alatan serta bahan penting untuk: ${prompt}.`,
+              "Lakukan fasa persiapan fizikal mengikut urutan logik.",
+              "Mulakan pelaksanaan langkah demi langkah untuk menyelesaikan tugasan."
+            ],
+            conditional: {
+              syarat: `Adakah proses pelaksanaan "${prompt}" ini berjalan dengan lancar tanpa ralat?`,
+              ya: "Tamatkan proses dan simpan draf hasil kerja dengan selamat.",
+              tidak: "Kenal pasti ralat, lakukan pembetulan kecemasan, atau tambah bahan."
+            },
+            iterational: {
+              syaratUlang: `Selagi tugasan "${prompt}" masih belum mencapai hasil kualiti yang diingini`,
+              langkahUlang: "Ulangi proses penggilapan, kemas kini perincian, dan semakan visual."
+            },
+            cppTip: "Untuk struktur keputusan (Conditional), gunakan block 'if...else'. Untuk gelung (Iterational), gunakan gelung 'while' atau 'for' dalam kod C++ anda!"
+          };
+          renderAiResults(mockData);
+        }, 1000);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<span>Jana Algoritma</span>`;
+      }
+    }
+
+    function renderAiResults(data) {
+      document.getElementById('ai-result-area').classList.remove('hidden');
+      document.getElementById('ai-result-title').innerText = `Algoritma: ${data.aktiviti}`;
+      document.getElementById('ai-result-intro').innerText = data.pengenalan;
+
+      // Sequential
+      const seqContainer = document.getElementById('ai-result-seq');
+      seqContainer.innerHTML = '';
+      data.sequential.forEach(step => {
+        const li = document.createElement('li');
+        li.innerText = step;
+        seqContainer.appendChild(li);
+      });
+
+      // Conditional
+      document.getElementById('ai-result-cond-syarat').innerText = data.conditional.syarat;
+      document.getElementById('ai-result-cond-ya').innerText = data.conditional.ya;
+      document.getElementById('ai-result-cond-tidak').innerText = data.conditional.tidak;
+
+      // Iterational
+      document.getElementById('ai-result-iter-syarat').innerText = data.iterational.syaratUlang;
+      document.getElementById('ai-result-iter-langkah').innerText = data.iterational.langkahUlang;
+
+      // Tip
+      document.getElementById('ai-result-cpptip').innerText = data.cppTip;
+
+      // Scroll to view
+      document.getElementById('ai-result-area').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // --- INTERACTIVE KUIZ (UJI MINDA) ---
+    function renderQuiz() {
+      const container = document.getElementById('quiz-questions-container');
+      container.innerHTML = '';
+
+      quizQuestions.forEach((q, qIdx) => {
+        const card = document.createElement('div');
+        card.className = "bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4 shadow-md";
+        
+        card.innerHTML = `
+          <div class="flex items-start gap-3">
+            <span class="bg-indigo-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-1">
+              ${qIdx + 1}
+            </span>
+            <h4 class="font-semibold text-base text-slate-900 dark:text-white">${q.question}</h4>
+          </div>
+
+          <div id="quiz-opt-group-${q.id}" class="grid grid-cols-1 gap-2.5 pl-9">
+            <!-- Options rendered dynamically -->
+          </div>
+
+          <div id="quiz-explanation-${q.id}" class="hidden pl-9 pt-2 text-xs text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-950 p-3 rounded-lg border border-slate-200 dark:border-slate-850">
+            <strong>Penjelasan:</strong> ${q.explanation}
+          </div>
+        `;
+
+        container.appendChild(card);
+        renderQuizOptions(q, qIdx);
+      });
+    }
+
+    function renderQuizOptions(question, qIdx) {
+      const optContainer = document.getElementById(`quiz-opt-group-${question.id}`);
+      optContainer.innerHTML = '';
+
+      question.options.forEach((opt, oIdx) => {
+        const isSelected = quizAnswers[question.id] === oIdx;
+        const isCorrect = question.correct === oIdx;
+        
+        let optionStyle = "bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-900";
+        
+        if (quizSubmitted) {
+          if (isCorrect) {
+            optionStyle = "bg-emerald-500/20 border-emerald-500 text-emerald-800 dark:text-emerald-300 font-medium";
+          } else if (isSelected) {
+            optionStyle = "bg-rose-500/20 border-rose-500 text-rose-800 dark:text-rose-300 font-medium";
+          } else {
+            optionStyle = "bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-800 opacity-50 text-slate-400";
+          }
+        } else if (isSelected) {
+          optionStyle = "bg-indigo-600/20 border-indigo-500 text-indigo-700 dark:text-white font-medium";
+        }
+
+        const btn = document.createElement('button');
+        btn.onclick = () => selectQuizOption(question.id, oIdx);
+        btn.className = `w-full text-left p-3.5 rounded-xl border text-sm transition flex justify-between items-center ${optionStyle}`;
+        btn.disabled = quizSubmitted;
+        
+        let rightBadge = '';
+        if (quizSubmitted && isCorrect) {
+          rightBadge = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-emerald-600"><polyline points="20 6 9 17 4 12"/></svg>`;
+        }
+
+        btn.innerHTML = `<span>${opt}</span> ${rightBadge}`;
+        optContainer.appendChild(btn);
+      });
+    }
+
+    function selectQuizOption(qId, oIdx) {
+      if (quizSubmitted) return;
+      
+      quizAnswers[qId] = oIdx;
+      
+      // Re-render only options of this question
+      const question = quizQuestions.find(q => q.id === qId);
+      const qIdx = quizQuestions.findIndex(q => q.id === qId);
+      renderQuizOptions(question, qIdx);
+
+      // Check if all questions are answered
+      const answeredCount = Object.keys(quizAnswers).length;
+      const submitBtn = document.getElementById('quiz-submit-btn');
+      if (answeredCount === quizQuestions.length) {
+        submitBtn.disabled = false;
+      }
+    }
+
+    function submitQuizAnswers() {
+      quizSubmitted = true;
+      let score = 0;
+
+      quizQuestions.forEach(q => {
+        if (quizAnswers[q.id] === q.correct) {
+          score++;
+        }
+        // Show explanation
+        document.getElementById(`quiz-explanation-${q.id}`).classList.remove('hidden');
+        // Refresh question list options style
+        const qIdx = quizQuestions.findIndex(quest => quest.id === q.id);
+        renderQuizOptions(q, qIdx);
+      });
+
+      const actionArea = document.getElementById('quiz-action-area');
+      
+      let message = 'Cuba sekali lagi!';
+      if (score === 5) message = 'Gred Sempurna! Anda adalah master dalam asas reka bentuk algoritma! 🏆';
+      else if (score >= 3) message = 'Syabas! Anda lulus dan mempunyai pemahaman yang sangat kukuh! 🌟';
+
+      actionArea.innerHTML = `
+        <div class="space-y-4">
+          <div class="inline-flex items-center justify-center p-4 bg-indigo-500/10 rounded-full border border-indigo-500/25 mb-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-yellow-400"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+          </div>
+          <div>
+            <h4 class="text-2xl font-bold text-slate-900 dark:text-white">Keputusan Anda: ${score} / ${quizQuestions.length} Markah</h4>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">${message}</p>
+          </div>
+          <button
+            onclick="resetQuiz()"
+            class="px-6 py-2.5 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-300 rounded-xl font-medium transition"
+          >
+            Cuba Kuiz Semula
+          </button>
+        </div>
+      `;
+    }
+
+    function resetQuiz() {
+      quizAnswers = {};
+      quizSubmitted = false;
+
+      // Restore submit button view
+      const actionArea = document.getElementById('quiz-action-area');
+      actionArea.innerHTML = `
+        <button
+          onclick="submitQuizAnswers()"
+          id="quiz-submit-btn"
+          disabled
+          class="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-semibold shadow-lg disabled:opacity-40 transition"
+        >
+          Hantar Jawapan Kuiz
+        </button>
+      `;
+
+      renderQuiz();
+    }
+  </script>
 </body>
 </html>
