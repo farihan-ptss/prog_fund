@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LearnC++: Hub Pembelajaran Identifier & Data Types</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                    colors: {
+                        ceri: {
+                            50: '#fff1f2',
+                            100: '#ffe4e6',
+                            200: '#fecdd3',
+                            300: '#fda4af',
+                            400: '#fb7185',
+                            500: '#f43f5e',
+                            600: '#e11d48',
+                        },
+                        ceriaBlue: '#3b82f6',
+                        ceriaYellow: '#f59e0b',
+                        ceriaGreen: '#10b981',
+                        ceriaPurple: '#8b5cf6',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col antialiased selection:bg-rose-200">
+
+    <script>
+        // Sound FX engine using Web Audio API to prevent external file loads
+        const SoundFX = {
+            ctx: null,
+            init() {
+                if (!this.ctx) {
+                    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+            },
+            playSuccess() {
+                this.init();
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, now); // C5
+                osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
+                osc.frequency.setValueAtTime(783.99, now + 0.2); // G5
+                osc.frequency.setValueAtTime(1046.50, now + 0.3); // C6
+                
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+                
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.5);
+            },
+            playError() {
+                this.init();
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(150, now);
+                osc.frequency.exponentialRampToValueAtTime(80, now + 0.3);
+                
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            },
+            playClick() {
+                this.init();
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(600, now);
+                osc.frequency.exponentialRampToValueAtTime(300, now + 0.1);
+                
+                gain.gain.setValueAtTime(0.1, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.1);
+            }
+        };
+
+        // Global State
+        const State = {
+            currentTab: 'pengenalan',
+            xp: 0,
+            completedSteps: {
+                pengenalan: false,
+                identifier: false, // Merged Identifier, Variable, Constant & Keywords
+                dataTypes: false,
+                sandbox: false,
+                game: false,
+                quiz: false
+            },
+            gameScore: 0,
+            quizScore: 0,
+            userName: "Pelajar Bijak"
+        };
+
+        function addXP(amount) {
+            State.xp += amount;
+            document.getElementById('xp-badge').innerText = `${State.xp} XP`;
+            
+            // Show dynamic float text
+            const floatText = document.createElement('div');
+            floatText.className = 'absolute text-emerald-500 font-bold text-lg animate-bounce';
+            floatText.innerText = `+${amount} XP`;
+            floatText.style.top = '10px';
+            floatText.style.right = '10px';
+            document.getElementById('xp-container').appendChild(floatText);
+            setTimeout(() => floatText.remove(), 1000);
+        }
+    </script>
+
+    <!-- NAVIGATION BAR -->
+    <header class="bg-white border-b border-slate-100 shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-gradient-to-tr from-rose-500 to-amber-400 p-2.5 rounded-xl shadow-md text-white animate-pulse">
+                    <i class="fa-solid fa-graduation-cap text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-extrabold text-slate-800 tracking-tight">LearnC++ <span class="text-rose-500 text-xs px-2 py-0.5 rounded-full bg-rose-50 border border-rose-100 ml-1">2.2 Hub Pembelajaran</span></h1>
+                    <p class="text-xs text-slate-500 font-medium hidden sm:block">Silibus Pengaturcaraan Teratur & Cepat Faham</p>
+                </div>
+            </div>
+
+            <!-- XP and User Profile -->
+            <div class="flex items-center space-x-4">
+                <div id="xp-container" class="relative bg-emerald-50 border border-emerald-200 px-4 py-2 rounded-full flex items-center space-x-2 shadow-sm">
+                    <i class="fa-solid fa-fire text-amber-500 animate-bounce"></i>
+                    <span id="xp-badge" class="font-bold text-emerald-700 text-sm">0 XP</span>
+                </div>
+                
+                <div class="flex items-center space-x-2 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-xl">
+                    <i class="fa-solid fa-user text-slate-400"></i>
+                    <input type="text" id="username-input" value="Pelajar Bijak" oninput="State.userName = this.value" class="bg-transparent font-semibold text-slate-700 text-xs focus:outline-none w-24 sm:w-32" placeholder="Nama Anda">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- TOP NAVIGATION MENU -->
+    <nav class="bg-white border-b border-slate-200 sticky top-16 z-40 shadow-sm overflow-x-auto custom-scrollbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex space-x-2 whitespace-nowrap">
+            <button onclick="switchTab('pengenalan')" id="top-btn-pengenalan" class="top-tab-btn px-4 py-2 rounded-full text-xs font-bold transition-all duration-200 bg-rose-500 text-white border border-rose-500 shadow-sm">
+                🏠 Pengenalan
+            </button>
+            <button onclick="switchTab('identifier')" id="top-btn-identifier" class="top-tab-btn px-4 py-2 rounded-full text-xs font-bold transition-all duration-200 bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200">
+                🏷️ Identifier, Variable, Constant & Keywords
+            </button>
+            <button onclick="switchTab('dataTypes')" id="top-btn-dataTypes" class="top-tab-btn px-4 py-2 rounded-full text-xs font-bold transition-all duration-200 bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200">
+                📊 Data Types
+            </button>
+            <button onclick="switchTab('sandbox')" id="top-btn-sandbox" class="top-tab-btn px-4 py-2 rounded-full text-xs font-bold transition-all duration-200 bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200">
+                🧪 Sandbox C++
+            </button>
+            <button onclick="switchTab('game')" id="top-btn-game" class="top-tab-btn px-4 py-2 rounded-full text-xs font-bold transition-all duration-200 bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200">
+                🎮 Padanan Data
+            </button>
+            <button onclick="switchTab('quiz')" id="top-btn-quiz" class="top-tab-btn px-4 py-2 rounded-full text-xs font-bold transition-all duration-200 bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200">
+                📝 Kuiz & Sijil
+            </button>
+        </div>
+    </nav>
+
+    <div class="flex-1 flex flex-col md:flex-row max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 gap-6">
+        
+        <!-- SIDEBAR NAVIGATION -->
+        <aside class="w-full md:w-64 shrink-0 flex flex-col gap-2">
+            <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm space-y-1">
+                <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider px-3 mb-2">Modul Pembelajaran</h2>
+                
+                <button onclick="switchTab('pengenalan')" id="btn-pengenalan" class="tab-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center justify-between text-sm font-semibold transition-all duration-200 bg-rose-50 text-rose-600">
+                    <span class="flex items-center space-x-3">
+                        <i class="fa-solid fa-house-chimney text-base"></i>
+                        <span>🏠 Pengenalan</span>
+                    </span>
+                    <i class="fa-solid fa-circle-check text-emerald-500 hidden" id="chk-pengenalan"></i>
+                </button>
+
+                <button onclick="switchTab('identifier')" id="btn-identifier" class="tab-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center justify-between text-sm font-medium transition-all duration-200 text-slate-600 hover:bg-slate-50">
+                    <span class="flex items-center space-x-3">
+                        <i class="fa-solid fa-tag text-base"></i>
+                        <span>🏷️ Identifier, Variable, Constant, Key</span>
+                    </span>
+                    <i class="fa-solid fa-circle-check text-emerald-500 hidden" id="chk-identifier"></i>
+                </button>
+
+                <button onclick="switchTab('dataTypes')" id="btn-dataTypes" class="tab-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center justify-between text-sm font-medium transition-all duration-200 text-slate-600 hover:bg-slate-50">
+                    <span class="flex items-center space-x-3">
+                        <i class="fa-solid fa-layer-group text-base"></i>
+                        <span>📊 Data Types C++</span>
+                    </span>
+                    <i class="fa-solid fa-circle-check text-emerald-500 hidden" id="chk-dataTypes"></i>
+                </button>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm space-y-1">
+                <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider px-3 mb-2">Makmal & Permainan</h2>
+
+                <button onclick="switchTab('sandbox')" id="btn-sandbox" class="tab-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center justify-between text-sm font-medium transition-all duration-200 text-slate-600 hover:bg-slate-50">
+                    <span class="flex items-center space-x-3">
+                        <i class="fa-solid fa-flask text-base"></i>
+                        <span>🧪 Sandbox C++</span>
+                    </span>
+                    <i class="fa-solid fa-circle-check text-emerald-500 hidden" id="chk-sandbox"></i>
+                </button>
+
+                <button onclick="switchTab('game')" id="btn-game" class="tab-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center justify-between text-sm font-medium transition-all duration-200 text-slate-600 hover:bg-slate-50">
+                    <span class="flex items-center space-x-3">
+                        <i class="fa-solid fa-gamepad text-base"></i>
+                        <span>🎮 Padanan Data</span>
+                    </span>
+                    <i class="fa-solid fa-circle-check text-emerald-500 hidden" id="chk-game"></i>
+                </button>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm space-y-1">
+                <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider px-3 mb-2">Penilaian Akhir</h2>
+
+                <button onclick="switchTab('quiz')" id="btn-quiz" class="tab-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center justify-between text-sm font-medium transition-all duration-200 text-slate-600 hover:bg-slate-50">
+                    <span class="flex items-center space-x-3">
+                        <i class="fa-solid fa-square-poll-horizontal text-base"></i>
+                        <span>📝 Kuiz Interaktif</span>
+                    </span>
+                    <i class="fa-solid fa-trophy text-amber-500 hidden" id="chk-quiz"></i>
+                </button>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="flex-1 bg-white rounded-2xl border border-slate-100 shadow-sm p-6 sm:p-8 min-w-0 relative">
+            
+            <!-- TAB 1: PENGENALAN -->
+            <div id="tab-content-pengenalan" class="tab-content space-y-6">
+                <div class="flex items-center space-x-4">
+                    <div class="bg-rose-100 text-rose-600 p-3 rounded-2xl">
+                        <i class="fa-solid fa-compass text-2xl animate-spin" style="animation-duration: 8s;"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-black text-slate-800">Pengenalan</h2>
+                        <p class="text-slate-500">Objektif: Kuasai nama pemboleh ubah, pengisytiharan pemalar, dan jenis-jenis data dalam C++.</p>
+                    </div>
+                </div>
+
+                <hr class="border-slate-100">
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 p-5 rounded-2xl relative overflow-hidden">
+                        <div class="absolute right-0 bottom-0 translate-x-3 translate-y-3 opacity-10 text-amber-500 text-9xl">
+                            <i class="fa-solid fa-lightbulb"></i>
+                        </div>
+                        <h3 class="font-extrabold text-amber-800 text-lg mb-2"><i class="fa-solid fa-graduation-cap mr-2"></i> Mengapa Topik ini Penting?</h3>
+                        <p class="text-sm text-slate-700 leading-relaxed">
+                            Sebelum anda boleh menulis arahan pengaturcaraan yang kompleks, anda perlu tahu bagaimana untuk melabel bekas simpanan maklumat komputer (**Identifier**), mengurus perubahan nilai (**Variable & Constant**), dan memilih jenis data (**Data Types**) yang paling cekap.
+                        </p>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 p-5 rounded-2xl relative overflow-hidden">
+                        <div class="absolute right-0 bottom-0 translate-x-3 translate-y-3 opacity-10 text-blue-500 text-9xl">
+                            <i class="fa-solid fa-award"></i>
+                        </div>
+                        <h3 class="font-extrabold text-blue-800 text-lg mb-2"><i class="fa-solid fa-star mr-2"></i> Kumpul XP & Sijil</h3>
+                        <p class="text-sm text-slate-700 leading-relaxed">
+                            Ikuti 3 fasa pembelajaran utama di menu atas, uji kod di Sandbox Interaktif, kelaskan data melalui permainan padanan, dan tebus <strong>Sijil Pencapaian Digital</strong> khas atas nama anda!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- ANALOGY CARD -->
+                <div class="bg-slate-50 rounded-2xl p-6 border border-slate-200">
+                    <h3 class="font-extrabold text-slate-800 mb-4 flex items-center"><i class="fa-solid fa-arrows-spin text-rose-500 mr-2"></i> Analogi Mudah: Kehidupan Sebenar</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm text-center">
+                            <span class="text-3xl">🧑‍🎓</span>
+                            <h4 class="font-bold text-slate-800 mt-2">Nama Pelajar</h4>
+                            <p class="text-xs text-rose-600 font-bold mt-1">Ali</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm text-center">
+                            <span class="text-3xl">👩‍🏫</span>
+                            <h4 class="font-bold text-slate-800 mt-2">Nama Pensyarah</h4>
+                            <p class="text-xs text-blue-600 font-bold mt-1">Puan Aisyah</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm text-center">
+                            <span class="text-3xl">🏫</span>
+                            <h4 class="font-bold text-slate-800 mt-2">Nama Kelas</h4>
+                            <p class="text-xs text-amber-600 font-bold mt-1">DDT1A</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-4 text-center">
+                        Sama seperti di atas, dalam C++, setiap data memerlukan nama khas supaya komputer tahu maklumat itu kepunyaan siapa.
+                    </p>
+                </div>
+
+                <div class="flex justify-end pt-4">
+                    <button onclick="completeStepAndNext('pengenalan', 'identifier')" class="bg-rose-500 hover:bg-rose-600 text-white font-bold px-6 py-3 rounded-xl shadow-lg shadow-rose-200 transition-all flex items-center space-x-2">
+                        <span>Lanjut ke Modul 🚀</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB 2: IDENTIFIER, VARIABLE, CONSTANT & KEYWORDS -->
+            <div id="tab-content-identifier" class="tab-content space-y-6 hidden">
+                <div class="flex items-center space-x-4">
+                    <div class="bg-rose-100 text-rose-600 p-3 rounded-2xl">
+                        <i class="fa-solid fa-tag text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-black text-slate-800">Modul : Identifier, Variable, Constant & Keywords</h2>
+                        <p class="text-slate-500 font-medium">Asas melabel data, peraturan wajib pengaturcara, dan pengenalan kata kunci C++.</p>
+                    </div>
+                </div>
+
+                <hr class="border-slate-100">
+
+                <!-- SECTION 1: IDENTIFIER -->
+                <div class="space-y-4">
+                    <div class="border-l-4 border-rose-500 pl-4">
+                        <h3 class="text-lg font-bold text-slate-800">1. Apa itu Identifier?</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            <strong>Identifier</strong> ialah nama yang anda berikan kepada objek di dalam kod C++ seperti nama pemboleh ubah (variable), fungsi, atau objek bagi membolehkan komputer mengenal pasti kedudukan data tersebut dalam memori.
+                        </p>
+                    </div>
+
+                    <!-- CODE BOX -->
+                    <div class="bg-slate-900 rounded-xl p-4 text-emerald-400 font-mono text-xs sm:text-sm relative">
+                        <div class="absolute right-3 top-3 text-[10px] text-slate-500">C++ Code</div>
+                        <span class="text-indigo-400">int</span> <span class="text-amber-300">age</span>; <span class="text-slate-500">// 'age' ialah Identifier</span><br>
+                        <span class="text-indigo-400">float</span> <span class="text-amber-300">salary</span>; <span class="text-slate-500">// 'salary' ialah Identifier</span><br>
+                        <span class="text-indigo-400">string</span> <span class="text-amber-300">name</span>; <span class="text-slate-500">// 'name' ialah Identifier</span>
+                    </div>
+
+                    <!-- RULE OF IDENTIFIER -->
+                    <h4 class="font-extrabold text-slate-700 text-xs uppercase tracking-wider">Peraturan Menamakan Identifier</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="border border-emerald-200 bg-emerald-50/50 p-4 rounded-xl">
+                            <h5 class="font-bold text-emerald-800 text-xs sm:text-sm flex items-center mb-2"><i class="fa-solid fa-circle-check mr-2"></i> Boleh Diikuti (✅)</h5>
+                            <ul class="text-xs text-slate-700 space-y-2">
+                                <li>✨ Mengandungi huruf, nombor dan garis bawah (underscore <code class="bg-white px-1 border border-slate-200 rounded">_</code>).</li>
+                                <li class="font-mono">👉 studentName</li>
+                                <li class="font-mono">👉 student_name</li>
+                                <li class="font-mono">👉 mark1</li>
+                            </ul>
+                        </div>
+                        <div class="border border-rose-200 bg-rose-50/50 p-4 rounded-xl">
+                            <h5 class="font-bold text-rose-800 text-xs sm:text-sm flex items-center mb-2"><i class="fa-solid fa-circle-xmark mr-2"></i> Dilarang Sama Sekali (❌)</h5>
+                            <ul class="text-xs text-slate-700 space-y-2">
+                                <li>🚫 <strong>Mula dengan nombor</strong> (<code class="text-rose-500 font-mono bg-white border border-slate-200 px-1">1student</code>).</li>
+                                <li>🚫 <strong>Ada ruang kosong</strong> (<code class="text-rose-500 font-mono bg-white border border-slate-200 px-1">student name</code>).</li>
+                                <li>🚫 <strong>Guna Keyword C++</strong> (<code class="text-rose-500 font-mono bg-white border border-slate-200 px-1">int</code>, <code class="text-rose-500 font-mono bg-white border border-slate-200 px-1">float</code>).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- INTERACTIVE TOOL: REAL-TIME IDENTIFIER VALIDATOR -->
+                <div class="bg-gradient-to-tr from-amber-50 to-yellow-100 border border-yellow-200 rounded-2xl p-6 shadow-sm">
+                    <h3 class="font-extrabold text-amber-800 mb-2 flex items-center"><i class="fa-solid fa-spell-check mr-2 text-xl"></i> Penguji Identifier C++ Masa Nyata</h3>
+                    <p class="text-xs text-amber-700 mb-4">Cuba taip nama variabel yang anda inginkan di bawah untuk melihat jika ia mematuhi peraturan C++!</p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <input type="text" id="validator-input" oninput="validateIdentifier()" placeholder="Contoh: student_age, student1, int..." class="flex-1 px-4 py-3 border-2 border-amber-300 focus:border-amber-500 rounded-xl focus:outline-none font-mono text-sm shadow-inner">
+                        <div id="validator-btn-status" class="px-5 py-3 rounded-xl flex items-center justify-center font-bold text-sm min-w-[120px] bg-slate-200 text-slate-600 transition-all duration-300">
+                            Menunggu...
+                        </div>
+                    </div>
+
+                    <!-- VALIDATION MATRIX -->
+                    <div class="grid grid-cols-2 gap-4 mt-4 text-xs text-slate-600">
+                        <div id="v-rule-start" class="flex items-center space-x-2"><i class="fa-solid fa-circle text-slate-300"></i> <span>Tidak mula dengan nombor</span></div>
+                        <div id="v-rule-space" class="flex items-center space-x-2"><i class="fa-solid fa-circle text-slate-300"></i> <span>Tiada ruang kosong</span></div>
+                        <div id="v-rule-keyword" class="flex items-center space-x-2"><i class="fa-solid fa-circle text-slate-300"></i> <span>Bukan Keyword khas C++</span></div>
+                        <div id="v-rule-char" class="flex items-center space-x-2"><i class="fa-solid fa-circle text-slate-300"></i> <span>Huruf, _, & nombor sahaja</span></div>
+                    </div>
+                    <p id="validator-message" class="text-xs font-bold mt-3 text-slate-700 italic"></p>
+                </div>
+
+                <hr class="border-slate-100">
+
+                <!-- SECTION 2: VARIABLES & CONSTANTS -->
+                <div class="space-y-4">
+                    <div class="border-l-4 border-blue-500 pl-4">
+                        <h3 class="text-lg font-bold text-slate-800">2. Variable vs Constant</h3>
+                        <p class="text-slate-600 text-sm">
+                            Mari kita bezakan antara bekas simpanan fleksibel (Variable) dengan bekas nilai yang dikunci mati (Constant).
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Variable -->
+                        <div class="bg-blue-50/50 border border-blue-100 p-5 rounded-xl space-y-2">
+                            <h4 class="font-extrabold text-blue-950 text-sm flex items-center"><i class="fa-solid fa-glass-water text-blue-500 mr-2"></i> Variable (Pemboleh Ubah)</h4>
+                            <p class="text-xs text-slate-600">
+                                Bekas menyimpan data yang nilainya **boleh berubah** semasa program berjalan.
+                            </p>
+                            <div class="bg-white p-2.5 rounded border border-blue-100 text-[11px] font-mono text-slate-700">
+                                <span class="text-blue-600">int</span> age = 18;<br>
+                                age = 19; <span class="text-slate-400">// Nilai ditukar secara sah!</span>
+                            </div>
+                        </div>
+
+                        <!-- Constant -->
+                        <div class="bg-amber-50/50 border border-amber-100 p-5 rounded-xl space-y-2">
+                            <h4 class="font-extrabold text-amber-950 text-sm flex items-center"><i class="fa-solid fa-lock text-amber-600 mr-2"></i> Constant (Pemalar)</h4>
+                            <p class="text-xs text-slate-600">
+                                Nilainya **kekal tetap** dan tidak boleh diubah sekali ia ditetapkan. Menggunakan keyword <code class="bg-amber-100 text-amber-800 px-1 rounded font-mono text-[10px]">const</code>.
+                            </p>
+                            <div class="bg-white p-2.5 rounded border border-amber-100 text-[11px] font-mono text-slate-700">
+                                <span class="text-amber-600">const float</span> PI = 3.142;<br>
+                                <span class="text-rose-500">PI = 3.14; // ERROR! Nilai dikunci.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- INTERACTIVE EXPERIMENT: WATER BOTTLE SIMULATION -->
+                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6">
+                    <h3 class="font-extrabold text-slate-800 mb-4 flex items-center justify-between">
+                        <span>🧪 Eksperimen Visual: Adakah Nilainya Boleh Ditukar?</span>
+                        <span class="text-xs font-semibold px-2.5 py-1 bg-slate-200 text-slate-600 rounded-full">Cuba Klik Aksi!</span>
+                    </h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                        <div class="flex justify-around items-center h-44 bg-white rounded-xl border border-slate-100 p-4">
+                            <!-- Variable visual -->
+                            <div class="flex flex-col items-center">
+                                <span class="text-xs font-bold text-blue-600 mb-2 font-mono">int air = <span id="visual-var-val">300</span>ml</span>
+                                <div class="w-16 h-24 border-2 border-blue-300 rounded-b-xl rounded-t-sm relative bg-slate-50 overflow-hidden flex items-end">
+                                    <div id="variable-water" class="w-full bg-blue-400 transition-all duration-500" style="height: 60%;"></div>
+                                </div>
+                                <span class="text-xs font-semibold mt-2 text-slate-500">Variable (Botol Air)</span>
+                            </div>
+
+                            <!-- Constant visual -->
+                            <div class="flex flex-col items-center">
+                                <span class="text-xs font-bold text-amber-600 mb-2 font-mono">const int MERDEKA = 31</span>
+                                <div class="w-16 h-24 border-2 border-amber-400 rounded-b-xl rounded-t-sm relative bg-slate-50 overflow-hidden flex items-end">
+                                    <div class="absolute inset-0 flex items-center justify-center z-10 text-amber-600 bg-amber-50/50">
+                                        <i class="fa-solid fa-lock text-2xl animate-pulse"></i>
+                                    </div>
+                                    <div class="w-full bg-amber-300 h-1/3"></div>
+                                </div>
+                                <span class="text-xs font-semibold mt-2 text-slate-500">Constant (Tarikh Tetap)</span>
+                            </div>
+                        </div>
+
+                        <!-- Interactive Toggles -->
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="font-bold text-slate-700 text-xs mb-1">Aksi pada Variable:</h4>
+                                <div class="flex gap-2">
+                                    <button onclick="changeVariableWater(100)" class="bg-blue-500 hover:bg-blue-600 text-white font-bold text-[11px] px-3 py-1.5 rounded-lg transition-all shadow-sm">Isi Air (100ml)</button>
+                                    <button onclick="changeVariableWater(-100)" class="bg-blue-500 hover:bg-blue-600 text-white font-bold text-[11px] px-3 py-1.5 rounded-lg transition-all shadow-sm">Minum Air (-100ml)</button>
+                                </div>
+                                <p id="var-feedback" class="text-xs text-blue-600 font-semibold mt-1.5 italic">Nilai air boleh berubah bila-bila masa!</p>
+                            </div>
+
+                            <hr class="border-slate-100">
+
+                            <div>
+                                <h4 class="font-bold text-slate-700 text-xs mb-1">Aksi pada Constant:</h4>
+                                <button onclick="tryChangeConstant()" class="bg-amber-500 hover:bg-amber-600 text-white font-bold text-[11px] px-4 py-1.5 rounded-lg transition-all shadow-sm">Cuba Paksa Tukar Tarikh Merdeka kepada 25 Ogos</button>
+                                <p id="const-feedback" class="text-xs text-rose-500 font-semibold mt-1.5 italic"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="border-slate-100">
+
+                <!-- SECTION 3: INITIALIZE & KEYWORDS -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+                    <div class="space-y-3">
+                        <h4 class="font-extrabold text-slate-800 text-base flex items-center"><i class="fa-solid fa-wand-magic-sparkles text-rose-500 mr-2"></i> 3. Initialize Variables</h4>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            <strong>Initialize</strong> bermaksud meletakkan **nilai awal** di dalam variabel semasa ia diisytiharkan. Mengelakkan pemboleh ubah daripada memegang 'data sampah' rawak dalam memori.
+                        </p>
+                        <div class="grid grid-cols-2 gap-2 text-xs">
+                            <div class="bg-rose-50 border border-rose-100 p-2.5 rounded-lg text-center">
+                                <span class="block font-bold text-rose-800">Tanpa Initialize</span>
+                                <code class="font-mono text-[10px] text-slate-600 block mt-1">int age;</code>
+                            </div>
+                            <div class="bg-emerald-50 border border-emerald-100 p-2.5 rounded-lg text-center">
+                                <span class="block font-bold text-emerald-800">Sedia Initialize</span>
+                                <code class="font-mono text-[10px] text-slate-600 block mt-1">int age = 18;</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h4 class="font-extrabold text-slate-800 text-base flex items-center"><i class="fa-solid fa-key text-amber-500 mr-2"></i> 4. Keywords terpelihara C++</h4>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Bahasa C++ mempunyai **kata kunci khas** yang dikhaskan untuk fungsi asas pengaturcaraan. Anda dilarang menggunakannya sebagai nama pemboleh ubah.
+                        </p>
+                        <div class="grid grid-cols-4 gap-1.5 text-center text-[10px] font-mono font-bold text-slate-600">
+                            <span class="bg-slate-100 p-1.5 rounded">int</span>
+                            <span class="bg-slate-100 p-1.5 rounded">float</span>
+                            <span class="bg-slate-100 p-1.5 rounded">char</span>
+                            <span class="bg-slate-100 p-1.5 rounded">bool</span>
+                            <span class="bg-slate-100 p-1.5 rounded">if</span>
+                            <span class="bg-slate-100 p-1.5 rounded">else</span>
+                            <span class="bg-slate-100 p-1.5 rounded">while</span>
+                            <span class="bg-slate-100 p-1.5 rounded">const</span>
+                        </div>
+                        <p class="text-[10px] text-slate-400 italic">Analogi: Tempat parkir VIP khusus yang dilarang diletakkan kenderaan biasa!</p>
+                    </div>
+                </div>
+
+                <div class="flex justify-between pt-4 border-t border-slate-100">
+                    <button onclick="switchTab('pengenalan')" class="border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold px-6 py-3 rounded-xl transition-all">Kembali</button>
+                    <button onclick="completeStepAndNext('identifier', 'dataTypes')" class="bg-rose-500 hover:bg-rose-600 text-white font-bold px-6 py-3 rounded-xl shadow-lg shadow-rose-200 transition-all flex items-center space-x-2">
+                        <span>Seterusnya: Modul: Data Types</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB 3: DATA TYPES -->
+            <div id="tab-content-dataTypes" class="tab-content space-y-6 hidden">
+                <div class="flex items-center space-x-4">
+                    <div class="bg-rose-100 text-rose-600 p-3 rounded-2xl">
+                        <i class="fa-solid fa-layer-group text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-black text-slate-800">Modul iii: Data Types dalam C++</h2>
+                        <p class="text-slate-500 font-medium">Memilih saiz memori dan jenis data yang sesuai dengan jenis maklumat.</p>
+                    </div>
+                </div>
+
+                <hr class="border-slate-100">
+
+                <div class="bg-slate-50 rounded-2xl p-6 border border-slate-200 flex flex-col md:flex-row gap-4 items-center">
+                    <div class="md:w-2/3 space-y-3">
+                        <h3 class="font-extrabold text-slate-800 text-base">Apa itu Data Type?</h3>
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Jenis data memberitahu sistem komputer cara menterjemah bait memori komputer yang disimpan dan jumlah ruang bait (Bytes) yang diperuntukkan untuk sesuatu pemboleh ubah.
+                        </p>
+                        <div class="text-xs bg-amber-50 border border-amber-200 p-3 rounded-xl text-amber-800">
+                            <strong>Analogi Almari:</strong> Ada bahagian kasut 👟, rak baju 👕, dan rak buku 📚. Setiap benda diletakkan di dalam bahagian tersendiri mengikut kategori saiz.
+                        </div>
+                    </div>
+                    <div class="md:w-1/3 flex justify-center">
+                        <div class="text-center p-4 bg-white rounded-2xl border border-slate-100 shadow-sm animate-float">
+                            <span class="text-4xl">🗄️</span>
+                            <div class="text-xs font-bold text-slate-700 mt-2">Kategori Memori</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DETAILED DATA TYPES -->
+                <h3 class="text-lg font-bold text-slate-800 mt-4">Kategori Data Utama C++</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    <!-- int -->
+                    <div class="bg-white p-4 rounded-xl border border-rose-100 hover:shadow-md transition-all">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-mono font-bold text-rose-600">int</span>
+                            <span class="text-xs font-semibold px-2 py-0.5 bg-rose-50 text-rose-700 rounded-full">4 Bytes</span>
+                        </div>
+                        <h4 class="font-bold text-slate-800 text-sm">Integer (Nombor Bulat)</h4>
+                        <p class="text-xs text-slate-500 mt-1">Nombor tanpa sebarang titik perpuluhan.</p>
+                        <div class="font-mono text-[11px] text-rose-500 bg-slate-50 p-2 mt-2 rounded">int age = 18;</div>
+                    </div>
+
+                    <!-- float -->
+                    <div class="bg-white p-4 rounded-xl border border-blue-100 hover:shadow-md transition-all">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-mono font-bold text-blue-600">float</span>
+                            <span class="text-xs font-semibold px-2 py-0.5 bg-blue-50 text-blue-700 rounded-full">4 Bytes</span>
+                        </div>
+                        <h4 class="font-bold text-slate-800 text-sm">Floating Point (Perpuluhan)</h4>
+                        <p class="text-xs text-slate-500 mt-1">Untuk nombor pecahan perpuluhan tinggi.</p>
+                        <div class="font-mono text-[11px] text-blue-500 bg-slate-50 p-2 mt-2 rounded">float weight = 55.5;</div>
+                    </div>
+
+                    <!-- char -->
+                    <div class="bg-white p-4 rounded-xl border border-amber-100 hover:shadow-md transition-all">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-mono font-bold text-amber-600">char</span>
+                            <span class="text-xs font-semibold px-2 py-0.5 bg-amber-50 text-amber-700 rounded-full">1 Byte</span>
+                        </div>
+                        <h4 class="font-bold text-slate-800 text-sm">Character (Satu Aksara)</h4>
+                        <p class="text-xs text-slate-500 mt-1">Satu huruf diapit tanda petikan tunggal <code class="font-mono">'</code>.</p>
+                        <div class="font-mono text-[11px] text-amber-500 bg-slate-50 p-2 mt-2 rounded">char grade = 'A';</div>
+                    </div>
+
+                    <!-- bool -->
+                    <div class="bg-white p-4 rounded-xl border border-indigo-100 hover:shadow-md transition-all">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-mono font-bold text-indigo-600">bool</span>
+                            <span class="text-xs font-semibold px-2 py-0.5 bg-indigo-50 text-indigo-700 rounded-full">1 Byte</span>
+                        </div>
+                        <h4 class="font-bold text-slate-800 text-sm">Boolean (Logik Benar/Salah)</h4>
+                        <p class="text-xs text-slate-500 mt-1">Hanya mempunyai dua kemungkinan: <code class="font-mono">true</code> / <code class="font-mono">false</code>.</p>
+                        <div class="font-mono text-[11px] text-indigo-500 bg-slate-50 p-2 mt-2 rounded">bool pass = true;</div>
+                    </div>
+
+                    <!-- string -->
+                    <div class="bg-white p-4 rounded-xl border border-emerald-100 hover:shadow-md transition-all sm:col-span-2">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-mono font-bold text-emerald-600">string</span>
+                            <span class="text-xs font-semibold px-2 py-0.5 bg-emerald-50 text-emerald-700 rounded-full">Dinamik</span>
+                        </div>
+                        <h4 class="font-bold text-slate-800 text-sm">String (Rangkaian Aksara / Teks)</h4>
+                        <p class="text-xs text-slate-500 mt-1">Menyimpan perkataan atau satu ayat panjang diapit oleh tanda petikan berganda <code class="font-mono">"</code>.</p>
+                        <div class="font-mono text-[11px] text-emerald-500 bg-slate-50 p-2 mt-2 rounded">string course = "Diploma IT";</div>
+                    </div>
+                </div>
+
+                <!-- TABLE OF RANGES -->
+                <h3 class="text-lg font-bold text-slate-800 mt-4">Jadual Julat & Saiz Memori</h3>
+                <div class="overflow-x-auto rounded-xl border border-slate-200">
+                    <table class="w-full text-xs sm:text-sm text-left text-slate-600">
+                        <thead class="text-slate-700 bg-slate-100 font-bold">
+                            <tr>
+                                <th class="px-4 py-3">Data Type</th>
+                                <th class="px-4 py-3">Saiz (Byte)</th>
+                                <th class="px-4 py-3">Anggaran Julat</th>
+                                <th class="px-4 py-3">Contoh Kod</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b hover:bg-slate-50/50">
+                                <td class="px-4 py-3 font-mono font-bold text-slate-800">int</td>
+                                <td class="px-4 py-3">4</td>
+                                <td class="px-4 py-3">-2,147,483,648 hingga 2,147,483,647</td>
+                                <td class="px-4 py-3 font-mono text-rose-500">100</td>
+                            </tr>
+                            <tr class="border-b hover:bg-slate-50/50">
+                                <td class="px-4 py-3 font-mono font-bold text-slate-800">float</td>
+                                <td class="px-4 py-3">4</td>
+                                <td class="px-4 py-3">±3.4 × 10³⁸ (6-7 digit ketepatan)</td>
+                                <td class="px-4 py-3 font-mono text-rose-500">3.14</td>
+                            </tr>
+                            <tr class="border-b hover:bg-slate-50/50">
+                                <td class="px-4 py-3 font-mono font-bold text-slate-800">char</td>
+                                <td class="px-4 py-3">1</td>
+                                <td class="px-4 py-3">-128 hingga 127 (ASCII)</td>
+                                <td class="px-4 py-3 font-mono text-rose-500">'A'</td>
+                            </tr>
+                            <tr class="border-b hover:bg-slate-50/50">
+                                <td class="px-4 py-3 font-mono font-bold text-slate-800">bool</td>
+                                <td class="px-4 py-3">1</td>
+                                <td class="px-4 py-3">true (1) atau false (0)</td>
+                                <td class="px-4 py-3 font-mono text-rose-500">true</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50/50">
+                                <td class="px-4 py-3 font-mono font-bold text-slate-800">string</td>
+                                <td class="px-4 py-3">Dinamik</td>
+                                <td class="px-4 py-3">Tiada had tetap</td>
+                                <td class="px-4 py-3 font-mono text-rose-500">"Hello"</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="flex justify-between pt-4">
+                    <button onclick="switchTab('identifier')" class="border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold px-6 py-3 rounded-xl transition-all">Kembali</button>
+                    <button onclick="completeStepAndNext('dataTypes', 'sandbox')" class="bg-rose-500 hover:bg-rose-600 text-white font-bold px-6 py-3 rounded-xl shadow-lg shadow-rose-200 transition-all flex items-center space-x-2">
+                        <span>Seterusnya: Makmal Sandbox</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB 4: SANDBOX KOD (INTERACTIVE LAB) -->
+            <div id="tab-content-sandbox" class="tab-content space-y-6 hidden">
+                <div class="flex items-center space-x-4">
+                    <div class="bg-rose-100 text-rose-600 p-3 rounded-2xl">
+                        <i class="fa-solid fa-flask text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-black text-slate-800">Makmal Sandbox Kod C++</h2>
+                        <p class="text-slate-500">Kombinasikan pemboleh ubah secara interaktif untuk melihat kompilasi output terminal!</p>
+                    </div>
+                </div>
+
+                <hr class="border-slate-100">
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <!-- Left: Control panel -->
+                    <div class="lg:col-span-5 bg-slate-50 rounded-2xl p-4 border border-slate-200 space-y-4">
+                        <h3 class="font-bold text-slate-700 text-xs sm:text-sm flex items-center"><i class="fa-solid fa-sliders mr-2"></i> Pengawal Nilai Variabel</h3>
+                        
+                        <!-- 1. Name Input -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-1">string name (Teks)</label>
+                            <input type="text" id="sb-input-name" value="Ali" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs font-mono font-bold focus:outline-none focus:border-rose-500" oninput="updateSandboxOutput()">
+                        </div>
+
+                        <!-- 2. Age Slider -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-1 flex justify-between">
+                                <span>int age (Nombor Bulat)</span>
+                                <span id="sb-lbl-age" class="font-mono text-rose-600">18</span>
+                            </label>
+                            <input type="range" id="sb-input-age" min="1" max="100" value="18" class="w-full accent-rose-500" oninput="document.getElementById('sb-lbl-age').innerText = this.value; updateSandboxOutput();">
+                        </div>
+
+                        <!-- 3. Height Select -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-1">float height (Nombor Perpuluhan)</label>
+                            <select id="sb-input-height" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs font-mono font-bold focus:outline-none focus:border-rose-500" onchange="updateSandboxOutput()">
+                                <option value="1.62">1.62 meter</option>
+                                <option value="1.75">1.75 meter</option>
+                                <option value="1.80">1.80 meter</option>
+                                <option value="1.55">1.55 meter</option>
+                            </select>
+                        </div>
+
+                        <!-- 4. Grade Select -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-1">char grade (Aksara Tunggal)</label>
+                            <div class="flex gap-2">
+                                <label class="flex-1 text-center border border-slate-300 rounded-lg p-1 text-xs font-mono font-bold cursor-pointer hover:bg-rose-50 select-none">
+                                    <input type="radio" name="sb-grade" value="A" checked class="hidden" onchange="updateSandboxOutput()">
+                                    <span>A</span>
+                                </label>
+                                <label class="flex-1 text-center border border-slate-300 rounded-lg p-1 text-xs font-mono font-bold cursor-pointer hover:bg-rose-50 select-none">
+                                    <input type="radio" name="sb-grade" value="B" class="hidden" onchange="updateSandboxOutput()">
+                                    <span>B</span>
+                                </label>
+                                <label class="flex-1 text-center border border-slate-300 rounded-lg p-1 text-xs font-mono font-bold cursor-pointer hover:bg-rose-50 select-none">
+                                    <input type="radio" name="sb-grade" value="C" class="hidden" onchange="updateSandboxOutput()">
+                                    <span>C</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- 5. Pass Boolean Checkbox -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-1">bool pass (Benar / Gagal)</label>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="sb-input-pass" checked class="w-4 h-4 text-emerald-600 border-slate-300 rounded focus:ring-emerald-500" onchange="updateSandboxOutput()">
+                                <span class="text-xs text-slate-600 font-bold" id="sb-lbl-pass">true</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Live Code & Compiler Console Simulation -->
+                    <div class="lg:col-span-7 flex flex-col gap-4">
+                        <div class="bg-slate-900 rounded-2xl p-4 shadow-md font-mono text-xs sm:text-sm text-slate-300 relative">
+                            <div class="absolute right-4 top-2 text-[10px] text-slate-500">PROGRAM UTAMA</div>
+                            <span class="text-emerald-500">#include &lt;iostream&gt;</span><br>
+                            <span class="text-emerald-500">using namespace std;</span><br><br>
+                            <span class="text-blue-400">int</span> <span class="text-amber-400">main</span>()<br>
+                            {<br>
+                            <span class="pl-4 text-slate-500">// Isytihar dan beri nilai awal (Initialize)</span><br>
+                            <span class="pl-4 text-indigo-400">string</span> name = <span class="text-amber-200">"<span id="code-name">Ali</span>"</span>;<br>
+                            <span class="pl-4 text-indigo-400">int</span> age = <span class="text-amber-200"><span id="code-age">18</span></span>;<br>
+                            <span class="pl-4 text-indigo-400">float</span> height = <span class="text-amber-200"><span id="code-height">1.62</span></span>;<br>
+                            <span class="pl-4 text-indigo-400">char</span> grade = <span class="text-amber-200">'<span id="code-grade">A</span>'</span>;<br>
+                            <span class="pl-4 text-indigo-400">bool</span> pass = <span class="text-amber-200"><span id="code-pass">true</span></span>;<br><br>
+                            
+                            <span class="pl-4 text-rose-400">cout</span> &lt;&lt; <span class="text-amber-200">"Name   : "</span> &lt;&lt; name &lt;&lt; endl;<br>
+                            <span class="pl-4 text-rose-400">cout</span> &lt;&lt; <span class="text-amber-200">"Age    : "</span> &lt;&lt; age &lt;&lt; endl;<br>
+                            <span class="pl-4 text-rose-400">cout</span> &lt;&lt; <span class="text-amber-200">"Height : "</span> &lt;&lt; height &lt;&lt; endl;<br>
+                            <span class="pl-4 text-rose-400">cout</span> &lt;&lt; <span class="text-amber-200">"Grade  : "</span> &lt;&lt; grade &lt;&lt; endl;<br>
+                            <span class="pl-4 text-rose-400">cout</span> &lt;&lt; <span class="text-amber-200">"Pass   : "</span> &lt;&lt; pass &lt;&lt; endl;<br><br>
+                            <span class="pl-4 text-indigo-400">return</span> 0;<br>
+                            }
+                        </div>
+
+                        <!-- Simulated Compiler Terminal Output -->
+                        <div class="bg-black text-emerald-400 rounded-2xl p-4 font-mono text-xs shadow-md border-2 border-slate-800">
+                            <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-2 text-slate-500">
+                                <span class="font-bold flex items-center"><span class="w-3 h-3 bg-red-500 rounded-full mr-1.5 inline-block"></span><span class="w-3 h-3 bg-yellow-500 rounded-full mr-1.5 inline-block"></span><span class="w-3 h-3 bg-emerald-500 rounded-full mr-1.5 inline-block"></span> OUTPUT KONSOL SIMULASI</span>
+                                <button onclick="runSandboxAnimation()" class="bg-emerald-500 hover:bg-emerald-600 text-black font-extrabold px-3 py-1 rounded transition-all text-[11px]"><i class="fa-solid fa-play mr-1 animate-ping"></i> KOMPIL & JALAN</button>
+                            </div>
+                            <div id="sandbox-compiler-terminal" class="space-y-1 h-32 overflow-y-auto custom-scrollbar pt-2">
+                                <!-- Dynamic Output -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-between pt-4">
+                    <button onclick="switchTab('dataTypes')" class="border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold px-6 py-3 rounded-xl transition-all">Kembali</button>
+                    <button onclick="completeStepAndNext('sandbox', 'game')" class="bg-rose-500 hover:bg-rose-600 text-white font-bold px-6 py-3 rounded-xl shadow-lg shadow-rose-200 transition-all flex items-center space-x-2">
+                        <span>Seterusnya: Main Game Padanan</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB 5: PERMAINAN PADANAN DATA -->
+            <div id="tab-content-game" class="tab-content space-y-6 hidden">
+                <div class="flex items-center space-x-4">
+                    <div class="bg-rose-100 text-rose-600 p-3 rounded-2xl">
+                        <i class="fa-solid fa-gamepad text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-black text-slate-800">Permainan Padanan Data C++</h2>
+                        <p class="text-slate-500 font-medium font-mono text-xs sm:text-sm">Isikan data berikut ke dalam balang pemboleh ubah (Data Type) yang paling betul!</p>
+                    </div>
+                </div>
+
+                <hr class="border-slate-100">
+
+                <div class="bg-gradient-to-r from-rose-500 to-indigo-600 text-white rounded-2xl p-6 text-center shadow-lg relative overflow-hidden">
+                    <div id="game-confetti-container" class="absolute inset-0 pointer-events-none"></div>
+                    
+                    <span class="text-4xl">🎮</span>
+                    <h3 class="text-xl font-black mt-2">Misi: Kelaskan Jenis Data</h3>
+                    <p class="text-xs sm:text-sm mt-1 opacity-90 max-w-lg mx-auto">
+                        Klik pada mana-mana **Kepingan Data** di bawah, kemudian klik pada **Balang Data Type** di bawahnya untuk menyusunnya dengan selamat!
+                    </p>
+                    
+                    <div class="mt-4 flex justify-center space-x-6 text-sm font-bold">
+                        <div>
+                            <span class="opacity-75">Markah Semasa:</span>
+                            <span id="game-score" class="bg-white/20 px-2.5 py-0.5 rounded-full ml-1">0 / 8</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <div>
+                        <h4 class="font-bold text-slate-700 text-sm mb-3 text-center sm:text-left"><i class="fa-solid fa-hand-pointer text-rose-500 mr-2"></i> Pilih Kepingan Data:</h4>
+                        <div id="game-elements-container" class="flex flex-wrap justify-center gap-2.5">
+                            <!-- Items populated dynamically -->
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="font-bold text-slate-700 text-sm mb-3 text-center sm:text-left"><i class="fa-solid fa-box-open text-blue-500 mr-2"></i> Sasar ke Balang Data Type:</h4>
+                        <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+                            <!-- int container -->
+                            <div onclick="dropToTarget('int')" class="game-target border-2 border-dashed border-rose-300 hover:border-rose-500 bg-rose-50/20 p-4 rounded-2xl text-center cursor-pointer transition-all">
+                                <span class="font-mono font-bold text-rose-600 block text-sm">int</span>
+                                <span class="text-xs text-slate-400 block mb-2">(Nombor Bulat)</span>
+                                <div id="target-int" class="flex flex-col gap-1 items-center justify-center min-h-[60px]"></div>
+                            </div>
+
+                            <!-- float container -->
+                            <div onclick="dropToTarget('float')" class="game-target border-2 border-dashed border-blue-300 hover:border-blue-500 bg-blue-50/20 p-4 rounded-2xl text-center cursor-pointer transition-all">
+                                <span class="font-mono font-bold text-blue-600 block text-sm">float</span>
+                                <span class="text-xs text-slate-400 block mb-2">(Perpuluhan)</span>
+                                <div id="target-float" class="flex flex-col gap-1 items-center justify-center min-h-[60px]"></div>
+                            </div>
+
+                            <!-- char container -->
+                            <div onclick="dropToTarget('char')" class="game-target border-2 border-dashed border-amber-300 hover:border-amber-500 bg-amber-50/20 p-4 rounded-2xl text-center cursor-pointer transition-all">
+                                <span class="font-mono font-bold text-amber-600 block text-sm">char</span>
+                                <span class="text-xs text-slate-400 block mb-2">(Aksara Tunggal)</span>
+                                <div id="target-char" class="flex flex-col gap-1 items-center justify-center min-h-[60px]"></div>
+                            </div>
+
+                            <!-- bool container -->
+                            <div onclick="dropToTarget('bool')" class="game-target border-2 border-dashed border-indigo-300 hover:border-indigo-500 bg-indigo-50/20 p-4 rounded-2xl text-center cursor-pointer transition-all">
+                                <span class="font-mono font-bold text-indigo-600 block text-sm">bool</span>
+                                <span class="text-xs text-slate-400 block mb-2">(True / False)</span>
+                                <div id="target-bool" class="flex flex-col gap-1 items-center justify-center min-h-[60px]"></div>
+                            </div>
+
+                            <!-- string container -->
+                            <div onclick="dropToTarget('string')" class="game-target border-2 border-dashed border-emerald-300 hover:border-emerald-500 bg-emerald-50/20 p-4 rounded-2xl text-center cursor-pointer transition-all">
+                                <span class="font-mono font-bold text-emerald-600 block text-sm">string</span>
+                                <span class="text-xs text-slate-400 block mb-2">(Teks Panjang)</span>
+                                <div id="target-string" class="flex flex-col gap-1 items-center justify-center min-h-[60px]"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-center">
+                        <button onclick="resetGame()" class="border border-slate-300 hover:bg-slate-50 text-slate-700 font-bold text-xs px-4 py-2 rounded-xl transition-all"><i class="fa-solid fa-arrow-rotate-right mr-1.5"></i> Set Semula Permainan</button>
+                    </div>
+                </div>
+
+                <div class="flex justify-between pt-4">
+                    <button onclick="switchTab('sandbox')" class="border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold px-6 py-3 rounded-xl transition-all">Kembali</button>
+                    <button onclick="completeStepAndNext('game', 'quiz')" class="bg-rose-500 hover:bg-rose-600 text-white font-bold px-6 py-3 rounded-xl shadow-lg shadow-rose-200 transition-all flex items-center space-x-2">
+                        <span>Langkah Akhir: Ambil Kuiz</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB 6: KUIZ INTERAKTIF & SIJIL -->
+            <div id="tab-content-quiz" class="tab-content space-y-6 hidden">
+                <div class="flex items-center space-x-4">
+                    <div class="bg-rose-100 text-rose-600 p-3 rounded-2xl">
+                        <i class="fa-solid fa-square-poll-horizontal text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-black text-slate-800">Ujian Kefahaman Akhir & Sijil</h2>
+                        <p class="text-slate-500 font-medium">Jawab kuiz mini 5 soalan rawak untuk menjana sijil digital rasmi!</p>
+                    </div>
+                </div>
+
+                <hr class="border-slate-100">
+
+                <div id="quiz-intro" class="bg-slate-50 p-6 rounded-2xl border border-slate-200 text-center space-y-4">
+                    <div class="text-4xl">🎓</div>
+                    <h3 class="text-lg font-extrabold text-slate-800">Sedia Menjadi Guru C++?</h3>
+                    <p class="text-xs sm:text-sm text-slate-500 max-w-lg mx-auto">
+                        Jawab sekurang-kurangnya **3 soalan dengan betul** untuk membuktikan penguasaan silibus anda dan membuka kunci penjana Sijil Penghargaan Digital!
+                    </p>
+                    <button onclick="startQuiz()" class="bg-rose-500 hover:bg-rose-600 text-white font-bold px-6 py-2.5 rounded-xl shadow-md transition-all">Mula Kuiz Sekarang</button>
+                </div>
+
+                <!-- Active Quiz -->
+                <div id="quiz-playground" class="hidden space-y-6">
+                    <div class="flex items-center justify-between text-xs font-bold text-slate-400">
+                        <span id="quiz-question-counter">Soalan 1 dari 5</span>
+                        <span id="quiz-question-score">Skor: 0</span>
+                    </div>
+
+                    <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                        <div id="quiz-progress-bar" class="bg-gradient-to-r from-rose-500 to-amber-400 h-full transition-all duration-300" style="width: 20%;"></div>
+                    </div>
+
+                    <div class="bg-white p-6 border border-slate-150 rounded-2xl space-y-4 shadow-sm">
+                        <h3 id="quiz-question-text" class="text-base font-extrabold text-slate-800 leading-snug">Sila tunggu...</h3>
+                        <div id="quiz-options" class="grid grid-cols-1 gap-3">
+                            <!-- Options populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUIZ RESULT & CERTIFICATE -->
+                <div id="quiz-results" class="hidden text-center space-y-6">
+                    <div class="bg-emerald-50 border border-emerald-200 p-6 rounded-2xl max-w-xl mx-auto space-y-4">
+                        <div class="text-4xl" id="quiz-result-emoji">🎉</div>
+                        <h3 class="text-xl font-black text-emerald-800" id="quiz-result-title">Tahniah! Anda Lulus!</h3>
+                        <p class="text-xs sm:text-sm text-slate-600" id="quiz-result-text">
+                            Penguasaan cemerlang. Sijil penyelesaian silibus anda sedia dicetak!
+                        </p>
+                        <div class="text-2xl font-black text-slate-800" id="quiz-result-score-txt">5 / 5</div>
+                    </div>
+
+                    <!-- CERTIFICATE -->
+                    <div id="certificate-box" class="hidden max-w-2xl mx-auto bg-white border-[12px] border-double border-rose-500 p-6 sm:p-10 rounded-2xl shadow-xl relative overflow-hidden font-sans text-center">
+                        <div class="absolute inset-0 bg-[radial-gradient(#ffe4e6_1px,transparent_1px)] [background-size:16px_16px] opacity-30"></div>
+                        <div class="absolute -right-12 -top-12 w-28 h-28 bg-rose-500 rotate-45 flex items-end justify-center pb-2 text-white font-black text-xs shadow-md">LEARN</div>
+
+                        <div class="relative z-10 space-y-6">
+                            <span class="text-rose-500 text-3xl font-extrabold tracking-widest block uppercase">Sijil Penghargaan</span>
+                            <p class="text-xs text-slate-500 italic">Sijil digital ini dengan bangganya dianugerahkan kepada</p>
+                            <h4 id="cert-user-name" class="text-2xl sm:text-3xl font-black text-slate-800 border-b border-rose-200 pb-2 inline-block px-8">Pelajar Cemerlang</h4>
+                            
+                            <p class="text-xs text-slate-600 max-w-md mx-auto leading-relaxed">
+                                kerana telah berjaya menyempurnakan keseluruhan modul interaktif <br>
+                                <strong class="text-rose-600">Topik C++ 2.2: Identifier, Variable, Constant & Data Types</strong> <br>
+                                di platform pembelajaran interaktif LearnC++.
+                            </p>
+
+                            <div class="grid grid-cols-2 gap-6 pt-6 text-xs text-slate-500 max-w-md mx-auto">
+                                <div class="text-center">
+                                    <span class="block border-b border-slate-200 pb-1 font-mono text-[10px]" id="cert-date">15 Julai 2026</span>
+                                    <span>Tarikh Pengijazahan</span>
+                                </div>
+                                <div class="text-center">
+                                    <span class="block border-b border-slate-200 pb-1 font-signature text-rose-500 font-bold italic">LearnC++ Engine</span>
+                                    <span>Sistem Pengesahan</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="flex flex-col sm:flex-row justify-center gap-3">
+                        <button onclick="startQuiz()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-5 py-2.5 rounded-xl text-xs transition-all">Cuba Lagi</button>
+                        <button onclick="printCertificate()" id="btn-print-cert" class="bg-rose-500 hover:bg-rose-600 text-white font-extrabold px-6 py-2.5 rounded-xl text-xs shadow-lg shadow-rose-200 transition-all flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-print"></i>
+                            <span>Cetak Sijil Digital (PDF / Kertas)</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex justify-between pt-4">
+                    <button onclick="switchTab('game')" class="border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold px-6 py-3 rounded-xl transition-all">Kembali</button>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-slate-400 py-6 text-center text-xs border-t border-slate-800 mt-auto">
+        <div class="max-w-7xl mx-auto px-4">
+            <p class="font-medium">© 2026 HAK MILIK PN FARIHAN ELYANA BINTI ZAHARI, JTMK PTSS</p>
+            <p class="text-slate-600 mt-1 font-mono text-[10px]">Coded with ❤️ using HTML & Tailwind CSS</p>
+        </div>
+    </footer>
+
+    <!-- BUSINESS LOGIC JAVASCRIPT -->
+    <script>
+        // Page Loading Initialization
+        window.onload = function() {
+            switchTab('pengenalan');
+            initGame();
+        };
+
+        // Switch Chapter Tabs with smooth transition
+        function switchTab(tabId) {
+            SoundFX.playClick();
+            
+            // Highlight Sidebar Tab Buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = "tab-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center justify-between text-sm font-medium transition-all duration-200 text-slate-600 hover:bg-slate-50";
+            });
+            const activeBtn = document.getElementById(`btn-${tabId}`);
+            if (activeBtn) {
+                activeBtn.className = "tab-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center justify-between text-sm font-semibold transition-all duration-200 bg-rose-50 text-rose-600";
+            }
+
+            // Highlight Top Menu Tab Buttons
+            document.querySelectorAll('.top-tab-btn').forEach(btn => {
+                btn.className = "top-tab-btn px-4 py-2 rounded-full text-xs font-bold transition-all duration-200 bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200";
+            });
+            const activeTopBtn = document.getElementById(`top-btn-${tabId}`);
+            if (activeTopBtn) {
+                activeTopBtn.className = "top-tab-btn px-4 py-2 rounded-full text-xs font-bold transition-all duration-200 bg-rose-500 text-white border border-rose-500 shadow-sm";
+                activeTopBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }
+
+            // Hide/Show Pages
+            document.querySelectorAll('.tab-content').forEach(page => {
+                page.classList.add('hidden');
+            });
+            document.getElementById(`tab-content-${tabId}`).classList.remove('hidden');
+            
+            State.currentTab = tabId;
+
+            // Trigger action specific initialization
+            if (tabId === 'sandbox') {
+                updateSandboxOutput();
+            }
+        }
+
+        // Marking milestones and giving XP
+        function completeStepAndNext(completedTabId, nextTabId) {
+            if (!State.completedSteps[completedTabId]) {
+                State.completedSteps[completedTabId] = true;
+                addXP(50);
+                
+                const chk = document.getElementById(`chk-${completedTabId}`);
+                if (chk) chk.classList.remove('hidden');
+            }
+            switchTab(nextTabId);
+        }
+
+        // ------------------ TAB 2: IDENTIFIER VALIDATOR SYSTEM ------------------
+        const cppKeywords = ['alignas', 'alignof', 'and', 'and_eq', 'asm', 'atomic_cancel', 'atomic_commit', 'atomic_noexcept', 'auto', 'bitand', 'bitor', 'bool', 'break', 'case', 'catch', 'char', 'char8_t', 'char16_t', 'char32_t', 'class', 'compl', 'concept', 'const', 'consteval', 'constexpr', 'constinit', 'const_cast', 'continue', 'co_await', 'co_return', 'co_yield', 'decltype', 'default', 'delete', 'do', 'double', 'dynamic_cast', 'else', 'enum', 'explicit', 'export', 'extern', 'false', 'float', 'for', 'friend', 'goto', 'if', 'inline', 'int', 'long', 'mutable', 'namespace', 'new', 'noexcept', 'not', 'not_eq', 'nullptr', 'operator', 'or', 'or_eq', 'private', 'protected', 'public', 'reflexpr', 'register', 'reinterpret_cast', 'requires', 'return', 'short', 'signed', 'sizeof', 'static', 'static_assert', 'static_cast', 'struct', 'switch', 'synchronized', 'template', 'this', 'thread_local', 'throw', 'true', 'try', 'typedef', 'typeid', 'typename', 'union', 'unsigned', 'using', 'virtual', 'void', 'volatile', 'wchar_t', 'while', 'xor', 'xor_eq'];
+
+        function validateIdentifier() {
+            const input = document.getElementById('validator-input').value.trim();
+            const btnStatus = document.getElementById('validator-btn-status');
+            const msg = document.getElementById('validator-message');
+
+            const ruleStart = document.getElementById('v-rule-start');
+            const ruleSpace = document.getElementById('v-rule-space');
+            const ruleKeyword = document.getElementById('v-rule-keyword');
+            const ruleChar = document.getElementById('v-rule-char');
+
+            if (input === "") {
+                btnStatus.innerText = "Menunggu...";
+                btnStatus.className = "px-5 py-3 rounded-xl flex items-center justify-center font-bold text-sm min-w-[120px] bg-slate-200 text-slate-600 transition-all duration-300";
+                msg.innerText = "";
+                resetRuleIcons([ruleStart, ruleSpace, ruleKeyword, ruleChar]);
+                return;
+            }
+
+            let valid = true;
+            let checks = {
+                start: !/^[0-9]/.test(input),
+                space: !/\s/.test(input),
+                keyword: !cppKeywords.includes(input),
+                char: /^[a-zA-Z0-9_]+$/.test(input)
+            };
+
+            // Toggle Visual Rule Checks
+            toggleRuleStatus(ruleStart, checks.start);
+            toggleRuleStatus(ruleSpace, checks.space);
+            toggleRuleStatus(ruleKeyword, checks.keyword);
+            toggleRuleStatus(ruleChar, checks.char);
+
+            if (checks.start && checks.space && checks.keyword && checks.char) {
+                btnStatus.innerText = "SAH ✅";
+                btnStatus.className = "px-5 py-3 rounded-xl flex items-center justify-center font-bold text-sm min-w-[120px] bg-emerald-500 text-white shadow-md shadow-emerald-200 transition-all duration-300 animate-bounce";
+                msg.innerText = `"${input}" ialah nama pemboleh ubah yang SAH dalam C++! 👍`;
+                msg.className = "text-xs font-bold mt-3 text-emerald-600 italic";
+            } else {
+                btnStatus.innerText = "RALAT ❌";
+                btnStatus.className = "px-5 py-3 rounded-xl flex items-center justify-center font-bold text-sm min-w-[120px] bg-rose-500 text-white shadow-md shadow-rose-200 transition-all duration-300";
+                
+                let warningText = "Identifier tidak sah. ";
+                if (!checks.start) warningText += "Sebab: Tidak boleh bermula dengan nombor.";
+                else if (!checks.space) warningText += "Sebab: Tidak boleh mengandungi ruang kosong.";
+                else if (!checks.keyword) warningText += `Sebab: "${input}" ialah Keyword C++ terpelihara.`;
+                else if (!checks.char) warningText += "Sebab: Hanya huruf, nombor, dan underscore (_) dibenarkan.";
+                
+                msg.innerText = warningText;
+                msg.className = "text-xs font-bold mt-3 text-rose-600 italic";
+            }
+        }
+
+        function toggleRuleStatus(element, isPassed) {
+            if (isPassed) {
+                element.className = "flex items-center space-x-2 text-emerald-600 font-semibold";
+                element.innerHTML = `<i class="fa-solid fa-circle-check"></i> <span>${element.querySelector('span').innerText}</span>`;
+            } else {
+                element.className = "flex items-center space-x-2 text-rose-500 font-semibold";
+                element.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> <span>${element.querySelector('span').innerText}</span>`;
+            }
+        }
+
+        function resetRuleIcons(elements) {
+            elements.forEach(element => {
+                element.className = "flex items-center space-x-2 text-slate-600";
+                element.innerHTML = `<i class="fa-solid fa-circle text-slate-300"></i> <span>${element.querySelector('span').innerText}</span>`;
+            });
+        }
+
+        // ------------------ TAB 2: WATER BOTTLE SIMULATION ------------------
+        let waterVal = 300;
+        function changeVariableWater(amount) {
+            SoundFX.playClick();
+            waterVal = Math.max(0, Math.min(500, waterVal + amount));
+            document.getElementById('visual-var-val').innerText = waterVal;
+            
+            const heightPercentage = (waterVal / 500) * 100;
+            document.getElementById('variable-water').style.height = `${heightPercentage}%`;
+            
+            const feedback = document.getElementById('var-feedback');
+            feedback.innerText = `Lulus! Air dalam botol ditukar ke ${waterVal}ml. (Variable dibenarkan berubah)`;
+            feedback.className = "text-xs text-blue-600 font-semibold mt-1.5 italic";
+        }
+
+        function tryChangeConstant() {
+            SoundFX.playError();
+            const feedback = document.getElementById('const-feedback');
+            feedback.innerText = "❌ ERROR: Cannot assign to variable with const-qualified type 'const int'!";
+            feedback.className = "text-xs text-rose-600 font-mono font-bold mt-1.5 p-2 bg-rose-50 border border-rose-200 rounded";
+            
+            const lock = document.querySelector('.fa-lock');
+            lock.classList.add('animate-ping');
+            setTimeout(() => {
+                lock.classList.remove('animate-ping');
+            }, 500);
+        }
+
+        // ------------------ TAB 4: SANDBOX KOD SIMULATION ------------------
+        function updateSandboxOutput() {
+            const name = document.getElementById('sb-input-name').value;
+            const age = document.getElementById('sb-input-age').value;
+            const height = document.getElementById('sb-input-height').value;
+            const gradeChecked = document.querySelector('input[name="sb-grade"]:checked');
+            const grade = gradeChecked ? gradeChecked.value : 'A';
+            const pass = document.getElementById('sb-input-pass').checked;
+
+            // Sync visual code
+            document.getElementById('code-name').innerText = name;
+            document.getElementById('code-age').innerText = age;
+            document.getElementById('code-height').innerText = height;
+            document.getElementById('code-grade').innerText = grade;
+            document.getElementById('code-pass').innerText = pass ? "true" : "false";
+            document.getElementById('sb-lbl-pass').innerText = pass ? "true" : "false";
+
+            generateConsole(name, age, height, grade, pass);
+        }
+
+        function runSandboxAnimation() {
+            SoundFX.playSuccess();
+            const terminal = document.getElementById('sandbox-compiler-terminal');
+            terminal.innerHTML = `<div class="text-slate-400">g++ program.cpp -o program...</div>
+                                  <div class="text-slate-400">Running output:</div>
+                                  <div class="text-amber-300">---------------------------------</div>`;
+            setTimeout(() => {
+                updateSandboxOutput();
+            }, 400);
+        }
+
+        function generateConsole(name, age, height, grade, pass) {
+            const terminal = document.getElementById('sandbox-compiler-terminal');
+            terminal.innerHTML = `
+                <div class="text-slate-400">> Kompilan Berjaya! Melaksanakan program...</div>
+                <div class="text-white font-bold">Name   : <span class="text-emerald-300">${name}</span></div>
+                <div class="text-white font-bold">Age    : <span class="text-emerald-300">${age}</span></div>
+                <div class="text-white font-bold">Height : <span class="text-emerald-300">${height} m</span></div>
+                <div class="text-white font-bold">Grade  : <span class="text-emerald-300">${grade}</span></div>
+                <div class="text-white font-bold">Pass   : <span class="text-emerald-300">${pass ? "1" : "0"}</span></div>
+                <div class="text-slate-500 text-[10px] pt-2 italic">Nota: Nilai bool secara lalai dipaparkan sebagai 1 untuk true dan 0 untuk false di dalam konsol C++!</div>
+            `;
+        }
+
+        // ------------------ TAB 5: MATCHING GAME SYSTEM ------------------
+        const gameItems = [
+            { id: 1, val: "35", type: "int" },
+            { id: 2, val: "55.5", type: "float" },
+            { id: 3, val: "'A'", type: "char" },
+            { id: 4, val: "true", type: "bool" },
+            { id: 5, val: `"Ali"`, type: "string" },
+            { id: 6, val: "2026", type: "int" },
+            { id: 7, val: "1.62", type: "float" },
+            { id: 8, val: `"Diploma IT"`, type: "string" }
+        ];
+
+        let selectedGameItem = null;
+
+        function initGame() {
+            const container = document.getElementById('game-elements-container');
+            container.innerHTML = "";
+            
+            document.getElementById('target-int').innerHTML = "";
+            document.getElementById('target-float').innerHTML = "";
+            document.getElementById('target-char').innerHTML = "";
+            document.getElementById('target-bool').innerHTML = "";
+            document.getElementById('target-string').innerHTML = "";
+
+            State.gameScore = 0;
+            document.getElementById('game-score').innerText = `0 / ${gameItems.length}`;
+
+            const shuffled = [...gameItems].sort(() => Math.random() - 0.5);
+            shuffled.forEach(item => {
+                const element = document.createElement('button');
+                element.id = `game-item-${item.id}`;
+                element.className = "bg-white border-2 border-slate-200 hover:border-indigo-400 hover:shadow-sm px-4 py-2.5 rounded-xl text-xs font-mono font-extrabold cursor-pointer transition-all duration-200 text-slate-800";
+                element.innerText = item.val;
+                element.onclick = () => selectGameItem(item);
+                container.appendChild(element);
+            });
+        }
+
+        function selectGameItem(item) {
+            SoundFX.playClick();
+            
+            if (selectedGameItem) {
+                const prev = document.getElementById(`game-item-${selectedGameItem.id}`);
+                if (prev) prev.className = "bg-white border-2 border-slate-200 hover:border-indigo-400 hover:shadow-sm px-4 py-2.5 rounded-xl text-xs font-mono font-extrabold cursor-pointer transition-all duration-200 text-slate-800";
+            }
+
+            selectedGameItem = item;
+            
+            const curr = document.getElementById(`game-item-${item.id}`);
+            if (curr) curr.className = "bg-rose-50 border-2 border-rose-500 scale-105 shadow px-4 py-2.5 rounded-xl text-xs font-mono font-extrabold cursor-pointer transition-all duration-200 text-rose-700 animate-pulse";
+        }
+
+        function dropToTarget(targetType) {
+            if (!selectedGameItem) {
+                SoundFX.playError();
+                return;
+            }
+
+            const item = selectedGameItem;
+            const element = document.getElementById(`game-item-${item.id}`);
+
+            if (item.type === targetType) {
+                SoundFX.playSuccess();
+                State.gameScore++;
+                document.getElementById('game-score').innerText = `${State.gameScore} / ${gameItems.length}`;
+                
+                const miniTag = document.createElement('span');
+                miniTag.className = "px-2 py-0.5 bg-slate-900 text-white rounded text-[10px] font-mono animate-bounce";
+                miniTag.innerText = item.val;
+                document.getElementById(`target-${targetType}`).appendChild(miniTag);
+
+                element.remove();
+                selectedGameItem = null;
+
+                if (State.gameScore === gameItems.length) {
+                    triggerGameConfetti();
+                }
+            } else {
+                SoundFX.playError();
+                const targetBox = document.getElementById(`target-${targetType}`).parentElement;
+                targetBox.classList.add('border-rose-500', 'bg-rose-100');
+                setTimeout(() => {
+                    targetBox.classList.remove('border-rose-500', 'bg-rose-100');
+                }, 400);
+            }
+        }
+
+        function resetGame() {
+            SoundFX.playClick();
+            initGame();
+        }
+
+        function triggerGameConfetti() {
+            const container = document.getElementById('game-confetti-container');
+            const colors = ['#f43f5e', '#f59e0b', '#10b981', '#3b82f6', '#8b5cf6'];
+            
+            for (let i = 0; i < 30; i++) {
+                const conf = document.createElement('div');
+                conf.className = "confetti absolute rounded-full";
+                conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                conf.style.left = `${Math.random() * 100}%`;
+                conf.style.top = `${Math.random() * 100}%`;
+                conf.style.transform = `scale(${Math.random() + 0.5}) rotate(${Math.random() * 360}deg)`;
+                
+                container.appendChild(conf);
+                
+                setTimeout(() => {
+                    conf.remove();
+                }, 1500);
+            }
+        }
+
+        // ------------------ TAB 6: INTERACTIVE QUIZ SYSTEM ------------------
+        const quizQuestions = [
+            {
+                q: "Antara berikut, yang manakah merupakan nama identifier C++ yang SAH?",
+                a: ["1student", "student_name", "student name", "int"],
+                correct: 1,
+                reason: "Identifier boleh ada underscore (_), tetapi tidak boleh bermula dengan nombor, mengandungi ruang kosong atau kata kunci terpelihara."
+            },
+            {
+                q: "Bagaimanakah anda mengisytiharkan pemboleh ubah constant (nilai tetap) dalam C++?",
+                a: ["constant float PI = 3.14;", "const float PI = 3.14;", "float PI = 3.14;", "static float PI = 3.14;"],
+                correct: 1,
+                reason: "Keyword 'const' digunakan sebelum pengisytiharan jenis data bagi mewujudkan pemalar."
+            },
+            {
+                q: "Apakah jenis data (Data Type) yang paling sesuai untuk menyimpan nilai gred peperiksaan seperti 'A', 'B' atau 'C'?",
+                a: ["string", "int", "char", "bool"],
+                correct: 2,
+                reason: "Jenis data 'char' diperuntukkan khusus untuk menyimpan satu aksara tunggal sahaja."
+            },
+            {
+                q: "Apakah nilai lalai (default) yang akan dipaparkan jika kita mencetak pemboleh ubah bool bernilai 'true' di terminal?",
+                a: ["true", "1", "0", "A"],
+                correct: 1,
+                reason: "Dalam pengaturcaraan C++, nilai bool bernilai true dipaparkan sebagai 1 dan false dipaparkan sebagai 0."
+            },
+            {
+                q: "Kenapa baris kod 'int float = 5.5;' menghasilkan error ralat?",
+                a: ["Sebab int tidak boleh memegang nilai perpuluhan", "Sebab float ialah C++ Reserved Keyword", "Sebab tiada tanda petikan tunggal", "Sebab tiada koma di hujung"],
+                correct: 1,
+                reason: "'float' merupakan keyword terpelihara dalam C++ dan dilarang sama sekali digunakan sebagai nama identifier."
+            }
+        ];
+
+        let currentQuestionIdx = 0;
+        let localQuizScore = 0;
+
+        function startQuiz() {
+            SoundFX.playClick();
+            document.getElementById('quiz-intro').classList.add('hidden');
+            document.getElementById('quiz-results').classList.add('hidden');
+            document.getElementById('quiz-playground').classList.remove('hidden');
+            
+            currentQuestionIdx = 0;
+            localQuizScore = 0;
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const qData = quizQuestions[currentQuestionIdx];
+            document.getElementById('quiz-question-counter').innerText = `Soalan ${currentQuestionIdx + 1} dari ${quizQuestions.length}`;
+            document.getElementById('quiz-question-score').innerText = `Skor: ${localQuizScore}`;
+            
+            const prog = ((currentQuestionIdx + 1) / quizQuestions.length) * 100;
+            document.getElementById('quiz-progress-bar').style.width = `${prog}%`;
+
+            document.getElementById('quiz-question-text').innerText = qData.q;
+
+            const optCont = document.getElementById('quiz-options');
+            optCont.innerHTML = "";
+            qData.a.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-3 border border-slate-200 hover:border-rose-400 hover:bg-rose-50/20 rounded-xl transition-all font-semibold text-xs sm:text-sm text-slate-700 flex items-center justify-between";
+                btn.innerHTML = `<span>${idx + 1}. ${opt}</span> <i class="fa-solid fa-chevron-right text-slate-300"></i>`;
+                btn.onclick = () => submitAnswer(idx);
+                optCont.appendChild(btn);
+            });
+        }
+
+        function submitAnswer(chosenIdx) {
+            const qData = quizQuestions[currentQuestionIdx];
+            const optCont = document.getElementById('quiz-options');
+            
+            Array.from(optCont.children).forEach((btn, idx) => {
+                btn.disabled = true;
+                if (idx === qData.correct) {
+                    btn.className = "w-full text-left p-3 border border-emerald-500 bg-emerald-50 text-emerald-800 rounded-xl transition-all font-bold text-xs sm:text-sm flex items-center justify-between";
+                    btn.innerHTML += ` <i class="fa-solid fa-circle-check"></i>`;
+                } else if (idx === chosenIdx) {
+                    btn.className = "w-full text-left p-3 border border-rose-500 bg-rose-50 text-rose-800 rounded-xl transition-all font-bold text-xs sm:text-sm flex items-center justify-between";
+                    btn.innerHTML += ` <i class="fa-solid fa-circle-xmark"></i>`;
+                }
+            });
+
+            if (chosenIdx === qData.correct) {
+                SoundFX.playSuccess();
+                localQuizScore++;
+            } else {
+                SoundFX.playError();
+            }
+
+            const reasonBlock = document.createElement('div');
+            reasonBlock.className = "p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-600 mt-4 leading-relaxed italic animate-fade-in";
+            reasonBlock.innerHTML = `💡 <strong>Sebab:</strong> ${qData.reason}`;
+            optCont.appendChild(reasonBlock);
+
+            const nextBtn = document.createElement('button');
+            nextBtn.className = "mt-4 bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs px-5 py-2.5 rounded-xl transition-all float-right";
+            nextBtn.innerText = currentQuestionIdx === quizQuestions.length - 1 ? "Selesai & Lihat Skor" : "Soalan Seterusnya";
+            nextBtn.onclick = () => {
+                currentQuestionIdx++;
+                if (currentQuestionIdx < quizQuestions.length) {
+                    showQuestion();
+                } else {
+                    showQuizResults();
+                }
+            };
+            optCont.appendChild(nextBtn);
+        }
+
+        function showQuizResults() {
+            document.getElementById('quiz-playground').classList.add('hidden');
+            const res = document.getElementById('quiz-results');
+            res.classList.remove('hidden');
+
+            document.getElementById('quiz-result-score-txt').innerText = `${localQuizScore} / ${quizQuestions.length}`;
+
+            State.quizScore = localQuizScore;
+            addXP(localQuizScore * 20);
+
+            if (localQuizScore >= 3) {
+                document.getElementById('quiz-result-emoji').innerText = "🏆";
+                document.getElementById('quiz-result-title').innerText = "Hebat! Anda Lulus!";
+                document.getElementById('quiz-result-text').innerText = "Anda telah membuktikan kefahaman mantap mengenai Identifier, Variables, Constants, Keywords dan Data Types!";
+                
+                document.getElementById('certificate-box').classList.remove('hidden');
+                document.getElementById('cert-user-name').innerText = State.userName;
+                
+                const today = new Date();
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                document.getElementById('cert-date').innerText = today.toLocaleDateString('ms-MY', options);
+                
+                const chk = document.getElementById(`chk-quiz`);
+                if (chk) chk.classList.remove('hidden');
+            } else {
+                document.getElementById('quiz-result-emoji').innerText = "📚";
+                document.getElementById('quiz-result-title').innerText = "Cuba Lagi!";
+                document.getElementById('quiz-result-text').innerText = "Rujuk kembali nota di tab modul di atas untuk melayakkan anda menerima sijil.";
+                document.getElementById('certificate-box').classList.add('hidden');
+            }
+        }
+
+        function printCertificate() {
+            const certContent = document.getElementById('certificate-box').innerHTML;
+            const originalBody = document.body.innerHTML;
+
+            document.body.innerHTML = `
+                <div style="padding: 40px; display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: #f8fafc;">
+                    <div style="max-width: 800px; width: 100%; border: 12px double #f43f5e; padding: 50px; border-radius: 16px; background-color: white; text-align: center; position: relative;">
+                        ${certContent}
+                    </div>
+                </div>
+            `;
+
+            window.print();
+            
+            setTimeout(() => {
+                window.location.reload();
+            }, 100);
+        }
+    </script>
+
+</body>
+</html>
