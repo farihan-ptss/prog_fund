@@ -1,0 +1,1539 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hub Pembelajaran Interaktif Flowchart</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .code-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.5; }
+            100% { transform: scale(1.2); opacity: 0; }
+        }
+        .active-glow {
+            filter: drop-shadow(0 0 12px rgba(34, 197, 94, 0.8));
+            stroke: #22c55e !important;
+            stroke-width: 3px !important;
+        }
+        .active-text {
+            fill: #15803d !important;
+            font-weight: 800 !important;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+    <!-- Header / Nav -->
+    <header class="bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-700 text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="p-2.5 bg-white/10 rounded-xl backdrop-blur-md border border-white/20">
+                    <svg class="w-8 h-8 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold tracking-tight">Interactive Flowchart Hub</h1>
+                    <p class="text-xs text-indigo-200">Silibus Diploma IT Semester 1 • Logik Visual &amp; Algoritma</p>
+                </div>
+            </div>
+            
+            <nav class="flex flex-wrap gap-2 bg-black/15 p-1 rounded-xl border border-white/10">
+                <button onclick="switchTab('dashboard')" id="btn-dashboard" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 bg-white text-indigo-900 shadow-sm">
+                    🏠 Utama
+                </button>
+                <button onclick="switchTab('symbols')" id="btn-symbols" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 text-white hover:bg-white/10">
+                    📐 Simbol Standard
+                </button>
+                <button onclick="switchTab('simulator')" id="btn-simulator" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 text-white hover:bg-white/10 flex items-center gap-1.5">
+                    ⚡ Simulator Aliran
+                    <span class="flex h-2 w-2 relative">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                    </span>
+                </button>
+                <button onclick="switchTab('quiz')" id="btn-quiz" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 text-white hover:bg-white/10">
+                    🏆 Kuiz Cabaran
+                </button>
+                <button onclick="switchTab('challenge')" id="btn-challenge" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 text-white hover:bg-white/10">
+                    👥 Aktiviti Kelas
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 sm:px-6 lg:px-8">
+        
+        <!-- ================= TAB: DASHBOARD ================= -->
+        <section id="tab-dashboard" class="tab-content space-y-8">
+            <div class="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl p-6 md:p-10 border border-indigo-100 flex flex-col md:flex-row gap-8 items-center">
+                <div class="space-y-4 md:w-3/5">
+                    <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Topik 1.4: Flowchart</span>
+                    <h2 class="text-3xl font-extrabold text-slate-900 leading-tight">Bukan Sekadar Lukisan Cantik, Tetapi Logik Program Secara Visual!</h2>
+                    <p class="text-slate-600 text-lg leading-relaxed">
+                        Sebelum menulis baris kod C++, kita perlu merancang bagaimana data mengalir. Flowchart membolehkan sesiapa sahaja memahami perjalanan sistem anda dengan pandangan sekilas melalui simbol piawai antarabangsa.
+                    </p>
+                    <div class="flex flex-wrap gap-4 pt-2">
+                        <button onclick="switchTab('simulator')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 flex items-center gap-2">
+                            Cuba Simulator Aliran 
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
+                        </button>
+                        <button onclick="switchTab('symbols')" class="bg-white hover:bg-slate-50 text-indigo-700 border border-indigo-200 font-semibold px-6 py-3 rounded-xl transition-all duration-200">
+                            Teroka Simbol Piawai
+                        </button>
+                    </div>
+                </div>
+                <div class="md:w-2/5 w-full flex justify-center">
+                    <div class="bg-white p-6 rounded-2xl shadow-xl border border-slate-100 max-w-sm w-full transform rotate-1 hover:rotate-0 transition-all duration-300">
+                        <div class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex justify-between">
+                            <span>Perbandingan Konsep</span>
+                            <span class="text-indigo-600">Silibus 1.4</span>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="p-3 bg-indigo-50/70 rounded-xl border border-indigo-100">
+                                <span class="text-xs font-bold text-indigo-700 uppercase block mb-1">Algoritma (Teks)</span>
+                                <div class="code-font text-xs text-slate-700 space-y-0.5">
+                                    <p>1. Start</p>
+                                    <p>2. Input radius</p>
+                                    <p>3. Calculate Area = πr²</p>
+                                    <p>4. Display Area</p>
+                                    <p>5. End</p>
+                                </div>
+                            </div>
+                            <div class="flex justify-center my-1 text-indigo-500 animate-bounce">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7-7-7m14-6l-7 7-7-7"></path></svg>
+                            </div>
+                            <div class="p-3 bg-purple-50/70 rounded-xl border border-purple-100">
+                                <span class="text-xs font-bold text-purple-700 uppercase block mb-1">Flowchart (Visual)</span>
+                                <div class="flex flex-col items-center gap-1.5 py-1 scale-95">
+                                    <div class="bg-purple-600 text-white text-[10px] px-3 py-1 rounded-full font-bold">START</div>
+                                    <svg class="w-3 h-3 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 14l-7 7-7-7m14-6l-7 7-7-7" stroke-width="3"></path></svg>
+                                    <div class="bg-white border border-purple-300 text-slate-700 text-[10px] px-3 py-0.5 rounded italic transform -skew-x-12">Input Radius</div>
+                                    <svg class="w-3 h-3 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 14l-7 7-7-7m14-6l-7 7-7-7" stroke-width="3"></path></svg>
+                                    <div class="bg-purple-100 border border-purple-300 text-purple-800 text-[10px] px-4 py-0.5 rounded">Area = 3.142 * r * r</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mengapa Flowchart -->
+            <div class="space-y-4">
+                <h3 class="text-xl font-bold text-slate-800 text-center">Mengapa Kita Menggunakan Flowchart?</h3>
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                    <div class="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm flex flex-col items-center text-center space-y-2 hover:translate-y-[-2px] transition-all duration-200">
+                        <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-xl font-bold">1</div>
+                        <h4 class="font-bold text-sm text-slate-800">Perancangan Kod</h4>
+                        <p class="text-xs text-slate-500">Merancang logik program dengan teliti sebelum menulis sintaks kod sebenar.</p>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm flex flex-col items-center text-center space-y-2 hover:translate-y-[-2px] transition-all duration-200">
+                        <div class="w-12 h-12 rounded-full bg-violet-100 flex items-center justify-center text-violet-600 text-xl font-bold">2</div>
+                        <h4 class="font-bold text-sm text-slate-800">Kesan Ralat Logik</h4>
+                        <p class="text-xs text-slate-500">Sangat mudah mengenal pasti loop yang tidak tamat atau laluan keputusan yang salah.</p>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm flex flex-col items-center text-center space-y-2 hover:translate-y-[-2px] transition-all duration-200">
+                        <div class="w-12 h-12 rounded-full bg-pink-100 flex items-center justify-center text-pink-600 text-xl font-bold">3</div>
+                        <h4 class="font-bold text-sm text-slate-800">Komunikasi Efektif</h4>
+                        <p class="text-xs text-slate-500">Membantu programmer berkolaborasi tanpa mengira bahasa pengaturcaraan yang digunakan.</p>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm flex flex-col items-center text-center space-y-2 hover:translate-y-[-2px] transition-all duration-200">
+                        <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center text-amber-600 text-xl font-bold">4</div>
+                        <h4 class="font-bold text-sm text-slate-800">Dokumentasi Baik</h4>
+                        <p class="text-xs text-slate-500">Menjadi rujukan rasmi struktur program bagi penyelenggaraan sistem pada masa hadapan.</p>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm flex flex-col items-center text-center space-y-2 hover:translate-y-[-2px] transition-all duration-200">
+                        <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-600 text-xl font-bold">5</div>
+                        <h4 class="font-bold text-sm text-slate-800">Mudah Debugging</h4>
+                        <p class="text-xs text-slate-500">Mencari 'bug' dengan melayari aliran langkah demi langkah secara manual.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- IPO Context Guardrail -->
+            <div class="p-6 bg-slate-900 text-slate-100 rounded-2xl flex flex-col md:flex-row gap-6 items-center">
+                <div class="bg-emerald-500/10 p-3 rounded-xl border border-emerald-500/20 text-emerald-400">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                </div>
+                <div class="space-y-1">
+                    <h4 class="font-bold text-lg text-white">Ingat Teori IPO Anda?</h4>
+                    <p class="text-slate-300 text-sm">
+                        Sebelum melukis flowchart, pastikan anda faham formula <strong class="text-yellow-300 font-semibold">IPO (Input, Process, Output)</strong> masalah tersebut. Flowchart ialah visualisasi fizikal kepada proses transformasi Input kepada Output tersebut!
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB: SYMBOLS ================= -->
+        <section id="tab-symbols" class="tab-content hidden space-y-6">
+            <div class="text-center space-y-2">
+                <h2 class="text-3xl font-extrabold text-slate-900">Katalog Simbol Piawai (ANSI/ISO)</h2>
+                <p class="text-slate-600 max-w-2xl mx-auto">Setiap bentuk mempunyai makna khusus. Menggunakan bentuk yang salah dianggap sebagai ralat sintaks visual!</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Simbol List (Left 2 cols) -->
+                <div class="lg:col-span-2 space-y-3" id="symbol-list">
+                    <!-- Loaded dynamically or statically managed with interactivity -->
+                    
+                    <!-- Terminator Card -->
+                    <div onclick="selectSymbol('terminator')" id="card-terminator" class="symbol-card bg-white p-4 rounded-xl border-2 border-indigo-500 hover:border-indigo-600 cursor-pointer shadow-sm transition-all duration-150 flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <div class="w-28 flex justify-center">
+                                <svg class="w-24 h-12" viewBox="0 0 120 50">
+                                    <rect x="5" y="10" width="110" height="30" rx="15" fill="#e0f2fe" stroke="#0284c7" stroke-width="2.5"></rect>
+                                    <text x="60" y="29" font-family="Plus Jakarta Sans" font-size="11" font-weight="bold" fill="#0369a1" text-anchor="middle">START/END</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-extrabold text-slate-800 text-base">Terminator</h3>
+                                <p class="text-xs text-slate-500">Menandakan titik mula (Start) dan tamat (End) bagi sesuatu atur cara.</p>
+                            </div>
+                        </div>
+                        <span class="text-indigo-600 text-xs font-bold bg-indigo-50 px-2 py-1 rounded">Aktif</span>
+                    </div>
+
+                    <!-- Flow Line Card -->
+                    <div onclick="selectSymbol('flowline')" id="card-flowline" class="symbol-card bg-white p-4 rounded-xl border border-slate-200 hover:border-indigo-300 cursor-pointer shadow-sm transition-all duration-150 flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <div class="w-28 flex justify-center">
+                                <svg class="w-24 h-12" viewBox="0 0 120 50">
+                                    <line x1="10" y1="25" x2="100" y2="25" stroke="#475569" stroke-width="3" stroke-dasharray="0" marker-end="url(#arrow)"></line>
+                                    <defs>
+                                        <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                            <path d="M 0 1 L 10 5 L 0 9 z" fill="#475569"></path>
+                                        </marker>
+                                    </defs>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-extrabold text-slate-800 text-base">Connector Lines (Flow Line)</h3>
+                                <p class="text-xs text-slate-500">Anak panah yang menghubungkan simbol dan menunjukkan arah aliran logik program.</p>
+                            </div>
+                        </div>
+                        <span class="text-slate-400 text-xs font-semibold bg-slate-50 px-2 py-1 rounded">Lihat</span>
+                    </div>
+
+                    <!-- Process Card -->
+                    <div onclick="selectSymbol('process')" id="card-process" class="symbol-card bg-white p-4 rounded-xl border border-slate-200 hover:border-indigo-300 cursor-pointer shadow-sm transition-all duration-150 flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <div class="w-28 flex justify-center">
+                                <svg class="w-24 h-12" viewBox="0 0 120 50">
+                                    <rect x="5" y="10" width="110" height="30" fill="#fef3c7" stroke="#d97706" stroke-width="2.5"></rect>
+                                    <text x="60" y="28" font-family="Plus Jakarta Sans" font-size="10" font-weight="bold" fill="#b45309" text-anchor="middle">Total = A + B</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-extrabold text-slate-800 text-base">Process</h3>
+                                <p class="text-xs text-slate-500">Melibatkan operasi pengiraan, formula, pemprosesan data atau manipulasi pembolehubah.</p>
+                            </div>
+                        </div>
+                        <span class="text-slate-400 text-xs font-semibold bg-slate-50 px-2 py-1 rounded">Lihat</span>
+                    </div>
+
+                    <!-- Data Card (I/O) -->
+                    <div onclick="selectSymbol('data')" id="card-data" class="symbol-card bg-white p-4 rounded-xl border border-slate-200 hover:border-indigo-300 cursor-pointer shadow-sm transition-all duration-150 flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <div class="w-28 flex justify-center">
+                                <svg class="w-24 h-12" viewBox="0 0 120 50">
+                                    <polygon points="20,10 115,10 100,40 5,40" fill="#f0fdf4" stroke="#16a34a" stroke-width="2.5"></polygon>
+                                    <text x="60" y="28" font-family="Plus Jakarta Sans" font-size="10" font-weight="bold" fill="#15803d" text-anchor="middle">Input Mark</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-extrabold text-slate-800 text-base">Data (Input / Output)</h3>
+                                <p class="text-xs text-slate-500">Menerima data daripada pengguna atau memaparkan keputusan / maklumat pada skrin.</p>
+                            </div>
+                        </div>
+                        <span class="text-slate-400 text-xs font-semibold bg-slate-50 px-2 py-1 rounded">Lihat</span>
+                    </div>
+
+                    <!-- Decision Card -->
+                    <div onclick="selectSymbol('decision')" id="card-decision" class="symbol-card bg-white p-4 rounded-xl border border-slate-200 hover:border-indigo-300 cursor-pointer shadow-sm transition-all duration-150 flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <div class="w-28 flex justify-center">
+                                <svg class="w-24 h-12" viewBox="0 0 120 50">
+                                    <polygon points="60,5 110,25 60,45 10,25" fill="#fdf2f8" stroke="#db2777" stroke-width="2.5"></polygon>
+                                    <text x="60" y="29" font-family="Plus Jakarta Sans" font-size="9" font-weight="bold" fill="#9d174d" text-anchor="middle">Mark >= 50?</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-extrabold text-slate-800 text-base">Decision</h3>
+                                <p class="text-xs text-slate-500">Membuat penilaian logik (True/False). Mempunyai 1 anak panah masuk dan sekurang-kurangnya 2 keluar (Yes &amp; No).</p>
+                            </div>
+                        </div>
+                        <span class="text-slate-400 text-xs font-semibold bg-slate-50 px-2 py-1 rounded">Lihat</span>
+                    </div>
+
+                    <!-- On-page Connector -->
+                    <div onclick="selectSymbol('onpage')" id="card-onpage" class="symbol-card bg-white p-4 rounded-xl border border-slate-200 hover:border-indigo-300 cursor-pointer shadow-sm transition-all duration-150 flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <div class="w-28 flex justify-center">
+                                <svg class="w-24 h-12" viewBox="0 0 120 50">
+                                    <circle cx="60" cy="25" r="14" fill="#faf5ff" stroke="#7e22ce" stroke-width="2.5"></circle>
+                                    <text x="60" y="29" font-family="Plus Jakarta Sans" font-size="11" font-weight="bold" fill="#6b21a8" text-anchor="middle">A</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-extrabold text-slate-800 text-base">On-page Connector</h3>
+                                <p class="text-xs text-slate-500">Digunakan untuk menyambung bahagian flowchart yang terputus tetapi masih pada halaman yang sama.</p>
+                            </div>
+                        </div>
+                        <span class="text-slate-400 text-xs font-semibold bg-slate-50 px-2 py-1 rounded">Lihat</span>
+                    </div>
+
+                    <!-- Off-page Connector -->
+                    <div onclick="selectSymbol('offpage')" id="card-offpage" class="symbol-card bg-white p-4 rounded-xl border border-slate-200 hover:border-indigo-300 cursor-pointer shadow-sm transition-all duration-150 flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <div class="w-28 flex justify-center">
+                                <svg class="w-24 h-12" viewBox="0 0 120 50">
+                                    <polygon points="45,10 75,10 75,30 60,42 45,30" fill="#f0fdfa" stroke="#0d9488" stroke-width="2.5"></polygon>
+                                    <text x="60" y="27" font-family="Plus Jakarta Sans" font-size="10" font-weight="bold" fill="#115e59" text-anchor="middle">1</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-extrabold text-slate-800 text-base">Off-page Connector (Pentagon)</h3>
+                                <p class="text-xs text-slate-500">Digunakan sekiranya flowchart terlalu panjang dan perlu disambung di muka surat yang baharu.</p>
+                            </div>
+                        </div>
+                        <span class="text-slate-400 text-xs font-semibold bg-slate-50 px-2 py-1 rounded">Lihat</span>
+                    </div>
+
+                </div>
+
+                <!-- Simbol Detail Panel (Right Side) -->
+                <div class="bg-indigo-900 text-white p-6 rounded-2xl shadow-xl flex flex-col justify-between h-fit" id="symbol-detail-panel">
+                    <div class="space-y-6">
+                        <div class="flex justify-between items-center pb-4 border-b border-indigo-800">
+                            <span class="text-indigo-300 text-xs font-bold uppercase tracking-wider">Perincian Bentuk</span>
+                            <span class="bg-indigo-800 text-indigo-200 text-2xs px-2 py-0.5 rounded uppercase" id="detail-category">Syllabus Core</span>
+                        </div>
+                        
+                        <div class="flex justify-center py-4 bg-white/5 rounded-xl border border-white/10" id="detail-svg-container">
+                            <!-- Injected SVG -->
+                            <svg class="w-36 h-20" viewBox="0 0 120 50">
+                                <rect x="5" y="10" width="110" height="30" rx="15" fill="#e0f2fe" stroke="#0284c7" stroke-width="2.5"></rect>
+                                <text x="60" y="29" font-family="Plus Jakarta Sans" font-size="11" font-weight="bold" fill="#0369a1" text-anchor="middle">START/END</text>
+                            </svg>
+                        </div>
+
+                        <div class="space-y-2">
+                            <h3 class="text-xl font-bold text-white" id="detail-title">Terminator</h3>
+                            <p class="text-sm text-indigo-200 leading-relaxed" id="detail-desc">
+                                Menunjukkan titik permulaan dan pengakhiran proses. Dalam pengaturcaraan C++, Start bermaksud melangkah masuk ke fungsi `main()`, manakala End melambangkan `return 0;` atau penamatan aplikasi.
+                            </p>
+                        </div>
+
+                        <div class="p-4 bg-indigo-950/60 rounded-xl border border-indigo-800 space-y-2">
+                            <h4 class="text-xs font-bold text-yellow-400 uppercase tracking-wider">💡 Tip &amp; Peraturan Silibus</h4>
+                            <ul class="text-xs text-indigo-200 list-disc pl-4 space-y-1" id="detail-tips">
+                                <li>Mesti ada tepat SATU simbol 'Start' di bahagian paling atas.</li>
+                                <li>Semua proses mesti mengalir ke arah simbol 'End'.</li>
+                                <li>Label di dalam selalunya "START" atau "END" / "STOP".</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="pt-6 mt-6 border-t border-indigo-800">
+                        <button onclick="switchTab('simulator')" class="w-full bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white text-sm font-bold py-3 px-4 rounded-xl transition-all duration-200 text-center block shadow-md">
+                            Lihat Simbol Ini Berfungsi ⚡
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB: SIMULATOR ================= -->
+        <section id="tab-simulator" class="tab-content hidden space-y-6">
+            <div class="text-center space-y-2">
+                <h2 class="text-3xl font-extrabold text-slate-900">Simulator Aliran Dinamik (Interactive Flow Runner)</h2>
+                <p class="text-slate-600 max-w-2xl mx-auto">Lihat bagaimana logik program dilaksanakan secara visual. Masukkan data anda sendiri di panel kawalan di bawah dan tonton aliran menyala!</p>
+            </div>
+
+            <!-- Controller & Play Area Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                
+                <!-- 1. Left Selection & Interactive Parameters Control (4 cols) -->
+                <div class="lg:col-span-4 space-y-6">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-5">
+                        <h3 class="font-extrabold text-slate-800 text-lg border-b pb-3 flex items-center gap-2">
+                            <span>🎮 Kawalan Simulasi</span>
+                        </h3>
+                        
+                        <!-- Scenario Selector -->
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-slate-500 uppercase">1. Pilih Senario Struktur</label>
+                            <select id="sim-scenario" onchange="loadScenario()" class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 font-semibold">
+                                <option value="sequential">Kira Luas Segi Empat (Sequential)</option>
+                                <option value="conditional">Semak Lulus/Gagal (Conditional)</option>
+                                <option value="iterational">Ulang Papar No 1-5 (Iterational)</option>
+                            </select>
+                        </div>
+
+                        <!-- Dynamic Inputs based on Scenario -->
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 space-y-3" id="dynamic-inputs">
+                            <!-- Injected dynamically by JS -->
+                        </div>
+
+                        <!-- Play, Step, and Reset Buttons -->
+                        <div class="space-y-2 pt-2">
+                            <div class="grid grid-cols-2 gap-2">
+                                <button onclick="stepForward()" id="btn-step" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-xl text-sm shadow transition-all flex items-center justify-center gap-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
+                                    Langkah Seterusnya
+                                </button>
+                                <button onclick="resetSimulation()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-3 px-4 rounded-xl text-sm transition-all">
+                                    Mula Semula
+                                </button>
+                            </div>
+                            <button onclick="autoPlaySimulation()" id="btn-autoplay" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition-all flex items-center justify-center gap-1">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                Automatik (Laju)
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Output Console Panel -->
+                    <div class="bg-slate-900 rounded-2xl p-5 shadow-inner border border-slate-800 space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest flex items-center gap-1.5">
+                                <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                                Memori Pembolehubah &amp; Skrin Output
+                            </span>
+                            <span class="text-2xs text-slate-500 code-font">RAM Console</span>
+                        </div>
+                        <div class="p-3.5 bg-black/50 rounded-xl border border-slate-800 space-y-2.5">
+                            <div>
+                                <span class="text-slate-400 text-2xs uppercase tracking-wider block">Nilai Variabel Terkini:</span>
+                                <div id="console-variables" class="code-font text-xs text-yellow-300 space-y-0.5 mt-1">
+                                    <!-- Dynamic vars: Area = null, width = null etc -->
+                                </div>
+                            </div>
+                            <div class="border-t border-slate-800 pt-2.5">
+                                <span class="text-slate-400 text-2xs uppercase tracking-wider block">Output Atur Cara (Paparan):</span>
+                                <div id="console-screen" class="bg-black text-green-400 p-2.5 rounded-lg border border-emerald-950 mt-1 h-20 overflow-y-auto font-mono text-xs leading-relaxed">
+                                    [Sistem Sedia] Pilih senario dan klik "Langkah Seterusnya"
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Right Canvas Area (8 cols) -->
+                <div class="lg:col-span-8 bg-white rounded-2xl border border-slate-200 shadow-sm p-6 flex flex-col justify-between min-h-[500px]">
+                    <div class="flex justify-between items-center pb-4 border-b">
+                        <div>
+                            <h3 class="font-extrabold text-slate-800 text-lg" id="flowchart-title">Luas Segi Empat</h3>
+                            <p class="text-xs text-slate-500" id="flowchart-subtitle">Struktur Urutan Mudah (Sequential)</p>
+                        </div>
+                        <span class="text-xs font-semibold px-2.5 py-1 bg-indigo-50 text-indigo-700 rounded-full" id="flowchart-type-badge">Sequential</span>
+                    </div>
+
+                    <!-- Interactive SVG Canvas Render Area -->
+                    <div class="flex-grow flex items-center justify-center p-4 overflow-x-auto min-h-[400px]" id="svg-canvas">
+                        <!-- SVG elements will be injected here depending on the selected scenario -->
+                    </div>
+
+                    <!-- Flow Explanation Banner -->
+                    <div class="mt-4 p-4 bg-slate-50 rounded-xl border border-slate-100 flex gap-3 items-start">
+                        <div class="bg-indigo-600 text-white text-xs font-bold px-2 py-1 rounded mt-0.5" id="step-number-badge">
+                            Langkah 0
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-800 text-sm" id="step-instruction-title">Sedia Untuk Bermula</h4>
+                            <p class="text-slate-600 text-xs" id="step-instruction-desc">Masukkan parameter di panel kiri jika mahu, kemudian tekan butang mula untuk menonton aliran kawalan.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= TAB: QUIZ ================= -->
+        <section id="tab-quiz" class="tab-content hidden max-w-3xl mx-auto space-y-6">
+            <div class="text-center space-y-2">
+                <h2 class="text-3xl font-extrabold text-slate-900">Ujian Kemahiran Logik &amp; Simbol Flowchart</h2>
+                <p class="text-slate-600">Jawab 5 soalan senario mencabar untuk membuktikan anda sudah bersedia untuk kuiz rasmi Semester 1 IT!</p>
+            </div>
+
+            <!-- Quiz Screen -->
+            <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-lg space-y-6" id="quiz-card">
+                <!-- Quiz Header -->
+                <div class="flex justify-between items-center pb-4 border-b">
+                    <span class="text-xs font-bold text-indigo-600 uppercase tracking-widest" id="quiz-progress">Soalan 1 daripada 5</span>
+                    <span class="text-xs font-bold text-slate-500 flex items-center gap-1">
+                        🔑 Markah: <span id="quiz-score" class="text-emerald-600 font-extrabold">0</span>
+                    </span>
+                </div>
+
+                <!-- Quiz Body (Dynamic) -->
+                <div class="space-y-6" id="quiz-body">
+                    <div class="space-y-3">
+                        <h3 class="text-lg font-bold text-slate-800 leading-snug" id="quiz-question">
+                            Apakah simbol yang betul untuk melakukan operasi penambahan "Total = Mark1 + Mark2" dalam flowchart?
+                        </h3>
+                        <p class="text-xs text-slate-500">Pilih satu jawapan yang paling tepat.</p>
+                    </div>
+
+                    <!-- Quiz Options (Dynamic) -->
+                    <div class="grid grid-cols-1 gap-3" id="quiz-options">
+                        <!-- Option Buttons -->
+                    </div>
+                </div>
+
+                <!-- Feedback Area -->
+                <div id="quiz-feedback" class="hidden p-4 rounded-xl border flex gap-3 items-start">
+                    <!-- Dynamic feedback content -->
+                </div>
+
+                <!-- Quiz Actions -->
+                <div class="flex justify-end pt-4 border-t">
+                    <button id="btn-next-question" onclick="nextQuestion()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-xl text-sm shadow transition-all hidden">
+                        Soalan Seterusnya ➔
+                    </button>
+                    <button id="btn-restart-quiz" onclick="resetQuiz()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-3 px-6 rounded-xl text-sm shadow transition-all hidden">
+                        Cuba Lagi 🔄
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB: CHALLENGE (Group Activity) ================= -->
+        <section id="tab-challenge" class="tab-content hidden max-w-4xl mx-auto space-y-6">
+            <div class="text-center space-y-2">
+                <h2 class="text-3xl font-extrabold text-slate-900">Aktiviti Kelas: "Flowchart Challenge" 👥</h2>
+                <p class="text-slate-600 max-w-xl mx-auto">Bahagikan pelajar kepada kumpulan 2-3 orang. Guna penjana ini untuk memilih masalah pengaturcaraan rawak untuk diselesaikan dalam 30 minit!</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Left Control Card -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-5 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <h3 class="font-extrabold text-slate-800 text-lg border-b pb-2">Penjana Tugasan Rawak</h3>
+                        <p class="text-xs text-slate-500">Tekan butang di bawah untuk memberikan topik cabaran berbeza bagi setiap kumpulan pelajar.</p>
+                        
+                        <div class="space-y-1">
+                            <label class="text-xs font-bold text-slate-400 uppercase">Nama Kumpulan</label>
+                            <input type="text" id="group-name" value="Kumpulan 1" class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl px-4 py-2 focus:ring-2 focus:ring-indigo-500 font-semibold" placeholder="Masukkan nama...">
+                        </div>
+                    </div>
+
+                    <button onclick="generateRandomChallenge()" class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white text-sm font-bold py-3.5 px-4 rounded-xl transition-all shadow-md">
+                        Generate Cabaran Baharu 🎯
+                    </button>
+                </div>
+
+                <!-- Right Display Card -->
+                <div class="md:col-span-2 bg-gradient-to-br from-indigo-900 to-slate-950 text-white p-8 rounded-2xl shadow-xl space-y-6 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="bg-indigo-500/20 text-indigo-300 text-2xs font-extrabold px-2.5 py-1 rounded-full border border-indigo-500/30 uppercase tracking-widest" id="challenge-badge">Sequential Structure</span>
+                            <span class="text-xs text-slate-400 font-mono" id="challenge-group-tag">Untuk: Kumpulan 1</span>
+                        </div>
+
+                        <div class="space-y-2">
+                            <h3 class="text-2xl font-extrabold text-white" id="challenge-title">Mengira BMI (Body Mass Index)</h3>
+                            <p class="text-sm text-slate-300 leading-relaxed" id="challenge-statement">
+                                Pengguna memasukkan berat dalam kilogram dan tinggi dalam meter. Hitung nilai BMI menggunakan formula: <span class="text-yellow-300 font-semibold">BMI = berat / (tinggi * tinggi)</span>, kemudian paparkan keputusan BMI pengguna.
+                            </p>
+                        </div>
+
+                        <!-- Guide list -->
+                        <div class="p-4 bg-white/5 rounded-xl border border-white/10 space-y-2.5">
+                            <h4 class="text-xs font-bold text-yellow-400 uppercase tracking-wider">Langkah Tugasan Kumpulan:</h4>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-300">
+                                <div class="flex items-center gap-2">
+                                    <span class="h-1.5 w-1.5 rounded-full bg-indigo-400"></span>
+                                    <span>Tentukan <strong class="text-white">IPO</strong> program.</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="h-1.5 w-1.5 rounded-full bg-indigo-400"></span>
+                                    <span>Pilih struktur aliran logik.</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="h-1.5 w-1.5 rounded-full bg-indigo-400"></span>
+                                    <span>Guna kertas sebak / perisian lukisan.</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="h-1.5 w-1.5 rounded-full bg-indigo-400"></span>
+                                    <span>Sedia untuk pembentangan (5 minit).</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Checklist / Self assessment -->
+                    <div class="pt-4 border-t border-white/10 flex flex-wrap justify-between items-center gap-4 text-xs text-slate-400">
+                        <span>Sesuai digunakan dalam kuliah/makmal selama 30-40 minit.</span>
+                        <div class="flex items-center gap-1 bg-white/10 px-3 py-1.5 rounded-lg border border-white/10 text-white font-semibold">
+                            <span>⏱️ Masa Cadangan: 30 Minit</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-8 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-2">
+            <p class="text-sm">Interactive Flowchart Learning Hub • Dibina khusus untuk Silibus Diploma IT Semester 1</p>
+            <p class="text-xs text-slate-600">© 2026 • Bahagian Logik Pengaturcaraan Visual. Gunakan simbol standard untuk hasil tanpa ralat!</p>
+        </div>
+    </footer>
+
+    <!-- ================= APP LOGIC (JAVASCRIPT) ================= -->
+    <script>
+        // Data Structures & State Management
+        const SYMBOLS_DATA = {
+            terminator: {
+                title: "Terminator",
+                category: "Syllabus Core",
+                svg: `<svg class="w-36 h-20" viewBox="0 0 120 50">
+                        <rect x="5" y="10" width="110" height="30" rx="15" fill="#e0f2fe" stroke="#0284c7" stroke-width="2.5"></rect>
+                        <text x="60" y="29" font-family='Plus Jakarta Sans' font-size="11" font-weight="bold" fill="#0369a1" text-anchor="middle">START/END</text>
+                      </svg>`,
+                desc: "Menunjukkan titik permulaan dan pengakhiran sesuatu algoritma / proses program. Dalam pengaturcaraan C++, 'Start' bermaksud bermulanya sistem (masuk ke fungsi main()) manakala 'End' menandakan berakhirnya fungsi program.",
+                tips: [
+                    "Wajib diletakkan di bahagian permulaan (Start) dan pengakhiran (End) program.",
+                    "Satu-satunya simbol yang biasanya memulakan seluruh aliran tanpa garisan masuk.",
+                    "Teks biasa digunakan: 'START', 'END', 'STOP', atau 'RETURN'."
+                ]
+            },
+            flowline: {
+                title: "Connector Lines (Flow Line)",
+                category: "Syllabus Core",
+                svg: `<svg class="w-36 h-20" viewBox="0 0 120 50">
+                        <line x1="10" y1="25" x2="100" y2="25" stroke="#475569" stroke-width="3.5" marker-end="url(#arrow-lg)"></line>
+                        <defs>
+                            <marker id="arrow-lg" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <path d="M 0 1 L 10 5 L 0 9 z" fill="#475569"></path>
+                            </marker>
+                        </defs>
+                      </svg>`,
+                desc: "Garis anak panah yang menyambungkan setiap bentuk di dalam flowchart. Fungsi utamanya adalah menentukan arah aliran data atau kawalan langkah-langkah yang diterangkan dalam algoritma dari satu titik ke titik seterusnya.",
+                tips: [
+                    "Arah anak panah mesti jelas (sama ada ke bawah, kanan, kiri, atau atas).",
+                    "Jangan silangkan garisan anak panah tanpa penyambung, kerana ini mengelirukan pembaca logik.",
+                    "Aliran standard adalah dari atas ke bawah dan dari kiri ke kanan."
+                ]
+            },
+            process: {
+                title: "Process (Proses)",
+                category: "Syllabus Core",
+                svg: `<svg class="w-36 h-20" viewBox="0 0 120 50">
+                        <rect x="5" y="10" width="110" height="30" fill="#fef3c7" stroke="#d97706" stroke-width="2.5"></rect>
+                        <text x="60" y="28" font-family='Plus Jakarta Sans' font-size="10" font-weight="bold" fill="#b45309" text-anchor="middle">Area = length * width</text>
+                      </svg>`,
+                desc: "Menunjukkan operasi pemprosesan data seperti pengiraan matematik, pembolehubah baru diberi nilai (assignment), atau formula pemprosesan (cth: Purata = Jumlah / 3).",
+                tips: [
+                    "Bentuk rasmi mestilah berbentuk segi empat tepat (rectangle) sempurna.",
+                    "Tidak boleh menerima data luar (input) atau mencetak data (output) menggunakan simbol ini.",
+                    "Boleh memproses beberapa pengiraan di dalam satu simbol sekiranya mereka berkaitan rapat."
+                ]
+            },
+            data: {
+                title: "Data (Input / Output)",
+                category: "Syllabus Core",
+                svg: `<svg class="w-36 h-20" viewBox="0 0 120 50">
+                        <polygon points="20,10 115,10 100,40 5,40" fill="#f0fdf4" stroke="#16a34a" stroke-width="2.5"></polygon>
+                        <text x="60" y="28" font-family='Plus Jakarta Sans' font-size="10" font-weight="bold" fill="#15803d" text-anchor="middle">Input markah</text>
+                      </svg>`,
+                desc: "Menerima input secara dinamik daripada luar (seperti cin &gt;&gt; markah; dalam C++) atau memaparkan output maklumat kepada pengguna di skrin paparan (seperti cout &lt;&lt; jumlah;).",
+                tips: [
+                    "Bentuk rasmi ialah parallelogram (segi empat selari).",
+                    "Sentiasa mulakan dengan kata kerja arahan yang jelas seperti: 'Input', 'Read', 'Display', 'Print', atau 'Show'.",
+                    "Membezakan data input luaran daripada proses pengiraan dalaman."
+                ]
+            },
+            decision: {
+                title: "Decision (Keputusan)",
+                category: "Syllabus Core",
+                svg: `<svg class="w-36 h-20" viewBox="0 0 120 50">
+                        <polygon points="60,5 110,25 60,45 10,25" fill="#fdf2f8" stroke="#db2777" stroke-width="2.5"></polygon>
+                        <text x="60" y="29" font-family='Plus Jakarta Sans' font-size="9" font-weight="bold" fill="#9d174d" text-anchor="middle">Mark >= 50?</text>
+                      </svg>`,
+                desc: "Simbol penentu keputusan berdasarkan syarat yang diberikan. Ia mewakili kenyataan kawalan bersyarat (seperti statement 'if' atau 'if-else' dalam atur cara). Mengandungi satu aliran masuk dan dua cabang keluar (Yes/True &amp; No/False).",
+                tips: [
+                    "Gunakan bentuk berlian (diamond / rhombohedron).",
+                    "Sentiasa tulis syarat di dalam berlian berserta tanda soal (?), contoh: 'Gaji > 3000?'.",
+                    "Mesti melabelkan setiap jalan keluar dengan perkataan 'Yes'/'No' atau 'True'/'False'."
+                ]
+            },
+            onpage: {
+                title: "On-page Connector",
+                category: "Utility Symbol",
+                svg: `<svg class="w-36 h-20" viewBox="0 0 120 50">
+                        <circle cx="60" cy="25" r="14" fill="#faf5ff" stroke="#7e22ce" stroke-width="2.5"></circle>
+                        <text x="60" y="29" font-family='Plus Jakarta Sans' font-size="11" font-weight="bold" fill="#6b21a8" text-anchor="middle">A</text>
+                      </svg>`,
+                desc: "Digunakan sebagai penyambung aliran logik sekiranya lukisan flowchart terlalu panjang ke bawah tetapi masih muat diletakkan di kawasan atau ruangan lajur yang sama pada halaman yang serupa.",
+                tips: [
+                    "Bentuk bulatan kecil yang padat.",
+                    "Letakkan huruf besar yang sama (cth: 'A', 'B') pada kedua-dua bulatan terputus untuk menghubungkan kedua-duanya kembali.",
+                    "Mengurangkan kekusutan garisan bersilang panjang di dalam gambar rajah."
+                ]
+            },
+            offpage: {
+                title: "Off-page Connector",
+                category: "Utility Symbol",
+                svg: `<svg class="w-36 h-20" viewBox="0 0 120 50">
+                        <polygon points="45,10 75,10 75,30 60,42 45,30" fill="#f0fdf4" stroke="#0d9488" stroke-width="2.5"></polygon>
+                        <text x="60" y="27" font-family='Plus Jakarta Sans' font-size="10" font-weight="bold" fill="#115e59" text-anchor="middle">1</text>
+                      </svg>`,
+                desc: "Penyambung halaman berlainan. Sekiranya flowchart pengaturcaraan anda adalah sistem kompleks yang sangat panjang dan memerlukan lebih daripada satu mukasurat helaian kerja, gunakan simbol ini.",
+                tips: [
+                    "Bentuk pentagon bucu menghadap ke bawah.",
+                    "Sering menggunakan nombor (cth: '1', '2') di dalam simbol untuk rujukan.",
+                    "Amat membantu semasa proses pembangunan modul sistem IT sebenar."
+                ]
+            }
+        };
+
+        const SIMULATOR_SCENARIOS = {
+            sequential: {
+                title: "Kira Luas Segi Empat",
+                subtitle: "Struktur Urutan Mudah (Sequential Flow)",
+                type: "Sequential",
+                inputs: [
+                    { id: "length", label: "Masukkan Panjang (Length)", type: "number", default: 10 },
+                    { id: "width", label: "Masukkan Lebar (Width)", type: "number", default: 5 }
+                ],
+                variables: { length: null, width: null, area: null },
+                steps: [
+                    { node: "n_start", title: "START Program", desc: "Sistem mula berjalan. Pengisytiharan pembolehubah (Length, Width, Area) disediakan di memori.", action: (state) => { state.variables = { length: "?", width: "?", area: "?" }; } },
+                    { node: "n_in_len", title: "Input Length", desc: "Menerima input panjang daripada pengguna. Nilai dibaca ke dalam memori.", action: (state) => { state.variables.length = state.inputs.length; } },
+                    { node: "n_in_wid", title: "Input Width", desc: "Menerima input lebar daripada pengguna. Nilai dibaca ke dalam memori.", action: (state) => { state.variables.width = state.inputs.width; } },
+                    { node: "n_calc", title: "Calculate Area", desc: "Proses mengira luas segi empat tepat menggunakan formula: Area = Length * Width.", action: (state) => { state.variables.area = state.variables.length * state.variables.width; } },
+                    { node: "n_disp", title: "Display Area", desc: "Mencetak hasil pengiraan terus ke skrin konsol luar untuk makluman pengguna.", action: (state) => { state.output(`Output Paparan: Nilai Luas Segi Empat ialah ${state.variables.area} cm²`); } },
+                    { node: "n_end", title: "END Program", desc: "Aliran tamat dengan sempurna. Selesai dijalankan tanpa sebarang ralat logik.", action: (state) => {} }
+                ],
+                svg: (activeNode) => `
+                    <svg class="w-full max-w-[320px] h-[480px]" viewBox="0 0 200 420">
+                        <!-- Definitions for markers/arrows -->
+                        <defs>
+                            <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748b"></path>
+                            </marker>
+                        </defs>
+                        
+                        <!-- Node 1: START -->
+                        <g id="n_start" class="transition-all duration-300">
+                            <rect x="50" y="10" width="100" height="30" rx="15" fill="${activeNode === 'n_start' ? '#22c55e' : '#e2e8f0'}" stroke="${activeNode === 'n_start' ? '#15803d' : '#64748b'}" stroke-width="2" class="${activeNode === 'n_start' ? 'active-glow' : ''}"></rect>
+                            <text x="100" y="29" font-family="Plus Jakarta Sans" font-size="10" font-weight="bold" fill="${activeNode === 'n_start' ? '#ffffff' : '#334155'}" text-anchor="middle">START</text>
+                        </g>
+                        
+                        <path d="M100 40 L100 68" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"></path>
+
+                        <!-- Node 2: Input Length -->
+                        <g id="n_in_len" class="transition-all duration-300">
+                            <polygon points="40,70 165,70 150,105 25,105" fill="${activeNode === 'n_in_len' ? '#22c55e' : '#e0f2fe'}" stroke="${activeNode === 'n_in_len' ? '#15803d' : '#0284c7'}" stroke-width="2" class="${activeNode === 'n_in_len' ? 'active-glow' : ''}"></polygon>
+                            <text x="95" y="91" font-family="Plus Jakarta Sans" font-size="9" font-weight="bold" fill="${activeNode === 'n_in_len' ? '#ffffff' : '#0369a1'}" text-anchor="middle">Input Length</text>
+                        </g>
+
+                        <path d="M100 105 L100 133" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"></path>
+
+                        <!-- Node 3: Input Width -->
+                        <g id="n_in_wid" class="transition-all duration-300">
+                            <polygon points="40,135 165,135 150,170 25,170" fill="${activeNode === 'n_in_wid' ? '#22c55e' : '#e0f2fe'}" stroke="${activeNode === 'n_in_wid' ? '#15803d' : '#0284c7'}" stroke-width="2" class="${activeNode === 'n_in_wid' ? 'active-glow' : ''}"></polygon>
+                            <text x="95" y="156" font-family="Plus Jakarta Sans" font-size="9" font-weight="bold" fill="${activeNode === 'n_in_wid' ? '#ffffff' : '#0369a1'}" text-anchor="middle">Input Width</text>
+                        </g>
+
+                        <path d="M100 170 L100 198" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"></path>
+
+                        <!-- Node 4: Calculate -->
+                        <g id="n_calc" class="transition-all duration-300">
+                            <rect x="30" y="200" width="140" height="35" fill="${activeNode === 'n_calc' ? '#22c55e' : '#fef3c7'}" stroke="${activeNode === 'n_calc' ? '#15803d' : '#d97706'}" stroke-width="2" class="${activeNode === 'n_calc' ? 'active-glow' : ''}"></rect>
+                            <text x="100" y="221" font-family="Plus Jakarta Sans" font-size="9" font-weight="bold" fill="${activeNode === 'n_calc' ? '#ffffff' : '#b45309'}" text-anchor="middle">Area = Length * Width</text>
+                        </g>
+
+                        <path d="M100 235 L100 263" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"></path>
+
+                        <!-- Node 5: Display -->
+                        <g id="n_disp" class="transition-all duration-300">
+                            <polygon points="40,265 165,265 150,300 25,300" fill="${activeNode === 'n_disp' ? '#22c55e' : '#e0f2fe'}" stroke="${activeNode === 'n_disp' ? '#15803d' : '#0284c7'}" stroke-width="2" class="${activeNode === 'n_disp' ? 'active-glow' : ''}"></polygon>
+                            <text x="95" y="286" font-family="Plus Jakarta Sans" font-size="9" font-weight="bold" fill="${activeNode === 'n_disp' ? '#ffffff' : '#0369a1'}" text-anchor="middle">Display Area</text>
+                        </g>
+
+                        <path d="M100 300 L100 328" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"></path>
+
+                        <!-- Node 6: END -->
+                        <g id="n_end" class="transition-all duration-300">
+                            <rect x="50" y="330" width="100" height="30" rx="15" fill="${activeNode === 'n_end' ? '#22c55e' : '#e2e8f0'}" stroke="${activeNode === 'n_end' ? '#15803d' : '#64748b'}" stroke-width="2" class="${activeNode === 'n_end' ? 'active-glow' : ''}"></rect>
+                            <text x="100" y="349" font-family="Plus Jakarta Sans" font-size="10" font-weight="bold" fill="${activeNode === 'n_end' ? '#ffffff' : '#334155'}" text-anchor="middle">END</text>
+                        </g>
+                    </svg>
+                `
+            },
+            conditional: {
+                title: "Semak Keputusan Peperiksaan",
+                subtitle: "Struktur Keputusan (Conditional Flow)",
+                type: "Conditional",
+                inputs: [
+                    { id: "mark", label: "Masukkan Markah Pelajar (0 - 100)", type: "number", default: 65 }
+                ],
+                variables: { mark: null, status: null },
+                steps: [
+                    { node: "n_start", title: "START Program", desc: "Sistem semakan bermula. Sedia menerima nilai markah pelajar.", action: (state) => { state.variables = { mark: "?", status: "?" }; } },
+                    { node: "n_in_mark", title: "Input Markah", desc: "Memasukkan nilai markah. Markah yang dimasukkan dibaca ke memori.", action: (state) => { state.variables.mark = state.inputs.mark; } },
+                    { node: "n_decision", title: "Adakah Markah >= 50?", desc: "Menguji syarat sama ada markah melebihi atau sama dengan had lulus iaitu 50.", action: (state) => { state.variables.status = (state.variables.mark >= 50) ? "PASS" : "FAIL"; } },
+                    { 
+                        node: "n_yes_path", 
+                        title: "Display 'PASS'", 
+                        desc: "Syarat dinilai sebagai BENAR (Yes). Sistem memilih laluan kiri dan memaparkan keputusan 'LULUS (PASS)'.", 
+                        condition: (state) => state.variables.mark >= 50,
+                        action: (state) => { state.output("Output Paparan: TAHNIAH, ANDA LULUS! (PASS)"); }
+                    },
+                    { 
+                        node: "n_no_path", 
+                        title: "Display 'FAIL'", 
+                        desc: "Syarat dinilai sebagai PALSU (No). Sistem memilih laluan kanan dan memaparkan keputusan 'GAGAL (FAIL)'.", 
+                        condition: (state) => state.variables.mark < 50,
+                        action: (state) => { state.output("Output Paparan: MAAF, ANDA GAGAL. CUBA LAGI! (FAIL)"); }
+                    },
+                    { node: "n_end", title: "END Program", desc: "Program bergabung semula ke penamat dan operasi dihentikan.", action: (state) => {} }
+                ],
+                svg: (activeNode) => `
+                    <svg class="w-full max-w-[360px] h-[480px]" viewBox="0 0 240 400">
+                        <defs>
+                            <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748b"></path>
+                            </marker>
+                        </defs>
+                        
+                        <!-- Node 1: START -->
+                        <g id="n_start" class="transition-all duration-300">
+                            <rect x="70" y="10" width="100" height="30" rx="15" fill="${activeNode === 'n_start' ? '#22c55e' : '#e2e8f0'}" stroke="${activeNode === 'n_start' ? '#15803d' : '#64748b'}" stroke-width="2" class="${activeNode === 'n_start' ? 'active-glow' : ''}"></rect>
+                            <text x="120" y="29" font-family="Plus Jakarta Sans" font-size="10" font-weight="bold" fill="${activeNode === 'n_start' ? '#ffffff' : '#334155'}" text-anchor="middle">START</text>
+                        </g>
+
+                        <path d="M120 40 L120 68" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"></path>
+
+                        <!-- Node 2: Input Mark -->
+                        <g id="n_in_mark" class="transition-all duration-300">
+                            <polygon points="60,70 185,70 170,105 45,105" fill="${activeNode === 'n_in_mark' ? '#22c55e' : '#e0f2fe'}" stroke="${activeNode === 'n_in_mark' ? '#15803d' : '#0284c7'}" stroke-width="2" class="${activeNode === 'n_in_mark' ? 'active-glow' : ''}"></polygon>
+                            <text x="115" y="91" font-family="Plus Jakarta Sans" font-size="9" font-weight="bold" fill="${activeNode === 'n_in_mark' ? '#ffffff' : '#0369a1'}" text-anchor="middle">Input Mark</text>
+                        </g>
+
+                        <path d="M120 105 L120 133" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"></path>
+
+                        <!-- Node 3: Decision Diamond -->
+                        <g id="n_decision" class="transition-all duration-300">
+                            <polygon points="120,135 180,165 120,195 60,165" fill="${activeNode === 'n_decision' ? '#22c55e' : '#fdf2f8'}" stroke="${activeNode === 'n_decision' ? '#15803d' : '#db2777'}" stroke-width="2" class="${activeNode === 'n_decision' ? 'active-glow' : ''}"></polygon>
+                            <text x="120" y="168" font-family="Plus Jakarta Sans" font-size="8" font-weight="bold" fill="${activeNode === 'n_decision' ? '#ffffff' : '#9d174d'}" text-anchor="middle">Mark >= 50?</text>
+                        </g>
+
+                        <!-- YES Path (Lurus ke Kiri) -->
+                        <path d="M60 165 L25 165 L25 212" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"></path>
+                        <text x="40" y="158" font-family="Plus Jakarta Sans" font-size="8" font-weight="bold" fill="#16a34a">Yes</text>
+
+                        <!-- NO Path (Lurus ke Kanan) -->
+                        <path d="M180 165 L215 165 L215 212" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"></path>
+                        <text x="195" y="158" font-family="Plus Jakarta Sans" font-size="8" font-weight="bold" fill="#dc2626">No</text>
+
+                        <!-- Node 4a: Display PASS -->
+                        <g id="n_yes_path" class="transition-all duration-300">
+                            <polygon points="5,215 75,215 65,250 1,250" fill="${activeNode === 'n_yes_path' ? '#22c55e' : '#f0fdf4'}" stroke="${activeNode === 'n_yes_path' ? '#15803d' : '#16a34a'}" stroke-width="1.5" class="${activeNode === 'n_yes_path' ? 'active-glow' : ''}"></polygon>
+                            <text x="36" y="236" font-family="Plus Jakarta Sans" font-size="8" font-weight="bold" fill="${activeNode === 'n_yes_path' ? '#ffffff' : '#15803d'}" text-anchor="middle">Display "PASS"</text>
+                        </g>
+
+                        <!-- Node 4b: Display FAIL -->
+                        <g id="n_no_path" class="transition-all duration-300">
+                            <polygon points="165,215 238,215 228,250 155,250" fill="${activeNode === 'n_no_path' ? '#22c55e' : '#fef2f2'}" stroke="${activeNode === 'n_no_path' ? '#15803d' : '#dc2626'}" stroke-width="1.5" class="${activeNode === 'n_no_path' ? 'active-glow' : ''}"></polygon>
+                            <text x="196" y="236" font-family="Plus Jakarta Sans" font-size="8" font-weight="bold" fill="${activeNode === 'n_no_path' ? '#ffffff' : '#991b1b'}" text-anchor="middle">Display "FAIL"</text>
+                        </g>
+
+                        <!-- Reconnect to main line -->
+                        <path d="M35 250 L35 285 L120 285" stroke="#64748b" stroke-width="2"></path>
+                        <path d="M195 250 L195 285 L120 285" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"></path>
+                        <path d="M120 285 L120 318" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"></path>
+
+                        <!-- Node 5: END -->
+                        <g id="n_end" class="transition-all duration-300">
+                            <rect x="70" y="320" width="100" height="30" rx="15" fill="${activeNode === 'n_end' ? '#22c55e' : '#e2e8f0'}" stroke="${activeNode === 'n_end' ? '#15803d' : '#64748b'}" stroke-width="2" class="${activeNode === 'n_end' ? 'active-glow' : ''}"></rect>
+                            <text x="120" y="339" font-family="Plus Jakarta Sans" font-size="10" font-weight="bold" fill="${activeNode === 'n_end' ? '#ffffff' : '#334155'}" text-anchor="middle">END</text>
+                        </g>
+                    </svg>
+                `
+            },
+            iterational: {
+                title: "Papar Nombor 1 hingga 5",
+                subtitle: "Struktur Gelung / Ulangan (Iterational Flow)",
+                type: "Iterational",
+                inputs: [],
+                variables: { i: null },
+                steps: [
+                    { node: "n_start", title: "START Program", desc: "Gelung ulangan sedia untuk bermula. Pembilang (counter) diletakkan di memori komputer.", action: (state) => { state.variables = { i: "?" }; } },
+                    { node: "n_init", title: "Mula i = 1", desc: "Mengisytiharkan dan menetapkan nilai awal pembilang i kepada 1.", action: (state) => { state.variables.i = 1; } },
+                    { node: "n_test", title: "Uji Syarat i <= 5 ?", desc: "Adakah nilai pembilang i masih kecil atau sama dengan had maksimum 5?", action: (state) => {} },
+                    { 
+                        node: "n_print", 
+                        title: "Display i", 
+                        desc: "Syarat dipenuhi! Paparkan nilai pembolehubah i yang sedang dipegang ketika ini.", 
+                        condition: (state) => state.variables.i <= 5,
+                        action: (state) => { state.output(`Output Paparan: Nilai No -> [ ${state.variables.i} ]`); }
+                    },
+                    { 
+                        node: "n_increment", 
+                        title: "i = i + 1", 
+                        desc: "Kemas kini nilai pembolehubah dengan menambah 1 kepada i supaya gelung menghampiri penamat.", 
+                        condition: (state) => state.variables.i <= 5,
+                        action: (state) => { state.variables.i = state.variables.i + 1; }
+                    },
+                    { 
+                        node: "n_end", 
+                        title: "END Program", 
+                        desc: "Memandangkan i melebihi had (i > 5), syarat bertukar ke PALSU (No). Aliran keluar dari gelung dan menamatkan program.", 
+                        condition: (state) => state.variables.i > 5,
+                        action: (state) => {} 
+                    }
+                ],
+                svg: (activeNode, state) => {
+                    return `
+                    <svg class="w-full max-w-[340px] h-[480px]" viewBox="0 0 220 380">
+                        <defs>
+                            <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748b"></path>
+                            </marker>
+                        </defs>
+                        
+                        <!-- Node 1: START -->
+                        <g id="n_start" class="transition-all duration-300">
+                            <rect x="60" y="10" width="100" height="25" rx="12.5" fill="${activeNode === 'n_start' ? '#22c55e' : '#e2e8f0'}" stroke="${activeNode === 'n_start' ? '#15803d' : '#64748b'}" stroke-width="2" class="${activeNode === 'n_start' ? 'active-glow' : ''}"></rect>
+                            <text x="110" y="26" font-family="Plus Jakarta Sans" font-size="9" font-weight="bold" fill="${activeNode === 'n_start' ? '#ffffff' : '#334155'}" text-anchor="middle">START</text>
+                        </g>
+
+                        <path d="M110 35 L110 58" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"></path>
+
+                        <!-- Node 2: Initialisation -->
+                        <g id="n_init" class="transition-all duration-300">
+                            <rect x="55" y="60" width="110" height="30" fill="${activeNode === 'n_init' ? '#22c55e' : '#fef3c7'}" stroke="${activeNode === 'n_init' ? '#15803d' : '#d97706'}" stroke-width="2" class="${activeNode === 'n_init' ? 'active-glow' : ''}"></rect>
+                            <text x="110" y="79" font-family="Plus Jakarta Sans" font-size="9" font-weight="bold" fill="${activeNode === 'n_init' ? '#ffffff' : '#b45309'}" text-anchor="middle">i = 1</text>
+                        </g>
+
+                        <path d="M110 90 L110 118" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"></path>
+
+                        <!-- Node 3: Condition Check -->
+                        <g id="n_test" class="transition-all duration-300">
+                            <polygon points="110,120 165,145 110,170 55,145" fill="${activeNode === 'n_test' ? '#22c55e' : '#fdf2f8'}" stroke="${activeNode === 'n_test' ? '#15803d' : '#db2777'}" stroke-width="2" class="${activeNode === 'n_test' ? 'active-glow' : ''}"></polygon>
+                            <text x="110" y="148" font-family="Plus Jakarta Sans" font-size="9" font-weight="bold" fill="${activeNode === 'n_test' ? '#ffffff' : '#9d174d'}" text-anchor="middle">i &lt;= 5?</text>
+                        </g>
+
+                        <!-- YES Path going down to display -->
+                        <path d="M110 170 L110 198" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"></path>
+                        <text x="115" y="185" font-family="Plus Jakarta Sans" font-size="8" font-weight="bold" fill="#16a34a">Yes</text>
+
+                        <!-- NO Path going right to END -->
+                        <path d="M165 145 L200 145 L200 288 M200 288 L155 288" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"></path>
+                        <text x="175" y="138" font-family="Plus Jakarta Sans" font-size="8" font-weight="bold" fill="#dc2626">No</text>
+
+                        <!-- Node 4: Display i -->
+                        <g id="n_print" class="transition-all duration-300">
+                            <polygon points="60,200 160,200 145,230 45,230" fill="${activeNode === 'n_print' ? '#22c55e' : '#e0f2fe'}" stroke="${activeNode === 'n_print' ? '#15803d' : '#0284c7'}" stroke-width="2" class="${activeNode === 'n_print' ? 'active-glow' : ''}"></polygon>
+                            <text x="102" y="219" font-family="Plus Jakarta Sans" font-size="9" font-weight="bold" fill="${activeNode === 'n_print' ? '#ffffff' : '#0369a1'}" text-anchor="middle">Display i</text>
+                        </g>
+
+                        <path d="M110 230 L110 248" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"></path>
+
+                        <!-- Node 5: Increment Process -->
+                        <g id="n_increment" class="transition-all duration-300">
+                            <rect x="55" y="250" width="110" height="25" fill="${activeNode === 'n_increment' ? '#22c55e' : '#fef3c7'}" stroke="${activeNode === 'n_increment' ? '#15803d' : '#d97706'}" stroke-width="2" class="${activeNode === 'n_increment' ? 'active-glow' : ''}"></rect>
+                            <text x="110" y="266" font-family="Plus Jakarta Sans" font-size="9" font-weight="bold" fill="${activeNode === 'n_increment' ? '#ffffff' : '#b45309'}" text-anchor="middle">i = i + 1</text>
+                        </g>
+
+                        <!-- Loop-back connection arrow going up to condition check -->
+                        <path d="M55 262.5 L20 262.5 L20 145 L50 145" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"></path>
+
+                        <!-- Node 6: END -->
+                        <g id="n_end" class="transition-all duration-300">
+                            <rect x="60" y="275" width="100" height="25" rx="12.5" fill="${activeNode === 'n_end' ? '#22c55e' : '#e2e8f0'}" stroke="${activeNode === 'n_end' ? '#15803d' : '#64748b'}" stroke-width="2" class="${activeNode === 'n_end' ? 'active-glow' : ''}"></rect>
+                            <text x="110" y="291" font-family="Plus Jakarta Sans" font-size="9" font-weight="bold" fill="${activeNode === 'n_end' ? '#ffffff' : '#334155'}" text-anchor="middle">END</text>
+                        </g>
+                    </svg>
+                    `;
+                }
+            }
+        };
+
+        const QUIZ_QUESTIONS = [
+            {
+                question: "Flowchart ditakrifkan terutamanya sebagai...",
+                options: [
+                    "Satu lukisan seni digital yang melambangkan reka bentuk hiasan program.",
+                    "Satu kod C++ alternatif yang ditulis dalam log pelantar pengaturcara.",
+                    "Gambar rajah visual yang menggunakan simbol piawai antarabangsa untuk memaparkan logik penyelesaian sesuatu algoritma.",
+                    "Perkakasan komputer yang menyusun semua pembolehubah RAM secara fizikal."
+                ],
+                correct: 2,
+                explanation: "Betul! Flowchart ialah gambar rajah visual yang menggunakan simbol standard industri untuk menunjukkan langkah penyelesaian masalah (algoritma) tanpa terikat kepada sintaks kod bahasa tertentu."
+            },
+            {
+                question: "Bentuk geometri manakah yang digunakan secara standard untuk menunjukkan proses pengiraan matematik, seperti 'BMI = berat / (tinggi * tinggi)'?",
+                options: [
+                    "Bentuk Segi Empat Selari (Parallelogram)",
+                    "Bentuk Oval (Terminator)",
+                    "Bentuk Berlian (Diamond)",
+                    "Bentuk Segi Empat Tepat (Rectangle)"
+                ],
+                correct: 3,
+                explanation: "Sempurna! Segi Empat Tepat (Rectangle) digunakan untuk 'Process' yang melibatkan sebarang bentuk pengiraan formula atau penetapan nilai pembolehubah."
+            },
+            {
+                question: "Mengapakah kita dilarang menggunakan simbol 'Process' (Segi Empat Tepat) semasa menerima input daripada pengguna?",
+                options: [
+                    "Kerana komputer tidak boleh membaca data di dalam bentuk segi empat.",
+                    "Kerana silibus ANSI telah menetapkan input mesti digambarkan dengan Segi Empat Selari (Parallelogram/Data).",
+                    "Sebab C++ tidak menyokong kemasukan data menggunakan bentuk tersebut.",
+                    "Kerana input memerlukan ruang berlian keputusan."
+                ],
+                correct: 1,
+                explanation: "Tepat sekali! Memasukkan data (Input) dan mencetak maklumat (Output) wajib diwakili oleh bentuk Parallelogram demi mengikut standard antarabangsa yang membezakan jenis operasi."
+            },
+            {
+                question: "Adakah benar kenyataan ini: 'Simbol Berlian (Decision) mestilah mempunyai tepat SATU aliran masuk, tetapi sekurang-kurangnya DUA aliran keluar bercabang (Yes/No)'?",
+                options: [
+                    "Benar, kerana ia menguji syarat benar/palsu lalu menghasilkan laluan bercabang.",
+                    "Salah, sebuah simbol keputusan hanya dibenarkan ada satu anak panah keluar sahaja.",
+                    "Benar, tetapi ia hanya digunapakai untuk struktur 'sequential' sahaja.",
+                    "Salah, simbol keputusan boleh mempunyai lima cabang jalan serentak secara rawak."
+                ],
+                correct: 0,
+                explanation: "Hebat! Keputusan (Decision) sentiasa mempunyai syarat (True/False) yang bermaksud aliran logik atur cara mesti berpecah kepada sekurang-kurangnya dua laluan berbeza berdasarkan penilaian syarat tersebut."
+            },
+            {
+                question: "Sekiranya anda melukis sebuah flowchart pengaturcaraan yang bersambung ke halaman muka surat sebelah kerana terlalu panjang, simbol manakah yang mesti digunakan?",
+                options: [
+                    "Simbol Bulatan (On-page Connector)",
+                    "Simbol Oval (Terminator)",
+                    "Simbol Pentagon bucu bawah (Off-page Connector)",
+                    "Simbol Segi Empat Tepat (Process)"
+                ],
+                correct: 2,
+                explanation: "Tepat sekali! Pentagon (Off-page Connector) digunakan untuk menyambung aliran flowchart ke muka surat/halaman yang lain."
+            }
+        ];
+
+        const CLASS_CHALLENGES = [
+            {
+                title: "Kira Luas Segi Tiga",
+                badge: "Sequential Structure",
+                statement: "Pengguna memasukkan tapak (base) dan tinggi (height) segi tiga. Atur cara mengira luas menggunakan formula: Area = 0.5 * tapak * tinggi, seterusnya memaparkan keputusan tersebut kepada pengguna."
+            },
+            {
+                title: "Kira BMI (Body Mass Index)",
+                badge: "Sequential Structure",
+                statement: "Pengguna memasukkan nilai berat dalam kg dan tinggi dalam meter. Hitung nilai BMI menggunakan formula: BMI = berat / (tinggi * tinggi), seterusnya paparkan keputusan BMI pengguna."
+            },
+            {
+                title: "Kira Pembelian Runcit",
+                badge: "Sequential Structure",
+                statement: "Minta input harga barang dan kuantiti pembelian. Hitung Jumlah Bayaran = Harga * Kuantiti, seterusnya paparkan Jumlah Bayaran yang perlu dibayar."
+            },
+            {
+                title: "Menentukan Ganjil atau Genap",
+                badge: "Conditional Structure",
+                statement: "Satu program yang menerima input satu integer (nombor bulat). Tentukan sama ada nombor tersebut ialah nombor 'GENAP' atau 'GANJIL' (Hint: Guna operasi modulo %). Paparkan mesej hasil semakan."
+            },
+            {
+                title: "Had Umur Lesen Memandu",
+                badge: "Conditional Structure",
+                statement: "Atur cara meminta pengguna memasukkan umur mereka. Sekiranya umur >= 16, paparkan mesej 'LAYAK MEMOHON'. Jika sebaliknya, paparkan mesej 'TIDAK LAYAK'."
+            },
+            {
+                title: "Diskaun Pembelian Kad Ahli",
+                badge: "Conditional Structure",
+                statement: "Masukkan harga belian dan status kad keahlian (Ahli: Ya / Tidak). Sekiranya ahli, berikan diskaun sebanyak 10% (0.10). Jika tidak, tiada diskaun diberikan. Paparkan harga akhir."
+            },
+            {
+                title: "Sifir Sifir 5 (Guna Loop)",
+                badge: "Iterational Structure",
+                statement: "Papar sifir 5 dari 1 hingga 10. Contoh output: 1x5=5, 2x5=10 ... sehingga 10x5=50. Rancang sebuah gelung ulangan menggunakan pembilang."
+            },
+            {
+                title: "Kira Jumlah Nombor 1 hingga 10",
+                badge: "Iterational Structure",
+                statement: "Buat algoritma ulangan untuk menambah nombor secara berperingkat (1+2+3+...+10). Paparkan nilai jumlah terkumpul terakhir pada skrin komputer sebaik gelung selesai."
+            }
+        ];
+
+        // Global Interactive State
+        let currentTab = 'dashboard';
+        let activeScenarioKey = 'sequential';
+        let currentStepIndex = -1;
+        let simulatorState = {
+            inputs: {},
+            variables: {},
+            outputLogs: [],
+            output: (text) => {
+                simulatorState.outputLogs.push(text);
+                updateConsoleDOM();
+            }
+        };
+        let autoplayInterval = null;
+
+        // Quiz State
+        let currentQuestionIndex = 0;
+        let quizScore = 0;
+        let selectedOptionIndex = null;
+
+        // Initialize App
+        window.onload = function() {
+            // Load Default Simulator Scenario
+            loadScenario();
+            // Initialize Symbols
+            selectSymbol('terminator');
+            // Generate Initial Classroom Challenge
+            generateRandomChallenge();
+        };
+
+        // Navigation Tab Switcher
+        function switchTab(tabId) {
+            // Stop any simulation running
+            stopAutoplay();
+
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(element => {
+                element.classList.add('hidden');
+            });
+            // Show active tab
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+
+            // Reset navigation button styles
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.className = "nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 text-white hover:bg-white/10";
+            });
+            // Update active button style
+            document.getElementById(`btn-${tabId}`).className = "nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 bg-white text-indigo-900 shadow-sm";
+            
+            currentTab = tabId;
+        }
+
+        // ================= INTERACTION: SYMBOLS GALLERY =================
+        function selectSymbol(key) {
+            // Update selected card borders
+            document.querySelectorAll('.symbol-card').forEach(card => {
+                card.className = "symbol-card bg-white p-4 rounded-xl border border-slate-200 hover:border-indigo-300 cursor-pointer shadow-sm transition-all duration-150 flex items-center justify-between";
+                const badge = card.querySelector('span');
+                if(badge) badge.className = "text-slate-400 text-xs font-semibold bg-slate-50 px-2 py-1 rounded";
+                if(badge) badge.innerText = "Lihat";
+            });
+
+            // Highlight selected card
+            const selectedCard = document.getElementById(`card-${key}`);
+            if(selectedCard) {
+                selectedCard.className = "symbol-card bg-white p-4 rounded-xl border-2 border-indigo-500 hover:border-indigo-600 cursor-pointer shadow-sm transition-all duration-150 flex items-center justify-between";
+                const badge = selectedCard.querySelector('span');
+                if(badge) badge.className = "text-indigo-600 text-xs font-bold bg-indigo-50 px-2 py-1 rounded";
+                if(badge) badge.innerText = "Aktif";
+            }
+
+            // Populate Info Panel with selected symbol data
+            const data = SYMBOLS_DATA[key];
+            if(data) {
+                document.getElementById('detail-category').innerText = data.category;
+                document.getElementById('detail-title').innerText = data.title;
+                document.getElementById('detail-desc').innerText = data.desc;
+                document.getElementById('detail-svg-container').innerHTML = data.svg;
+                
+                // Load Tips
+                const tipsList = document.getElementById('detail-tips');
+                tipsList.innerHTML = '';
+                data.tips.forEach(tip => {
+                    const li = document.createElement('li');
+                    li.innerText = tip;
+                    tipsList.appendChild(li);
+                });
+            }
+        }
+
+        // ================= INTERACTION: SIMULATOR =================
+        function loadScenario() {
+            stopAutoplay();
+            const dropdown = document.getElementById('sim-scenario');
+            activeScenarioKey = dropdown.value;
+            const scenario = SIMULATOR_SCENARIOS[activeScenarioKey];
+            
+            // Update Headers
+            document.getElementById('flowchart-title').innerText = scenario.title;
+            document.getElementById('flowchart-subtitle').innerText = scenario.subtitle;
+            document.getElementById('flowchart-type-badge').innerText = scenario.type;
+
+            // Generate Inputs in Panel
+            const inputsDiv = document.getElementById('dynamic-inputs');
+            inputsDiv.innerHTML = '';
+            
+            if(scenario.inputs.length === 0) {
+                inputsDiv.innerHTML = `<p class="text-xs text-slate-500 italic text-center py-2">Senario ini tidak memerlukan sebarang parameter input manual.</p>`;
+            } else {
+                scenario.inputs.forEach(inp => {
+                    const wrap = document.createElement('div');
+                    wrap.className = "space-y-1";
+                    wrap.innerHTML = `
+                        <label class="text-2xs font-bold text-slate-500 uppercase">${inp.label}</label>
+                        <input type="${inp.type}" id="param-${inp.id}" value="${inp.default}" class="w-full bg-white border border-slate-200 text-slate-800 text-xs rounded-lg px-3 py-1.5 focus:ring-2 focus:ring-indigo-500 font-semibold" onchange="resetSimulation()">
+                    `;
+                    inputsDiv.appendChild(wrap);
+                });
+            }
+
+            // Reset execution state
+            resetSimulation();
+        }
+
+        function resetSimulation() {
+            stopAutoplay();
+            const scenario = SIMULATOR_SCENARIOS[activeScenarioKey];
+            
+            // Gather input parameters from UI
+            simulatorState.inputs = {};
+            scenario.inputs.forEach(inp => {
+                const el = document.getElementById(`param-${inp.id}`);
+                if(el) {
+                    simulatorState.inputs[inp.id] = parseFloat(el.value) || 0;
+                }
+            });
+
+            // Reinitialise simulator variables
+            simulatorState.variables = {};
+            Object.keys(scenario.variables).forEach(k => {
+                simulatorState.variables[k] = "?";
+            });
+
+            // Reset Logs & Index
+            simulatorState.outputLogs = ["[Sistem bersedia. Klik 'Langkah Seterusnya']"];
+            currentStepIndex = -1;
+
+            // Render Reset State
+            updateConsoleDOM();
+            renderFlowchartSVG(null);
+            
+            // Reset description banner
+            document.getElementById('step-number-badge').innerText = "Mula";
+            document.getElementById('step-instruction-title').innerText = "Sedia Memulakan Program";
+            document.getElementById('step-instruction-desc').innerText = "Sila tekan butang 'Langkah Seterusnya' untuk melihat bagaimana program memulakan operasinya.";
+        }
+
+        function stepForward() {
+            const scenario = SIMULATOR_SCENARIOS[activeScenarioKey];
+            const steps = scenario.steps;
+
+            // If we are at the end, wrap or warn
+            if (currentStepIndex >= steps.length - 1) {
+                simulatorState.output("🔴 Penamat atur cara telah dicapai. Sila mulakan semula.");
+                stopAutoplay();
+                return;
+            }
+
+            // Increment step
+            currentStepIndex++;
+            let currentStep = steps[currentStepIndex];
+
+            // Handle branching condition skipping logic
+            // In Scenario 2 (Conditional) and Scenario 3 (Loop), we may skip some steps based on evaluations
+            if (currentStep.condition && !currentStep.condition(simulatorState)) {
+                // If the condition is false, skip to next or handle specific path
+                if (activeScenarioKey === 'conditional') {
+                    // For conditional, we skip the block that doesn't match
+                    if (currentStep.node === 'n_yes_path') {
+                        // Skip yes path, jump directly to No Path
+                        currentStepIndex++; // Move past yes_path to no_path
+                        currentStep = steps[currentStepIndex];
+                    } else if (currentStep.node === 'n_no_path') {
+                        // Skip No path because we ran Yes Path. Move to end
+                        currentStepIndex++; // Move past no_path to end
+                        currentStep = steps[currentStepIndex];
+                    }
+                } else if (activeScenarioKey === 'iterational') {
+                    // For loop testing
+                    if (currentStep.node === 'n_print' || currentStep.node === 'n_increment') {
+                        // If counter is > 5, skip printing/increment and jump directly to END
+                        currentStepIndex = steps.length - 1; // End node
+                        currentStep = steps[currentStepIndex];
+                    }
+                }
+            }
+
+            // Execute current step action
+            if (currentStep.action) {
+                currentStep.action(simulatorState);
+            }
+
+            // Loop specific custom routing
+            if (activeScenarioKey === 'iterational' && currentStep.node === 'n_increment') {
+                // After incrementing, next step must loop back to the Condition Test (step index 2)
+                currentStepIndex = 1; // It will increment to 2 in the next stepForward
+            }
+
+            // Update DOM Elements
+            renderFlowchartSVG(currentStep.node);
+            updateConsoleDOM();
+
+            // Update Explanation Banner
+            document.getElementById('step-number-badge').innerText = `Langkah ${currentStepIndex + 1}`;
+            document.getElementById('step-instruction-title').innerText = currentStep.title;
+            document.getElementById('step-instruction-desc').innerText = currentStep.desc;
+        }
+
+        function autoPlaySimulation() {
+            const btn = document.getElementById('btn-autoplay');
+            if (autoplayInterval) {
+                stopAutoplay();
+            } else {
+                btn.innerText = "⏸️ Hentikan Autoplay";
+                btn.className = "w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition-all flex items-center justify-center gap-1";
+                
+                // Instantly play first step
+                stepForward();
+                autoplayInterval = setInterval(() => {
+                    const scenario = SIMULATOR_SCENARIOS[activeScenarioKey];
+                    if (currentStepIndex >= scenario.steps.length - 1 && activeScenarioKey !== 'iterational') {
+                        stopAutoplay();
+                    } else if (activeScenarioKey === 'iterational' && currentStepIndex === scenario.steps.length - 1) {
+                        stopAutoplay();
+                    } else {
+                        stepForward();
+                    }
+                }, 1400); // 1.4 seconds delay per step
+            }
+        }
+
+        function stopAutoplay() {
+            if (autoplayInterval) {
+                clearInterval(autoplayInterval);
+                autoplayInterval = null;
+            }
+            const btn = document.getElementById('btn-autoplay');
+            if(btn) {
+                btn.innerText = "⚡ Automatik (Laju)";
+                btn.className = "w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition-all flex items-center justify-center gap-1";
+            }
+        }
+
+        function renderFlowchartSVG(activeNode) {
+            const scenario = SIMULATOR_SCENARIOS[activeScenarioKey];
+            const svgContainer = document.getElementById('svg-canvas');
+            svgContainer.innerHTML = scenario.svg(activeNode, simulatorState);
+        }
+
+        function updateConsoleDOM() {
+            // Render RAM variables
+            const varDiv = document.getElementById('console-variables');
+            varDiv.innerHTML = '';
+            
+            Object.entries(simulatorState.variables).forEach(([k, val]) => {
+                const line = document.createElement('div');
+                line.className = "flex justify-between border-b border-slate-800 pb-1";
+                line.innerHTML = `<span class="text-slate-400 font-mono">${k}:</span> <span class="text-yellow-300 font-bold font-mono">${val}</span>`;
+                varDiv.appendChild(line);
+            });
+
+            // Render Outputs Console Screen
+            const screen = document.getElementById('console-screen');
+            screen.innerHTML = simulatorState.outputLogs.map(log => `<div>${log}</div>`).join('');
+            
+            // Auto scroll console to bottom
+            screen.scrollTop = screen.scrollHeight;
+        }
+
+
+        // ================= INTERACTION: GAMIFIED QUIZ =================
+        function loadQuizQuestion() {
+            selectedOptionIndex = null;
+            const currentQ = QUIZ_QUESTIONS[currentQuestionIndex];
+            
+            // Update progress
+            document.getElementById('quiz-progress').innerText = `Soalan ${currentQuestionIndex + 1} daripada ${QUIZ_QUESTIONS.length}`;
+            document.getElementById('quiz-score').innerText = quizScore;
+            
+            // Hide next buttons & feedback
+            document.getElementById('btn-next-question').classList.add('hidden');
+            document.getElementById('quiz-feedback').className = "hidden";
+            
+            // Set Question Text
+            document.getElementById('quiz-question').innerText = currentQ.question;
+            
+            // Render Options
+            const optionsDiv = document.getElementById('quiz-options');
+            optionsDiv.innerHTML = '';
+            
+            currentQ.options.forEach((opt, idx) => {
+                const button = document.createElement('button');
+                button.className = "w-full text-left p-4 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/50 font-medium text-slate-700 text-sm transition-all duration-150 flex justify-between items-center";
+                button.onclick = () => selectQuizOption(idx);
+                button.innerHTML = `
+                    <span>${opt}</span>
+                    <span class="w-5 h-5 rounded-full border border-slate-300 flex items-center justify-center text-xs text-transparent">✓</span>
+                `;
+                optionsDiv.appendChild(button);
+            });
+        }
+
+        function selectQuizOption(idx) {
+            if (selectedOptionIndex !== null) return; // Prevent multiple clicks on same question
+
+            selectedOptionIndex = idx;
+            const currentQ = QUIZ_QUESTIONS[currentQuestionIndex];
+            const optionsContainer = document.getElementById('quiz-options');
+            const feedbackBox = document.getElementById('quiz-feedback');
+            
+            // Highlight options
+            Array.from(optionsContainer.children).forEach((btn, index) => {
+                btn.disabled = true;
+                if (index === currentQ.correct) {
+                    btn.className = "w-full text-left p-4 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-emerald-900 font-semibold text-sm transition-all flex justify-between items-center";
+                    btn.querySelector('span:last-child').className = "w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs";
+                    btn.querySelector('span:last-child').innerText = "✓";
+                } else if (index === selectedOptionIndex) {
+                    btn.className = "w-full text-left p-4 rounded-xl border-2 border-rose-500 bg-rose-50 text-rose-950 font-semibold text-sm transition-all flex justify-between items-center";
+                    btn.querySelector('span:last-child').className = "w-5 h-5 rounded-full bg-rose-500 text-white flex items-center justify-center text-xs";
+                    btn.querySelector('span:last-child').innerText = "✗";
+                } else {
+                    btn.className = "w-full text-left p-4 rounded-xl border border-slate-100 bg-slate-50 text-slate-400 text-sm transition-all opacity-50 flex justify-between items-center";
+                }
+            });
+
+            // Adjust score
+            if (selectedOptionIndex === currentQ.correct) {
+                quizScore += 20;
+                document.getElementById('quiz-score').innerText = quizScore;
+                
+                feedbackBox.className = "p-4 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-800 flex gap-3 items-start";
+                feedbackBox.innerHTML = `
+                    <div class="p-1 bg-emerald-200 text-emerald-800 rounded-lg">👍</div>
+                    <div>
+                        <strong class="font-bold block text-sm">Betul Cemerlang!</strong>
+                        <p class="text-xs text-emerald-700 mt-1">${currentQ.explanation}</p>
+                    </div>
+                `;
+            } else {
+                feedbackBox.className = "p-4 rounded-xl border border-rose-200 bg-rose-50 text-rose-800 flex gap-3 items-start";
+                feedbackBox.innerHTML = `
+                    <div class="p-1 bg-rose-200 text-rose-800 rounded-lg">💡</div>
+                    <div>
+                        <strong class="font-bold block text-sm">Jawapan Kurang Tepat</strong>
+                        <p class="text-xs text-rose-700 mt-1">${currentQ.explanation}</p>
+                    </div>
+                `;
+            }
+
+            // Show next buttons
+            document.getElementById('btn-next-question').classList.remove('hidden');
+            if (currentQuestionIndex === QUIZ_QUESTIONS.length - 1) {
+                document.getElementById('btn-next-question').innerText = "Lihat Keputusan Akhir 🎓";
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < QUIZ_QUESTIONS.length - 1) {
+                currentQuestionIndex++;
+                loadQuizQuestion();
+            } else {
+                // End of quiz
+                renderQuizResults();
+            }
+        }
+
+        function renderQuizResults() {
+            const quizCard = document.getElementById('quiz-card');
+            
+            let badgeColor = "bg-rose-100 text-rose-800";
+            let resultTitle = "Kena Ulang Kaji Lagi 📚";
+            let resultDesc = "Jangan putus asa! Rujuk tab 'Simbol Standard' dan tonton pergerakan simulator untuk memantapkan pemahaman logik visual anda.";
+            
+            if (quizScore >= 80) {
+                badgeColor = "bg-emerald-100 text-emerald-800";
+                resultTitle = "Tahniah! Juara Logik IT 🏆";
+                resultDesc = "Hebat! Anda telah menguasai keseluruhan konsep silibus Flowchart IT Semester 1. Anda bersedia sepenuhnya untuk menulis kod C++!";
+            } else if (quizScore >= 50) {
+                badgeColor = "bg-amber-100 text-amber-800";
+                resultTitle = "Usaha Yang Baik! ⚡";
+                resultDesc = "Anda faham sebahagian besar konsep asas tetapi perlu lebih berhati-hati dalam membezakan fungsi input dan proses matematik.";
+            }
+
+            quizCard.innerHTML = `
+                <div class="text-center py-8 space-y-6">
+                    <div class="inline-flex p-4 rounded-full bg-indigo-50 text-indigo-600 mb-2">
+                        <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                    </div>
+                    <div class="space-y-2">
+                        <span class="${badgeColor} text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest">Markah Akhir: ${quizScore}/100</span>
+                        <h3 class="text-2xl font-extrabold text-slate-800">${resultTitle}</h3>
+                        <p class="text-slate-600 text-sm max-w-md mx-auto leading-relaxed">${resultDesc}</p>
+                    </div>
+
+                    <div class="pt-4">
+                        <button onclick="resetQuiz()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 px-8 rounded-xl text-sm shadow-md transition-all">
+                            Mulakan Kuiz Baru 🔄
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function resetQuiz() {
+            currentQuestionIndex = 0;
+            quizScore = 0;
+            selectedOptionIndex = null;
+            
+            // Re-render template structure
+            const quizCard = document.getElementById('quiz-card');
+            quizCard.innerHTML = `
+                <div class="flex justify-between items-center pb-4 border-b">
+                    <span class="text-xs font-bold text-indigo-600 uppercase tracking-widest" id="quiz-progress">Soalan 1 daripada 5</span>
+                    <span class="text-xs font-bold text-slate-500 flex items-center gap-1">
+                        🔑 Markah: <span id="quiz-score" class="text-emerald-600 font-extrabold">0</span>
+                    </span>
+                </div>
+
+                <div class="space-y-6" id="quiz-body">
+                    <div class="space-y-3">
+                        <h3 class="text-lg font-bold text-slate-800 leading-snug" id="quiz-question"></h3>
+                        <p class="text-xs text-slate-500">Pilih satu jawapan yang paling tepat.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-3" id="quiz-options"></div>
+                </div>
+
+                <div id="quiz-feedback" class="hidden p-4 rounded-xl border flex gap-3 items-start"></div>
+
+                <div class="flex justify-end pt-4 border-t">
+                    <button id="btn-next-question" onclick="nextQuestion()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-xl text-sm shadow transition-all hidden">
+                        Soalan Seterusnya ➔
+                    </button>
+                </div>
+            `;
+            
+            loadQuizQuestion();
+        }
+
+        // ================= INTERACTION: CHALLENGE GENERATOR =================
+        function generateRandomChallenge() {
+            const groupNameInput = document.getElementById('group-name');
+            const groupName = groupNameInput.value.trim() || "Kumpulan 1";
+            
+            // Get a random challenge from the pre-defined list
+            const randomIndex = Math.floor(Math.random() * CLASS_CHALLENGES.length);
+            const challenge = CLASS_CHALLENGES[randomIndex];
+
+            // Render details
+            document.getElementById('challenge-badge').innerText = challenge.badge;
+            document.getElementById('challenge-group-tag').innerText = `Tugasan Untuk: ${groupName}`;
+            document.getElementById('challenge-title').innerText = challenge.title;
+            document.getElementById('challenge-statement').innerText = challenge.statement;
+        }
+
+    </script>
+</body>
+</html>

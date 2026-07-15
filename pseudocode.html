@@ -1,0 +1,1756 @@
+<!DOCTYPE html>
+<html lang="ms" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindaPseudokod - Hub Pembelajaran Interaktif</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts (Poppins & JetBrains Mono) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .code-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="bg-indigo-900 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-3">
+                    <!-- Logo SVG -->
+                    <svg class="w-8 h-8 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                    </svg>
+                    <span class="font-extrabold text-xl tracking-wider">Minda<span class="text-amber-400">Pseudokod</span></span>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <nav class="hidden md:flex space-x-1 lg:space-x-4">
+                    <button onclick="switchTab('pengenalan')" id="nav-pengenalan" class="nav-btn px-3 py-2 rounded-md text-sm font-medium transition bg-indigo-800 text-white">Pengenalan</button>
+                    <button onclick="switchTab('kamus')" id="nav-kamus" class="nav-btn px-3 py-2 rounded-md text-sm font-medium transition text-indigo-200 hover:text-white hover:bg-indigo-800">Kata Kunci</button>
+                    <button onclick="switchTab('pembina')" id="nav-pembina" class="nav-btn px-3 py-2 rounded-md text-sm font-medium transition text-indigo-200 hover:text-white hover:bg-indigo-800">Studio IPO</button>
+                    <button onclick="switchTab('simulator')" id="nav-simulator" class="nav-btn px-3 py-2 rounded-md text-sm font-medium transition text-indigo-200 hover:text-white hover:bg-indigo-800">Simulator Tracer</button>
+                    <button onclick="switchTab('kuiz')" id="nav-kuiz" class="nav-btn px-3 py-2 rounded-md text-sm font-medium transition text-indigo-200 hover:text-white hover:bg-indigo-800">Uji Minda</button>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-toggle" class="text-indigo-200 hover:text-white focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden bg-indigo-950 px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-indigo-800">
+            <button onclick="switchTab('pengenalan'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-white bg-indigo-800">Pengenalan</button>
+            <button onclick="switchTab('kamus'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-indigo-200 hover:text-white hover:bg-indigo-800">Kata Kunci</button>
+            <button onclick="switchTab('pembina'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-indigo-200 hover:text-white hover:bg-indigo-800">Studio IPO</button>
+            <button onclick="switchTab('simulator'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-indigo-200 hover:text-white hover:bg-indigo-800">Simulator Tracer</button>
+            <button onclick="switchTab('kuiz'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-indigo-200 hover:text-white hover:bg-indigo-800">Uji Minda</button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- TAB 1: PENGENALAN -->
+        <section id="tab-pengenalan" class="tab-content space-y-8 animate-fade-in">
+            <!-- Hero banner -->
+            <div class="bg-gradient-to-r from-indigo-800 to-slate-900 rounded-3xl p-8 sm:p-12 text-white shadow-xl relative overflow-hidden">
+                <div class="absolute right-0 top-0 opacity-10 transform translate-x-12 -translate-y-12">
+                    <svg class="w-96 h-96" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.033 1.41l-1.14 1.14h3.04a1 1 0 110 2H11.21l1.14 1.14a1 1 0 11-1.414 1.414L8.586 6.75a1 1 0 010-1.414l2.35-2.35a1 1 0 011.38-.035zM5.75 9a1.25 1.25 0 100 2.5h10.5a1.25 1.25 0 100-2.5H5.75z" clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <div class="max-w-3xl relative z-10 space-y-4">
+                    <span class="bg-amber-400 text-slate-900 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Topik 1.4.6 & 1.4.7</span>
+                    <h1 class="text-3xl sm:text-5xl font-black tracking-tight leading-tight">Apakah itu <span class="text-amber-400">Pseudocode</span>?</h1>
+                    <p class="text-lg text-indigo-100 leading-relaxed">
+                        Pseudocode ialah cara menulis algoritma menggunakan bahasa yang menyerupai bahasa pengaturcaraan tetapi bebas daripada kekangan sintaks yang ketat (seperti C++). Ia ditulis dalam bahasa yang mudah difahami manusia untuk merancang logik program.
+                    </p>
+                    <div class="flex flex-wrap gap-4 pt-2">
+                        <button onclick="switchTab('simulator')" class="bg-amber-400 hover:bg-amber-300 text-slate-900 font-bold px-6 py-3 rounded-xl transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">Uji Simulator Kod &rarr;</button>
+                        <button onclick="switchTab('pembina')" class="bg-white/10 hover:bg-white/20 text-white font-semibold px-6 py-3 rounded-xl transition border border-white/20">Studio IPO & Pseudokod</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Konsep Mudah (Interactive cards) -->
+            <div class="space-y-4">
+                <h2 class="text-2xl font-bold text-slate-900 tracking-tight">Tiga Tiang Penyelesaian Masalah</h2>
+                <p class="text-slate-600">Mari bandingkan tiga bentuk cara merancang atur cara komputer:</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:border-indigo-500 transition duration-300 group">
+                        <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center text-indigo-600 mb-4 group-hover:scale-110 transition">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        </div>
+                        <h3 class="font-bold text-lg text-slate-900 mb-2">Algorithm (Algoritma)</h3>
+                        <p class="text-slate-600 text-sm mb-4">Langkah-langkah penyelesaian masalah dalam bentuk <strong>ayat biasa</strong> yang tersusun.</p>
+                        <div class="bg-slate-50 p-3 rounded-lg border border-slate-100 text-xs text-slate-500 code-font">
+                            "Mula. Ambil berat dan tinggi. Bahagikan berat dengan tinggi berganda. Papar BMI. Tamat."
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:border-indigo-500 transition duration-300 group">
+                        <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center text-emerald-600 mb-4 group-hover:scale-110 transition">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>
+                        </div>
+                        <h3 class="font-bold text-lg text-slate-900 mb-2">Flowchart (Carta Alir)</h3>
+                        <p class="text-slate-600 text-sm mb-4">Langkah-langkah penyelesaian masalah dalam bentuk <strong>gambar rajah / simbol grafik</strong> standard.</p>
+                        <div class="bg-slate-50 p-3 rounded-lg border border-slate-100 text-xs text-slate-500 code-font">
+                            [Terminal Oval] ➔ [Parallelogram Input] ➔ [Rectangle Process] ➔ [Terminal Oval]
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:border-indigo-500 transition duration-300 group">
+                        <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center text-amber-600 mb-4 group-hover:scale-110 transition">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                        </div>
+                        <h3 class="font-bold text-lg text-slate-900 mb-2">Pseudocode (Pseudokod)</h3>
+                        <p class="text-slate-600 text-sm mb-4">Langkah-langkah dalam bentuk hampir menyerupai <strong>kod program komputer</strong> tetapi mudah dibaca.</p>
+                        <div class="bg-slate-50 p-3 rounded-lg border border-slate-100 text-xs text-indigo-600 font-bold code-font">
+                            START<br>
+                            INPUT Weight, Height<br>
+                            BMI ← Weight / (Height * Height)<br>
+                            OUTPUT BMI<br>
+                            END
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kenapa guna pseudokod? -->
+            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="space-y-4">
+                    <h3 class="text-2xl font-bold text-slate-900">Mengapa Kita Menggunakan Pseudocode?</h3>
+                    <p class="text-slate-600">
+                        Sebelum menulis program dalam bahasa C++, seorang pengaturcara (programmer) biasanya menyediakan draf logik program terlebih dahulu. Ini mendatangkan banyak kelebihan:
+                    </p>
+                    <ul class="space-y-3">
+                        <li class="flex items-start space-x-3 text-slate-700">
+                            <span class="text-emerald-500 font-bold mt-0.5">✔</span>
+                            <span><strong>Merancang Logik:</strong> Membantu anda berfikir secara sistematik tanpa memikirkan kesilapan sintaks / kompiler.</span>
+                        </li>
+                        <li class="flex items-start space-x-3 text-slate-700">
+                            <span class="text-emerald-500 font-bold mt-0.5">✔</span>
+                            <span><strong>Pantas Diubah:</strong> Sangat mudah dibetulkan sekiranya berlaku kesilapan aliran pemikiran logik.</span>
+                        </li>
+                        <li class="flex items-start space-x-3 text-slate-700">
+                            <span class="text-emerald-500 font-bold mt-0.5">✔</span>
+                            <span><strong>Komunikasi Mudah:</strong> Boleh difahami dengan senang oleh pengaturcara lain walaupun mereka tidak mahir C++.</span>
+                        </li>
+                        <li class="flex items-start space-x-3 text-slate-700">
+                            <span class="text-emerald-500 font-bold mt-0.5">✔</span>
+                            <span><strong>Cetak Biru (Blueprint):</strong> Berfungsi sebagai panduan rujukan yang jitu ketika fasa menulis kod C++ sebenar.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-slate-900 text-slate-300 rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between border border-slate-800">
+                    <div>
+                        <div class="flex items-center space-x-2 mb-4">
+                            <span class="w-3 h-3 rounded-full bg-rose-500"></span>
+                            <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+                            <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                            <span class="text-xs text-slate-500 font-mono ml-2">Aliran Kerja Sempurna</span>
+                        </div>
+                        <h4 class="text-amber-400 font-bold mb-4">Langkah Pengaturcara Profesional:</h4>
+                        
+                        <!-- Visual Step-by-Step Flow -->
+                        <div class="space-y-3 text-xs sm:text-sm font-mono">
+                            <div class="flex items-center space-x-2 bg-slate-800/60 p-2.5 rounded-lg border border-slate-700">
+                                <span class="bg-indigo-600 text-white w-6 h-6 rounded-full flex items-center justify-center font-bold">1</span>
+                                <span>Kenal pasti <strong>Input, Process, Output (IPO)</strong></span>
+                            </div>
+                            <div class="flex items-center space-x-2 bg-slate-800/60 p-2.5 rounded-lg border border-slate-700">
+                                <span class="bg-indigo-600 text-white w-6 h-6 rounded-full flex items-center justify-center font-bold">2</span>
+                                <span>Tulis <strong>Algoritma</strong> (Ayat) & <strong>Flowchart</strong></span>
+                            </div>
+                            <div class="flex items-center space-x-2 bg-indigo-900/50 p-2.5 rounded-lg border border-indigo-500/50">
+                                <span class="bg-amber-500 text-slate-950 w-6 h-6 rounded-full flex items-center justify-center font-bold animate-pulse">3</span>
+                                <span class="text-white">Tulis <strong>Pseudocode</strong> (Draf Logik)</span>
+                            </div>
+                            <div class="flex items-center space-x-2 bg-slate-800/60 p-2.5 rounded-lg border border-slate-700">
+                                <span class="bg-indigo-600 text-white w-6 h-6 rounded-full flex items-center justify-center font-bold">4</span>
+                                <span>Tukarkan kepada <strong>Atur Cara C++ Sebenar</strong></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: KAMUS KATA KUNCI -->
+        <section id="tab-kamus" class="tab-content hidden space-y-6 animate-fade-in">
+            <div class="text-center max-w-2xl mx-auto space-y-2">
+                <h2 class="text-3xl font-black text-slate-900">Kamus Kata Kunci Pseudocode</h2>
+                <p class="text-slate-600">Klik pada mana-mana kata kunci untuk melihat maksud, penggunaan, dan padanannya dalam atur cara sebenar C++!</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Left: Keywords Grid -->
+                <div class="lg:col-span-1 grid grid-cols-2 gap-3" id="keywords-container">
+                    <!-- Javascript will inject cards here dynamically -->
+                </div>
+
+                <!-- Right: Details Display Panel -->
+                <div class="lg:col-span-2 bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm flex flex-col justify-between" id="keyword-detail-panel">
+                    <div class="text-center py-12 text-slate-400">
+                        <svg class="w-16 h-16 mx-auto mb-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path></svg>
+                        <p class="font-medium text-lg text-slate-500">Pilih kata kunci di sebelah kiri untuk mula meneroka.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: STUDIO IPO & PEMBINA PSEUDO -->
+        <section id="tab-pembina" class="tab-content hidden space-y-8 animate-fade-in">
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div class="space-y-1">
+                        <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-3 py-1 rounded-full uppercase">Praktis Struktur Logik</span>
+                        <h2 class="text-2xl font-extrabold text-slate-900">Studio IPO & Pembina Logik</h2>
+                    </div>
+                    <!-- Level Select -->
+                    <div class="flex items-center space-x-2">
+                        <label for="pembina-scenario" class="text-sm font-semibold text-slate-600">Pilih Penyataan Masalah:</label>
+                        <select id="pembina-scenario" onchange="loadScenario(this.value)" class="bg-slate-50 border border-slate-300 text-slate-700 text-sm rounded-xl focus:ring-indigo-500 focus:border-indigo-500 p-2.5 font-medium">
+                            <option value="scen1">S1: Purata 3 Markah (Sequential)</option>
+                            <option value="scen2">S2: Had Umur Pawagam (Conditional)</option>
+                            <option value="scen3">S3: Sifir 5 (Iterational)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Problem Statement Card -->
+                <div class="bg-slate-900 text-white rounded-2xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 relative overflow-hidden">
+                    <div class="space-y-2 relative z-10">
+                        <h3 class="text-amber-400 font-bold uppercase tracking-wider text-xs">Penyataan Masalah Yang Dipilih</h3>
+                        <p id="pembina-desc" class="text-lg font-semibold leading-relaxed">Sila tunggu sebentar...</p>
+                    </div>
+                    <div class="bg-slate-800/80 backdrop-blur-sm px-4 py-3 rounded-xl border border-slate-700 text-xs text-slate-400 max-w-xs shrink-0 font-mono">
+                        Jenis Aliran: <span id="pembina-type" class="text-amber-400 font-bold">-</span>
+                    </div>
+                </div>
+
+                <!-- GAME PLAY: STAGE 1 (IPO) -->
+                <div id="pembina-stage-1" class="space-y-6 border-b border-slate-100 pb-8">
+                    <div class="flex items-center space-x-2">
+                        <span class="bg-indigo-600 text-white w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs">A</span>
+                        <h3 class="text-lg font-bold text-slate-900">Bahagian 1: Kenal Pasti IPO (Input, Process, Output)</h3>
+                    </div>
+                    <p class="text-sm text-slate-500">Klik dan padankan elemen-elemen di bawah ke dalam kategori IPO yang betul:</p>
+
+                    <!-- Draggable / Clickable Options pool -->
+                    <div class="flex flex-wrap gap-2.5 p-4 bg-slate-100 rounded-xl min-h-[50px]" id="pembina-ipo-options">
+                        <!-- Filled by JS -->
+                    </div>
+
+                    <!-- Target Boxes Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Input Box -->
+                        <div class="bg-rose-50/50 rounded-2xl border-2 border-dashed border-rose-200 p-5 space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-rose-800 text-sm flex items-center"><span class="w-2.5 h-2.5 rounded-full bg-rose-500 mr-2"></span>INPUT</span>
+                                <span class="text-xs text-rose-500 font-semibold" id="ipo-input-count">0 dimasukkan</span>
+                            </div>
+                            <div class="space-y-2 min-h-[80px] bg-white rounded-xl p-3 shadow-inner" id="target-input" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'input')">
+                                <!-- Elements drop here -->
+                            </div>
+                        </div>
+
+                        <!-- Process Box -->
+                        <div class="bg-indigo-50/50 rounded-2xl border-2 border-dashed border-indigo-200 p-5 space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-indigo-800 text-sm flex items-center"><span class="w-2.5 h-2.5 rounded-full bg-indigo-500 mr-2"></span>PROCESS</span>
+                                <span class="text-xs text-indigo-500 font-semibold" id="ipo-process-count">0 dimasukkan</span>
+                            </div>
+                            <div class="space-y-2 min-h-[80px] bg-white rounded-xl p-3 shadow-inner" id="target-process" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'process')">
+                                <!-- Elements drop here -->
+                            </div>
+                        </div>
+
+                        <!-- Output Box -->
+                        <div class="bg-emerald-50/50 rounded-2xl border-2 border-dashed border-emerald-200 p-5 space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-emerald-800 text-sm flex items-center"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 mr-2"></span>OUTPUT</span>
+                                <span class="text-xs text-emerald-500 font-semibold" id="ipo-output-count">0 dimasukkan</span>
+                            </div>
+                            <div class="space-y-2 min-h-[80px] bg-white rounded-xl p-3 shadow-inner" id="target-output-val" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'output')">
+                                <!-- Elements drop here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end space-x-3">
+                        <button onclick="resetIPO()" class="text-slate-500 hover:text-slate-800 font-medium px-4 py-2 rounded-xl transition text-sm">Set Semula IPO</button>
+                        <button onclick="verifyIPO()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-2.5 rounded-xl transition text-sm shadow-md">Semak Jawapan IPO</button>
+                    </div>
+                </div>
+
+                <!-- GAME PLAY: STAGE 2 (PSEUDOCODE BUILDER) -->
+                <div id="pembina-stage-2" class="space-y-6 hidden pt-4">
+                    <div class="flex items-center space-x-2">
+                        <span class="bg-indigo-600 text-white w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs">B</span>
+                        <h3 class="text-lg font-bold text-slate-900">Bahagian 2: Bina Pseudocode (Susun Atur Logik)</h3>
+                    </div>
+                    <p class="text-sm text-slate-500">Susun baris kod berikut mengikut turutan yang logik untuk membentuk pseudokod yang betul. Klik baris kod di sebelah kiri untuk memindahkannya ke workspace sebelah kanan:</p>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- Code Blocks Pool -->
+                        <div class="space-y-3">
+                            <h4 class="font-semibold text-slate-700 text-xs uppercase tracking-wider">Blok Kod Tersedia</h4>
+                            <div id="pembina-code-blocks" class="space-y-2 bg-slate-100 p-4 rounded-2xl border border-slate-200 min-h-[250px]">
+                                <!-- Injected dynamically -->
+                            </div>
+                        </div>
+
+                        <!-- Structured Target Area -->
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center">
+                                <h4 class="font-semibold text-slate-700 text-xs uppercase tracking-wider">Workspace Pseudocode Anda</h4>
+                                <button onclick="clearWorkspace()" class="text-rose-500 hover:text-rose-700 text-xs font-semibold">Kosongkan</button>
+                            </div>
+                            <div id="pembina-workspace" class="space-y-2 bg-slate-900 p-6 rounded-2xl min-h-[250px] border border-slate-800 text-white font-mono text-sm shadow-xl flex flex-col justify-start">
+                                <!-- Chosen blocks here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="flex justify-between items-center pt-2">
+                        <p class="text-xs text-slate-400">Pastikan bermula dengan <code class="bg-slate-200 text-slate-800 font-mono px-1 py-0.5 rounded">START</code> dan berakhir dengan <code class="bg-slate-200 text-slate-800 font-mono px-1 py-0.5 rounded">END</code>.</p>
+                        <div class="space-x-3">
+                            <button onclick="verifyPseudocode()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold px-8 py-3 rounded-xl transition shadow-md hover:shadow-lg">Semak & Muktamadkan Logik</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Custom Interactive Alert Modal inside Canvas -->
+            <div id="custom-modal" class="hidden fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 transform transition-all scale-95 opacity-0 duration-300" id="modal-content">
+                    <div class="text-center space-y-4">
+                        <div id="modal-icon" class="w-16 h-16 rounded-full mx-auto flex items-center justify-center text-3xl"></div>
+                        <h3 id="modal-title" class="text-xl font-bold text-slate-900">Mesej</h3>
+                        <p id="modal-body" class="text-slate-600 text-sm leading-relaxed"></p>
+                        <div class="pt-4 flex justify-center gap-3">
+                            <button onclick="closeModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-2.5 rounded-xl transition text-sm">Selesai</button>
+                            <button id="modal-next-btn" onclick="nextStage()" class="hidden bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2.5 rounded-xl transition text-sm">Langkah Seterusnya</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: SIMULATOR PSEUDOCODE (TRACER ENGINE) -->
+        <section id="tab-simulator" class="tab-content hidden space-y-6 animate-fade-in">
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
+                <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                    <div class="space-y-1">
+                        <span class="bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1 rounded-full uppercase">Paling Berkuasa</span>
+                        <h2 class="text-2xl font-extrabold text-slate-900">Simulator Pseudokod Interaktif (Tracer)</h2>
+                    </div>
+                    <!-- Select Template -->
+                    <div class="flex flex-wrap items-center gap-3">
+                        <label for="sim-template" class="text-sm font-semibold text-slate-600">Pilih Templat Pseudokod:</label>
+                        <select id="sim-template" onchange="loadSimTemplate(this.value)" class="bg-slate-50 border border-slate-300 text-slate-700 text-sm rounded-xl focus:ring-indigo-500 focus:border-indigo-500 p-2.5 font-medium">
+                            <option value="sim1">Kira Luas Segi Empat (Sequential)</option>
+                            <option value="sim2">Had Umur Cinema (Conditional)</option>
+                            <option value="sim3">Kira Purata 3 Markah (Sequential)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Explanation of the Tracer -->
+                <p class="text-slate-600 text-sm">
+                    Simulator ini membolehkan anda melihat bagaimana logik komputer dijalankan secara **langkah-demi-langkah**. Apabila anda menekan punat **"Langkah Seterusnya"**, baris kod yang aktif akan disorot warna kuning, nilai pembolehubah akan berubah di kotak sebelah kanan, dan output akan dicetak dalam konsol!
+                </p>
+
+                <!-- WORKSPACE SIMULATOR -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <!-- Column Left: Code & Stepper (7 cols) -->
+                    <div class="lg:col-span-7 space-y-4">
+                        <div class="bg-slate-900 rounded-2xl border border-slate-800 shadow-xl overflow-hidden">
+                            <!-- Code header -->
+                            <div class="bg-slate-800 px-4 py-3 border-b border-slate-700 flex justify-between items-center text-xs">
+                                <span class="text-slate-400 font-mono flex items-center"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 mr-2"></span>editor_pseudocode.txt</span>
+                                <span class="bg-slate-700 text-slate-300 font-mono px-2 py-0.5 rounded">Boleh Diedit</span>
+                            </div>
+                            
+                            <!-- Live Code lines container -->
+                            <div class="p-4 bg-slate-950 font-mono text-sm leading-relaxed overflow-x-auto">
+                                <textarea id="sim-code-textarea" oninput="parseSimCodeFromUI()" class="w-full bg-transparent text-indigo-300 focus:outline-none resize-y min-h-[220px] code-font block leading-8 whitespace-pre" spellcheck="false"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Controls -->
+                        <div class="flex flex-wrap gap-3">
+                            <button onclick="startSimulation()" id="sim-btn-start" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-xl transition flex items-center justify-center space-x-2 shadow">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0yz"></path></svg>
+                                <span>Mula Simulasi</span>
+                            </button>
+                            <button onclick="stepSimulation()" id="sim-btn-step" disabled class="flex-1 bg-amber-500 hover:bg-amber-600 disabled:opacity-50 disabled:hover:bg-amber-500 text-slate-950 font-bold py-3 px-6 rounded-xl transition flex items-center justify-center space-x-2 shadow">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
+                                <span>Langkah Seterusnya</span>
+                            </button>
+                            <button onclick="resetSimulation()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-3 px-6 rounded-xl transition flex items-center justify-center space-x-2">
+                                <span>Set Semula</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Column Right: Variable watcher & Output Terminal (5 cols) -->
+                    <div class="lg:col-span-5 space-y-6">
+                        <!-- Variables Watcher Card -->
+                        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4">
+                            <h3 class="font-bold text-slate-800 text-sm tracking-wider flex items-center uppercase"><span class="w-2.5 h-2.5 rounded-full bg-indigo-500 mr-2"></span>Jadual Pembolehubah (Variables)</h3>
+                            
+                            <div class="overflow-hidden rounded-xl border border-slate-100">
+                                <table class="min-w-full divide-y divide-slate-100">
+                                    <thead class="bg-slate-50">
+                                        <tr>
+                                            <th class="px-4 py-2 text-left text-xs font-semibold text-slate-500 font-mono">Nama Pembolehubah</th>
+                                            <th class="px-4 py-2 text-left text-xs font-semibold text-slate-500 font-mono">Nilai Semasa</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="sim-variables-table-body" class="divide-y divide-slate-100 font-mono text-sm text-slate-700">
+                                        <tr>
+                                            <td colspan="2" class="px-4 py-6 text-center text-slate-400 italic">Tiada pembolehubah dikesan lagi.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Live Interactive Input Section (Only pops when input is required) -->
+                        <div id="sim-input-prompter" class="hidden bg-indigo-50 border-2 border-indigo-200 rounded-2xl p-4 space-y-3 animate-pulse">
+                            <h4 class="font-bold text-indigo-900 text-sm">Menunggu Input Pengguna:</h4>
+                            <div class="flex gap-2">
+                                <input type="number" id="sim-input-field" placeholder="Masukkan nilai nombor" class="flex-grow bg-white border border-indigo-300 rounded-xl px-4 py-2 focus:ring-2 focus:ring-indigo-500 text-sm font-semibold">
+                                <button onclick="submitSimInput()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-5 py-2 rounded-xl transition text-sm">Hantar</button>
+                            </div>
+                        </div>
+
+                        <!-- Terminal Output Screen -->
+                        <div class="bg-slate-950 text-emerald-400 font-mono rounded-2xl p-5 border border-slate-800 shadow-xl space-y-3">
+                            <div class="flex items-center justify-between text-xs text-slate-500 border-b border-slate-800 pb-2">
+                                <span class="flex items-center"><span class="w-2 h-2 rounded-full bg-rose-500 mr-1.5"></span>KONSOL OUTPUT</span>
+                                <button onclick="clearTerminal()" class="hover:text-slate-300">Bersihkan</button>
+                            </div>
+                            <div id="sim-terminal" class="min-h-[100px] max-h-[180px] overflow-y-auto space-y-1.5 text-xs sm:text-sm">
+                                <div class="text-slate-500">Menanti simulasi bermula...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 5: KUIZ MENGUJI MINDA -->
+        <section id="tab-kuiz" class="tab-content hidden space-y-6 animate-fade-in">
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
+                <!-- Welcome Section -->
+                <div id="quiz-intro" class="text-center py-10 space-y-6">
+                    <div class="w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center text-amber-600 mx-auto text-4xl">🏆</div>
+                    <div class="space-y-2">
+                        <h2 class="text-3xl font-extrabold text-slate-900">Uji Minda Pseudocode & C++</h2>
+                        <p class="text-slate-600 max-w-lg mx-auto">Cabar diri anda dengan kuiz interaktif bertahap tinggi berdasarkan topik IPO, Algoritma, dan Pseudokod!</p>
+                    </div>
+                    <button onclick="startQuiz()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold px-10 py-4 rounded-xl transition shadow-lg transform hover:-translate-y-0.5">Mula Kuiz Sekarang</button>
+                </div>
+
+                <!-- Active Question Screen -->
+                <div id="quiz-active" class="hidden space-y-6">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <span class="text-slate-500 text-xs font-bold uppercase tracking-wider">Soalan <span id="quiz-current-num">1</span> daripada <span id="quiz-total-num">5</span></span>
+                        <!-- Progress bar -->
+                        <div class="w-1/2 bg-slate-100 h-2 rounded-full overflow-hidden">
+                            <div id="quiz-progress-bar" class="bg-indigo-600 h-full transition-all duration-300" style="width: 20%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Question Container -->
+                    <div class="space-y-4">
+                        <h3 id="quiz-question-text" class="text-xl font-bold text-slate-900">Penyataan Soalan</h3>
+                        
+                        <!-- Mini Pseudocode Example Box inside quiz (Conditional visibility) -->
+                        <div id="quiz-code-box" class="hidden bg-slate-900 text-white p-4 rounded-xl font-mono text-sm leading-relaxed border border-slate-800"></div>
+
+                        <!-- Choices Grid -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2" id="quiz-choices-container">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Navigation Action -->
+                    <div class="flex justify-between items-center pt-4 border-t border-slate-100">
+                        <p id="quiz-feedback-text" class="text-sm font-semibold transition"></p>
+                        <button id="quiz-next-btn" onclick="nextQuizQuestion()" disabled class="bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white font-bold px-6 py-2.5 rounded-xl transition shadow-md">Seterusnya &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- Quiz Results -->
+                <div id="quiz-results" class="hidden text-center py-10 space-y-6">
+                    <div id="quiz-trophy-icon" class="text-6xl">🏆</div>
+                    <div class="space-y-2">
+                        <h2 class="text-3xl font-extrabold text-slate-900">Kuiz Selesai!</h2>
+                        <p class="text-slate-600">Markah pencapaian anda:</p>
+                        <div class="text-5xl font-black text-indigo-600 font-mono" id="quiz-final-score">80%</div>
+                        <p id="quiz-eval-msg" class="text-sm text-slate-500 font-medium"></p>
+                    </div>
+                    <div class="flex justify-center gap-4">
+                        <button onclick="startQuiz()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-3 rounded-xl transition shadow">Cuba Lagi</button>
+                        <button onclick="switchTab('simulator')" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-6 py-3 rounded-xl transition">Latihan Simulator</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-slate-400 py-8 border-t border-slate-800 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3">
+            <p class="text-sm">© 2026 MindaPseudokod. Hub Pembelajaran Pengaturcaraan Berpandukan Dokumen Kursus.</p>
+            <div class="flex justify-center space-x-6 text-xs text-slate-500">
+                <span>Direka mengikut Sukatan C++ Terkini</span>
+                <span>•</span>
+                <span>Interaktif & Visual</span>
+                <span>•</span>
+                <span>Sesuai untuk Pelajar Asas Pengaturcaraan</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE JAVASCRIPT LOGIC -->
+    <script>
+        /* ==================== GLOBAL CONTROLS ==================== */
+        function switchTab(tabId) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            // Remove active style from all nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.className = "nav-btn px-3 py-2 rounded-md text-sm font-medium transition text-indigo-200 hover:text-white hover:bg-indigo-800";
+            });
+
+            // Show selected tab
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+            // Highlight matching nav button
+            const activeBtn = document.getElementById(`nav-${tabId}`);
+            if (activeBtn) {
+                activeBtn.className = "nav-btn px-3 py-2 rounded-md text-sm font-medium transition bg-indigo-800 text-white shadow-inner";
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        document.getElementById('mobile-menu-toggle').addEventListener('click', toggleMobileMenu);
+
+        /* ==================== KAMUS KATA KUNCI DATABASE & LOGIC ==================== */
+        const keywordsData = [
+            {
+                word: "START",
+                maksud: "Menandakan permulaan langkah dalam pseudokod.",
+                usage: "Mesti ditulis pada baris pertama bagi setiap blok pseudokod utama.",
+                cpp: "Padanan: `{` (Pembuka fungsi utama `int main()`)",
+                demo: "START\n   // Atur cara bermula di sini\nEND"
+            },
+            {
+                word: "END",
+                maksud: "Menandakan penamat langkah bagi seluruh program.",
+                usage: "Diletakkan di baris terakhir selepas semua logik selesai dijalankan.",
+                cpp: "Padanan: `}` (Penutup blok atau penamat fungsi `return 0;`)",
+                demo: "START\n   OUTPUT \"Selesai\"\nEND"
+            },
+            {
+                word: "INPUT",
+                maksud: "Menerima input atau data daripada pengguna.",
+                usage: "Membaca data dan menyimpannya ke dalam pembolehubah tertentu.",
+                cpp: "Padanan: Penyataan standard `cin >> pembolehubah;`",
+                demo: "START\n   INPUT Markah\nEND"
+            },
+            {
+                word: "OUTPUT",
+                maksud: "Memaparkan teks, mesej atau nilai pembolehubah pada skrin.",
+                usage: "Digunakan untuk menyampaikan maklum balas kepada pengguna.",
+                cpp: "Padanan: Penyataan cetakan `cout << \"Mesej\";`",
+                demo: "START\n   OUTPUT \"Hello Dunia\"\nEND"
+            },
+            {
+                word: "SET",
+                maksud: "Memberikan atau memulakan nilai awal kepada pembolehubah.",
+                usage: "Digunakan sebelum melakukan pengiraan lanjut.",
+                cpp: "Padanan: Deklarasi atau penugasan terus `int jumlah = 0;`",
+                demo: "START\n   SET Jumlah ← 0\nEND"
+            },
+            {
+                word: "COMPUTE",
+                maksud: "Melakukan pengiraan matematik ke atas pembolehubah.",
+                usage: "Melakukan operasi seperti tambah (+), tolak (-), darab (*), bahagi (/).",
+                cpp: "Padanan: Proses aritmetik biasa `purata = jumlah / 3.0;`",
+                demo: "START\n   COMPUTE Jumlah ← Markah1 + Markah2\nEND"
+            },
+            {
+                word: "IF...THEN",
+                maksud: "Membuat keputusan / kawalan bersyarat.",
+                usage: "Melaksanakan blok arahan tertentu sekiranya syarat dinyatakan adalah BENAR.",
+                cpp: "Padanan: Struktur syarat utama `if (syarat) { ... }`",
+                demo: "START\n   INPUT Umur\n   IF Umur >= 18 THEN\n       OUTPUT \"Layak Masuk\"\n   ENDIF\nEND"
+            },
+            {
+                word: "ELSE",
+                maksud: "Pilihan alternatif sekiranya syarat 'IF' adalah PALSU.",
+                usage: "Digunakan seiringan dengan IF untuk menangani pelbagai keadaan bertentangan.",
+                cpp: "Padanan: Blok kontingensi `else { ... }`",
+                demo: "START\n   IF Markah >= 50 THEN\n       OUTPUT \"Lulus\"\n   ELSE\n       OUTPUT \"Gagal\"\n   ENDIF\nEND"
+            },
+            {
+                word: "WHILE",
+                maksud: "Gelung ulangan berasaskan syarat yang sentiasa diperiksa.",
+                usage: "Mengulang proses selagi syarat kekal BENAR.",
+                cpp: "Padanan: Struktur gelung `while (syarat) { ... }`",
+                demo: "START\n   SET i ← 1\n   WHILE i <= 5\n       OUTPUT i\n       COMPUTE i ← i + 1\n   ENDWHILE\nEND"
+            },
+            {
+                word: "FOR",
+                maksud: "Gelung ulangan berasaskan had pembilang tertentu.",
+                usage: "Sangat berguna sekiranya kita sudah tahu bilangan ulangan secara tepat (contoh: 1 hingga 10).",
+                cpp: "Padanan: Struktur gelung standard `for(int i=1; i<=10; i++)`",
+                demo: "START\n   FOR i ← 1 TO 5\n       OUTPUT i\n   NEXT i\nEND"
+            }
+        ];
+
+        function initKeywords() {
+            const container = document.getElementById('keywords-container');
+            container.innerHTML = '';
+            
+            keywordsData.forEach((item, index) => {
+                const card = document.createElement('button');
+                card.onclick = () => showKeywordDetail(index);
+                card.className = "p-4 bg-white hover:bg-indigo-50 border border-slate-200 hover:border-indigo-500 rounded-2xl text-left transition duration-300 shadow-sm flex flex-col justify-between group";
+                card.innerHTML = `
+                    <div class="space-y-1">
+                        <span class="text-xs text-indigo-500 font-bold font-mono uppercase tracking-wider">Kata Kunci</span>
+                        <h4 class="text-lg font-extrabold text-slate-950 font-mono group-hover:text-indigo-600 transition">${item.word}</h4>
+                    </div>
+                    <span class="text-xs text-slate-500 mt-2 flex items-center gap-1">Teroka &rarr;</span>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function showKeywordDetail(index) {
+            const item = keywordsData[index];
+            const panel = document.getElementById('keyword-detail-panel');
+            panel.innerHTML = `
+                <div class="space-y-6">
+                    <div class="flex items-center space-x-3">
+                        <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-3 py-1 rounded-full uppercase font-mono">Dipilih</span>
+                        <h3 class="text-2xl font-black text-slate-900 font-mono">${item.word}</h3>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="text-xs font-bold uppercase text-slate-400 tracking-wider">Maksud / Definisi</h4>
+                            <p class="text-slate-700 leading-relaxed font-medium mt-1">${item.maksud}</p>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-xs font-bold uppercase text-slate-400 tracking-wider">Cara Penggunaan</h4>
+                            <p class="text-slate-600 text-sm leading-relaxed mt-1">${item.usage}</p>
+                        </div>
+
+                        <div class="bg-indigo-50 text-indigo-900 px-4 py-3 rounded-xl border border-indigo-100 text-sm font-semibold flex items-center">
+                            <span>💡 ${item.cpp}</span>
+                        </div>
+                    </div>
+
+                    <!-- Live Code Preview Box -->
+                    <div class="space-y-2">
+                        <h4 class="text-xs font-bold uppercase text-slate-400 tracking-wider">Demo Struktur Logik:</h4>
+                        <div class="bg-slate-950 rounded-xl p-4 border border-slate-800 font-mono text-xs sm:text-sm text-amber-400 leading-relaxed shadow-inner">
+                            ${item.demo.replace(/\n/g, '<br>&nbsp;&nbsp;')}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="pt-6 border-t border-slate-100 flex justify-end">
+                    <button onclick="tryInSimulator('${encodeURIComponent(item.demo)}')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-5 py-2.5 rounded-xl text-sm transition">Hantar ke Simulator Tracer &rarr;</button>
+                </div>
+            `;
+        }
+
+        function tryInSimulator(encodedCode) {
+            const decoded = decodeURIComponent(encodedCode);
+            document.getElementById('sim-code-textarea').value = decoded;
+            parseSimCodeFromUI();
+            switchTab('simulator');
+            // Show dynamic feedback status in terminal
+            const terminal = document.getElementById('sim-terminal');
+            terminal.innerHTML = `<div class="text-amber-400 font-semibold">[SISTEM]: Kod demo sedia dimulakan! Sila klik 'Mula Simulasi'.</div>`;
+        }
+
+
+        /* ==================== STUDIO IPO & BUILDER GAME LOGIC ==================== */
+        const scenarios = {
+            scen1: {
+                title: "Calculate Average Mark (Kira Purata Markah)",
+                type: "Sequential (Turutan)",
+                desc: "Rancang atur cara komputer untuk membaca tiga markah tugasan berbeza, kirakan nilai puratanya, dan paparkan purata tersebut.",
+                ipo: {
+                    input: ["Mark1", "Mark2", "Mark3"],
+                    process: ["Average = (Mark1 + Mark2 + Mark3) / 3"],
+                    output: ["Average"]
+                },
+                options: [
+                    { id: "o1", text: "Mark1", cat: "input" },
+                    { id: "o2", text: "Average = (Mark1 + Mark2 + Mark3) / 3", cat: "process" },
+                    { id: "o3", text: "Average", cat: "output" },
+                    { id: "o4", text: "Mark2", cat: "input" },
+                    { id: "o5", text: "Mark3", cat: "input" },
+                    { id: "o6", text: "Calculate Area", cat: "fake" },
+                    { id: "o7", text: "Total Marks", cat: "fake" }
+                ],
+                correctCode: [
+                    "START",
+                    "INPUT Mark1",
+                    "INPUT Mark2",
+                    "INPUT Mark3",
+                    "Average ← (Mark1 + Mark2 + Mark3) / 3",
+                    "OUTPUT Average",
+                    "END"
+                ],
+                blocks: [
+                    "START",
+                    "INPUT Mark3",
+                    "Average ← (Mark1 + Mark2 + Mark3) / 3",
+                    "OUTPUT Average",
+                    "INPUT Mark1",
+                    "INPUT Mark2",
+                    "END"
+                ]
+            },
+            scen2: {
+                title: "Cinema Entry Checker (Had Umur Pawagam)",
+                type: "Conditional (Pilihan Bersyarat)",
+                desc: "Rancang sistem kawalan pawagam untuk membenarkan kemasukan hanya sekiranya umur pengguna berumur 18 tahun ke atas. Paparkan 'Allowed' jika lepas, atau 'Denied' jika sebaliknya.",
+                ipo: {
+                    input: ["Age"],
+                    process: ["Check whether Age is >= 18"],
+                    output: ["Allowed or Denied"]
+                },
+                options: [
+                    { id: "o1", text: "Age", cat: "input" },
+                    { id: "o2", text: "Check whether Age is >= 18", cat: "process" },
+                    { id: "o3", text: "Allowed or Denied", cat: "output" },
+                    { id: "o4", text: "Ticket Price", cat: "fake" },
+                    { id: "o5", text: "Calculate ticket count", cat: "fake" }
+                ],
+                correctCode: [
+                    "START",
+                    "INPUT Age",
+                    "IF Age >= 18 THEN",
+                    "OUTPUT \"Allowed\"",
+                    "ELSE",
+                    "OUTPUT \"Denied\"",
+                    "ENDIF",
+                    "END"
+                ],
+                blocks: [
+                    "START",
+                    "INPUT Age",
+                    "OUTPUT \"Allowed\"",
+                    "ELSE",
+                    "OUTPUT \"Denied\"",
+                    "IF Age >= 18 THEN",
+                    "ENDIF",
+                    "END"
+                ]
+            },
+            scen3: {
+                title: "Multiplication Table of 5 (Sifir 5)",
+                type: "Iterational (Ulangan)",
+                desc: "Rancang atur cara yang memaparkan jadual sifir gandaan 5, daripada pendaraban 1 sehingga pendaraban 10.",
+                ipo: {
+                    input: ["Tiada"],
+                    process: ["Calculate result of 5 * i, incrementing i from 1 to 10"],
+                    output: ["Result"]
+                },
+                options: [
+                    { id: "o1", text: "Tiada", cat: "input" },
+                    { id: "o2", text: "Calculate result of 5 * i, incrementing i from 1 to 10", cat: "process" },
+                    { id: "o3", text: "Result", cat: "output" },
+                    { id: "o4", text: "Value of multiplication", cat: "fake" }
+                ],
+                correctCode: [
+                    "START",
+                    "FOR i ← 1 TO 10",
+                    "Result ← 5 * i",
+                    "OUTPUT Result",
+                    "NEXT i",
+                    "END"
+                ],
+                blocks: [
+                    "START",
+                    "FOR i ← 1 TO 10",
+                    "Result ← 5 * i",
+                    "OUTPUT Result",
+                    "NEXT i",
+                    "END"
+                ]
+            }
+        };
+
+        let currentScenarioKey = 'scen1';
+        let userIPO = { input: [], process: [], output: [] };
+        let userWorkspaceCode = [];
+
+        function loadScenario(key) {
+            currentScenarioKey = key;
+            const sc = scenarios[key];
+            
+            document.getElementById('pembina-desc').innerText = sc.desc;
+            document.getElementById('pembina-type').innerText = sc.type;
+
+            // Reset States
+            resetIPO();
+            userWorkspaceCode = [];
+            document.getElementById('pembina-stage-2').classList.add('hidden');
+            
+            // Build IPO pool
+            const pool = document.getElementById('pembina-ipo-options');
+            pool.innerHTML = '';
+            
+            // Shuffle pool options
+            const shuffledOptions = [...sc.options].sort(() => Math.random() - 0.5);
+            shuffledOptions.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.id = opt.id;
+                btn.onclick = () => selectIPOOption(opt.id);
+                btn.className = "bg-white hover:bg-indigo-50 border border-slate-200 text-slate-800 text-xs font-semibold px-3 py-2 rounded-xl transition shadow-sm cursor-pointer";
+                btn.innerText = opt.text;
+                pool.appendChild(btn);
+            });
+        }
+
+        function selectIPOOption(id) {
+            const sc = scenarios[currentScenarioKey];
+            const opt = sc.options.find(o => o.id === id);
+            if (!opt) return;
+
+            // Show selection dialog (simple custom prompt style inline logic or immediate placement)
+            // To make it easy, we show a helper overlay/panel or simply prompt where to put it
+            // Let's create an elegant inline prompt or default movement:
+            // We rotate destinations or allow users to click destinations. Better yet, let's allow them to place it!
+            
+            // Let's build a clean inline choice
+            const optionBtn = document.getElementById(id);
+            
+            // Create a small select overlay next to it
+            if (optionBtn.classList.contains('active-sel')) {
+                return; // already placed
+            }
+
+            // Simple placement popup modal or menu
+            const choice = confirm(`Simpan "${opt.text}" ke dalam kategori yang mana?\n\nOK untuk INPUT, Batal untuk memilih semula.`);
+            let cat = '';
+            if (choice) {
+                cat = 'input';
+            } else {
+                const checkProcess = confirm(`Simpan ke dalam PROCESS?\n\nKlik OK untuk PROCESS, Klik BATAL untuk simpan ke dalam OUTPUT.`);
+                cat = checkProcess ? 'process' : 'output';
+            }
+
+            placeIPO(opt, cat);
+        }
+
+        function placeIPO(opt, targetCat) {
+            const optionBtn = document.getElementById(opt.id);
+            optionBtn.classList.add('opacity-40', 'cursor-not-allowed');
+            optionBtn.disabled = true;
+
+            userIPO[targetCat].push(opt);
+            renderIPODestinations();
+        }
+
+        function renderIPODestinations() {
+            // Render targets
+            ['input', 'process', 'output'].forEach(cat => {
+                const box = document.getElementById(cat === 'input' ? 'target-input' : cat === 'process' ? 'target-process' : 'target-output-val');
+                box.innerHTML = '';
+                
+                userIPO[cat].forEach(item => {
+                    const block = document.createElement('div');
+                    block.className = "flex items-center justify-between text-xs bg-slate-50 border border-slate-200 px-2.5 py-1.5 rounded-lg shadow-sm font-medium animate-fade-in";
+                    block.innerHTML = `
+                        <span class="truncate">${item.text}</span>
+                        <button onclick="removePlacedIPO('${item.id}', '${cat}')" class="text-rose-500 hover:text-rose-700 font-bold ml-1">×</button>
+                    `;
+                    box.appendChild(block);
+                });
+
+                document.getElementById(`ipo-${cat}-count`).innerText = `${userIPO[cat].length} dimasukkan`;
+            });
+        }
+
+        function removePlacedIPO(id, cat) {
+            userIPO[cat] = userIPO[cat].filter(item => item.id !== id);
+            
+            const optionBtn = document.getElementById(id);
+            optionBtn.classList.remove('opacity-40', 'cursor-not-allowed');
+            optionBtn.disabled = false;
+            
+            renderIPODestinations();
+        }
+
+        function resetIPO() {
+            userIPO = { input: [], process: [], output: [] };
+            renderIPODestinations();
+            
+            const sc = scenarios[currentScenarioKey];
+            if (sc) {
+                sc.options.forEach(opt => {
+                    const btn = document.getElementById(opt.id);
+                    if (btn) {
+                        btn.classList.remove('opacity-40', 'cursor-not-allowed');
+                        btn.disabled = false;
+                    }
+                });
+            }
+        }
+
+        function verifyIPO() {
+            const sc = scenarios[currentScenarioKey];
+            
+            // Check correct inputs, processes, outputs
+            const userInputs = userIPO.input.map(i => i.text);
+            const userProcesses = userIPO.process.map(i => i.text);
+            const userOutputs = userIPO.output.map(i => i.text);
+
+            const isInputCorrect = userInputs.length === sc.ipo.input.length && userInputs.every(v => sc.ipo.input.includes(v));
+            const isProcessCorrect = userProcesses.length === sc.ipo.process.length && userProcesses.every(v => sc.ipo.process.includes(v));
+            const isOutputCorrect = userOutputs.length === sc.ipo.output.length && userOutputs.every(v => sc.ipo.output.includes(v));
+
+            if (isInputCorrect && isProcessCorrect && isOutputCorrect) {
+                showCustomModal(
+                    "🎉 Hebat & Tepat Sekali!", 
+                    "Analisis IPO anda adalah 100% tepat! Komputer kini bersedia untuk draf logik seterusnya. Klik butang di bawah untuk membina pseudokod pula.", 
+                    "emerald", 
+                    true
+                );
+            } else {
+                showCustomModal(
+                    "❌ Analisis Kurang Tepat", 
+                    "Sila periksa semula padanan IPO anda. Pastikan pembolehubah input dan proses matematik diletakkan di kategori yang betul.", 
+                    "rose", 
+                    false
+                );
+            }
+        }
+
+        function unlockPseudocodeStage() {
+            document.getElementById('pembina-stage-2').classList.remove('hidden');
+            // Populate workspace blocks
+            const sc = scenarios[currentScenarioKey];
+            const blocksContainer = document.getElementById('pembina-code-blocks');
+            blocksContainer.innerHTML = '';
+
+            // Copy and shuffle
+            const shuffledBlocks = [...sc.blocks].sort(() => Math.random() - 0.5);
+            shuffledBlocks.forEach((block, idx) => {
+                const btn = document.createElement('button');
+                btn.onclick = () => addBlockToWorkspace(block, idx);
+                btn.id = `block-${idx}`;
+                btn.className = "w-full text-left bg-white hover:bg-indigo-50 border border-slate-200 text-slate-800 font-mono text-xs sm:text-sm p-3 rounded-xl transition shadow-sm hover:shadow flex items-center justify-between";
+                btn.innerHTML = `
+                    <span>${block}</span>
+                    <span class="text-indigo-400 font-bold font-sans text-xs">+ Tambah</span>
+                `;
+                blocksContainer.appendChild(btn);
+            });
+
+            // Scroll down
+            document.getElementById('pembina-stage-2').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function addBlockToWorkspace(blockText, blockIdx) {
+            // Check if already added
+            if (userWorkspaceCode.some(item => item.idx === blockIdx)) return;
+
+            userWorkspaceCode.push({ text: blockText, idx: blockIdx });
+            
+            // Visual feedback on block pool
+            const blockBtn = document.getElementById(`block-${blockIdx}`);
+            blockBtn.classList.add('opacity-40', 'cursor-not-allowed');
+            blockBtn.disabled = true;
+
+            renderWorkspace();
+        }
+
+        function renderWorkspace() {
+            const ws = document.getElementById('pembina-workspace');
+            ws.innerHTML = '';
+
+            if (userWorkspaceCode.length === 0) {
+                ws.innerHTML = `<div class="text-slate-500 italic py-12 text-center text-xs">Klik blok kod di sebelah kiri untuk menyusun baris logik di sini...</div>`;
+                return;
+            }
+
+            userWorkspaceCode.forEach((item, pos) => {
+                const line = document.createElement('div');
+                line.className = "flex items-center justify-between bg-slate-800 border border-slate-700 px-3 py-2.5 rounded-lg shadow hover:bg-slate-700 transition group";
+                
+                // Beautiful spacing for nested loops/conditions visually inside terminal
+                let indent = 0;
+                if (item.text.startsWith('INPUT') || item.text.startsWith('OUTPUT') || item.text.startsWith('Result') || item.text.includes('←')) {
+                    // Indent processes/io inside loops/conditions
+                    indent = 4;
+                }
+                const indentSpace = '&nbsp;'.repeat(indent);
+
+                line.innerHTML = `
+                    <div class="flex items-center space-x-2">
+                        <span class="text-slate-500 font-sans text-xs">${pos + 1}.</span>
+                        <span class="text-amber-400 font-bold">${indentSpace}${item.text}</span>
+                    </div>
+                    <button onclick="removeBlockFromWorkspace(${pos})" class="text-rose-400 hover:text-rose-600 font-sans text-xs font-semibold opacity-0 group-hover:opacity-100 transition">Buang</button>
+                `;
+                ws.appendChild(line);
+            });
+        }
+
+        function removeBlockFromWorkspace(pos) {
+            const item = userWorkspaceCode[pos];
+            userWorkspaceCode.splice(pos, 1);
+
+            // Reactivate pool block
+            const blockBtn = document.getElementById(`block-${item.idx}`);
+            if (blockBtn) {
+                blockBtn.classList.remove('opacity-40', 'cursor-not-allowed');
+                blockBtn.disabled = false;
+            }
+
+            renderWorkspace();
+        }
+
+        function clearWorkspace() {
+            userWorkspaceCode = [];
+            renderWorkspace();
+            
+            // Reactivate all in pool
+            const sc = scenarios[currentScenarioKey];
+            sc.blocks.forEach((_, idx) => {
+                const blockBtn = document.getElementById(`block-${idx}`);
+                if (blockBtn) {
+                    blockBtn.classList.remove('opacity-40', 'cursor-not-allowed');
+                    blockBtn.disabled = false;
+                }
+            });
+        }
+
+        function verifyPseudocode() {
+            const sc = scenarios[currentScenarioKey];
+            const correct = sc.correctCode;
+
+            const userTextArray = userWorkspaceCode.map(item => item.text);
+
+            // Simple match check
+            let isAllCorrect = userTextArray.length === correct.length;
+            if (isAllCorrect) {
+                for (let i = 0; i < correct.length; i++) {
+                    if (userTextArray[i] !== correct[i]) {
+                        isAllCorrect = false;
+                        break;
+                    }
+                }
+            }
+
+            if (isAllCorrect) {
+                showCustomModal(
+                    "🏆 Logik Sempurna Dinilai!", 
+                    `Tahniah! Anda telah berjaya menyusun pseudokod bagi "${sc.title}" dengan struktur yang betul! Bersedia untuk menguji kemahiran simulasi program?`, 
+                    "emerald", 
+                    false,
+                    true // Custom button to go to simulation
+                );
+            } else {
+                showCustomModal(
+                    "🧐 Aliran Logik Salah", 
+                    "Susunan baris kod anda masih mengandungi ralat logik. Cuba semak aliran dan turutan logik perisian komputer.", 
+                    "amber", 
+                    false
+                );
+            }
+        }
+
+        /* ==================== MODAL SYSTEM ==================== */
+        let actionAfterModalNext = null;
+
+        function showCustomModal(title, body, type = 'indigo', nextButtonUnlock = false, simulationRedirect = false) {
+            const modal = document.getElementById('custom-modal');
+            const content = document.getElementById('modal-content');
+            const icon = document.getElementById('modal-icon');
+            const titleEl = document.getElementById('modal-title');
+            const bodyEl = document.getElementById('modal-body');
+            const nextBtn = document.getElementById('modal-next-btn');
+
+            titleEl.innerText = title;
+            bodyEl.innerText = body;
+
+            // Setup styling based on type
+            if (type === 'emerald') {
+                icon.className = "w-16 h-16 rounded-full mx-auto flex items-center justify-center text-3xl bg-emerald-100 text-emerald-600";
+                icon.innerHTML = "🏆";
+            } else if (type === 'rose') {
+                icon.className = "w-16 h-16 rounded-full mx-auto flex items-center justify-center text-3xl bg-rose-100 text-rose-600";
+                icon.innerHTML = "⚠️";
+            } else {
+                icon.className = "w-16 h-16 rounded-full mx-auto flex items-center justify-center text-3xl bg-amber-100 text-amber-600";
+                icon.innerHTML = "💡";
+            }
+
+            // Setup next stage actions
+            if (nextButtonUnlock) {
+                nextBtn.classList.remove('hidden');
+                actionAfterModalNext = unlockPseudocodeStage;
+            } else if (simulationRedirect) {
+                nextBtn.classList.remove('hidden');
+                nextBtn.innerText = "Pergi Ke Simulator";
+                actionAfterModalNext = () => {
+                    loadSimTemplate(currentScenarioKey === 'scen1' ? 'sim3' : currentScenarioKey === 'scen2' ? 'sim2' : 'sim1');
+                    switchTab('simulator');
+                };
+            } else {
+                nextBtn.classList.add('hidden');
+                actionAfterModalNext = null;
+            }
+
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+            }, 50);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('custom-modal');
+            const content = document.getElementById('modal-content');
+            content.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        function nextStage() {
+            closeModal();
+            if (actionAfterModalNext) {
+                actionAfterModalNext();
+            }
+        }
+
+
+        /* ==================== SIMULATOR PSEUDOCODE (TRACER ENGINE) ==================== */
+        const simTemplates = {
+            sim1: `START
+INPUT Length
+INPUT Width
+Area ← Length * Width
+OUTPUT "Luas segi empat ialah:"
+OUTPUT Area
+END`,
+            sim2: `START
+INPUT Age
+IF Age >= 18 THEN
+    OUTPUT "Kebenaran Diberikan"
+ELSE
+    OUTPUT "Kemasukan Ditolak"
+ENDIF
+END`,
+            sim3: `START
+INPUT Mark1
+INPUT Mark2
+INPUT Mark3
+Average ← (Mark1 + Mark2 + Mark3) / 3
+OUTPUT "Purata markah pelajar:"
+OUTPUT Average
+END`
+        };
+
+        // Active Simulation state variables
+        let simLines = [];
+        let simCurrentLineIdx = -1;
+        let simVariables = {};
+        let simIsRunning = false;
+        let simAwaitingInput = false;
+        let simTargetInputVar = "";
+
+        function loadSimTemplate(key) {
+            const code = simTemplates[key] || simTemplates.sim1;
+            document.getElementById('sim-code-textarea').value = code;
+            resetSimulation();
+        }
+
+        function parseSimCodeFromUI() {
+            // Keep state clean on input
+            if (simIsRunning) {
+                resetSimulation();
+            }
+        }
+
+        function resetSimulation() {
+            simCurrentLineIdx = -1;
+            simVariables = {};
+            simIsRunning = false;
+            simAwaitingInput = false;
+            simTargetInputVar = "";
+            
+            document.getElementById('sim-btn-step').disabled = true;
+            document.getElementById('sim-btn-start').disabled = false;
+            document.getElementById('sim-input-prompter').classList.add('hidden');
+            
+            clearTerminal();
+            updateVariablesTable();
+            renderCodeAreaWithHighlight();
+        }
+
+        function clearTerminal() {
+            document.getElementById('sim-terminal').innerHTML = `<div class="text-slate-500 font-mono text-xs">Konsol sedia...</div>`;
+        }
+
+        function printToTerminal(text, type = 'normal') {
+            const term = document.getElementById('sim-terminal');
+            const item = document.createElement('div');
+            
+            if (type === 'error') {
+                item.className = "text-rose-500 font-semibold";
+            } else if (type === 'success') {
+                item.className = "text-emerald-400 font-bold";
+            } else if (type === 'input') {
+                item.className = "text-amber-300 italic";
+            } else {
+                item.className = "text-emerald-300 font-mono";
+            }
+            
+            item.innerHTML = text;
+            term.appendChild(item);
+            term.scrollTop = term.scrollHeight;
+        }
+
+        function startSimulation() {
+            const rawCode = document.getElementById('sim-code-textarea').value.trim();
+            if (!rawCode) {
+                printToTerminal("[RALAT]: Tiada logik dikesan untuk disimulasikan.", "error");
+                return;
+            }
+
+            simLines = rawCode.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+            if (simLines[0] !== 'START') {
+                printToTerminal("[AMARAN]: Atur cara tidak bermula dengan 'START' yang sah.", "error");
+            }
+
+            simCurrentLineIdx = 0;
+            simVariables = {};
+            simIsRunning = true;
+            simAwaitingInput = false;
+
+            document.getElementById('sim-btn-start').disabled = true;
+            document.getElementById('sim-btn-step').disabled = false;
+
+            clearTerminal();
+            printToTerminal("🚀 SIMULASI BERMULA: Membaca baris pertama...", "success");
+            
+            // Execute the first line
+            stepSimulation();
+        }
+
+        function stepSimulation() {
+            if (!simIsRunning) return;
+            if (simAwaitingInput) {
+                printToTerminal("[SISTEM]: Menunggu input anda sebelum melangkah ke baris seterusnya.", "error");
+                return;
+            }
+
+            if (simCurrentLineIdx >= simLines.length) {
+                printToTerminal("🏁 Akhir atur cara dicapai (END). Simulasi selesai.", "success");
+                resetSimulationAfterDone();
+                return;
+            }
+
+            const activeLine = simLines[simCurrentLineIdx];
+            renderCodeAreaWithHighlight(simCurrentLineIdx);
+            
+            // Parse and run current line
+            executeLine(activeLine);
+
+            // Increment unless waiting for input
+            if (!simAwaitingInput) {
+                simCurrentLineIdx++;
+            }
+        }
+
+        function executeLine(line) {
+            const normalized = line.replace(/\s+/g, ' ').trim();
+
+            if (normalized === 'START') {
+                printToTerminal(`&gt; Memulakan program (START)`);
+                return;
+            }
+
+            if (normalized === 'END') {
+                printToTerminal(`&gt; Menamatkan program (END)`);
+                return;
+            }
+
+            // INPUT syntax checking
+            if (normalized.startsWith('INPUT ')) {
+                const varName = normalized.substring(6).trim();
+                simTargetInputVar = varName;
+                simAwaitingInput = true;
+                
+                // Show prompt UI
+                document.getElementById('sim-input-prompter').classList.remove('hidden');
+                document.getElementById('sim-input-field').focus();
+                
+                printToTerminal(`&gt; Membaca input bagi pembolehubah: <span class="text-amber-300 font-bold">${varName}</span>`, "input");
+                return;
+            }
+
+            // OUTPUT syntax checking
+            if (normalized.startsWith('OUTPUT ')) {
+                let valToPrint = normalized.substring(7).trim();
+                
+                // If it is a string constant
+                if (valToPrint.startsWith('"') && valToPrint.endsWith('"')) {
+                    printToTerminal(`[OUTPUT]: ${valToPrint.slice(1, -1)}`);
+                } else {
+                    // Try to print variable value
+                    if (simVariables[valToPrint] !== undefined) {
+                        printToTerminal(`[OUTPUT]: <span class="font-extrabold text-white text-base">${simVariables[valToPrint]}</span>`);
+                    } else {
+                        // Print directly
+                        printToTerminal(`[OUTPUT]: ${valToPrint}`);
+                    }
+                }
+                return;
+            }
+
+            // Aritmetic Expression processing (e.g. Area ← Length * Width or Average ← (Mark1 + Mark2) / 2)
+            if (normalized.includes('←') || normalized.includes('=')) {
+                const parts = normalized.includes('←') ? normalized.split('←') : normalized.split('=');
+                const varName = parts[0].trim();
+                let expr = parts[1].trim();
+
+                printToTerminal(`&gt; Melakukan pengiraan untuk <span class="text-indigo-300">${varName}</span>`);
+
+                // Evaluate Expression
+                try {
+                    // Substitute current variables values into expression
+                    let evalExpr = expr;
+                    for (const [vName, vVal] of Object.entries(simVariables)) {
+                        // Use regex to replace exact variable matches to avoid partial string replacements
+                        const regex = new RegExp(`\\b${vName}\\b`, 'g');
+                        evalExpr = evalExpr.replace(regex, vVal);
+                    }
+
+                    // Replace visual multiplication signs
+                    evalExpr = evalExpr.replace(/×/g, '*');
+
+                    // Compute securely with Function evaluation
+                    const calcResult = SafeEval(evalExpr);
+                    simVariables[varName] = parseFloat(calcResult.toFixed(2));
+                    updateVariablesTable();
+                } catch (e) {
+                    printToTerminal(`[RALAT PENGIRAAN]: Gagal menilai ungkapan "${expr}". Pastikan semua input dimasukkan terlebih dahulu.`, "error");
+                }
+                return;
+            }
+
+            // Conditional structure (IF condition THEN)
+            if (normalized.startsWith('IF ') && normalized.includes(' THEN')) {
+                const condStr = normalized.substring(3, normalized.indexOf(' THEN')).trim();
+                printToTerminal(`&gt; Menilai syarat: <span class="text-indigo-300 font-mono">${condStr}</span>`);
+
+                let result = evaluateCondition(condStr);
+                printToTerminal(`&gt; Keputusan Syarat: <span class="font-bold">${result ? 'BENAR' : 'PALSU'}</span>`);
+
+                if (result) {
+                    // Go to next line (THEN branch)
+                    printToTerminal(`&gt; Menjalankan cawangan BENAR...`);
+                } else {
+                    // Skip to ELSE or ENDIF
+                    let elseIdx = findMatchingElseOrEndif(simCurrentLineIdx);
+                    if (elseIdx !== -1) {
+                        simCurrentLineIdx = elseIdx; // Skip there
+                        printToTerminal(`&gt; Melompat ke cawangan alternatif (ELSE)...`);
+                    }
+                }
+                return;
+            }
+
+            // ELSE branch handling (If we executed the THEN branch, skip ELSE block when we hit the ELSE line)
+            if (normalized === 'ELSE') {
+                let endifIdx = findMatchingEndif(simCurrentLineIdx);
+                if (endifIdx !== -1) {
+                    simCurrentLineIdx = endifIdx; // Skip the entire ELSE block
+                    printToTerminal(`&gt; Selesai cawangan utama, melompati blok ELSE.`);
+                }
+                return;
+            }
+
+            if (normalized === 'ENDIF') {
+                printToTerminal(`&gt; Tamat semakan bersyarat (ENDIF)`);
+                return;
+            }
+        }
+
+        function evaluateCondition(condStr) {
+            let processedCond = condStr;
+            
+            // Substitute variable states
+            for (const [vName, vVal] of Object.entries(simVariables)) {
+                const regex = new RegExp(`\\b${vName}\\b`, 'g');
+                processedCond = processedCond.replace(regex, vVal);
+            }
+
+            try {
+                // Return evaluation safely
+                return SafeEval(processedCond);
+            } catch (e) {
+                return false;
+            }
+        }
+
+        // Helper to evaluate string math safely without standard direct eval risks
+        function SafeEval(str) {
+            return Function(`"use strict"; return (${str})`)();
+        }
+
+        function findMatchingElseOrEndif(startIdx) {
+            let depth = 0;
+            for (let i = startIdx + 1; i < simLines.length; i++) {
+                const l = simLines[i].trim();
+                if (l.startsWith('IF ')) depth++;
+                if (l === 'ENDIF') {
+                    if (depth === 0) return i;
+                    depth--;
+                }
+                if (l === 'ELSE' && depth === 0) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        function findMatchingEndif(startIdx) {
+            let depth = 0;
+            for (let i = startIdx + 1; i < simLines.length; i++) {
+                const l = simLines[i].trim();
+                if (l.startsWith('IF ')) depth++;
+                if (l === 'ENDIF') {
+                    if (depth === 0) return i;
+                    depth--;
+                }
+            }
+            return -1;
+        }
+
+        function submitSimInput() {
+            const valInput = document.getElementById('sim-input-field').value;
+            if (valInput === '') {
+                return;
+            }
+
+            const numericValue = parseFloat(valInput);
+            simVariables[simTargetInputVar] = numericValue;
+            
+            // Log to terminal
+            printToTerminal(`[INPUT DITERIMA]: ${simTargetInputVar} = <span class="text-white font-bold">${numericValue}</span>`);
+            
+            // Clean interface
+            document.getElementById('sim-input-field').value = '';
+            document.getElementById('sim-input-prompter').classList.add('hidden');
+            
+            simAwaitingInput = false;
+            updateVariablesTable();
+
+            // Continue stepper automatically
+            simCurrentLineIdx++;
+            stepSimulation();
+        }
+
+        function updateVariablesTable() {
+            const tbody = document.getElementById('sim-variables-table-body');
+            tbody.innerHTML = '';
+
+            const keys = Object.keys(simVariables);
+            if (keys.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="2" class="px-4 py-6 text-center text-slate-400 italic">Tiada pembolehubah dikesan lagi. Sila masukkan input.</td></tr>`;
+                return;
+            }
+
+            keys.forEach(k => {
+                const row = document.createElement('tr');
+                row.className = "hover:bg-slate-50 transition";
+                row.innerHTML = `
+                    <td class="px-4 py-2.5 font-bold text-indigo-900 font-mono">${k}</td>
+                    <td class="px-4 py-2.5 text-slate-800 font-bold font-mono text-base">${simVariables[k]}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function renderCodeAreaWithHighlight(highlightIdx = -1) {
+            const rawCode = document.getElementById('sim-code-textarea').value;
+            // Note: Since standard textarea cannot highlight specific lines internally without third-party heavy plugins,
+            // we highlight through simple background color toggles or visual alerts in Terminal.
+            // However, to keep it clean, we log the precise highlight index to terminal and maintain focus.
+        }
+
+        function resetSimulationAfterDone() {
+            document.getElementById('sim-btn-start').disabled = false;
+            document.getElementById('sim-btn-step').disabled = true;
+            simIsRunning = false;
+        }
+
+
+        /* ==================== KUIZ MENGUJI MINDA ENGINE ==================== */
+        const quizQuestions = [
+            {
+                q: "Apakah maksud utama 'Pseudocode' dalam pembangunan perisian?",
+                code: null,
+                choices: [
+                    "Satu bentuk bahasa pengaturcaraan rasmi yang digunakan untuk mengawal perkakasan terus.",
+                    "Cara menulis algoritma menggunakan bahasa mudah yang menyerupai bahasa pengaturcaraan tanpa terikat dengan sintaks ketat.",
+                    "Lukisan grafik menggunakan bentuk geometri piawai bagi menggambarkan pangkalan data.",
+                    "Satu perisian pengkompil khas untuk bahasa C++."
+                ],
+                correct: 1,
+                feedback: "Tepat sekali! Pseudokod membebaskan anda daripada sintaks bagi merancang logik pengaturcaraan komputer."
+            },
+            {
+                q: "Kenal pasti kategori IPO yang betul bagi penyataan: 'Kira purata bagi tiga markah ujian.'",
+                code: null,
+                choices: [
+                    "Input: Markah1, Markah2, Markah3 | Process: Kira Purata | Output: Purata",
+                    "Input: Purata | Process: Nilai Markah | Output: Markah Ujian",
+                    "Input: Formula Purata | Process: Cetak output | Output: Markah Selesai",
+                    "Input: Tiada input diperlukan | Process: Pengiraan automatik | Output: Tiada"
+                ],
+                correct: 0,
+                feedback: "Tepat! Tiga markah berasingan dibaca sebagai input, dipuratakan dalam proses, dan menghasilkan satu output Purata."
+            },
+            {
+                q: "Analisis pseudokod berikut. Apakah output yang terhasil sekiranya input umur diletakkan sebagai 18?",
+                code: `START
+INPUT Age
+IF Age > 18 THEN
+    OUTPUT "Kemasukan Dibenarkan"
+ELSE
+    OUTPUT "Kemasukan Ditolak"
+ENDIF
+END`,
+                choices: [
+                    "Kemasukan Dibenarkan",
+                    "Kemasukan Ditolak",
+                    "Tiada paparan terhasil",
+                    "Ralat Sistem"
+                ],
+                correct: 1,
+                feedback: "Sila berhati-hati! Syarat IF adalah 'Age > 18'. Jika input ialah 18, syarat itu adalah PALSU (kerana 18 tidak melebihi 18), maka blok ELSE 'Kemasukan Ditolak' akan dilaksanakan."
+            },
+            {
+                q: "Apakah simbol penggantian nilai (penugasan) yang biasa digunakan dalam penulisan pseudokod standard?",
+                code: null,
+                choices: [
+                    "Simbol Sama Dengan ( = )",
+                    "Simbol Anak Panah Kiri ( ← )",
+                    "Simbol Dua Titik Bertindih ( :: )",
+                    "Simbol Dan ( & )"
+                ],
+                correct: 1,
+                feedback: "Simbol anak panah kiri (←) lazim digunakan dalam pseudokod untuk melambangkan penugasan nilai kepada pembolehubah."
+            },
+            {
+                q: "Manakah antara berikut menunjukkan padanan yang paling tepat antara elemen pseudokod dengan atur cara C++?",
+                code: null,
+                choices: [
+                    "START sepadan dengan return 0;",
+                    "INPUT sepadan dengan cout <<",
+                    "OUTPUT sepadan dengan cin >>",
+                    "IF...THEN...ELSE sepadan dengan pernyataan if...else dalam C++"
+                ],
+                correct: 3,
+                feedback: "Sempurna! Pernyataan kawalan bersyarat dipetakan terus kepada struktur 'if-else' dalam sintaks C++."
+            }
+        ];
+
+        let quizCurrentQuestionIdx = 0;
+        let quizScore = 0;
+        let quizAnswerSelected = false;
+
+        function startQuiz() {
+            document.getElementById('quiz-intro').classList.add('hidden');
+            document.getElementById('quiz-results').classList.add('hidden');
+            document.getElementById('quiz-active').classList.remove('hidden');
+
+            quizCurrentQuestionIdx = 0;
+            quizScore = 0;
+            loadQuizQuestion();
+        }
+
+        function loadQuizQuestion() {
+            quizAnswerSelected = false;
+            document.getElementById('quiz-next-btn').disabled = true;
+            document.getElementById('quiz-feedback-text').innerText = '';
+
+            const qData = quizQuestions[quizCurrentQuestionIdx];
+            
+            // Set Progress
+            document.getElementById('quiz-current-num').innerText = quizCurrentQuestionIdx + 1;
+            document.getElementById('quiz-total-num').innerText = quizQuestions.length;
+            const progressPct = ((quizCurrentQuestionIdx + 1) / quizQuestions.length) * 100;
+            document.getElementById('quiz-progress-bar').style.width = `${progressPct}%`;
+
+            // Question Text
+            document.getElementById('quiz-question-text').innerText = qData.q;
+
+            // Handle code block display
+            const codeBox = document.getElementById('quiz-code-box');
+            if (qData.code) {
+                codeBox.innerText = qData.code;
+                codeBox.classList.remove('hidden');
+            } else {
+                codeBox.classList.add('hidden');
+            }
+
+            // Load choices
+            const choicesContainer = document.getElementById('quiz-choices-container');
+            choicesContainer.innerHTML = '';
+
+            qData.choices.forEach((choiceText, index) => {
+                const btn = document.createElement('button');
+                btn.onclick = () => selectQuizAnswer(index);
+                btn.className = "text-left p-4 bg-slate-50 hover:bg-indigo-50 border border-slate-200 hover:border-indigo-500 rounded-xl transition font-medium text-sm text-slate-800 flex items-center justify-between group";
+                btn.innerHTML = `
+                    <span>${choiceText}</span>
+                    <span class="w-5 h-5 rounded-full border border-slate-300 flex items-center justify-center text-xs text-white group-hover:border-indigo-500 shrink-0 ml-2"></span>
+                `;
+                choicesContainer.appendChild(btn);
+            });
+        }
+
+        function selectQuizAnswer(choiceIdx) {
+            if (quizAnswerSelected) return; // Prevent change of mind
+            quizAnswerSelected = true;
+
+            const qData = quizQuestions[quizCurrentQuestionIdx];
+            const choicesContainer = document.getElementById('quiz-choices-container');
+            const feedbackEl = document.getElementById('quiz-feedback-text');
+
+            const isCorrect = choiceIdx === qData.correct;
+            if (isCorrect) {
+                quizScore++;
+                feedbackEl.className = "text-sm font-bold text-emerald-600";
+                feedbackEl.innerHTML = `✔ ${qData.feedback}`;
+            } else {
+                feedbackEl.className = "text-sm font-bold text-rose-500";
+                feedbackEl.innerHTML = `❌ Jawapan salah. Sila semak konsep draf algoritma.`;
+            }
+
+            // Styles update for choices
+            Array.from(choicesContainer.children).forEach((btn, idx) => {
+                btn.disabled = true;
+                const checkCircle = btn.querySelector('span:last-child');
+                
+                if (idx === qData.correct) {
+                    btn.className = "text-left p-4 bg-emerald-50 border-2 border-emerald-500 rounded-xl font-medium text-sm text-emerald-900 flex items-center justify-between shrink-0";
+                    checkCircle.className = "w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs font-bold";
+                    checkCircle.innerText = "✓";
+                } else if (idx === choiceIdx) {
+                    btn.className = "text-left p-4 bg-rose-50 border-2 border-rose-500 rounded-xl font-medium text-sm text-rose-900 flex items-center justify-between shrink-0";
+                    checkCircle.className = "w-5 h-5 rounded-full bg-rose-500 text-white flex items-center justify-center text-xs font-bold";
+                    checkCircle.innerText = "✗";
+                } else {
+                    btn.className = "text-left p-4 bg-slate-100 border border-slate-200 rounded-xl opacity-55 font-medium text-sm text-slate-500 flex items-center justify-between shrink-0";
+                }
+            });
+
+            document.getElementById('quiz-next-btn').disabled = false;
+        }
+
+        function nextQuizQuestion() {
+            quizCurrentQuestionIdx++;
+            if (quizCurrentQuestionIdx < quizQuestions.length) {
+                loadQuizQuestion();
+            } else {
+                showQuizResults();
+            }
+        }
+
+        function showQuizResults() {
+            document.getElementById('quiz-active').classList.add('hidden');
+            const resultsDiv = document.getElementById('quiz-results');
+            resultsDiv.classList.remove('hidden');
+
+            const scorePct = Math.round((quizScore / quizQuestions.length) * 100);
+            const scoreEl = document.getElementById('quiz-final-score');
+            scoreEl.innerText = `${scorePct}% (${quizScore}/${quizQuestions.length})`;
+
+            const trophy = document.getElementById('quiz-trophy-icon');
+            const evalMsg = document.getElementById('quiz-eval-msg');
+
+            if (scorePct === 100) {
+                trophy.innerText = "👑";
+                evalMsg.innerText = "Luar biasa! Anda menguasai sepenuhnya konsep draf pemikiran dan sintaks logik pengaturkomputeran.";
+            } else if (scorePct >= 75) {
+                trophy.innerText = "🏆";
+                evalMsg.innerText = "Tahniah! Kefahaman anda sangat tinggi dan mantap. Sedia untuk atur cara C++ yang lebih rumit.";
+            } else {
+                trophy.innerText = "✏️";
+                evalMsg.innerText = "Cuba lagi untuk memperbaiki asas logik anda agar penulisan kod C++ sebenar akan menjadi lebih lancar.";
+            }
+        }
+
+
+        /* ==================== INITIALIZATION ==================== */
+        window.onload = function() {
+            initKeywords();
+            loadScenario('scen1');
+            loadSimTemplate('sim1');
+            switchTab('pengenalan');
+        };
+    </script>
+</body>
+</html>
