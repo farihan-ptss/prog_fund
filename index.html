@@ -6,10 +6,10 @@
     <title>Hub Pembelajaran Interaktif Pn Farihan - PROGRAMMING FUNDAMENTALS</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Inter & JetBrains Mono for Code -->
+    <!-- Google Fonts: Inter, Fredoka (for cheerful headings) & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -19,28 +19,23 @@
                 extend: {
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
+                        heading: ['Fredoka', 'sans-serif'],
                         mono: ['JetBrains Mono', 'monospace'],
                     },
                     colors: {
-                        cppblue: {
-                            50: '#f0f7ff',
-                            100: '#e0effe',
-                            200: '#b9dffd',
-                            300: '#7cc5fc',
-                            400: '#36a8fa',
-                            500: '#0c8eeb',
-                            600: '#0071ca',
-                            700: '#0159a3',
-                            800: '#064c86',
-                            900: '#0b4070',
-                            950: '#07294a',
-                        },
-                        cyber: {
-                            purple: '#8B5CF6',
-                            cyan: '#06B6D4',
-                            dark: '#0B0F19',
-                            card: '#161D30',
-                            border: '#24304F'
+                        cheerful: {
+                            blue: '#0284c7',      // Sky blue
+                            bluelight: '#e0f2fe',
+                            orange: '#f97316',    // Bright orange
+                            orangelight: '#ffedd5',
+                            green: '#10b981',     // Fresh mint green
+                            greenlight: '#d1fae5',
+                            yellow: '#f59e0b',    // Sunny yellow
+                            yellowlight: '#fef3c7',
+                            purple: '#8b5cf6',    // Creative purple
+                            purplelight: '#f3e8ff',
+                            dark: '#1e293b',      // Cool dark slate for text readability
+                            bg: '#f8fafc'         // Soft light background
                         }
                     }
                 }
@@ -48,91 +43,92 @@
         }
     </script>
     <style>
-        /* Custom scrollbar */
+        /* Custom scrollbar matching cheerful theme */
         ::-webkit-scrollbar {
             width: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #0B0F19;
+            background: #f1f5f9;
         }
         ::-webkit-scrollbar-thumb {
-            background: #1E293B;
+            background: #cbd5e1;
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #06B6D4;
+            background: #0284c7;
         }
-        .glow-cyan {
-            box-shadow: 0 0 15px rgba(6, 182, 212, 0.15);
+        .glow-soft {
+            box-shadow: 0 4px 20px rgba(2, 132, 199, 0.08);
         }
         .glow-hover:hover {
-            box-shadow: 0 0 25px rgba(6, 182, 212, 0.35);
-            border-color: #06B6D4;
+            box-shadow: 0 10px 30px rgba(2, 132, 199, 0.15);
+            transform: translateY(-2px);
         }
     </style>
 </head>
-<body class="bg-cyber-dark text-slate-100 font-sans min-h-screen flex flex-col selection:bg-cyan-500 selection:text-slate-900">
+<body class="bg-cheerful-bg text-slate-700 font-sans min-h-screen flex flex-col selection:bg-cheerful-yellowlight selection:text-cheerful-orange">
 
     <!-- Navbar / Header -->
-    <header class="sticky top-0 z-50 bg-cyber-dark/80 backdrop-blur-md border-b border-cyber-border">
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-100 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <div class="bg-gradient-to-br from-cppblue-600 to-cyan-500 p-2.5 rounded-lg text-white font-mono font-bold text-lg tracking-wider shadow-lg shadow-cyan-500/20">
+                <div class="bg-gradient-to-br from-cheerful-blue to-cyan-400 p-2.5 rounded-2xl text-white font-mono font-bold text-lg tracking-wider shadow-md shadow-sky-200">
                     C++
                 </div>
                 <div>
-                    <h1 class="text-xs sm:text-sm font-semibold tracking-wide text-cyan-400 uppercase">Interactive Hub</h1>
-                    <p class="text-sm sm:text-base font-bold text-white tracking-tight">Programming Fundamentals</p>
+                    <h1 class="text-xs font-bold tracking-wide text-cheerful-blue uppercase font-heading">Interactive Hub</h1>
+                    <p class="text-sm sm:text-base font-extrabold text-slate-800 tracking-tight font-heading">Programming Fundamentals</p>
                 </div>
             </div>
-            <nav class="hidden md:flex space-x-6 text-sm font-medium">
-                <a href="#topics" class="text-slate-300 hover:text-cyan-400 transition-colors">Topik Pembelajaran</a>
-                <a href="#compiler" class="text-slate-300 hover:text-cyan-400 transition-colors">Terminal C++</a>
-                <a href="#quiz" class="text-slate-300 hover:text-cyan-400 transition-colors">Cabaran Kuiz</a>
-                <a href="#instructor" class="text-slate-300 hover:text-cyan-400 transition-colors">Pensyarah</a>
+            <nav class="hidden md:flex space-x-6 text-sm font-semibold">
+                <a href="#topics" class="text-slate-600 hover:text-cheerful-blue transition-colors">Topik Pembelajaran</a>
+                <a href="#compiler" class="text-slate-600 hover:text-cheerful-blue transition-colors">Terminal C++</a>
+                <a href="#quiz" class="text-slate-600 hover:text-cheerful-blue transition-colors">Cabaran Kuiz</a>
+                <a href="#instructor" class="text-slate-600 hover:text-cheerful-blue transition-colors">Pensyarah</a>
             </nav>
             <div class="flex items-center space-x-3">
                 <!-- User Progress Summary -->
-                <div class="bg-slate-800/80 px-3 py-1.5 rounded-full border border-slate-700 flex items-center space-x-2 text-xs">
-                    <span class="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse"></span>
-                    <span class="text-slate-300">Skor Kuiz: <strong id="global-score" class="text-emerald-400">0</strong>/5</span>
+                <div class="bg-cheerful-greenlight/70 px-4 py-2 rounded-full border border-cheerful-green/20 flex items-center space-x-2 text-xs font-medium">
+                    <span class="w-2.5 h-2.5 bg-cheerful-green rounded-full animate-ping"></span>
+                    <span class="text-slate-700">Skor Kuiz: <strong id="global-score" class="text-emerald-600 font-bold">0</strong>/5</span>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="relative overflow-hidden pt-12 pb-16 border-b border-cyber-border bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-cyber-dark to-cyber-dark">
-        <!-- Floating abstract C++ background symbols -->
-        <div class="absolute inset-0 pointer-events-none opacity-5">
-            <div class="absolute top-10 left-10 font-mono text-lg text-cyan-500">#include &lt;iostream&gt;</div>
-            <div class="absolute top-40 right-20 font-mono text-lg text-purple-500">using namespace std;</div>
-            <div class="absolute bottom-10 left-1/4 font-mono text-lg text-blue-500">int main() { ... }</div>
-            <div class="absolute bottom-20 right-1/3 font-mono text-lg text-cyan-500">cout &lt;&lt; "Hello World";</div>
+    <!-- Hero Section (Cheerful Gradients & Playful Symbols) -->
+    <section class="relative overflow-hidden pt-12 pb-16 border-b border-slate-100 bg-gradient-to-b from-sky-100/60 via-indigo-50/40 to-cheerful-bg">
+        <!-- Floating abstract C++ background symbols in cheerful colors -->
+        <div class="absolute inset-0 pointer-events-none opacity-20">
+            <div class="absolute top-10 left-10 font-mono text-sm text-cheerful-blue font-bold">#include &lt;iostream&gt;</div>
+            <div class="absolute top-40 right-20 font-mono text-sm text-cheerful-purple font-bold">using namespace std;</div>
+            <div class="absolute bottom-10 left-1/4 font-mono text-sm text-cheerful-orange font-bold">int main() { ... }</div>
+            <div class="absolute bottom-20 right-1/3 font-mono text-sm text-cheerful-green font-bold">cout &lt;&lt; "Jom Belajar C++";</div>
         </div>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="text-center max-w-3xl mx-auto">
-                <div class="inline-flex items-center space-x-2 bg-cyan-950/50 border border-cyan-500/30 px-3 py-1 rounded-full text-cyan-400 text-xs sm:text-sm mb-6">
+                <div class="inline-flex items-center space-x-2 bg-cheerful-orangelight px-4 py-1.5 rounded-full text-cheerful-orange text-xs sm:text-sm font-semibold mb-6 border border-orange-200">
                     <span class="flex h-2 w-2 relative">
-                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-                      <span class="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cheerful-orange opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2 bg-cheerful-orange"></span>
                     </span>
                     <span>Sesi Akademik 2026/2027</span>
                 </div>
-                <h1 class="text-3xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-300 to-cppblue-400 tracking-tight leading-none mb-6">
-                    Hub Pembelajaran Interaktif<br>Pn Farihan
+                <h1 class="text-3xl sm:text-5xl font-extrabold text-slate-800 tracking-tight leading-tight mb-6 font-heading">
+                    Hub Pembelajaran Interaktif<br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-cheerful-blue via-cheerful-purple to-cheerful-orange">Pn Farihan</span>
                 </h1>
-                <p class="text-base sm:text-xl text-slate-400 mb-8 font-light">
-                    Kuasai kemahiran asas sains komputer dan pengaturcaraan C++ dengan mudah menerusi modul interaktif, latihan berkod, dan kuiz praktikal.
+                <p class="text-base sm:text-lg text-slate-600 mb-8 font-normal leading-relaxed">
+                    Kuasai kemahiran asas sains komputer dan pengaturcaraan C++ dengan mudah menerusi modul interaktif, latihan berkod, dan kuiz praktikal yang menyeronokkan!
                 </p>
                 
                 <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
-                    <a href="#topics" class="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-cppblue-600 to-cyan-500 text-slate-900 font-semibold rounded-lg hover:from-cppblue-500 hover:to-cyan-400 transition-all shadow-lg shadow-cyan-500/20 text-center">
-                        Mula Belajar <i class="fa-solid fa-arrow-right ml-2"></i>
+                    <a href="#topics" class="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-cheerful-blue to-cyan-500 text-white font-bold rounded-2xl hover:opacity-95 shadow-lg shadow-sky-200 transition-all text-center">
+                        Mula Belajar <i class="fa-solid fa-graduation-cap ml-2"></i>
                     </a>
-                    <a href="#compiler" class="w-full sm:w-auto px-6 py-3 bg-slate-800 border border-slate-700 hover:bg-slate-700/80 rounded-lg text-slate-200 transition-all text-center">
-                        Terminal Sandbox <i class="fa-solid fa-terminal ml-2"></i>
+                    <a href="#compiler" class="w-full sm:w-auto px-8 py-3.5 bg-white border-2 border-slate-200 hover:bg-slate-50 text-slate-700 font-bold rounded-2xl shadow-sm transition-all text-center">
+                        Terminal Sandbox <i class="fa-solid fa-terminal ml-2 text-cheerful-blue"></i>
                     </a>
                 </div>
             </div>
@@ -140,23 +136,23 @@
     </section>
 
     <!-- Dashboard / Quick Stats bar -->
-    <section class="bg-slate-900/60 border-b border-cyber-border py-4">
+    <section class="bg-white border-b border-slate-100 py-6 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-            <div class="p-3 border-r border-cyber-border last:border-0">
-                <span class="block text-2xl font-bold text-cyan-400 font-mono">5</span>
-                <span class="text-xs text-slate-400 uppercase tracking-wider">Topik Utama</span>
+            <div class="p-3 border-r border-slate-100 last:border-0">
+                <span class="block text-3xl font-extrabold text-cheerful-blue font-heading">5</span>
+                <span class="text-xs text-slate-500 uppercase tracking-wider font-semibold">Topik Utama</span>
             </div>
-            <div class="p-3 border-r border-cyber-border last:border-0">
-                <span class="block text-2xl font-bold text-purple-400 font-mono">4</span>
-                <span class="text-xs text-slate-400 uppercase tracking-wider">Hub Aktif</span>
+            <div class="p-3 border-r border-slate-100 last:border-0">
+                <span class="block text-3xl font-extrabold text-cheerful-purple font-heading">4</span>
+                <span class="text-xs text-slate-500 uppercase tracking-wider font-semibold font-sans">Hub Aktif</span>
             </div>
-            <div class="p-3 border-r border-cyber-border last:border-0">
-                <span class="block text-2xl font-bold text-emerald-400 font-mono">100%</span>
-                <span class="text-xs text-slate-400 uppercase tracking-wider">Mesra Pelajar</span>
+            <div class="p-3 border-r border-slate-100 last:border-0">
+                <span class="block text-3xl font-extrabold text-cheerful-green font-heading">100%</span>
+                <span class="text-xs text-slate-500 uppercase tracking-wider font-semibold">Mesra Pelajar</span>
             </div>
             <div class="p-3 last:border-0">
-                <span class="block text-2xl font-bold text-amber-400 font-mono">Online</span>
-                <span class="text-xs text-slate-400 uppercase tracking-wider">Status Akses</span>
+                <span class="block text-3xl font-extrabold text-cheerful-orange font-heading">Online</span>
+                <span class="text-xs text-slate-500 uppercase tracking-wider font-semibold font-sans">Status Akses</span>
             </div>
         </div>
     </section>
@@ -165,16 +161,48 @@
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-12" id="topics">
         
         <!-- Search & Info Bar -->
-        <div class="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-4 bg-cyber-card p-4 rounded-xl border border-cyber-border">
+        <div class="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-4 bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
             <div>
-                <h3 class="text-lg font-semibold text-white">Senarai Topik Utama</h3>
-                <p class="text-xs text-slate-400">Pilih topik untuk melayari modul interaktif luar atau melihat status pembinaan.</p>
+                <h3 class="text-xl font-bold text-slate-800 font-heading">Modul Pembelajaran Pintar</h3>
+                <p class="text-sm text-slate-500">Pilih topik untuk melayari modul interaktif luar atau melihat status pembinaan.</p>
             </div>
             <!-- Interactive Search Field to dynamically highlight topics -->
             <div class="relative max-w-md w-full">
-                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-slate-500"></i>
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-slate-400"></i>
                 <input type="text" id="topic-search" placeholder="Cari topik pembelajaran..." 
-                    class="w-full bg-slate-900 border border-slate-700 rounded-lg pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all text-slate-200">
+                    class="w-full bg-slate-50 border-2 border-slate-200 rounded-2xl pl-11 pr-4 py-3 text-sm font-medium focus:outline-none focus:border-cheerful-blue focus:bg-white transition-all text-slate-800">
+            </div>
+        </div>
+
+        <!-- SEKSYEN UTAMA: Kembara Kod (Latihan Amali) -->
+        <div class="mb-10 bg-gradient-to-r from-cheerful-orange/10 via-cheerful-yellow/10 to-white border-2 border-dashed border-cheerful-orange/30 p-6 sm:p-8 rounded-3xl relative overflow-hidden shadow-sm">
+            <!-- Decorative floating background icons -->
+            <div class="absolute -right-6 -bottom-6 text-cheerful-orange/10 text-9xl pointer-events-none transform -rotate-12">
+                <i class="fa-solid fa-map-location-dot"></i>
+            </div>
+            
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative z-10">
+                <div class="flex items-start space-x-4 sm:space-x-5">
+                    <div class="p-4 rounded-2xl bg-gradient-to-br from-cheerful-orange to-cheerful-yellow text-white shadow-lg shadow-orange-200/50 flex-shrink-0 animate-bounce">
+                        <i class="fa-solid fa-compass text-3xl sm:text-4xl"></i>
+                    </div>
+                    <div>
+                        <span class="px-3 py-1 text-[10px] sm:text-xs uppercase font-extrabold tracking-widest bg-cheerful-orange text-white rounded-full">Zon Cabaran Amali</span>
+                        <h3 class="text-xl sm:text-2xl font-extrabold text-slate-800 font-heading mt-2">Misi Utama: Kembara Kod C++</h3>
+                        <p class="text-xs sm:text-sm text-slate-600 mt-1 max-w-2xl font-medium leading-relaxed">
+                            Bersedia untuk memulakan pengembaraan pengaturcaraan anda? Klik butang di sebelah untuk mengakses bank latihan interaktif dan uji kemahiran praktikal kod C++ anda sekarang!
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="flex-shrink-0 w-full lg:w-auto">
+                    <a href="https://farihan-ptss.github.io/prog_fund/exercise_prog.html" target="_blank" 
+                       class="group flex items-center justify-center space-x-3 w-full lg:w-auto px-8 py-4 bg-gradient-to-r from-cheerful-orange to-amber-500 hover:from-amber-500 hover:to-cheerful-orange text-white font-extrabold rounded-2xl shadow-lg shadow-orange-300/40 transition-all duration-300 transform hover:scale-[1.03]">
+                        <i class="fa-solid fa-gamepad text-lg group-hover:rotate-12 transition-transform"></i>
+                        <span>Mula Kembara Kod</span>
+                        <i class="fa-solid fa-circle-play text-lg animate-pulse"></i>
+                    </a>
+                </div>
             </div>
         </div>
 
@@ -182,160 +210,176 @@
         <div class="space-y-8" id="topics-container">
 
             <!-- ================= TOPIK 1 ================= -->
-            <div class="topic-card bg-cyber-card rounded-2xl border border-cyber-border overflow-hidden transition-all duration-300 hover:border-slate-700" data-title="introduction to programming language">
+            <div class="topic-card bg-white rounded-3xl border border-slate-100 overflow-hidden shadow-sm transition-all duration-300 hover:border-sky-300 glow-hover" data-title="introduction to programming language">
                 <!-- Topic Header Banner -->
-                <div class="bg-gradient-to-r from-cppblue-950 via-slate-900 to-slate-900 p-6 border-b border-cyber-border flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div class="bg-gradient-to-r from-sky-50 via-sky-100/50 to-white p-6 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div class="flex items-start space-x-4">
-                        <div class="p-3 rounded-xl bg-cyan-950 text-cyan-400 font-mono font-bold text-lg border border-cyan-800/50">
+                        <div class="p-3 rounded-2xl bg-cheerful-blue text-white font-heading font-bold text-xl shadow-md shadow-sky-200">
                             01
                         </div>
                         <div>
-                            <span class="px-2 py-0.5 text-[10px] uppercase font-bold tracking-wider bg-cyan-500/10 text-cyan-400 rounded-full border border-cyan-500/20">Modul Aktif</span>
-                            <h2 class="text-lg sm:text-xl font-bold text-slate-100 mt-1">Introduction to Programming Language</h2>
-                            <p class="text-xs text-slate-400">Pembelajaran berkaitan asas pengaturcaraan.</p>
+                            <span class="px-2.5 py-0.5 text-[10px] uppercase font-bold tracking-wider bg-cheerful-blue text-white rounded-full">Modul Aktif</span>
+                            <h2 class="text-xl font-bold text-slate-800 font-heading mt-1">Introduction to Programming Language</h2>
+                            <p class="text-xs text-slate-500 font-medium">Pembelajaran berkaitan asas pengaturcaraan.</p>
                         </div>
                     </div>
-                    <span class="inline-flex self-start sm:self-auto items-center px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs rounded-full">
+                    <span class="inline-flex self-start sm:self-auto items-center px-4 py-1.5 bg-cheerful-greenlight text-emerald-700 text-xs font-bold rounded-full border border-emerald-200">
                         <i class="fa-solid fa-circle-check mr-1.5 text-[10px] animate-pulse"></i> Sedia Untuk Diakses
                     </span>
                 </div>
 
                 <!-- Topic Links Grid -->
-                <div class="p-6 bg-slate-900/40">
-                    <div class="grid grid-cols-1 gap-4">
+                <div class="p-6 bg-slate-50/30">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         
-                        <!-- New IPO Link -->
+                        <!-- IPO Link -->
                         <a href="https://farihan-ptss.github.io/prog_fund/ipo.html" target="_blank" 
-                           class="group relative flex items-start space-x-4 p-4 rounded-xl bg-slate-900 border border-slate-800/80 hover:bg-slate-800/50 transition-all duration-200 glow-hover">
-                            <div class="p-3 rounded-lg bg-cyan-950/60 text-cyan-400 group-hover:scale-110 transition-transform">
-                                <i class="fa-solid fa-gears text-xl"></i>
+                           class="group relative flex items-start space-x-4 p-5 rounded-2xl bg-white border border-slate-100 shadow-sm hover:border-cheerful-blue transition-all duration-200">
+                            <div class="p-3 rounded-xl bg-cheerful-bluelight text-cheerful-blue group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-gears text-2xl"></i>
                             </div>
                             <div class="flex-grow">
                                 <div class="flex items-center justify-between">
-                                    <h4 class="font-semibold text-sm sm:text-base text-slate-200 group-hover:text-cyan-400 transition-colors">Input, Process & Output (IPO)</h4>
-                                    <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-500 group-hover:text-cyan-400 transition-colors"></i>
+                                    <h4 class="font-bold text-sm sm:text-base text-slate-800 group-hover:text-cheerful-blue transition-colors font-heading">Input, Process & Output (IPO)</h4>
+                                    <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-cheerful-blue transition-colors"></i>
                                 </div>
-                                <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+                                <p class="text-xs text-slate-500 mt-2 leading-relaxed font-medium">
                                     Pelajari konsep aliran asas kitaran Input, Proses dan Output (IPO) dalam logik pengaturcaraan komputer.
                                 </p>
-                                <span class="inline-block mt-3 text-[10px] text-cyan-400 font-mono uppercase tracking-wider bg-cyan-950 px-2 py-0.5 rounded">Akses Hub &rarr;</span>
+                                <span class="inline-block mt-3.5 text-[10px] text-cheerful-blue font-bold uppercase tracking-wider bg-sky-100/60 px-3 py-1 rounded-lg">Akses Hub &rarr;</span>
                             </div>
                         </a>
-                        <!-- New Algorithm Link -->
+
+                        <!-- Algorithm Link -->
                         <a href="https://farihan-ptss.github.io/prog_fund/algorithm.html" target="_blank" 
-                           class="group relative flex items-start space-x-4 p-4 rounded-xl bg-slate-900 border border-slate-800/80 hover:bg-slate-800/50 transition-all duration-200 glow-hover">
-                            <div class="p-3 rounded-lg bg-cyan-950/60 text-cyan-400 group-hover:scale-110 transition-transform">
-                                <i class="fa-solid fa-sitemap text-xl"></i>
+                           class="group relative flex items-start space-x-4 p-5 rounded-2xl bg-white border border-slate-100 shadow-sm hover:border-cheerful-blue transition-all duration-200">
+                            <div class="p-3 rounded-xl bg-cheerful-bluelight text-cheerful-blue group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-sitemap text-2xl"></i>
                             </div>
                             <div class="flex-grow">
                                 <div class="flex items-center justify-between">
-                                    <h4 class="font-semibold text-sm sm:text-base text-slate-200 group-hover:text-cyan-400 transition-colors">Algorithm (Algoritma)</h4>
-                                    <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-500 group-hover:text-cyan-400 transition-colors"></i>
+                                    <h4 class="font-bold text-sm sm:text-base text-slate-800 group-hover:text-cheerful-blue transition-colors font-heading">Algorithm (Algoritma)</h4>
+                                    <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-cheerful-blue transition-colors"></i>
                                 </div>
-                                <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+                                <p class="text-xs text-slate-500 mt-2 leading-relaxed font-medium">
                                     Fahami asas pembinaan algoritma melalui penulisan pseudokod dan reka bentuk carta alir secara sistematik.
                                 </p>
-                                <span class="inline-block mt-3 text-[10px] text-cyan-400 font-mono uppercase tracking-wider bg-cyan-950 px-2 py-0.5 rounded">Akses Hub &rarr;</span>
+                                <span class="inline-block mt-3.5 text-[10px] text-cheerful-blue font-bold uppercase tracking-wider bg-sky-100/60 px-3 py-1 rounded-lg">Akses Hub &rarr;</span>
                             </div>
                         </a>
-                         <!-- New Flow Chart Link -->
-                        <a href="https://farihan-ptss.github.io/prog_fund/flowchart.html" target="_blank" 
-                           class="group relative flex items-start space-x-4 p-4 rounded-xl bg-slate-900 border border-slate-800/80 hover:bg-slate-800/50 transition-all duration-200 glow-hover">
-                            <div class="p-3 rounded-lg bg-cyan-950/60 text-cyan-400 group-hover:scale-110 transition-transform">
-                                <i class="fa-solid fa-sitemap text-xl"></i>
-                            </div>
-                            <div class="flex-grow">
-                                <div class="flex items-center justify-between">
-                                    <h4 class="font-semibold text-sm sm:text-base text-slate-200 group-hover:text-cyan-400 transition-colors">Flow Chart (Carta Alir)</h4>
-                                    <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-500 group-hover:text-cyan-400 transition-colors"></i>
-                                </div>
-                                <p class="text-xs text-slate-400 mt-1 leading-relaxed">
-                                    Fahami asas pembinaan flow chart.
-                                </p>
-                                <span class="inline-block mt-3 text-[10px] text-cyan-400 font-mono uppercase tracking-wider bg-cyan-950 px-2 py-0.5 rounded">Akses Hub &rarr;</span>
-                            </div>
-                        </a>
-                         <!-- New Pseudocode Link -->
+
+                        <!-- Pseudocode Link -->
                         <a href="https://farihan-ptss.github.io/prog_fund/pseudocode.html" target="_blank" 
-                           class="group relative flex items-start space-x-4 p-4 rounded-xl bg-slate-900 border border-slate-800/80 hover:bg-slate-800/50 transition-all duration-200 glow-hover">
-                            <div class="p-3 rounded-lg bg-cyan-950/60 text-cyan-400 group-hover:scale-110 transition-transform">
-                                <i class="fa-solid fa-sitemap text-xl"></i>
+                           class="group relative flex items-start space-x-4 p-5 rounded-2xl bg-white border border-slate-100 shadow-sm hover:border-cheerful-blue transition-all duration-200">
+                            <div class="p-3 rounded-xl bg-cheerful-bluelight text-cheerful-blue group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-code-branch text-2xl"></i>
                             </div>
                             <div class="flex-grow">
                                 <div class="flex items-center justify-between">
-                                    <h4 class="font-semibold text-sm sm:text-base text-slate-200 group-hover:text-cyan-400 transition-colors">Pseudocode </h4>
-                                    <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-500 group-hover:text-cyan-400 transition-colors"></i>
+                                    <h4 class="font-bold text-sm sm:text-base text-slate-800 group-hover:text-cheerful-blue transition-colors font-heading">Pseudocode</h4>
+                                    <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-cheerful-blue transition-colors"></i>
                                 </div>
-                                <p class="text-xs text-slate-400 mt-1 leading-relaxed">
-                                    Fahami asas penulisan pseudocode secara sistematik.
+                                <p class="text-xs text-slate-500 mt-2 leading-relaxed font-medium">
+                                    Pelajari teknik menstruktur logik pengaturcaraan menggunakan penulisan Pseudokod yang tersusun sebelum menulis kod sebenar.
                                 </p>
-                                <span class="inline-block mt-3 text-[10px] text-cyan-400 font-mono uppercase tracking-wider bg-cyan-950 px-2 py-0.5 rounded">Akses Hub &rarr;</span>
+                                <span class="inline-block mt-3.5 text-[10px] text-cheerful-blue font-bold uppercase tracking-wider bg-sky-100/60 px-3 py-1 rounded-lg">Akses Hub &rarr;</span>
                             </div>
                         </a>
+
+                        <!-- Flowchart Link -->
+                        <a href="https://farihan-ptss.github.io/prog_fund/flowchart.html" target="_blank" 
+                           class="group relative flex items-start space-x-4 p-5 rounded-2xl bg-white border border-slate-100 shadow-sm hover:border-cheerful-blue transition-all duration-200">
+                            <div class="p-3 rounded-xl bg-cheerful-bluelight text-cheerful-blue group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-diagram-project text-2xl"></i>
+                            </div>
+                            <div class="flex-grow">
+                                <div class="flex items-center justify-between">
+                                    <h4 class="font-bold text-sm sm:text-base text-slate-800 group-hover:text-cheerful-blue transition-colors font-heading">Flowchart (Carta Alir)</h4>
+                                    <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-cheerful-blue transition-colors"></i>
+                                </div>
+                                <p class="text-xs text-slate-500 mt-2 leading-relaxed font-medium">
+                                    Visualisasikan aliran logik pengaturcaraan anda menggunakan bentuk standard carta alir yang mudah difahami.
+                                </p>
+                                <span class="inline-block mt-3.5 text-[10px] text-cheerful-blue font-bold uppercase tracking-wider bg-sky-100/60 px-3 py-1 rounded-lg">Akses Hub &rarr;</span>
+                            </div>
+                        </a>
+
                     </div>
                 </div>
             </div>
 
             <!-- ================= TOPIK 2 ================= -->
-            <div class="topic-card bg-cyber-card rounded-2xl border border-cyber-border overflow-hidden opacity-85 hover:opacity-100 transition-all duration-300" data-title="fundamentals of programming">
-                <div class="bg-gradient-to-r from-slate-950 to-slate-900 p-6 border-b border-cyber-border flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="topic-card bg-white rounded-3xl border border-slate-100 overflow-hidden shadow-sm transition-all duration-300 hover:border-orange-300 glow-hover" data-title="fundamentals of programming">
+                <!-- Topic Header Banner -->
+                <div class="bg-gradient-to-r from-orange-50 via-orange-100/40 to-white p-6 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div class="flex items-start space-x-4">
-                        <div class="p-3 rounded-xl bg-slate-800 text-slate-400 font-mono font-bold text-lg border border-slate-700">
+                        <div class="p-3 rounded-2xl bg-cheerful-orange text-white font-heading font-bold text-xl shadow-md shadow-orange-200">
                             02
                         </div>
                         <div>
-                            <span class="px-2 py-0.5 text-[10px] uppercase font-bold tracking-wider bg-amber-500/10 text-amber-400 rounded-full border border-amber-500/20">Pembinaan</span>
-                            <h2 class="text-lg sm:text-xl font-bold text-slate-300 mt-1">Fundamentals of Programming</h2>
-                            <p class="text-xs text-slate-400 font-light">Asas sintaks C++, pemboleh ubah (variables), jenis data (data types), dan input/output standard.</p>
+                            <span class="px-2.5 py-0.5 text-[10px] uppercase font-bold tracking-wider bg-cheerful-orange text-white rounded-full">Modul Aktif</span>
+                            <h2 class="text-xl font-bold text-slate-800 font-heading mt-1">Fundamentals of Programming</h2>
+                            <p class="text-xs text-slate-500 font-medium">Asas sintaks C++, pemboleh ubah (variables), jenis data (data types), dan input/output standard.</p>
                         </div>
                     </div>
-                    <span class="inline-flex self-start sm:self-auto items-center px-3 py-1 bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs rounded-full">
-                        <i class="fa-solid fa-screwdriver-wrench mr-1.5 text-[10px] animate-spin"></i> Sedang Dikembangkan
+                    <span class="inline-flex self-start sm:self-auto items-center px-4 py-1.5 bg-cheerful-greenlight text-emerald-700 text-xs font-bold rounded-full border border-emerald-200">
+                        <i class="fa-solid fa-circle-check mr-1.5 text-[10px] animate-pulse"></i> Sedia Untuk Diakses
                     </span>
                 </div>
-                <div class="p-6 bg-slate-900/20 flex flex-col items-center justify-center text-center py-12">
-                    <div class="max-w-md">
-                        <div class="inline-flex items-center justify-center p-3 rounded-full bg-amber-500/10 text-amber-400 mb-4 border border-amber-500/20">
-                            <i class="fa-solid fa-code-fork text-2xl animate-pulse"></i>
-                        </div>
-                        <h4 class="text-slate-200 font-bold mb-1">Modul C++ Asas Dalam Proses Pembangunan</h4>
-                        <p class="text-xs text-slate-400 mb-4">
-                            Silibus merangkumi <code class="font-mono text-cyan-400 bg-slate-800/80 px-1 py-0.5 rounded">cin</code>, <code class="font-mono text-cyan-400 bg-slate-800/80 px-1 py-0.5 rounded">cout</code>, pengisytiharan pemboleh ubah serta operasi matematik dalam C++.
-                        </p>
-                        <button onclick="notifyUnderConstruction('Fundamentals of Programming')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 rounded-lg transition-colors border border-slate-700 font-medium">
-                            <i class="fa-regular fa-bell mr-1"></i> Langgan Notifikasi Kemas Kini
-                        </button>
+
+                <!-- Topic Links Grid -->
+                <div class="p-6 bg-slate-50/30">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                        <!-- Basic Structure Link -->
+                        <a href="https://farihan-ptss.github.io/prog_fund/basic_struc.html" target="_blank" 
+                           class="group relative flex items-start space-x-4 p-5 rounded-2xl bg-white border border-slate-100 shadow-sm hover:border-cheerful-orange transition-all duration-200">
+                            <div class="p-3 rounded-xl bg-cheerful-orangelight text-cheerful-orange group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-code text-2xl"></i>
+                            </div>
+                            <div class="flex-grow">
+                                <div class="flex items-center justify-between">
+                                    <h4 class="font-bold text-sm sm:text-base text-slate-800 group-hover:text-cheerful-orange transition-colors font-heading">Basic Structure</h4>
+                                    <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-cheerful-orange transition-colors"></i>
+                                </div>
+                                <p class="text-xs text-slate-500 mt-2 leading-relaxed font-medium">
+                                    Fahami pengenalan struktur asas pengaturcaraan C++ bermula daripada prapemproses hingga fungsi utama.
+                                </p>
+                                <span class="inline-block mt-3.5 text-[10px] text-cheerful-orange font-bold uppercase tracking-wider bg-orange-100/60 px-3 py-1 rounded-lg">Akses Hub &rarr;</span>
+                            </div>
+                        </a>
+
                     </div>
                 </div>
             </div>
 
             <!-- ================= TOPIK 3 ================= -->
-            <div class="topic-card bg-cyber-card rounded-2xl border border-cyber-border overflow-hidden opacity-85 hover:opacity-100 transition-all duration-300" data-title="program control structure">
-                <div class="bg-gradient-to-r from-slate-950 to-slate-900 p-6 border-b border-cyber-border flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="topic-card bg-white rounded-3xl border border-slate-100 overflow-hidden shadow-sm transition-all duration-300 hover:border-amber-300" data-title="program control structure">
+                <div class="bg-gradient-to-r from-amber-50 via-amber-100/30 to-white p-6 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div class="flex items-start space-x-4">
-                        <div class="p-3 rounded-xl bg-slate-800 text-slate-400 font-mono font-bold text-lg border border-slate-700">
+                        <div class="p-3 rounded-2xl bg-cheerful-yellow text-white font-heading font-bold text-xl shadow-md shadow-amber-200">
                             03
                         </div>
                         <div>
-                            <span class="px-2 py-0.5 text-[10px] uppercase font-bold tracking-wider bg-amber-500/10 text-amber-400 rounded-full border border-amber-500/20">Pembinaan</span>
-                            <h2 class="text-lg sm:text-xl font-bold text-slate-300 mt-1">Program Control Structure</h2>
-                            <p class="text-xs text-slate-400 font-light">Struktur keputusan (if, else if, switch-case) dan gelung (loops: for, while, do-while).</p>
+                            <span class="px-2.5 py-0.5 text-[10px] uppercase font-bold tracking-wider bg-cheerful-yellow text-white rounded-full">Pembinaan</span>
+                            <h2 class="text-xl font-bold text-slate-800 font-heading mt-1">Program Control Structure</h2>
+                            <p class="text-xs text-slate-500 font-medium">Struktur keputusan (if, else if, switch-case) dan gelung (loops: for, while, do-while).</p>
                         </div>
                     </div>
-                    <span class="inline-flex self-start sm:self-auto items-center px-3 py-1 bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs rounded-full">
+                    <span class="inline-flex self-start sm:self-auto items-center px-4 py-1.5 bg-cheerful-yellowlight text-amber-800 text-xs font-bold rounded-full border border-amber-200">
                         <i class="fa-solid fa-screwdriver-wrench mr-1.5 text-[10px] animate-spin"></i> Sedang Dikembangkan
                     </span>
                 </div>
-                <div class="p-6 bg-slate-900/20 flex flex-col items-center justify-center text-center py-12">
+                <div class="p-6 bg-slate-50/20 flex flex-col items-center justify-center text-center py-12">
                     <div class="max-w-md">
-                        <div class="inline-flex items-center justify-center p-3 rounded-full bg-amber-500/10 text-amber-400 mb-4 border border-amber-500/20">
+                        <div class="inline-flex items-center justify-center p-3.5 rounded-full bg-cheerful-yellowlight text-cheerful-yellow mb-4 border border-amber-200">
                             <i class="fa-solid fa-diagram-project text-2xl animate-pulse"></i>
                         </div>
-                        <h4 class="text-slate-200 font-bold mb-1">Kawalan Logik Aliran Program C++</h4>
-                        <p class="text-xs text-slate-400 mb-4">
+                        <h4 class="text-slate-800 font-bold mb-1 font-heading text-lg">Kawalan Aliran Program C++</h4>
+                        <p class="text-xs text-slate-500 mb-5 font-medium leading-relaxed">
                             Simulator membuat keputusan bercabang dan pengulangan lelaran kod untuk melatih pemikiran logik pelajar.
                         </p>
-                        <button onclick="notifyUnderConstruction('Program Control Structure')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 rounded-lg transition-colors border border-slate-700 font-medium">
+                        <button onclick="notifyUnderConstruction('Program Control Structure')" class="px-6 py-2.5 bg-cheerful-yellow text-white hover:bg-amber-600 text-xs font-bold rounded-xl transition-all shadow-md shadow-amber-100">
                             <i class="fa-regular fa-bell mr-1"></i> Langgan Notifikasi Kemas Kini
                         </button>
                     </div>
@@ -343,32 +387,32 @@
             </div>
 
             <!-- ================= TOPIK 4 ================= -->
-            <div class="topic-card bg-cyber-card rounded-2xl border border-cyber-border overflow-hidden opacity-85 hover:opacity-100 transition-all duration-300" data-title="array concepts">
-                <div class="bg-gradient-to-r from-slate-950 to-slate-900 p-6 border-b border-cyber-border flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="topic-card bg-white rounded-3xl border border-slate-100 overflow-hidden shadow-sm transition-all duration-300 hover:border-purple-300" data-title="array concepts">
+                <div class="bg-gradient-to-r from-purple-50 via-purple-100/30 to-white p-6 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div class="flex items-start space-x-4">
-                        <div class="p-3 rounded-xl bg-slate-800 text-slate-400 font-mono font-bold text-lg border border-slate-700">
+                        <div class="p-3 rounded-2xl bg-cheerful-purple text-white font-heading font-bold text-xl shadow-md shadow-purple-200">
                             04
                         </div>
                         <div>
-                            <span class="px-2 py-0.5 text-[10px] uppercase font-bold tracking-wider bg-amber-500/10 text-amber-400 rounded-full border border-amber-500/20">Pembinaan</span>
-                            <h2 class="text-lg sm:text-xl font-bold text-slate-300 mt-1">Array Concepts</h2>
-                            <p class="text-xs text-slate-400 font-light">Penyimpanan koleksi data berindeks secara satu dimensi (1D) dan dua dimensi (2D).</p>
+                            <span class="px-2.5 py-0.5 text-[10px] uppercase font-bold tracking-wider bg-cheerful-purple text-white rounded-full">Pembinaan</span>
+                            <h2 class="text-xl font-bold text-slate-800 font-heading mt-1">Array Concepts</h2>
+                            <p class="text-xs text-slate-500 font-medium">Penyimpanan koleksi data berindeks secara satu dimensi (1D) dan dua dimensi (2D).</p>
                         </div>
                     </div>
-                    <span class="inline-flex self-start sm:self-auto items-center px-3 py-1 bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs rounded-full">
+                    <span class="inline-flex self-start sm:self-auto items-center px-4 py-1.5 bg-cheerful-purplelight text-purple-800 text-xs font-bold rounded-full border border-purple-200">
                         <i class="fa-solid fa-screwdriver-wrench mr-1.5 text-[10px] animate-spin"></i> Sedang Dikembangkan
                     </span>
                 </div>
-                <div class="p-6 bg-slate-900/20 flex flex-col items-center justify-center text-center py-12">
+                <div class="p-6 bg-slate-50/20 flex flex-col items-center justify-center text-center py-12">
                     <div class="max-w-md">
-                        <div class="inline-flex items-center justify-center p-3 rounded-full bg-amber-500/10 text-amber-400 mb-4 border border-amber-500/20">
+                        <div class="inline-flex items-center justify-center p-3.5 rounded-full bg-cheerful-purplelight text-cheerful-purple mb-4 border border-purple-200">
                             <i class="fa-solid fa-table-cells text-2xl animate-pulse"></i>
                         </div>
-                        <h4 class="text-slate-200 font-bold mb-1">Pengurusan Struktur Data Array</h4>
-                        <p class="text-xs text-slate-400 mb-4">
+                        <h4 class="text-slate-800 font-bold mb-1 font-heading text-lg">Pengurusan Struktur Data Array</h4>
+                        <p class="text-xs text-slate-500 mb-5 font-medium leading-relaxed">
                             Elemen visualisasi matrik C++ dan manipulasi elemen baris & kolum dengan animasi interaktif.
                         </p>
-                        <button onclick="notifyUnderConstruction('Array Concepts')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 rounded-lg transition-colors border border-slate-700 font-medium">
+                        <button onclick="notifyUnderConstruction('Array Concepts')" class="px-6 py-2.5 bg-cheerful-purple text-white hover:bg-purple-600 text-xs font-bold rounded-xl transition-all shadow-md shadow-purple-100">
                             <i class="fa-regular fa-bell mr-1"></i> Langgan Notifikasi Kemas Kini
                         </button>
                     </div>
@@ -376,32 +420,32 @@
             </div>
 
             <!-- ================= TOPIK 5 ================= -->
-            <div class="topic-card bg-cyber-card rounded-2xl border border-cyber-border overflow-hidden opacity-85 hover:opacity-100 transition-all duration-300" data-title="function">
-                <div class="bg-gradient-to-r from-slate-950 to-slate-900 p-6 border-b border-cyber-border flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="topic-card bg-white rounded-3xl border border-slate-100 overflow-hidden shadow-sm transition-all duration-300 hover:border-emerald-300" data-title="function">
+                <div class="bg-gradient-to-r from-emerald-50 via-emerald-100/30 to-white p-6 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div class="flex items-start space-x-4">
-                        <div class="p-3 rounded-xl bg-slate-800 text-slate-400 font-mono font-bold text-lg border border-slate-700">
+                        <div class="p-3 rounded-2xl bg-cheerful-green text-white font-heading font-bold text-xl shadow-md shadow-emerald-200">
                             05
                         </div>
                         <div>
-                            <span class="px-2 py-0.5 text-[10px] uppercase font-bold tracking-wider bg-amber-500/10 text-amber-400 rounded-full border border-amber-500/20">Pembinaan</span>
-                            <h2 class="text-lg sm:text-xl font-bold text-slate-300 mt-1">Function</h2>
-                            <p class="text-xs text-slate-400 font-light">Modularisasi kod menerusi takrifan fungsi tersuai (user-defined), parameter, dan pulangan data.</p>
+                            <span class="px-2.5 py-0.5 text-[10px] uppercase font-bold tracking-wider bg-cheerful-green text-white rounded-full">Pembinaan</span>
+                            <h2 class="text-xl font-bold text-slate-800 font-heading mt-1">Function</h2>
+                            <p class="text-xs text-slate-500 font-medium">Modularisasi kod menerusi takrifan fungsi tersuai (user-defined), parameter, dan pulangan data.</p>
                         </div>
                     </div>
-                    <span class="inline-flex self-start sm:self-auto items-center px-3 py-1 bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs rounded-full">
+                    <span class="inline-flex self-start sm:self-auto items-center px-4 py-1.5 bg-cheerful-greenlight text-emerald-800 text-xs font-bold rounded-full border border-emerald-200">
                         <i class="fa-solid fa-screwdriver-wrench mr-1.5 text-[10px] animate-spin"></i> Sedang Dikembangkan
                     </span>
                 </div>
-                <div class="p-6 bg-slate-900/20 flex flex-col items-center justify-center text-center py-12">
+                <div class="p-6 bg-slate-50/20 flex flex-col items-center justify-center text-center py-12">
                     <div class="max-w-md">
-                        <div class="inline-flex items-center justify-center p-3 rounded-full bg-amber-500/10 text-amber-400 mb-4 border border-amber-500/20">
+                        <div class="inline-flex items-center justify-center p-3.5 rounded-full bg-cheerful-greenlight text-cheerful-green mb-4 border border-emerald-200">
                             <i class="fa-solid fa-cubes text-2xl animate-pulse"></i>
                         </div>
-                        <h4 class="text-slate-200 font-bold mb-1">Pengisytiharan & Penghantaran Parameter</h4>
-                        <p class="text-xs text-slate-400 mb-4">
-                            Pelajari perbezaan pemboleh ubah lokal & global, serta <code class="font-mono text-cyan-400 bg-slate-800/80 px-1 py-0.5 rounded">pass by value</code> dan <code class="font-mono text-cyan-400 bg-slate-800/80 px-1 py-0.5 rounded">pass by reference</code>.
+                        <h4 class="text-slate-800 font-bold mb-1 font-heading text-lg">Pengisytiharan & Penghantaran Parameter</h4>
+                        <p class="text-xs text-slate-500 mb-5 font-medium leading-relaxed">
+                            Pelajari perbezaan pemboleh ubah lokal & global, serta <code class="font-mono text-cheerful-blue bg-sky-50 px-1.5 py-0.5 rounded">pass by value</code> dan <code class="font-mono text-cheerful-blue bg-sky-50 px-1.5 py-0.5 rounded">pass by reference</code>.
                         </p>
-                        <button onclick="notifyUnderConstruction('Function')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 rounded-lg transition-colors border border-slate-700 font-medium">
+                        <button onclick="notifyUnderConstruction('Function')" class="px-6 py-2.5 bg-cheerful-green text-white hover:bg-emerald-600 text-xs font-bold rounded-xl transition-all shadow-md shadow-emerald-100">
                             <i class="fa-regular fa-bell mr-1"></i> Langgan Notifikasi Kemas Kini
                         </button>
                     </div>
@@ -411,44 +455,44 @@
         </div>
 
         <!-- EXTRA INTERACTIVE SECTION: C++ Interactive Playroom / Terminal Sandbox -->
-        <section class="mt-16 bg-cyber-card border border-cyber-border rounded-2xl overflow-hidden" id="compiler">
-            <div class="bg-gradient-to-r from-slate-900 to-slate-950 px-6 py-4 border-b border-cyber-border flex items-center justify-between">
+        <section class="mt-16 bg-white border border-slate-100 rounded-3xl overflow-hidden shadow-md" id="compiler">
+            <div class="bg-gradient-to-r from-slate-50 to-slate-100/50 px-6 py-4 border-b border-slate-100 flex items-center justify-between">
                 <div class="flex items-center space-x-2">
-                    <span class="w-3 h-3 rounded-full bg-rose-500"></span>
-                    <span class="w-3 h-3 rounded-full bg-amber-500"></span>
-                    <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
-                    <span class="text-xs font-mono text-slate-400 ml-2">cpp_ide_simulation.cpp</span>
+                    <span class="w-3 h-3 rounded-full bg-rose-400"></span>
+                    <span class="w-3 h-3 rounded-full bg-amber-400"></span>
+                    <span class="w-3 h-3 rounded-full bg-emerald-400"></span>
+                    <span class="text-xs font-mono text-slate-500 ml-2 font-bold">cpp_ide_simulation.cpp</span>
                 </div>
-                <span class="text-xs font-semibold px-2 py-0.5 bg-cyan-500/10 text-cyan-400 rounded border border-cyan-500/20 uppercase tracking-wide">Sandbox Praktikal</span>
+                <span class="text-xs font-bold px-3 py-1 bg-cheerful-bluelight text-cheerful-blue rounded-xl uppercase tracking-wide">Sandbox Praktikal</span>
             </div>
             
             <div class="grid grid-cols-1 lg:grid-cols-12">
                 <!-- Select Code Snippet Panel -->
-                <div class="lg:col-span-4 p-6 bg-slate-950/60 border-b lg:border-b-0 lg:border-r border-cyber-border flex flex-col justify-between">
+                <div class="lg:col-span-4 p-6 bg-slate-50/50 border-b lg:border-b-0 lg:border-r border-slate-100 flex flex-col justify-between">
                     <div>
-                        <h4 class="font-bold text-slate-100 text-base mb-2">Simulasi Kod C++</h4>
-                        <p class="text-xs text-slate-400 mb-6">Pilih salah satu templat pengaturcaraan di bawah untuk melihat struktur penulisan serta output hasil perlaksanaannya.</p>
+                        <h4 class="font-bold text-slate-800 text-lg mb-2 font-heading">Simulasi Kod C++</h4>
+                        <p class="text-xs text-slate-500 mb-6 font-medium">Pilih salah satu templat pengaturcaraan di bawah untuk melihat struktur penulisan serta output hasil perlaksanaannya.</p>
                         
                         <div class="space-y-3">
-                            <button onclick="loadCppTemplate('hello')" id="btn-tmpl-hello" class="w-full text-left p-3 rounded-xl bg-cyan-950/40 border border-cyan-500/30 text-slate-200 hover:bg-cyan-950/60 transition-all">
-                                <span class="block font-bold text-xs text-cyan-400 font-mono">Contoh 1</span>
-                                <span class="text-xs text-slate-300">Asas Standard Output (cout)</span>
+                            <button onclick="loadCppTemplate('hello')" id="btn-tmpl-hello" class="w-full text-left p-4 rounded-2xl bg-cheerful-bluelight border-2 border-cheerful-blue/30 text-slate-800 hover:bg-cheerful-bluelight/75 transition-all">
+                                <span class="block font-bold text-xs text-cheerful-blue font-mono">Contoh 1</span>
+                                <span class="text-xs text-slate-700 font-bold font-heading">Asas Standard Output (cout)</span>
                             </button>
                             
-                            <button onclick="loadCppTemplate('ifelse')" id="btn-tmpl-ifelse" class="w-full text-left p-3 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:bg-slate-800/40 hover:text-slate-300 transition-all">
+                            <button onclick="loadCppTemplate('ifelse')" id="btn-tmpl-ifelse" class="w-full text-left p-4 rounded-2xl bg-white border-2 border-slate-100 text-slate-500 hover:bg-slate-50 transition-all">
                                 <span class="block font-bold text-xs font-mono">Contoh 2</span>
-                                <span class="text-xs text-slate-400">Kawalan Aliran (If-Else)</span>
+                                <span class="text-xs text-slate-600 font-bold font-heading">Kawalan Aliran (If-Else)</span>
                             </button>
                             
-                            <button onclick="loadCppTemplate('forloop')" id="btn-tmpl-forloop" class="w-full text-left p-3 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:bg-slate-800/40 hover:text-slate-300 transition-all">
+                            <button onclick="loadCppTemplate('forloop')" id="btn-tmpl-forloop" class="w-full text-left p-4 rounded-2xl bg-white border-2 border-slate-100 text-slate-500 hover:bg-slate-50 transition-all">
                                 <span class="block font-bold text-xs font-mono">Contoh 3</span>
-                                <span class="text-xs text-slate-400">Pengulangan Lelaran (For Loop)</span>
+                                <span class="text-xs text-slate-600 font-bold font-heading">Pengulangan Lelaran (For Loop)</span>
                             </button>
                         </div>
                     </div>
 
-                    <div class="mt-6 pt-6 border-t border-cyber-border">
-                        <button onclick="runSimulatedCode()" class="w-full py-3 px-4 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-900 font-bold rounded-xl transition-all shadow-md shadow-cyan-500/10 flex items-center justify-center space-x-2">
+                    <div class="mt-6 pt-6 border-t border-slate-100">
+                        <button onclick="runSimulatedCode()" class="w-full py-3.5 px-4 bg-gradient-to-r from-cheerful-blue to-cyan-500 hover:opacity-95 text-white font-bold rounded-2xl transition-all shadow-md shadow-sky-100 flex items-center justify-center space-x-2">
                             <i class="fa-solid fa-play"></i>
                             <span>Laksanakan Kod (Run)</span>
                         </button>
@@ -458,20 +502,20 @@
                 <!-- Code Editor & Console Screen -->
                 <div class="lg:col-span-8 flex flex-col bg-slate-900">
                     <!-- Editor Box -->
-                    <div class="p-4 flex-grow border-b border-cyber-border font-mono text-xs sm:text-sm bg-slate-950 overflow-x-auto min-h-[220px]">
+                    <div class="p-5 flex-grow border-b border-slate-800 font-mono text-sm bg-slate-950 overflow-x-auto min-h-[240px]">
                         <pre id="code-display" class="text-emerald-400 leading-relaxed"></pre>
                     </div>
                     <!-- Console Title -->
-                    <div class="bg-slate-950/80 px-4 py-2 border-b border-cyber-border flex items-center justify-between">
-                        <span class="text-[10px] font-mono text-slate-500 uppercase tracking-wider">Konsol Output (Terminal)</span>
-                        <button onclick="clearConsole()" class="text-[10px] text-slate-400 hover:text-rose-400 font-mono uppercase tracking-wider">Clear</button>
+                    <div class="bg-slate-950/80 px-5 py-2.5 border-b border-slate-800 flex items-center justify-between">
+                        <span class="text-[10px] font-mono text-slate-400 uppercase tracking-wider font-bold">Konsol Output (Terminal)</span>
+                        <button onclick="clearConsole()" class="text-[10px] text-rose-400 hover:text-rose-300 font-mono uppercase tracking-wider font-bold">Clear</button>
                     </div>
                     <!-- Console Body -->
-                    <div class="p-4 bg-black font-mono text-xs sm:text-sm text-slate-300 min-h-[140px] flex flex-col justify-between">
-                        <div id="terminal-output" class="whitespace-pre-line leading-relaxed text-cyan-400">
+                    <div class="p-5 bg-black font-mono text-xs sm:text-sm text-slate-300 min-h-[150px] flex flex-col justify-between">
+                        <div id="terminal-output" class="whitespace-pre-line leading-relaxed text-sky-400">
                             Sedia untuk perlaksanaan kod. Klik butang 'Laksanakan Kod' untuk mula menjalankan program C++.
                         </div>
-                        <div class="text-[10px] text-slate-500 mt-2 border-t border-slate-900 pt-2 flex justify-between items-center">
+                        <div class="text-[10px] text-slate-500 mt-3 border-t border-slate-900 pt-2 flex justify-between items-center">
                             <span>Process returned 0 (0x0)</span>
                             <span>Execution time: 0.002s</span>
                         </div>
@@ -481,27 +525,27 @@
         </section>
 
         <!-- EXTRA INTERACTIVE SECTION: Quick Mini Quiz Challenge -->
-        <section class="mt-16 bg-cyber-card border border-cyber-border rounded-2xl overflow-hidden" id="quiz">
-            <div class="bg-gradient-to-r from-purple-950/50 via-slate-900 to-slate-900 px-6 py-5 border-b border-cyber-border flex items-center justify-between">
+        <section class="mt-16 bg-white border border-slate-100 rounded-3xl overflow-hidden shadow-md" id="quiz">
+            <div class="bg-gradient-to-r from-cheerful-purplelight/40 via-slate-50 to-white px-6 py-5 border-b border-slate-100 flex items-center justify-between">
                 <div>
-                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
-                        <i class="fa-solid fa-brain text-purple-400"></i> Cabaran Kuiz Pintar C++
+                    <h3 class="text-xl font-bold text-slate-800 flex items-center gap-2 font-heading">
+                        <i class="fa-solid fa-brain text-cheerful-purple"></i> Cabaran Kuiz Pintar C++
                     </h3>
-                    <p class="text-xs text-slate-400">Uji kefahaman asas anda mengenai pengaturcaraan C++ untuk membina markah!</p>
+                    <p class="text-xs text-slate-500 font-medium">Uji kefahaman asas anda mengenai pengaturcaraan C++ untuk membina markah!</p>
                 </div>
-                <span class="text-xs font-semibold px-2 py-0.5 bg-purple-500/15 text-purple-300 rounded border border-purple-500/20 uppercase tracking-wide">Kuiz Interaktif</span>
+                <span class="text-xs font-bold px-3 py-1 bg-cheerful-purplelight text-cheerful-purple rounded-xl uppercase tracking-wide">Kuiz Interaktif</span>
             </div>
 
             <div class="p-6 md:p-8">
                 <!-- Quiz Progress Bar -->
-                <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden mb-6">
-                    <div id="quiz-progress" class="bg-gradient-to-r from-purple-500 to-cyan-400 h-full w-[20%] transition-all duration-300"></div>
+                <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden mb-6">
+                    <div id="quiz-progress" class="bg-gradient-to-r from-cheerful-purple to-cheerful-blue h-full w-[20%] transition-all duration-300"></div>
                 </div>
 
                 <!-- Quiz Area -->
                 <div id="quiz-box" class="min-h-[180px]">
-                    <span id="quiz-question-number" class="text-xs font-bold text-purple-400 uppercase tracking-widest font-mono">SOALAN 1 DARIPADA 5</span>
-                    <h4 id="quiz-question" class="text-base sm:text-lg font-bold text-slate-100 mt-2 mb-6">Antara berikut, yang manakah merupakan fungsi bagi kod baris `#include <iostream>` dalam bahasa C++?</h4>
+                    <span id="quiz-question-number" class="text-xs font-bold text-cheerful-purple uppercase tracking-widest font-mono">SOALAN 1 DARIPADA 5</span>
+                    <h4 id="quiz-question" class="text-base sm:text-lg font-bold text-slate-800 mt-2 mb-6 font-heading">Antara berikut, yang manakah merupakan fungsi bagi kod baris `#include &lt;iostream&gt;` dalam bahasa C++?</h4>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="quiz-options">
                         <!-- Option Buttons will be injected here dynamically -->
@@ -509,41 +553,41 @@
                 </div>
 
                 <!-- Feedback Area -->
-                <div id="quiz-feedback" class="mt-6 p-4 rounded-xl hidden transition-all">
+                <div id="quiz-feedback" class="mt-6 p-4 rounded-2xl hidden transition-all">
                     <!-- Dynamic feedback message will be displayed here -->
                 </div>
 
                 <!-- Control Buttons -->
                 <div class="mt-6 flex justify-end">
-                    <button id="btn-next-question" onclick="nextQuizQuestion()" class="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white text-xs sm:text-sm font-semibold rounded-lg shadow-lg shadow-purple-500/10 hidden transition-all">
-                        Soalan Seterusnya <i class="fa-solid fa-arrow-right ml-1"></i>
+                    <button id="btn-next-question" onclick="nextQuizQuestion()" class="px-6 py-3 bg-cheerful-purple hover:bg-purple-600 text-white text-xs sm:text-sm font-bold rounded-xl shadow-md shadow-purple-100 hidden transition-all">
+                        Soalan Seterusnya <i class="fa-solid fa-arrow-right ml-1.5"></i>
                     </button>
-                    <button id="btn-reset-quiz" onclick="resetQuiz()" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs sm:text-sm font-semibold rounded-lg hidden transition-all border border-slate-700">
-                        Cuba Semula <i class="fa-solid fa-rotate-right ml-1"></i>
+                    <button id="btn-reset-quiz" onclick="resetQuiz()" class="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs sm:text-sm font-bold rounded-xl hidden transition-all">
+                        Cuba Semula <i class="fa-solid fa-rotate-right ml-1.5"></i>
                     </button>
                 </div>
             </div>
         </section>
 
         <!-- Instructor Bio Card -->
-        <section class="mt-16 bg-gradient-to-br from-slate-900 to-cyber-card border border-cyber-border rounded-2xl p-6 md:p-8" id="instructor">
+        <section class="mt-16 bg-gradient-to-br from-sky-50 via-indigo-50/30 to-white border border-slate-100 rounded-3xl p-6 md:p-8 shadow-sm" id="instructor">
             <div class="flex flex-col md:flex-row items-center gap-6">
                 <!-- Avatar Placeholder / Decorative Icon -->
-                <div class="w-24 h-24 rounded-2xl bg-gradient-to-br from-cppblue-500 to-cyan-400 p-0.5 shadow-xl flex-shrink-0">
-                    <div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center text-slate-200">
-                        <i class="fa-solid fa-graduation-cap text-4xl text-cyan-400"></i>
+                <div class="w-24 h-24 rounded-2xl bg-gradient-to-br from-cheerful-blue to-cyan-400 p-0.5 shadow-md flex-shrink-0">
+                    <div class="w-full h-full bg-white rounded-[14px] flex items-center justify-center text-slate-200">
+                        <i class="fa-solid fa-graduation-cap text-4xl text-cheerful-blue"></i>
                     </div>
                 </div>
                 <div class="flex-grow text-center md:text-left">
-                    <h3 class="text-xl sm:text-2xl font-extrabold text-white mt-1">Pn Farihan Elyana binti Zahari</h3>
-                    <p class="text-sm text-cyan-200 font-medium">Politeknik Tuanku Syed Sirajuddin (PTSS)</p>
-                    <p class="text-xs sm:text-sm text-slate-400 mt-2 max-w-2xl">
-                        Pensyarah kanan Bidang Teknologi Maklumat. Tumpuan kepada pengaturcaraan berasaskan mobile.
+                    <h3 class="text-xl sm:text-2xl font-bold text-slate-800 font-heading mt-1">Pn Farihan Elyana binti Zahari</h3>
+                    <p class="text-sm text-cheerful-blue font-bold">Politeknik Tuanku Syed Sirajuddin (PTSS)</p>
+                    <p class="text-xs sm:text-sm text-slate-500 mt-2 max-w-2xl font-medium leading-relaxed">
+                        Pensyarah kanan Bidang Teknologi Maklumat yang berdedikasi tinggi dalam mendidik pelajar melangkah ke dunia pembangunan perisian profesional menerusi kurikulum yang interaktif dan mesra minda.
                     </p>
                     <div class="mt-4 flex flex-wrap justify-center md:justify-start gap-2">
-                        <span class="px-2.5 py-1 bg-slate-800 text-[11px] text-slate-300 rounded border border-slate-700">C++ Programming</span>
-                        <span class="px-2.5 py-1 bg-slate-800 text-[11px] text-slate-300 rounded border border-slate-700">Computer Architecture</span>
-                        <span class="px-2.5 py-1 bg-slate-800 text-[11px] text-slate-300 rounded border border-slate-700">System Interfacing</span>
+                        <span class="px-3 py-1 bg-white text-xs text-slate-600 font-bold rounded-lg border border-slate-150">C++ Programming</span>
+                        <span class="px-3 py-1 bg-white text-xs text-slate-600 font-bold rounded-lg border border-slate-150">Computer Architecture</span>
+                        <span class="px-3 py-1 bg-white text-xs text-slate-600 font-bold rounded-lg border border-slate-150">System Interfacing</span>
                     </div>
                 </div>
             </div>
@@ -552,32 +596,32 @@
     </main>
 
     <!-- Custom Modal for Notifications (Anti-Alert System) -->
-    <div id="custom-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm hidden transition-all">
-        <div class="bg-cyber-card border border-cyber-border rounded-xl max-w-sm w-full p-6 text-center transform scale-95 transition-transform">
+    <div id="custom-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm hidden transition-all">
+        <div class="bg-white border border-slate-100 rounded-3xl max-w-sm w-full p-6 text-center shadow-xl transform scale-95 transition-transform">
             <div id="modal-icon-container" class="mx-auto w-12 h-12 rounded-full flex items-center justify-center mb-4 text-2xl">
                 <!-- Icon injected by JS -->
             </div>
-            <h4 id="modal-title" class="font-bold text-lg text-slate-100 mb-2">Notifikasi</h4>
-            <p id="modal-desc" class="text-xs text-slate-400 mb-6 leading-relaxed">Penerangan ringkas...</p>
-            <button onclick="closeModal()" class="w-full py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-xs font-semibold text-slate-200 transition-all">
-                Tutup Sembang
+            <h4 id="modal-title" class="font-bold text-lg text-slate-800 mb-2 font-heading">Notifikasi</h4>
+            <p id="modal-desc" class="text-xs text-slate-500 mb-6 leading-relaxed font-medium">Penerangan ringkas...</p>
+            <button onclick="closeModal()" class="w-full py-2.5 bg-cheerful-blue hover:opacity-95 rounded-xl text-xs font-bold text-white transition-all shadow-sm shadow-sky-100">
+                Tutup
             </button>
         </div>
     </div>
 
     <!-- Footer Section -->
-    <footer class="bg-slate-950 border-t border-cyber-border py-8 mt-12">
+    <footer class="bg-slate-100 border-t border-slate-200/50 py-8 mt-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
             <div class="flex items-center justify-center space-x-3 mb-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
-                <span class="text-xs font-semibold tracking-wider uppercase text-slate-500">Jabatan Teknologi Maklumat & Komunikasi</span>
-                <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-cheerful-blue"></span>
+                <span class="text-xs font-bold tracking-wider uppercase text-slate-500">Jabatan Teknologi Maklumat & Komunikasi</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-cheerful-blue"></span>
             </div>
-            <p class="text-xs sm:text-sm text-slate-400 max-w-lg mx-auto">
-                Platform hub ini dioptimumkan untuk memperkaya kefahaman konseptual pelajar dalam aspek perkakasan, mikropemproses, serta bahasa C++.
+            <p class="text-xs sm:text-sm text-slate-500 max-w-lg mx-auto font-medium leading-relaxed">
+                Platform hub ini dioptimumkan untuk memperkaya kefahaman konseptual pelajar dalam aspek pengaturcaraan, algoritma, serta amali dwi-bahasa bahasa C++.
             </p>
-            <p class="text-xs sm:text-sm text-slate-500 font-medium tracking-wide pt-4 border-t border-slate-900/80">
-                Hak Milik 2026@Pn Farihan Elyana binti Zahari - <span class="text-cyan-500">POLITEKNIK TUANKU SYED SIRAJUDDIN</span>
+            <p class="text-xs sm:text-sm text-slate-500 font-bold tracking-wide pt-4 border-t border-slate-200/60">
+                Hak Milik 2026@Pn Farihan Elyana binti Zahari - <span class="text-cheerful-blue font-heading">POLITEKNIK TUANKU SYED SIRAJUDDIN</span>
             </p>
         </div>
     </footer>
@@ -739,9 +783,9 @@ int main() {
             ['hello', 'ifelse', 'forloop'].forEach(name => {
                 const btn = document.getElementById(`btn-tmpl-${name}`);
                 if (name === templateName) {
-                    btn.className = "w-full text-left p-3 rounded-xl bg-cyan-950/40 border border-cyan-500/30 text-slate-200 hover:bg-cyan-950/60 transition-all";
+                    btn.className = "w-full text-left p-4 rounded-2xl bg-cheerful-bluelight border-2 border-cheerful-blue/30 text-slate-800 hover:bg-cheerful-bluelight/75 transition-all";
                 } else {
-                    btn.className = "w-full text-left p-3 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:bg-slate-800/40 hover:text-slate-300 transition-all";
+                    btn.className = "w-full text-left p-4 rounded-2xl bg-white border-2 border-slate-100 text-slate-500 hover:bg-slate-50 transition-all";
                 }
             });
 
@@ -805,9 +849,9 @@ int main() {
 
             currentQ.options.forEach((opt, index) => {
                 const btn = document.createElement('button');
-                btn.className = "w-full text-left p-4 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:bg-slate-800/60 hover:text-white transition-all text-sm flex items-center gap-3";
+                btn.className = "w-full text-left p-4 rounded-2xl bg-slate-50 border-2 border-slate-100 text-slate-700 hover:border-cheerful-blue hover:bg-sky-50 transition-all text-sm font-medium flex items-center gap-3";
                 btn.innerHTML = `
-                    <span class="w-6 h-6 rounded-full bg-slate-800 text-purple-400 flex items-center justify-center font-bold text-xs border border-purple-500/20">${String.fromCharCode(65 + index)}</span>
+                    <span class="w-6 h-6 rounded-full bg-white text-slate-500 flex items-center justify-center font-bold text-xs border border-slate-200">${String.fromCharCode(65 + index)}</span>
                     <span>${opt}</span>
                 `;
                 btn.onclick = () => selectQuizOption(index);
@@ -824,11 +868,13 @@ int main() {
             Array.from(optionsContainer.children).forEach((btn, index) => {
                 btn.disabled = true;
                 if (index === currentQ.correct) {
-                    btn.className = "w-full text-left p-4 rounded-xl bg-emerald-950/60 border border-emerald-500 text-emerald-200 text-sm flex items-center gap-3";
+                    btn.className = "w-full text-left p-4 rounded-2xl bg-emerald-50 border-2 border-emerald-400 text-emerald-800 text-sm font-bold flex items-center gap-3";
+                    btn.querySelector('span').className = "w-6 h-6 rounded-full bg-emerald-400 text-white flex items-center justify-center font-bold text-xs border border-emerald-500";
                 } else if (index === selectedIndex) {
-                    btn.className = "w-full text-left p-4 rounded-xl bg-rose-950/60 border border-rose-500 text-rose-200 text-sm flex items-center gap-3";
+                    btn.className = "w-full text-left p-4 rounded-2xl bg-rose-50 border-2 border-rose-400 text-rose-800 text-sm font-bold flex items-center gap-3";
+                    btn.querySelector('span').className = "w-6 h-6 rounded-full bg-rose-400 text-white flex items-center justify-center font-bold text-xs border border-rose-500";
                 } else {
-                    btn.className = "w-full text-left p-4 rounded-xl bg-slate-950 border border-slate-900 text-slate-600 text-sm flex items-center gap-3 opacity-50";
+                    btn.className = "w-full text-left p-4 rounded-2xl bg-slate-50 border-2 border-slate-100 text-slate-400 text-sm flex items-center gap-3 opacity-50";
                 }
             });
 
@@ -838,23 +884,23 @@ int main() {
                 quizScore++;
                 document.getElementById('global-score').textContent = quizScore;
                 
-                feedbackBox.className = "mt-6 p-4 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-emerald-400 text-xs sm:text-sm";
+                feedbackBox.className = "mt-6 p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs sm:text-sm font-medium";
                 feedbackBox.innerHTML = `
                     <div class="flex items-start gap-2.5">
-                        <i class="fa-solid fa-circle-check text-base mt-0.5"></i>
+                        <i class="fa-solid fa-circle-check text-emerald-600 text-lg mt-0.5 animate-bounce"></i>
                         <div>
-                            <span class="font-bold block">Tepat Sekali!</span>
+                            <span class="font-extrabold block text-emerald-700">Tepat Sekali! 🎉</span>
                             <span>${currentQ.explanation}</span>
                         </div>
                     </div>
                 `;
             } else {
-                feedbackBox.className = "mt-6 p-4 rounded-xl bg-rose-950/40 border border-rose-500/30 text-rose-400 text-xs sm:text-sm";
+                feedbackBox.className = "mt-6 p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs sm:text-sm font-medium";
                 feedbackBox.innerHTML = `
                     <div class="flex items-start gap-2.5">
-                        <i class="fa-solid fa-circle-xmark text-base mt-0.5"></i>
+                        <i class="fa-solid fa-circle-xmark text-rose-600 text-lg mt-0.5"></i>
                         <div>
-                            <span class="font-bold block">Silap Pilihan</span>
+                            <span class="font-extrabold block text-rose-700">Silap Pilihan 💡</span>
                             <span>Jawapan tepat: <strong class="underline">${currentQ.options[currentQ.correct]}</strong>.<br>${currentQ.explanation}</span>
                         </div>
                     </div>
@@ -887,26 +933,26 @@ int main() {
             let colorClass = "";
             if (quizScore === 5) {
                 rank = "Pakar C++ Sejati! 🏆";
-                colorClass = "text-amber-400";
+                colorClass = "text-amber-500";
             } else if (quizScore >= 3) {
                 rank = "Pembangun Kompeten 👍";
-                colorClass = "text-cyan-400";
+                colorClass = "text-cheerful-blue";
             } else {
                 rank = "Latihan Tambahan Diperlukan 📚";
-                colorClass = "text-rose-400";
+                colorClass = "text-rose-500";
             }
 
             quizBox.innerHTML = `
                 <div class="text-center py-6">
-                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-purple-950 text-purple-400 border border-purple-500/30 mb-4 text-3xl">
-                        <i class="fa-solid fa-trophy"></i>
+                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-purple-50 text-cheerful-purple border border-purple-200 mb-4 text-3xl">
+                        <i class="fa-solid fa-trophy animate-bounce"></i>
                     </div>
-                    <h4 class="text-xl font-bold text-white mb-2">Cabaran Selesai!</h4>
-                    <p class="text-sm text-slate-400">Anda telah menyempurnakan kesemua soalan penilaian asas C++.</p>
-                    <div class="mt-4 inline-block bg-slate-900 border border-slate-800 px-6 py-3 rounded-2xl">
-                        <span class="block text-xs text-slate-500 uppercase font-mono tracking-wider">Skor Pencapaian</span>
-                        <strong class="text-3xl text-purple-400 font-mono">${quizScore} / 5</strong>
-                        <span class="block text-sm mt-1 font-semibold ${colorClass}">${rank}</span>
+                    <h4 class="text-xl font-bold text-slate-800 mb-2 font-heading">Cabaran Selesai!</h4>
+                    <p class="text-sm text-slate-500 font-medium">Anda telah menyempurnakan kesemua soalan penilaian asas C++.</p>
+                    <div class="mt-5 inline-block bg-white border border-slate-100 shadow-sm px-8 py-4 rounded-3xl">
+                        <span class="block text-xs text-slate-400 uppercase font-semibold tracking-wider">Skor Pencapaian</span>
+                        <strong class="text-4xl text-cheerful-purple font-mono font-bold">${quizScore} / 5</strong>
+                        <span class="block text-sm mt-2 font-bold ${colorClass}">${rank}</span>
                     </div>
                 </div>
             `;
@@ -914,8 +960,8 @@ int main() {
 
         function resetQuiz() {
             document.getElementById('quiz-box').innerHTML = `
-                <span id="quiz-question-number" class="text-xs font-bold text-purple-400 uppercase tracking-widest font-mono">SOALAN 1 DARIPADA 5</span>
-                <h4 id="quiz-question" class="text-base sm:text-lg font-bold text-slate-100 mt-2 mb-6">Sila mulakan kembali kuiz...</h4>
+                <span id="quiz-question-number" class="text-xs font-bold text-cheerful-purple uppercase tracking-widest font-mono">SOALAN 1 DARIPADA 5</span>
+                <h4 id="quiz-question" class="text-base sm:text-lg font-bold text-slate-800 mt-2 mb-6 font-heading">Sila mulakan kembali kuiz...</h4>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="quiz-options"></div>
             `;
             initQuiz();
@@ -929,12 +975,12 @@ int main() {
             const desc = document.getElementById('modal-desc');
 
             // Setup styling for modal
-            iconContainer.className = "mx-auto w-12 h-12 rounded-full flex items-center justify-center mb-4 text-2xl bg-amber-500/10 text-amber-400 border border-amber-500/20";
+            iconContainer.className = "mx-auto w-12 h-12 rounded-full flex items-center justify-center mb-4 text-2xl bg-amber-50 text-cheerful-yellow border border-amber-200";
             iconContainer.innerHTML = '<i class="fa-solid fa-bell-ring animate-bounce"></i>';
             
             title.textContent = "Sistem Langganan Kemas Kini";
             desc.innerHTML = `
-                Sistem pembelajaran interaktif bagi topik <strong class="text-cyan-400">${topicName}</strong> sedang giat dibina oleh Pn Farihan.<br><br>
+                Sistem pembelajaran interaktif bagi topik <strong class="text-cheerful-blue">${topicName}</strong> sedang giat dibina oleh Pn Farihan.<br><br>
                 E-mel anda akan direkodkan secara simulasi untuk menerima pemberitahuan automatik sebaik sahaja hub dwi-bahasa atau kitaran amali sedia diuji!
             `;
 
