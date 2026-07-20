@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hub Pembelajaran C++ Ceria! 🚀</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Fredoka & Quicksand untuk gaya kartun yang comel -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome untuk Icon menarik -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti untuk celebration -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #FFFDF0; /* Cream ceria */
+        }
+        h1, h2, h3, .cartoon-font {
+            font-family: 'Fredoka', sans-serif;
+        }
+        /* Gaya Neobrutalisme Kartun */
+        .cartoon-border {
+            border: 4px solid #1E293B;
+        }
+        .cartoon-shadow-pink {
+            box-shadow: 6px 6px 0px 0px #FF8DA1;
+        }
+        .cartoon-shadow-blue {
+            box-shadow: 6px 6px 0px 0px #70D6FF;
+        }
+        .cartoon-shadow-yellow {
+            box-shadow: 6px 6px 0px 0px #FFD166;
+        }
+        .cartoon-shadow-green {
+            box-shadow: 6px 6px 0px 0px #06D6A0;
+        }
+        .cartoon-shadow-dark {
+            box-shadow: 5px 5px 0px 0px #1E293B;
+        }
+        .cartoon-shadow-purple {
+            box-shadow: 6px 6px 0px 0px #B5179E;
+        }
+        .cartoon-btn-interactive {
+            transition: all 0.15s ease-in-out;
+        }
+        .cartoon-btn-interactive:active {
+            transform: translate(4px, 4px);
+            box-shadow: 1px 1px 0px 0px #1E293B;
+        }
+        /* Animasi comel */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(1deg); }
+        }
+        .floating-mascot {
+            animation: float 4s ease-in-out infinite;
+        }
+        .bouncing-btn:hover {
+            animation: bounce 0.5s infinite alternate;
+        }
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-4px); }
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-800 pb-16">
+
+    <!-- HEADER UTAMA -->
+    <header class="bg-[#70D6FF] cartoon-border border-t-0 border-x-0 pb-6 pt-4 px-4 shadow-[0_4px_0_0_#1E293B]">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+                <div class="bg-[#FF8DA1] p-3 rounded-full cartoon-border cartoon-shadow-dark floating-mascot">
+                    <span class="text-4xl">🤖</span>
+                </div>
+                <div>
+                    <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-wide text-center md:text-left">
+                        KODING SMART CAMPUS! 🚀
+                    </h1>
+                    <p class="text-sm md:text-base font-bold text-slate-700">Bab 2: Struktur Asas C++, Input/Output & Ralat</p>
+                </div>
+            </div>
+            <!-- Progress Bar Ringkas -->
+            <div class="w-full md:w-64 bg-white cartoon-border rounded-full p-1 flex items-center relative overflow-hidden">
+                <div id="main-progress-bar" class="h-6 bg-[#06D6A0] rounded-full transition-all duration-500" style="width: 15%"></div>
+                <span class="absolute inset-0 flex items-center justify-center font-extrabold text-xs text-slate-900 uppercase">
+                    Tahap Pembelajaran: <span id="progress-percent" class="ml-1">15%</span>
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- MENU PETA PENGEMBARAAN (TABS) -->
+    <div class="max-w-6xl mx-auto px-4 mt-8">
+        <div class="bg-[#FFD166] p-4 rounded-3xl cartoon-border cartoon-shadow-dark mb-8">
+            <h2 class="text-xl font-extrabold text-slate-950 mb-3 text-center md:text-left">
+                🗺️ Pilih Destinasi Belajarmu!
+            </h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <button onclick="switchTab('tab-struktur')" id="btn-tab-struktur" class="tab-btn bg-[#FF8DA1] text-slate-900 font-extrabold p-3 rounded-2xl cartoon-border cartoon-shadow-dark cartoon-btn-interactive text-sm md:text-base flex flex-col items-center gap-1 justify-center">
+                    <span>🏠</span>
+                    <span>2.3 Struktur Asas</span>
+                </button>
+                <button onclick="switchTab('tab-io')" id="btn-tab-io" class="tab-btn bg-white text-slate-800 font-extrabold p-3 rounded-2xl cartoon-border cartoon-shadow-dark cartoon-btn-interactive text-sm md:text-base flex flex-col items-center gap-1 justify-center">
+                    <span>📥</span>
+                    <span>2.4 Input & Output</span>
+                </button>
+                <button onclick="switchTab('tab-ralat')" id="btn-tab-ralat" class="tab-btn bg-white text-slate-800 font-extrabold p-3 rounded-2xl cartoon-border cartoon-shadow-dark cartoon-btn-interactive text-sm md:text-base flex flex-col items-center gap-1 justify-center">
+                    <span>⚠️</span>
+                    <span>2.5 Jenis Ralat</span>
+                </button>
+                <button onclick="switchTab('tab-aktiviti')" id="btn-tab-aktiviti" class="tab-btn bg-white text-slate-800 font-extrabold p-3 rounded-2xl cartoon-border cartoon-shadow-dark cartoon-btn-interactive text-sm md:text-base flex flex-col items-center gap-1 justify-center">
+                    <span>🎮</span>
+                    <span>Aktiviti & Kuiz</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ======================= TAB 1: STRUKTUR ASAS (2.3) ======================= -->
+        <div id="tab-struktur" class="tab-content block transition-all">
+            <!-- Pengenalan & Analogi Rumah -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Mascot Guide Left -->
+                <div class="lg:col-span-4 bg-white p-6 rounded-3xl cartoon-border cartoon-shadow-pink flex flex-col justify-between items-center text-center">
+                    <div>
+                        <div class="text-6xl my-4 floating-mascot">🧙‍♂️</div>
+                        <h3 class="text-2xl font-extrabold text-pink-600 mb-2">Profesor Kiko Berkata:</h3>
+                        <p class="font-bold text-slate-700 leading-relaxed text-sm md:text-base">
+                            "Sebelum kita bina sistem hebat, kita mesti tahu struktur asas C++. Ia seperti membina sebuah rumah!"
+                        </p>
+                    </div>
+                    <div class="mt-6 w-full bg-[#FFFDF0] p-4 rounded-2xl border-2 border-dashed border-pink-400">
+                        <p class="text-xs font-bold text-pink-700">💡 Tip Cepat:</p>
+                        <p class="text-xs text-slate-600 font-medium">Klik pada butang bahagian rumah di sebelah kanan untuk melihat kod C++ yang sepadan!</p>
+                    </div>
+                </div>
+
+                <!-- Interactive House Diagram Right -->
+                <div class="lg:col-span-8 bg-white p-6 rounded-3xl cartoon-border cartoon-shadow-blue">
+                    <h3 class="text-2xl font-extrabold text-slate-900 mb-4 flex items-center gap-2">
+                        <span>🏠</span> Analogi Rumah C++ Berinteraktif
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                        <!-- House UI Visual -->
+                        <div class="flex flex-col items-center bg-[#F0FAFF] p-4 rounded-2xl cartoon-border">
+                            <!-- Roof -->
+                            <button onclick="highlightHousePart('roof')" class="w-full bg-[#FF8DA1] hover:bg-pink-400 text-slate-900 font-extrabold p-4 rounded-t-full cartoon-border text-center transition-all">
+                                🔺 BUMBUNG (#include / Library)
+                            </button>
+                            <!-- Wall -->
+                            <button onclick="highlightHousePart('wall')" class="w-full bg-[#FFD166] hover:bg-yellow-400 text-slate-900 font-extrabold p-6 cartoon-border my-1 text-center transition-all">
+                                🟨 DINDING (main() Function)
+                            </button>
+                            <!-- Door & Window Row -->
+                            <div class="w-full grid grid-cols-3 gap-1">
+                                <button onclick="highlightHousePart('window')" class="bg-[#70D6FF] hover:bg-blue-400 text-slate-900 font-extrabold p-3 cartoon-border text-xs rounded-bl-xl transition-all">
+                                    🪟 TINGKAP (Comments)
+                                </button>
+                                <button onclick="highlightHousePart('door')" class="bg-amber-500 hover:bg-amber-400 text-white font-extrabold p-3 cartoon-border text-xs transition-all">
+                                    🚪 PINTU (I/O cout)
+                                </button>
+                                <button onclick="highlightHousePart('exit')" class="bg-emerald-500 hover:bg-emerald-400 text-white font-extrabold p-3 cartoon-border text-xs rounded-br-xl transition-all">
+                                    🏃 KELUAR (return 0;)
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Info Box reflecting chosen house part -->
+                        <div class="bg-slate-900 text-slate-100 p-4 rounded-2xl cartoon-border font-mono text-sm shadow-inner min-h-[220px] flex flex-col justify-between">
+                            <div>
+                                <span class="text-[#70D6FF] font-bold block mb-1" id="house-part-title">// Klik pada bahagian rumah!</span>
+                                <div id="house-part-code" class="text-emerald-400 whitespace-pre-wrap font-medium">Silakan klik elemen rumah di sebelah kiri untuk melihat analogi dan kod C++ yang sepadan.</div>
+                            </div>
+                            <div class="mt-4 pt-2 border-t border-slate-700 text-xs text-amber-300 font-bold" id="house-part-analogy">
+                                Analogi: -
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Penerangan Detail Elemen Asas -->
+            <div class="mt-8 bg-white p-6 rounded-3xl cartoon-border cartoon-shadow-dark">
+                <h3 class="text-2xl font-extrabold text-slate-950 mb-6 text-center">
+                    🔍 Mengenali Struktur Asas C++ Satu Persatu
+                </h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Card A: Comments -->
+                    <div class="bg-teal-50 p-5 rounded-2xl cartoon-border hover:scale-[1.02] transition-transform">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="text-3xl bg-teal-200 p-2 rounded-xl cartoon-border">💬</span>
+                            <h4 class="text-lg font-extrabold text-teal-800">a. Comments (Komen)</h4>
+                        </div>
+                        <p class="text-sm text-slate-700 font-bold mb-3">Nota kecil untuk programmer. Komputer akan mengabaikannya semasa program dijalankan.</p>
+                        <div class="bg-slate-800 text-emerald-400 p-3 rounded-xl text-xs font-mono mb-2">
+                            <span class="text-gray-400">// Komen satu baris</span><br>
+                            <span class="text-gray-400">/* Komen yang panjang<br> & boleh ditulis banyak baris */</span>
+                        </div>
+                        <p class="text-xs text-teal-900 bg-teal-100 p-2 rounded-lg font-medium">⭐️ <strong>Analogi:</strong> Seperti nota kecil guru di buku latihan. Guru baca, komputer tak peduli!</p>
+                    </div>
+
+                    <!-- Card B: Preprocessor Directives -->
+                    <div class="bg-pink-50 p-5 rounded-2xl cartoon-border hover:scale-[1.02] transition-transform">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="text-3xl bg-pink-200 p-2 rounded-xl cartoon-border">⚙️</span>
+                            <h4 class="text-lg font-extrabold text-pink-800">b. Pre-processor</h4>
+                        </div>
+                        <p class="text-sm text-slate-700 font-bold mb-3">Arahan diproses SEBELUM program dikompil. Bermula dengan tanda <code class="bg-pink-200 text-pink-800 px-1 rounded">#</code>.</p>
+                        <div class="bg-slate-800 text-emerald-400 p-3 rounded-xl text-xs font-mono mb-2">
+                            #include &lt;iostream&gt;
+                        </div>
+                        <p class="text-xs text-pink-900 bg-pink-100 p-2 rounded-lg font-medium">⭐️ <strong>Analogi:</strong> Sebelum memasak, anda kena ambil bahan dulu (Ambil telur, minyak, garam) sebelum dapur dibuka!</p>
+                    </div>
+
+                    <!-- Card C: Header Files -->
+                    <div class="bg-blue-50 p-5 rounded-2xl cartoon-border hover:scale-[1.02] transition-transform">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="text-3xl bg-blue-200 p-2 rounded-xl cartoon-border">🧰</span>
+                            <h4 class="text-lg font-extrabold text-blue-800">c. Header Files</h4>
+                        </div>
+                        <p class="text-sm text-slate-700 font-bold mb-3">Mengandungi fungsi sedia ada seperti <code class="bg-blue-200 px-1 rounded">cout</code> (untuk tunjuk skrin) atau <code class="bg-blue-200 px-1 rounded">cin</code> (input).</p>
+                        <div class="bg-slate-800 text-emerald-400 p-3 rounded-xl text-xs font-mono mb-2">
+                            &lt;iostream&gt; <span class="text-gray-400">// paparan</span><br>
+                            &lt;cmath&gt; <span class="text-gray-400">// fungsi matematik</span>
+                        </div>
+                        <p class="text-xs text-blue-900 bg-blue-100 p-2 rounded-lg font-medium">⭐️ <strong>Analogi:</strong> Kotak Alatan (Toolbox). Jika mahu guna spanar, pastikan kotak alatan itu dibawa dahulu!</p>
+                    </div>
+
+                    <!-- Card D: main() Function -->
+                    <div class="bg-amber-50 p-5 rounded-2xl cartoon-border hover:scale-[1.02] transition-transform">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="text-3xl bg-amber-200 p-2 rounded-xl cartoon-border">🎬</span>
+                            <h4 class="text-lg font-extrabold text-amber-800">d. Fungsi main()</h4>
+                        </div>
+                        <p class="text-sm text-slate-700 font-bold mb-3">Tempat mula program. Setiap program C++ MESTI ada fungsi utama ini.</p>
+                        <div class="bg-slate-800 text-emerald-400 p-3 rounded-xl text-xs font-mono mb-2">
+                            int main() {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;// kod mula di sini<br>
+                            }
+                        </div>
+                        <p class="text-xs text-amber-900 bg-amber-100 p-2 rounded-lg font-medium">⭐️ <strong>Analogi:</strong> Babak pertama drama atau filem. Cerita sentiasa bermula di babak pertama!</p>
+                    </div>
+
+                    <!-- Card E: Return Statement -->
+                    <div class="bg-purple-50 p-5 rounded-2xl cartoon-border hover:scale-[1.02] transition-transform">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="text-3xl bg-purple-200 p-2 rounded-xl cartoon-border">🏁</span>
+                            <h4 class="text-lg font-extrabold text-purple-800">e. Return Statement</h4>
+                        </div>
+                        <p class="text-sm text-slate-700 font-bold mb-3">Digunakan untuk menamatkan perjalanan program dengan tanda kejayaan.</p>
+                        <div class="bg-slate-800 text-emerald-400 p-3 rounded-xl text-xs font-mono mb-2">
+                            return 0;
+                        </div>
+                        <p class="text-xs text-purple-900 bg-purple-100 p-2 rounded-lg font-medium">⭐️ <strong>Analogi:</strong> Butang "EXIT" selepas anda siap bermain permainan video kegemaran anda.</p>
+                    </div>
+
+                    <!-- Card F: Ringkasan Cepat -->
+                    <div class="bg-emerald-50 p-5 rounded-2xl cartoon-border hover:scale-[1.02] transition-transform flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-3 mb-3">
+                                <span class="text-3xl bg-emerald-200 p-2 rounded-xl cartoon-border">📜</span>
+                                <h4 class="text-lg font-extrabold text-emerald-800">Rumusan Ringkas</h4>
+                            </div>
+                            <ul class="text-xs font-bold text-slate-700 list-disc pl-4 space-y-1">
+                                <li><strong>Comment:</strong> Nota sahaja</li>
+                                <li><strong>#include:</strong> Ambil fail luar</li>
+                                <li><strong>iostream:</strong> Alat baca & tulis</li>
+                                <li><strong>main():</strong> Pintu utama mula</li>
+                                <li><strong>return 0:</strong> Selesai & Keluar</li>
+                            </ul>
+                        </div>
+                        <button onclick="switchTab('tab-io')" class="mt-4 w-full bg-[#06D6A0] text-slate-900 font-extrabold p-2 rounded-xl cartoon-border cartoon-shadow-dark cartoon-btn-interactive text-xs uppercase bouncing-btn">
+                            Seterusnya: Belajar Input Output! ➡️
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================= TAB 2: INPUT & OUTPUT (2.4) ======================= -->
+        <div id="tab-io" class="tab-content hidden transition-all">
+            <!-- Penjelasan Input & Output & Analogi ATM -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Info dan Analogi ATM -->
+                <div class="lg:col-span-5 bg-white p-6 rounded-3xl cartoon-border cartoon-shadow-yellow flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-2xl font-extrabold text-slate-900 mb-4 flex items-center gap-2">
+                            <span>🏧</span> Analogi Mesin ATM
+                        </h3>
+                        <p class="text-slate-700 font-bold mb-4 leading-relaxed">
+                            C++ menggunakan sistem <strong>Input</strong> dan <strong>Output</strong> yang dipermudahkan melalui analogi ATM ini:
+                        </p>
+                        
+                        <!-- ATM Interactive Animation -->
+                        <div class="bg-emerald-50 border-3 border-emerald-500 p-4 rounded-2xl cartoon-border mb-4">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-xs font-bold text-emerald-800">PROSES ATM:</span>
+                                <span class="animate-pulse h-2 w-2 rounded-full bg-emerald-500"></span>
+                            </div>
+                            <div class="space-y-3">
+                                <div class="bg-white p-2 rounded-lg border border-emerald-300 text-xs">
+                                    🔑 <strong>INPUT (cin >>) :</strong> Pengguna memasukkan kad dan menekan PIN atau nilai wang.
+                                </div>
+                                <div class="bg-white p-2 rounded-lg border border-emerald-300 text-xs">
+                                    💰 <strong>OUTPUT (cout <<) :</strong> Skrin ATM menunjukkan baki duit anda atau mengeluarkan wang kertas!
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Fun Mnemonics -->
+                        <div class="bg-[#FFFDF0] p-4 rounded-2xl border-2 border-dashed border-yellow-500">
+                            <h4 class="font-extrabold text-slate-900 text-sm mb-2">💡 Tips Mudah Ingat Arah Simbol:</h4>
+                            <div class="grid grid-cols-2 gap-2 text-center text-xs">
+                                <div class="bg-red-100 p-2 rounded-xl border border-red-300">
+                                    <p class="font-extrabold text-red-700">cin &gt;&gt;</p>
+                                    <p class="text-slate-600 font-semibold">Data "Masuk" ke dalam variable!</p>
+                                </div>
+                                <div class="bg-blue-100 p-2 rounded-xl border border-blue-300">
+                                    <p class="font-extrabold text-blue-700">cout &lt;&lt;</p>
+                                    <p class="text-slate-600 font-semibold">Data "Keluar" dipapar ke skrin!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Playground C++ Sandbox -->
+                <div class="lg:col-span-7 bg-slate-950 p-6 rounded-3xl cartoon-border cartoon-shadow-dark text-slate-200">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-2">
+                            <span class="flex space-x-1">
+                                <span class="w-3 h-3 rounded-full bg-red-500"></span>
+                                <span class="w-3 h-3 rounded-full bg-yellow-400"></span>
+                                <span class="w-3 h-3 rounded-full bg-green-500"></span>
+                            </span>
+                            <span class="text-xs font-mono text-gray-400 font-bold">Simulator_Cplusplus.cpp</span>
+                        </div>
+                        <span class="bg-emerald-500 text-slate-950 text-xs font-extrabold px-3 py-1 rounded-full uppercase">Pondok Kod</span>
+                    </div>
+
+                    <div class="font-mono text-xs md:text-sm space-y-1 overflow-x-auto p-4 bg-slate-900 rounded-xl mb-4 border border-slate-800">
+                        <span class="text-gray-400">1</span> <span class="text-pink-400">#include</span> <span class="text-amber-300">&lt;iostream&gt;</span><br>
+                        <span class="text-gray-400">2</span> <span class="text-pink-400">using namespace</span> <span class="text-blue-300">std</span>;<br>
+                        <span class="text-gray-400">3</span> <span class="text-blue-400">int</span> <span class="text-emerald-400">main</span>() {<br>
+                        <span class="text-gray-400">4</span> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-blue-400">string</span> name;<br>
+                        <span class="text-gray-400">5</span> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-blue-400">int</span> age;<br>
+                        <span class="text-gray-400">6</span> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">cout</span> &lt;&lt; <span class="text-yellow-300">"Masukkan Nama Anda: "</span>;<br>
+                        <span class="text-gray-400">7</span> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">cin</span> &gt;&gt; name;<br>
+                        <span class="text-gray-400">8</span> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">cout</span> &lt;&lt; <span class="text-yellow-300">"Masukkan Umur Anda: "</span>;<br>
+                        <span class="text-gray-400">9</span> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">cin</span> &gt;&gt; age;<br>
+                        <span class="text-gray-400">10</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">cout</span> &lt;&lt; <span class="text-yellow-300">"Halo "</span> &lt;&lt; name &lt;&lt; <span class="text-purple-400">endl</span>;<br>
+                        <span class="text-gray-400">11</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">cout</span> &lt;&lt; <span class="text-yellow-300">"Anda berumur "</span> &lt;&lt; age &lt;&lt; <span class="text-yellow-300">" tahun!"</span>;<br>
+                        <span class="text-gray-400">12</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-pink-400">return</span> <span class="text-orange-400">0</span>;<br>
+                        <span class="text-gray-400">13</span>}
+                    </div>
+
+                    <!-- Sandbox Interactive Panel -->
+                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-800">
+                        <h4 class="text-xs font-bold text-slate-400 uppercase mb-3">💻 Cuba Simulasi Input Anda:</h4>
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label class="block text-xs font-bold text-gray-300 mb-1">Nama Pengguna:</label>
+                                <input type="text" id="sim-input-name" value="Ali" class="w-full bg-slate-800 border-2 border-slate-700 text-white rounded-lg p-2 text-sm font-bold focus:outline-none focus:border-blue-400">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-gray-300 mb-1">Umur Anda:</label>
+                                <input type="number" id="sim-input-age" value="18" class="w-full bg-slate-800 border-2 border-slate-700 text-white rounded-lg p-2 text-sm font-bold focus:outline-none focus:border-blue-400">
+                            </div>
+                        </div>
+                        <button onclick="runSimulation()" class="w-full bg-[#06D6A0] hover:bg-emerald-400 text-slate-950 font-extrabold py-3 px-4 rounded-xl cartoon-border cartoon-shadow-dark cartoon-btn-interactive text-sm uppercase flex items-center justify-center gap-2">
+                            <span>🚀</span> JALANKAN PROGRAM (MOCK RUN)
+                        </button>
+                    </div>
+
+                    <!-- Output Console Window -->
+                    <div class="mt-4 bg-black p-4 rounded-xl border-2 border-slate-700">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-2">
+                            <span class="text-xs text-green-400 font-bold font-mono">💻 OUTPUT CONSOLE:</span>
+                            <button onclick="clearConsole()" class="text-xs text-gray-500 hover:text-white font-mono">Clear</button>
+                        </div>
+                        <div id="sim-output" class="font-mono text-xs md:text-sm text-green-300 space-y-1 h-24 overflow-y-auto">
+                            (Tekan butang jalankan program di atas untuk melihat simulasi output!)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONTOH-CONTOH PROGRAM PRAKTIKAL -->
+            <div class="mt-8 bg-white p-6 rounded-3xl cartoon-border cartoon-shadow-dark">
+                <h3 class="text-2xl font-extrabold text-slate-950 mb-6 text-center">
+                    📖 Contoh Program Berguna & Mudah Diuji
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Contoh 1: Jumlah Nombor -->
+                    <div class="bg-[#FFFDF0] p-5 rounded-2xl cartoon-border flex flex-col justify-between">
+                        <div>
+                            <span class="bg-amber-300 text-slate-900 text-xs font-bold px-3 py-1 rounded-full uppercase">Contoh 1</span>
+                            <h4 class="text-lg font-extrabold text-slate-900 mt-2">Menjumlahkan 2 Nombor</h4>
+                            <p class="text-xs text-slate-600 font-bold mb-3">Menerima dua nombor bulat dan memaparkan hasil tambah.</p>
+                            <div class="bg-slate-900 text-emerald-400 p-3 rounded-xl text-xs font-mono mb-4">
+                                int num1, num2;<br>
+                                cout << "First number: ";<br>
+                                cin >> num1;<br>
+                                cout << "Second number: ";<br>
+                                cin >> num2;<br>
+                                cout << "Total = " << num1 + num2;
+                            </div>
+                        </div>
+                        <div class="bg-white border border-slate-200 p-3 rounded-xl text-xs font-bold text-slate-700">
+                            💬 <strong>Ujian Debug:</strong> Jika input <span class="text-amber-500">5</span> & <span class="text-amber-500">8</span>, output mestilah <span class="text-emerald-500">13</span>.
+                        </div>
+                    </div>
+
+                    <!-- Contoh 2: Luas Segi Empat -->
+                    <div class="bg-[#F0FAFF] p-5 rounded-2xl cartoon-border flex flex-col justify-between">
+                        <div>
+                            <span class="bg-blue-300 text-slate-900 text-xs font-bold px-3 py-1 rounded-full uppercase">Contoh 2</span>
+                            <h4 class="text-lg font-extrabold text-slate-900 mt-2">Kira Luas Segi Empat</h4>
+                            <p class="text-xs text-slate-600 font-bold mb-3">Menerima panjang & lebar (float) kemudian mengira luas.</p>
+                            <div class="bg-slate-900 text-emerald-400 p-3 rounded-xl text-xs font-mono mb-4">
+                                float length, width;<br>
+                                cout << "Length: ";<br>
+                                cin >> length;<br>
+                                cout << "Width: ";<br>
+                                cin >> width;<br>
+                                cout << "Area = " << length * width;
+                            </div>
+                        </div>
+                        <div class="bg-white border border-slate-200 p-3 rounded-xl text-xs font-bold text-slate-700">
+                            💬 <strong>Ujian Debug:</strong> Jika panjang <span class="text-blue-500">4.5</span> & lebar <span class="text-blue-500">2.0</span>, output mestilah <span class="text-emerald-500">9.0</span>.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================= TAB 3: JENIS-JENIS RALAT (2.5) ======================= -->
+        <div id="tab-ralat" class="tab-content hidden transition-all">
+            <!-- Pengenalan Ralat -->
+            <div class="bg-[#FF8DA1] p-6 rounded-3xl cartoon-border cartoon-shadow-dark mb-8 text-slate-950">
+                <div class="flex flex-col md:flex-row items-center gap-6">
+                    <span class="text-7xl animate-bounce">🐛</span>
+                    <div>
+                        <h3 class="text-3xl font-extrabold mb-2">Awas dengan Hama Pepijat (Ralat / Errors)!</h3>
+                        <p class="font-bold text-sm md:text-base leading-relaxed">
+                            Error bermaksud kesalahan dalam program yang menyebabkan sistem tidak boleh berjalan, mengeluarkan output yang salah, ataupun berhenti serta-merta semasa dijalankan. Mari kita kenali musuh utama pengaturcara ini!
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4 Jenis Ralat Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- 1. Syntax Error -->
+                <div class="bg-white p-6 rounded-3xl cartoon-border cartoon-shadow-pink relative overflow-hidden">
+                    <span class="absolute top-2 right-2 text-6xl opacity-10">❌</span>
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-pink-100 text-pink-700 p-2 rounded-xl text-2xl font-extrabold cartoon-border">1</span>
+                        <h4 class="text-xl font-extrabold text-pink-700">Syntax / Compile Error</h4>
+                    </div>
+                    <p class="text-slate-700 font-bold mb-3 text-sm leading-relaxed">
+                        Kesalahan penulisan kod yang melanggar peraturan tatabahasa C++. Kompiler (compiler) tidak faham apa yang cuba ditulis.
+                    </p>
+                    <div class="bg-red-50 border-l-4 border-red-500 p-3 rounded-r-xl mb-3">
+                        <p class="text-xs font-bold text-red-800">⚠️ Kod Salah:</p>
+                        <code class="text-xs font-mono text-red-600 font-bold">cout &lt;&lt; "Hello"</code> <span class="text-xs text-red-500 font-bold">(Tiada ;)</span>
+                    </div>
+                    <div class="bg-emerald-50 border-l-4 border-emerald-500 p-3 rounded-r-xl mb-4">
+                        <p class="text-xs font-bold text-emerald-800">✅ Kod Betul:</p>
+                        <code class="text-xs font-mono text-emerald-600 font-bold">cout &lt;&lt; "Hello";</code>
+                    </div>
+                    <div class="bg-[#FFFDF0] p-3 rounded-xl border border-dashed border-amber-400 text-xs text-slate-700 font-bold">
+                        🚕 <strong>Analogi:</strong> Menulis ayat <em>"Saya makan nasi"</em> tanpa titik di hujung ayat. Pembaca faham tapi undang-undang bahasa rosak!
+                    </div>
+                </div>
+
+                <!-- 2. Runtime Error -->
+                <div class="bg-white p-6 rounded-3xl cartoon-border cartoon-shadow-blue relative overflow-hidden">
+                    <span class="absolute top-2 right-2 text-6xl opacity-10">💥</span>
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-blue-100 text-blue-700 p-2 rounded-xl text-2xl font-extrabold cartoon-border">2</span>
+                        <h4 class="text-xl font-extrabold text-blue-700">Runtime Error</h4>
+                    </div>
+                    <p class="text-slate-700 font-bold mb-3 text-sm leading-relaxed">
+                        Program berjaya dikompil tetapi mengalami kegagalan kritikal di tengah-tengah jalan semasa program sedang dilaksanakan.
+                    </p>
+                    <div class="bg-red-50 border-l-4 border-red-500 p-3 rounded-r-xl mb-3">
+                        <p class="text-xs font-bold text-red-800">⚠️ Kod Salah:</p>
+                        <code class="text-xs font-mono text-red-600 font-bold">int a = 10; int b = 0;<br>cout &lt;&lt; a / b;</code> <span class="text-xs text-red-500 font-bold">(Bahagi dengan 0!)</span>
+                    </div>
+                    <div class="bg-[#FFFDF0] p-3 rounded-xl border border-dashed border-amber-400 text-xs text-slate-700 font-bold">
+                        🚗 <strong>Analogi:</strong> Enjin kereta boleh dihidupkan dengan jayanya, tetapi tayar kereta tiba-tiba meletup semasa anda sedang seronok memandu di jalan raya!
+                    </div>
+                </div>
+
+                <!-- 3. Linker Error -->
+                <div class="bg-white p-6 rounded-3xl cartoon-border cartoon-shadow-purple relative overflow-hidden">
+                    <span class="absolute top-2 right-2 text-6xl opacity-10">🔗</span>
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-purple-100 text-purple-700 p-2 rounded-xl text-2xl font-extrabold cartoon-border">3</span>
+                        <h4 class="text-xl font-extrabold text-purple-700">Linker Error</h4>
+                    </div>
+                    <p class="text-slate-700 font-bold mb-3 text-sm leading-relaxed">
+                        Berlaku apabila program cuba memanggil fungsi luar yang telah diisytiharkan, tetapi sistem penyambung (linker) tidak dapat mencari takrifan (definisi) fungsi tersebut.
+                    </p>
+                    <div class="bg-red-50 border-l-4 border-red-500 p-3 rounded-r-xl mb-4">
+                        <p class="text-xs font-bold text-red-800">⚠️ Contoh Situasi:</p>
+                        <p class="text-xs text-red-700 font-bold">Anda isytihar fungsi <code class="bg-red-200 px-1 rounded">void paparan();</code> di bahagian atas program, tetapi anda langsung tidak menulis kod isi kandungannya di mana-mana!</p>
+                    </div>
+                    <div class="bg-[#FFFDF0] p-3 rounded-xl border border-dashed border-amber-400 text-xs text-slate-700 font-bold">
+                        📦 <strong>Analogi:</strong> Anda menjumpai manual yang menyuruh anda mengambil "Alat A" dari kotak bungkusan, tetapi apabila dibuka, "Alat A" tiada dalam kotak!
+                    </div>
+                </div>
+
+                <!-- 4. Logic Error -->
+                <div class="bg-white p-6 rounded-3xl cartoon-border cartoon-shadow-green relative overflow-hidden">
+                    <span class="absolute top-2 right-2 text-6xl opacity-10">🧠</span>
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-emerald-100 text-emerald-700 p-2 rounded-xl text-2xl font-extrabold cartoon-border">4</span>
+                        <h4 class="text-xl font-extrabold text-emerald-700">Logic Error</h4>
+                    </div>
+                    <p class="text-slate-700 font-bold mb-3 text-sm leading-relaxed">
+                        Program berjalan dengan lancar tanpa sebarang mesej kerosakan, tetapi jawapan akhir yang dikeluarkan adalah salah sama sekali kerana formula yang digunakan tidak betul.
+                    </p>
+                    <div class="bg-red-50 border-l-4 border-red-500 p-3 rounded-r-xl mb-3">
+                        <p class="text-xs font-bold text-red-800">⚠️ Kod Salah Formula:</p>
+                        <code class="text-xs font-mono text-red-600 font-bold">total = a - b;</code> <span class="text-xs text-red-500 font-bold">(Niat asal mahu tambah, tapi tertulis tolak!)</span>
+                    </div>
+                    <div class="bg-emerald-50 border-l-4 border-emerald-500 p-3 rounded-r-xl mb-4">
+                        <p class="text-xs font-bold text-emerald-800">✅ Kod Betul Formula:</p>
+                        <code class="text-xs font-mono text-emerald-600 font-bold">total = a + b;</code>
+                    </div>
+                    <div class="bg-[#FFFDF0] p-3 rounded-xl border border-dashed border-amber-400 text-xs text-slate-700 font-bold">
+                        🤔 <strong>Analogi:</strong> Anda ditanya <code class="bg-amber-100 px-1">2 + 3</code> dan anda menjawab <code class="bg-amber-100 px-1">6</code>. Tiada ralat perkataan, tetapi logik pemikiran anda tersilap!
+                    </div>
+                </div>
+            </div>
+
+            <!-- MINI GAME: THE ERROR FIXER CHALLENGE -->
+            <div class="mt-12 bg-[#FFD166] p-6 rounded-3xl cartoon-border cartoon-shadow-dark">
+                <div class="text-center mb-6">
+                    <span class="bg-[#FF8DA1] text-slate-900 font-extrabold px-4 py-2 rounded-full border-2 border-slate-900 text-xs uppercase shadow-sm">Mini Game Berinteraktif 👾</span>
+                    <h3 class="text-3xl font-extrabold text-slate-950 mt-2">Detektif Bug: Baiki Kod!</h3>
+                    <p class="text-slate-800 font-bold text-sm">Bantu Profesor Kiko mencari dan membetulkan ralat dalam tiga kod di bawah!</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Cabaran 1 -->
+                    <div class="bg-white p-5 rounded-2xl cartoon-border shadow-md flex flex-col justify-between">
+                        <div>
+                            <span class="bg-red-200 text-red-800 text-xs font-extrabold px-2 py-1 rounded">Kes 1: Gagal Kompil</span>
+                            <div class="bg-slate-900 text-red-400 p-3 rounded-xl font-mono text-xs my-3 leading-relaxed">
+                                <span class="text-slate-500">1</span> int main() {<br>
+                                <span class="text-slate-500">2</span> &nbsp;&nbsp;&nbsp;&nbsp;Int age = 15;<br>
+                                <span class="text-slate-500">3</span> &nbsp;&nbsp;&nbsp;&nbsp;cout &lt;&lt; age;<br>
+                                <span class="text-slate-500">4</span> }
+                            </div>
+                            <p class="text-xs text-slate-700 font-bold mb-4">Apakah jenis ralat yang terkandung dalam kod ini?</p>
+                        </div>
+                        <div class="space-y-2">
+                            <button onclick="checkDebugAnswer(1, 'syntax', this)" class="w-full text-left text-xs font-extrabold p-2 bg-slate-50 hover:bg-slate-100 rounded-lg border border-slate-300">A) Syntax Error ('Int' berhuruf besar)</button>
+                            <button onclick="checkDebugAnswer(1, 'logic', this)" class="w-full text-left text-xs font-extrabold p-2 bg-slate-50 hover:bg-slate-100 rounded-lg border border-slate-300">B) Logic Error (Salah formula)</button>
+                        </div>
+                    </div>
+
+                    <!-- Cabaran 2 -->
+                    <div class="bg-white p-5 rounded-2xl cartoon-border shadow-md flex flex-col justify-between">
+                        <div>
+                            <span class="bg-red-200 text-red-800 text-xs font-extrabold px-2 py-1 rounded">Kes 2: Salah Hasil</span>
+                            <div class="bg-slate-900 text-red-400 p-3 rounded-xl font-mono text-xs my-3 leading-relaxed">
+                                <span class="text-slate-500">1</span> float harga = 100;<br>
+                                <span class="text-slate-500">2</span> float kuantiti = 2;<br>
+                                <span class="text-slate-500">3</span> <span class="text-[#70D6FF]">// Mahu kira jumlah bayar</span><br>
+                                <span class="text-slate-500">4</span> float total = harga - kuantiti;
+                            </div>
+                            <p class="text-xs text-slate-700 font-bold mb-4">Mengapa jumlah akhir berbeza dari hasil sebenar?</p>
+                        </div>
+                        <div class="space-y-2">
+                            <button onclick="checkDebugAnswer(2, 'syntax', this)" class="w-full text-left text-xs font-extrabold p-2 bg-slate-50 hover:bg-slate-100 rounded-lg border border-slate-300">A) Syntax Error (Tiada takah koma)</button>
+                            <button onclick="checkDebugAnswer(2, 'logic', this)" class="w-full text-left text-xs font-extrabold p-2 bg-slate-50 hover:bg-slate-100 rounded-lg border border-slate-300">B) Logic Error (Tolak ganti darab '*')</button>
+                        </div>
+                    </div>
+
+                    <!-- Cabaran 3 -->
+                    <div class="bg-white p-5 rounded-2xl cartoon-border shadow-md flex flex-col justify-between">
+                        <div>
+                            <span class="bg-red-200 text-red-800 text-xs font-extrabold px-2 py-1 rounded">Kes 3: Program Terhenti</span>
+                            <div class="bg-slate-900 text-red-400 p-3 rounded-xl font-mono text-xs my-3 leading-relaxed">
+                                <span class="text-slate-500">1</span> int pembahagi = 0;<br>
+                                <span class="text-slate-500">2</span> int markah = 100;<br>
+                                <span class="text-slate-500">3</span> int hasil = markah / pembahagi;
+                            </div>
+                            <p class="text-xs text-slate-700 font-bold mb-4">Apakah jenis kerosakan yang akan berlaku di sini?</p>
+                        </div>
+                        <div class="space-y-2">
+                            <button onclick="checkDebugAnswer(3, 'runtime', this)" class="w-full text-left text-xs font-extrabold p-2 bg-slate-50 hover:bg-slate-100 rounded-lg border border-slate-300">A) Runtime Error (Bahagi dengan sifar)</button>
+                            <button onclick="checkDebugAnswer(3, 'linker', this)" class="w-full text-left text-xs font-extrabold p-2 bg-slate-50 hover:bg-slate-100 rounded-lg border border-slate-300">B) Linker Error (Fungsi tidak ditemui)</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================= TAB 4: KUIZ & AKTIVITI ======================= -->
+        <div id="tab-aktiviti" class="tab-content hidden transition-all">
+            <!-- Kuiz Kartun Box -->
+            <div class="bg-white p-6 md:p-8 rounded-3xl cartoon-border cartoon-shadow-purple max-w-3xl mx-auto">
+                <!-- Welcome State -->
+                <div id="quiz-welcome" class="text-center py-6">
+                    <span class="text-7xl">🏆</span>
+                    <h3 class="text-3xl font-extrabold text-purple-700 mt-4">Kuiz Uji Minda C++ Ceria!</h3>
+                    <p class="text-slate-700 font-bold mt-2 max-w-md mx-auto">
+                        Sudah sedia menguji kepintaran anda berdasarkan semua perkara yang telah kita pelajari tadi?
+                    </p>
+                    <div class="bg-purple-100 border-2 border-purple-300 p-4 rounded-2xl max-w-sm mx-auto my-6">
+                        <span class="text-xs text-purple-800 font-bold block uppercase">Format Cabaran:</span>
+                        <p class="text-xs text-slate-600 font-semibold">5 Soalan Aneka Pilihan • Dapatkan 5/5 untuk sijil cemerlang!</p>
+                    </div>
+                    <button onclick="startQuiz()" class="bg-[#B5179E] text-white font-extrabold py-3 px-8 rounded-2xl cartoon-border cartoon-shadow-dark cartoon-btn-interactive text-lg uppercase bouncing-btn">
+                        MULA KUIZ SEKARANG 🎉
+                    </button>
+                </div>
+
+                <!-- Active Question State -->
+                <div id="quiz-active" class="hidden">
+                    <!-- Progress bar quiz -->
+                    <div class="flex justify-between items-center mb-4">
+                        <span id="quiz-question-number" class="text-xs font-extrabold text-purple-700 uppercase">Soalan 1 daripada 5</span>
+                        <span id="quiz-score-badge" class="bg-amber-300 text-slate-900 text-xs font-extrabold px-3 py-1 rounded-full cartoon-border">Markah: 0</span>
+                    </div>
+                    
+                    <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden mb-6 border border-slate-300">
+                        <div id="quiz-progress-inner" class="h-full bg-[#B5179E]" style="width: 20%;"></div>
+                    </div>
+
+                    <!-- Question text block -->
+                    <div class="bg-purple-50 p-6 rounded-2xl cartoon-border border-purple-200 mb-6 min-h-[100px] flex items-center justify-center">
+                        <h4 id="quiz-question-text" class="text-lg md:text-xl font-extrabold text-slate-900 text-center">
+                            Memuatkan soalan...
+                        </h4>
+                    </div>
+
+                    <!-- Options Grid -->
+                    <div id="quiz-options-container" class="grid grid-cols-1 gap-3">
+                        <!-- Options generated dynamically by JavaScript -->
+                    </div>
+
+                    <!-- Feedbacks Area -->
+                    <div id="quiz-feedback" class="mt-4 p-3 rounded-xl text-center font-bold text-sm hidden"></div>
+                </div>
+
+                <!-- Quiz Results State -->
+                <div id="quiz-results" class="hidden text-center py-6">
+                    <span class="text-8xl" id="result-emoji">🎉</span>
+                    <h3 class="text-3xl font-extrabold text-slate-900 mt-4" id="result-title">Taniah, Hebat!</h3>
+                    <p class="text-slate-700 font-bold mt-2" id="result-desc">Anda menjawab dengan sangat cemerlang!</p>
+                    
+                    <div class="my-6 inline-block bg-purple-100 p-4 rounded-3xl cartoon-border">
+                        <p class="text-xs font-extrabold text-purple-700 uppercase">Keputusan Akhir Anda:</p>
+                        <p class="text-5xl font-black text-purple-900 my-2" id="result-score">5 / 5</p>
+                        <p class="text-xs text-slate-600 font-medium">Betul <span id="correct-count">5</span> daripada 5 soalan!</p>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row justify-center gap-4">
+                        <button onclick="startQuiz()" class="bg-[#70D6FF] text-slate-950 font-extrabold py-3 px-6 rounded-2xl cartoon-border cartoon-shadow-dark cartoon-btn-interactive text-sm uppercase">
+                            🔄 Cuba Semula
+                        </button>
+                        <button onclick="printCertificate()" id="cert-btn" class="bg-[#06D6A0] text-slate-950 font-extrabold py-3 px-6 rounded-2xl cartoon-border cartoon-shadow-dark cartoon-btn-interactive text-sm uppercase">
+                            📜 Tunjuk Sijil Penghargaan
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SIJIL PENGHARGAAN (DIPAPARKAN APABILA SELESAI DENGAN JAYANYA) -->
+            <div id="certificate-container" class="hidden mt-12 max-w-2xl mx-auto bg-amber-50 border-8 border-double border-amber-600 p-8 rounded-3xl shadow-xl text-center relative overflow-hidden">
+                <!-- Watermarks and design ornaments -->
+                <div class="absolute -top-10 -left-10 w-40 h-40 bg-amber-200 rounded-full mix-blend-multiply filter blur-xl opacity-30"></div>
+                <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-yellow-200 rounded-full mix-blend-multiply filter blur-xl opacity-30"></div>
+                
+                <h4 class="text-xs font-bold text-amber-800 tracking-widest uppercase mb-1">🏅 SIJIL PENCAPAIAN CEMERLANG 🏅</h4>
+                <div class="w-16 h-1 bg-amber-600 mx-auto mb-6"></div>
+                
+                <p class="text-xs text-slate-600 font-semibold italic">Dengan ini diperakui bahawa anda telah berjaya menamatkan pengajian</p>
+                <h3 class="text-3xl font-extrabold text-slate-900 my-4">WIRA KODING C++</h3>
+                
+                <p class="text-xs text-slate-600 max-w-md mx-auto leading-relaxed">
+                    Telah membuktikan kefahaman luar biasa dalam memahami <strong>Struktur Asas Atur Cara C++, Input & Output (cin/cout), serta Jenis-jenis Ralat Pengaturcaraan</strong> di bawah Hub Pembelajaran C++ Ceria.
+                </p>
+
+                <div class="flex justify-between items-end mt-8 border-t border-dashed border-amber-300 pt-6">
+                    <div class="text-left">
+                        <span class="text-[10px] font-bold text-slate-500 uppercase block">Disahkan Oleh</span>
+                        <span class="text-sm font-extrabold text-amber-700">Profesor Kiko🤖</span>
+                    </div>
+                    <div>
+                        <span class="text-[10px] font-bold text-slate-500 uppercase block">Gred Diperolehi</span>
+                        <span class="bg-emerald-500 text-slate-950 text-xs font-black px-3 py-1 rounded-full">CEMERLANG (A)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NOTIFICATION POPUP (No Alert rule) -->
+    <div id="custom-alert" class="fixed bottom-4 right-4 z-50 max-w-sm bg-[#FFD166] cartoon-border cartoon-shadow-dark p-4 rounded-2xl hidden transition-all duration-300">
+        <div class="flex items-center gap-3">
+            <span class="text-3xl" id="alert-emoji">💡</span>
+            <div>
+                <h5 class="font-extrabold text-slate-900" id="alert-title">Mesej Detektif</h5>
+                <p class="text-xs text-slate-700 font-bold" id="alert-text">Sesuatu berlaku!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Data struktur rumah
+        const houseData = {
+            roof: {
+                title: "#include <iostream>",
+                code: `#include <iostream>\nusing namespace std;`,
+                analogy: "Bumbung (Pre-processor & Header File): Mengambil bahan keperluan dan membawa masuk kotak alatan (toolbox iostream) untuk membolehkan kita membaca data (cin) dan memaparkan skrin (cout)."
+            },
+            wall: {
+                title: "int main() { ... }",
+                code: `int main() {\n    // Dinding melindungi semua arahan di dalam program\n    return 0;\n}`,
+                analogy: "Dinding (main() function): Melindungi dan menampung semua isi arahan utama program. Tanpa main(), rumah runtuh kerana komputer tidak tahu dari mana mahu mulakan program!"
+            },
+            window: {
+                title: "// Komen Program",
+                code: `// Ini ialah komen satu baris\n/* Ini pula ialah komen\n   yang ditulis panjang lebar */`,
+                analogy: "Tingkap (Comments): Memberi pencahayaan agar programmer dapat melihat isi rumah dengan jelas. Komputer mengabaikannya, tetapi ia sangat penting bagi membolehkan orang lain memahami kod anda."
+            },
+            door: {
+                title: "cout << \"Hello World\";",
+                code: `cout << "Selamat Datang Ke Rumah C++";`,
+                analogy: "Pintu (Output cout): Menunjukkan apa yang ada di dalam rumah kepada dunia luar (pengguna). Merupakan saluran keluar maklumat."
+            },
+            exit: {
+                title: "return 0;",
+                code: `return 0;`,
+                analogy: "Pintu Keluar (Return Statement): Menyelesaikan operasi dan menutup pintu dengan kemas (menandakan program tamat dengan jayanya)."
+            }
+        };
+
+        // Tab Switcher logic
+        function switchTab(tabId) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => {
+                tab.classList.add('hidden');
+                tab.classList.remove('block');
+            });
+
+            // Show active tab
+            const activeTab = document.getElementById(tabId);
+            activeTab.classList.remove('hidden');
+            activeTab.classList.add('block');
+
+            // Toggle active style on buttons
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-[#FF8DA1]', 'bg-[#FFD166]', 'bg-[#70D6FF]', 'bg-[#B5179E]', 'text-white', 'text-slate-900');
+                btn.classList.add('bg-white', 'text-slate-800');
+            });
+
+            const activeBtn = document.getElementById(`btn-${tabId}`);
+            if (tabId === 'tab-struktur') {
+                activeBtn.className = "tab-btn bg-[#FF8DA1] text-slate-900 font-extrabold p-3 rounded-2xl cartoon-border cartoon-shadow-dark cartoon-btn-interactive text-sm md:text-base flex flex-col items-center gap-1 justify-center";
+                updateProgress(15);
+            } else if (tabId === 'tab-io') {
+                activeBtn.className = "tab-btn bg-[#FFD166] text-slate-900 font-extrabold p-3 rounded-2xl cartoon-border cartoon-shadow-dark cartoon-btn-interactive text-sm md:text-base flex flex-col items-center gap-1 justify-center";
+                updateProgress(50);
+            } else if (tabId === 'tab-ralat') {
+                activeBtn.className = "tab-btn bg-[#70D6FF] text-slate-950 font-extrabold p-3 rounded-2xl cartoon-border cartoon-shadow-dark cartoon-btn-interactive text-sm md:text-base flex flex-col items-center gap-1 justify-center";
+                updateProgress(75);
+            } else if (tabId === 'tab-aktiviti') {
+                activeBtn.className = "tab-btn bg-[#B5179E] text-white font-extrabold p-3 rounded-2xl cartoon-border cartoon-shadow-dark cartoon-btn-interactive text-sm md:text-base flex flex-col items-center gap-1 justify-center";
+                updateProgress(90);
+            }
+        }
+
+        // Update progress bar
+        function updateProgress(percent) {
+            const bar = document.getElementById('main-progress-bar');
+            const txt = document.getElementById('progress-percent');
+            if (bar && txt) {
+                bar.style.width = `${percent}%`;
+                txt.textContent = `${percent}%`;
+            }
+        }
+
+        // Highlight parts of C++ House Analogy
+        function highlightHousePart(partKey) {
+            const titleEl = document.getElementById('house-part-title');
+            const codeEl = document.getElementById('house-part-code');
+            const analogyEl = document.getElementById('house-part-analogy');
+
+            if (houseData[partKey]) {
+                titleEl.textContent = houseData[partKey].title;
+                codeEl.textContent = houseData[partKey].code;
+                analogyEl.textContent = `Analogi: ${houseData[partKey].analogy}`;
+                showCustomAlert("🏠 Bahagian Dipilih!", `Anda sedang meneroka bahagian: ${partKey.toUpperCase()}`, "💡");
+            }
+        }
+
+        // Custom alert instead of window.alert()
+        function showCustomAlert(title, text, emoji = "💡") {
+            const alertBox = document.getElementById('custom-alert');
+            const alertTitle = document.getElementById('alert-title');
+            const alertText = document.getElementById('alert-text');
+            const alertEmoji = document.getElementById('alert-emoji');
+
+            alertTitle.textContent = title;
+            alertText.textContent = text;
+            alertEmoji.textContent = emoji;
+
+            alertBox.classList.remove('hidden');
+            setTimeout(() => {
+                alertBox.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Clear console
+        function clearConsole() {
+            document.getElementById('sim-output').innerHTML = "(Sedia menerima arahan...)";
+        }
+
+        // Mock simulation C++ output run
+        function runSimulation() {
+            const name = document.getElementById('sim-input-name').value.trim() || "Ali";
+            const age = document.getElementById('sim-input-age').value || "18";
+            const consoleEl = document.getElementById('sim-output');
+
+            consoleEl.innerHTML = `<span class="text-blue-400">&gt; Menjalankan program Simulator_Cplusplus.cpp...</span><br>`;
+            
+            setTimeout(() => {
+                consoleEl.innerHTML += `<span class="text-gray-400">Masukkan Nama Anda: </span><span class="text-white">${name}</span><br>`;
+            }, 400);
+
+            setTimeout(() => {
+                consoleEl.innerHTML += `<span class="text-gray-400">Masukkan Umur Anda: </span><span class="text-white">${age}</span><br>`;
+            }, 800);
+
+            setTimeout(() => {
+                consoleEl.innerHTML += `<span class="text-yellow-300 font-extrabold">Halo ${name}</span><br>`;
+                consoleEl.innerHTML += `<span class="text-yellow-300 font-extrabold">Anda berumur ${age} tahun!</span><br>`;
+                consoleEl.innerHTML += `<span class="text-emerald-400">&gt; Program selesai dijalankan dengan jayanya (exit code 0).</span>`;
+                
+                // Add celebration confetti in miniature style
+                confetti({
+                    particleCount: 20,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0.7, y: 0.8 }
+                });
+            }, 1200);
+        }
+
+        // Detective Debug Game Check
+        function checkDebugAnswer(caseNum, answer, btnElement) {
+            const isCorrect = (caseNum === 1 && answer === 'syntax') ||
+                              (caseNum === 2 && answer === 'logic') ||
+                              (caseNum === 3 && answer === 'runtime');
+
+            // Reset sibling classes first
+            const parent = btnElement.parentElement;
+            const buttons = parent.querySelectorAll('button');
+            buttons.forEach(btn => {
+                btn.className = "w-full text-left text-xs font-extrabold p-2 bg-slate-50 rounded-lg border border-slate-300";
+            });
+
+            if (isCorrect) {
+                btnElement.className = "w-full text-left text-xs font-extrabold p-2 bg-emerald-100 text-emerald-800 rounded-lg border-2 border-emerald-500";
+                showCustomAlert("Tahniah! 🎉", "Anda berjaya membetulkan pepijat dalam kes ini!", "🏆");
+                confetti({
+                    particleCount: 15,
+                    spread: 30,
+                    origin: { y: 0.8 }
+                });
+            } else {
+                btnElement.className = "w-full text-left text-xs font-extrabold p-2 bg-red-100 text-red-800 rounded-lg border-2 border-red-500";
+                showCustomAlert("Opps! Silap.. ❌", "Cuba baca kod atau analogi ralat sekali lagi.", "🐛");
+            }
+        }
+
+        // KUIZ LOGIC DATA
+        const quizData = [
+            {
+                question: "Apakah fungsi komen (comments) dalam struktur kod C++?",
+                options: [
+                    "A. Mempercepatkan kelajuan pemprosesan komputer.",
+                    "B. Sebagai nota kepada programmer dan diabaikan oleh komputer semasa berjalan.",
+                    "C. Menyambungkan program ke pangkalan data internet.",
+                    "D. Menyembunyikan kata laluan sulit programmer."
+                ],
+                correct: 1,
+                tip: "Komen hanya untuk bacaan manusia, komputer memandangnya sebelah mata sahaja!"
+            },
+            {
+                question: "Mengapakah arahan pre-processor bermula dengan simbol pagar (#)?",
+                options: [
+                    "A. Menunjukkan ia mestilah bernilai nombor bulat.",
+                    "B. Untuk menyekat komputer daripada melakukan kerosakan.",
+                    "C. Kerana ia adalah arahan khas yang diproses sebelum program dikompil.",
+                    "D. Mengaktifkan mod muzik latar belakang dalam C++."
+                ],
+                correct: 2,
+                tip: "Seperti membuat persiapan awal di dapur sebelum mula bertempur memasak!"
+            },
+            {
+                question: "Jika anda ingin menggunakan cout dan cin, fail pengepala (header file) manakah yang MESTI dimasukkan?",
+                options: [
+                    "A. <cmath>",
+                    "B. <string>",
+                    "C. <cstdlib>",
+                    "D. <iostream>"
+                ],
+                correct: 3,
+                tip: "Pernah dengar perkataan Input Output Stream? iostream lah jawapannya!"
+            },
+            {
+                question: "Apakah output yang terhasil jika kod ini dijalankan: cout << \"Hello\" << \" World\";",
+                options: [
+                    "A. Hello World",
+                    "B. Hello + World",
+                    "C. HelloWorld",
+                    "D. World Hello"
+                ],
+                correct: 0,
+                tip: "Ia memaparkan kedua-dua rentetan aksara bersebelahan mengikut urutan."
+            },
+            {
+                question: "Anda menaip 'Int markah = 90;' dalam kod anda. Apakah jenis ralat yang akan dikesan oleh compiler?",
+                options: [
+                    "A. Logic Error",
+                    "B. Runtime Error",
+                    "C. Syntax / Compile Time Error",
+                    "D. Linker Error"
+                ],
+                correct: 2,
+                tip: "Huruf besar 'I' pada 'Int' melanggar hukum tatabahasa C++. Ingat, C++ sangat sensitif dengan kes huruf!"
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            document.getElementById('quiz-welcome').classList.add('hidden');
+            document.getElementById('quiz-results').classList.add('hidden');
+            document.getElementById('quiz-active').classList.remove('hidden');
+            document.getElementById('certificate-container').classList.add('hidden');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const currentQuestion = quizData[currentQuestionIndex];
+            
+            // Set Progress Bar
+            const progressPercent = ((currentQuestionIndex + 1) / quizData.length) * 100;
+            document.getElementById('quiz-progress-inner').style.width = `${progressPercent}%`;
+            document.getElementById('quiz-question-number').textContent = `Soalan ${currentQuestionIndex + 1} daripada ${quizData.length}`;
+            document.getElementById('quiz-score-badge').textContent = `Markah: ${score}`;
+
+            // Set Question Text
+            document.getElementById('quiz-question-text').textContent = currentQuestion.question;
+
+            // Generate Options
+            const optionsContainer = document.getElementById('quiz-options-container');
+            optionsContainer.innerHTML = '';
+
+            currentQuestion.options.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left font-bold p-4 rounded-2xl border-2 border-slate-800 bg-white hover:bg-purple-50 transition-colors duration-150 flex items-center gap-3";
+                btn.onclick = () => selectOption(index);
+                btn.innerHTML = `
+                    <span class="bg-purple-100 text-purple-700 w-8 h-8 rounded-full flex items-center justify-center font-extrabold border border-purple-300 shrink-0">
+                        ${index + 1}
+                    </span>
+                    <span class="text-slate-800 text-sm md:text-base">${option}</span>
+                `;
+                optionsContainer.appendChild(btn);
+            });
+
+            // Hide feedback
+            const feedbackEl = document.getElementById('quiz-feedback');
+            feedbackEl.classList.add('hidden');
+        }
+
+        // Handle user option selection
+        function selectOption(selectedIndex) {
+            const currentQuestion = quizData[currentQuestionIndex];
+            const feedbackEl = document.getElementById('quiz-feedback');
+            const optionsContainer = document.getElementById('quiz-options-container');
+            const buttons = optionsContainer.querySelectorAll('button');
+
+            // Disable further clicks during feedback display
+            buttons.forEach(btn => btn.disabled = true);
+
+            if (selectedIndex === currentQuestion.correct) {
+                score++;
+                buttons[selectedIndex].className = "w-full text-left font-bold p-4 rounded-2xl border-2 border-emerald-500 bg-emerald-50 transition-colors duration-150 flex items-center gap-3";
+                feedbackEl.className = "mt-4 p-3 rounded-xl text-center font-bold text-sm bg-emerald-100 text-emerald-800 border border-emerald-300 block";
+                feedbackEl.textContent = "🎉 Betul Tepat Sekali! Syabas!";
+                
+                // Confetti for correct answer!
+                confetti({
+                    particleCount: 20,
+                    spread: 40,
+                    origin: { y: 0.8 }
+                });
+            } else {
+                buttons[selectedIndex].className = "w-full text-left font-bold p-4 rounded-2xl border-2 border-red-500 bg-red-50 transition-colors duration-150 flex items-center gap-3";
+                buttons[currentQuestion.correct].className = "w-full text-left font-bold p-4 rounded-2xl border-2 border-emerald-500 bg-emerald-50 transition-colors duration-150 flex items-center gap-3";
+                feedbackEl.className = "mt-4 p-3 rounded-xl text-center font-bold text-sm bg-red-100 text-red-800 border border-red-300 block";
+                feedbackEl.textContent = `❌ Alamak, tersilap! Tip: ${currentQuestion.tip}`;
+            }
+
+            // Move to next question or show results after a delay
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < quizData.length) {
+                    loadQuestion();
+                } else {
+                    showResults();
+                }
+            }, 2500);
+        }
+
+        // Show results of the quiz
+        function showResults() {
+            document.getElementById('quiz-active').classList.add('hidden');
+            document.getElementById('quiz-results').classList.remove('hidden');
+
+            const scorePercent = (score / quizData.length) * 100;
+            const emojiEl = document.getElementById('result-emoji');
+            const titleEl = document.getElementById('result-title');
+            const descEl = document.getElementById('result-desc');
+            const scoreEl = document.getElementById('result-score');
+            const correctCountEl = document.getElementById('correct-count');
+            const certBtn = document.getElementById('cert-btn');
+
+            scoreEl.textContent = `${score} / ${quizData.length}`;
+            correctCountEl.textContent = score;
+
+            if (score === quizData.length) {
+                emojiEl.textContent = "👑";
+                titleEl.textContent = "Tahniah, Legenda C++!";
+                descEl.textContent = "Anda menjawab kesemua soalan dengan sempurna! Luar biasa sekali!";
+                certBtn.classList.remove('hidden');
+                // Celebrate with continuous confetti
+                var duration = 3 * 1000;
+                var end = Date.now() + duration;
+
+                (function frame() {
+                    confetti({
+                        particleCount: 3,
+                        angle: 60,
+                        spread: 55,
+                        origin: { x: 0 }
+                    });
+                    confetti({
+                        particleCount: 3,
+                        angle: 120,
+                        spread: 55,
+                        origin: { x: 1 }
+                    });
+
+                    if (Date.now() < end) {
+                        requestAnimationFrame(frame);
+                    }
+                }());
+            } else if (score >= 3) {
+                emojiEl.textContent = "🌟";
+                titleEl.textContent = "Sangat Baik!";
+                descEl.textContent = "Pemahaman anda dalam bab ini sangat mantap. Tingkatkan sedikit lagi!";
+                certBtn.classList.remove('hidden');
+            } else {
+                emojiEl.textContent = "💡";
+                titleEl.textContent = "Cuba Lagi!";
+                descEl.textContent = "Tiada masalah untuk gagal, mari kita semak semula tab struktur dan ralat demi kejayaan!";
+                certBtn.classList.add('hidden');
+            }
+            updateProgress(100);
+        }
+
+        // Print/Reveal Certificate
+        function printCertificate() {
+            const cert = document.getElementById('certificate-container');
+            cert.classList.remove('hidden');
+            cert.scrollIntoView({ behavior: 'smooth' });
+            showCustomAlert("📜 Sijil Terhasil!", "Sijil penghargaan telah diterbitkan di bawah!", "🏆");
+        }
+
+        // Initialize state on window load
+        window.onload = function() {
+            // Highlight roof as default state in Analogy House
+            highlightHousePart('roof');
+            // Inform student of camp rules
+            showCustomAlert("Selamat Datang! 🤖", "Selamat datang ke Kem Koding C++ Bab 2. Klik mana-mana tab peta pengembaraan di atas!", "🚀");
+        };
+    </script>
+</body>
+</html>

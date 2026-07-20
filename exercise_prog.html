@@ -1,0 +1,2021 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kembara Kod: Dunia Pengaturcaraan!</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Alpine.js for State Management -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- Google Fonts for Cartoon Style -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Fredoka', 'Quicksand', sans-serif;
+            background-color: #fffbeb; /* Cream light color */
+        }
+        /* Cartoon Neo-brutalism styling (Thick border + black flat shadow) */
+        .cartoon-card {
+            background-color: #ffffff;
+            border: 4px solid #0f172a;
+            box-shadow: 6px 6px 0px 0px #0f172a;
+            border-radius: 20px;
+            transition: all 0.15s ease-in-out;
+        }
+        .cartoon-card-hover:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 8px 8px 0px 0px #0f172a;
+        }
+        .cartoon-btn {
+            border: 3px solid #0f172a;
+            box-shadow: 4px 4px 0px 0px #0f172a;
+            border-radius: 12px;
+            transition: all 0.1s ease;
+        }
+        .cartoon-btn:active {
+            transform: translate(3px, 3px);
+            box-shadow: 1px 1px 0px 0px #0f172a;
+        }
+        .bubble-speech {
+            position: relative;
+            background: #ffffff;
+            border: 4px solid #0f172a;
+            border-radius: 16px;
+        }
+        .bubble-speech::after {
+            content: '';
+            position: absolute;
+            bottom: -16px;
+            left: 24px;
+            border-width: 16px 16px 0;
+            border-style: solid;
+            border-color: #ffffff transparent;
+            display: block;
+            width: 0;
+        }
+        .bubble-speech::before {
+            content: '';
+            position: absolute;
+            bottom: -22px;
+            left: 21px;
+            border-width: 18px 18px 0;
+            border-style: solid;
+            border-color: #0f172a transparent;
+            display: block;
+            width: 0;
+            z-index: -1;
+        }
+        /* Custom Shapes for Flowchart builder */
+        .flow-terminator {
+            border-radius: 9999px;
+            border: 3px solid #0f172a;
+        }
+        .flow-data {
+            transform: skewX(-15deg);
+            border: 3px solid #0f172a;
+        }
+        .flow-data > div {
+            transform: skewX(15deg);
+        }
+        .flow-process {
+            border: 3px solid #0f172a;
+        }
+        .flow-decision {
+            transform: rotate(45deg);
+            border: 3px solid #0f172a;
+        }
+        .flow-decision > div {
+            transform: rotate(-45deg);
+        }
+        [x-cloak] { display: none !important; }
+    </style>
+</head>
+<body class="text-slate-900 overflow-x-hidden antialiased selection:bg-yellow-300" x-data="gameSystem()">
+
+    <!-- Header / Banner Atas -->
+<header class="bg-sky-400 border-b-8 border-slate-900 p-4 md:p-6 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+        <!-- Logo / Tajuk Arkade -->
+        <div class="flex items-center gap-4">
+            <div class="cartoon-btn bg-yellow-300 p-3 flex items-center justify-center transform -rotate-2">
+                <i class="fa-solid fa-gamepad text-3xl text-slate-900 animate-bounce"></i>
+            </div>
+            <div>
+                <h1 class="text-xl md:text-3xl font-extrabold tracking-tight text-white drop-shadow-[2px_2px_0px_#0f172a]">
+                    LATIHAN KEMBARA PROGRAMMING FUNDAMENTALS
+                </h1>
+                <p class="text-sm font-black text-slate-950">oleh Pn Farihan Elyana Zahari</p>
+                <p class="text-xs font-bold text-sky-950">Asas Pengaturcaraan Kendiri (Edisi Arked 🌟)</p>
+            </div>
+        </div>
+
+        <!-- Stats Bar (XP, Bintang & Pangkat) -->
+        <div class="flex flex-wrap items-center justify-center gap-3">
+                <!-- XP -->
+                <div class="cartoon-btn bg-pink-400 px-4 py-2 text-slate-900 font-black text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-fire text-yellow-300"></i>
+                    <span>XP: <span x-text="xp"></span> / 1000</span>
+                </div>
+                <!-- Stars -->
+                <div class="cartoon-btn bg-yellow-300 px-4 py-2 text-slate-900 font-black text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-star text-orange-500 animate-pulse"></i>
+                    <span>Bintang: <span x-text="calculateStars()"></span> ⭐</span>
+                </div>
+                <!-- Rank -->
+                <div class="cartoon-btn bg-emerald-400 px-4 py-2 text-slate-900 font-black text-xs flex items-center gap-2">
+                    <i class="fa-solid fa-crown"></i>
+                    <span x-text="getRankTitle()"></span>
+                </div>
+                <!-- Reset Button -->
+                <button @click="resetProgress()" class="cartoon-btn bg-red-400 hover:bg-red-300 p-2 text-xs font-bold" title="Mula Semula Pengembaraan">
+                    <i class="fa-solid fa-rotate-right"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-4 gap-8">
+        
+        <!-- Peta Kembara / Sidebar Menu -->
+        <aside class="lg:col-span-1 space-y-4">
+            <div class="cartoon-card bg-amber-100 p-5 border-4 border-slate-900">
+                <h2 class="text-xl font-black text-slate-900 border-b-4 border-slate-900 pb-2 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-map"></i>
+                    <span>PETA KEMBARA</span>
+                </h2>
+                <div class="space-y-3">
+                    
+                    <!-- Level 1 Button -->
+                    <button @click="switchTab('topic1')" 
+                            :class="currentTab === 'topic1' ? 'bg-yellow-300 text-slate-900 scale-102 font-black' : 'bg-white text-slate-700 hover:bg-yellow-100'" 
+                            class="w-full cartoon-btn p-3 flex flex-col items-start transition-all relative">
+                        <div class="absolute -top-2 -right-2 bg-pink-500 text-white border-2 border-slate-900 rounded-full w-6 h-6 flex items-center justify-center text-xs font-black">1</div>
+                        <span class="text-xs font-extrabold uppercase text-slate-500">Aras 1</span>
+                        <span class="text-sm font-black text-left">Pengenalan Atur Cara</span>
+                        <div class="w-full bg-slate-200 h-2 rounded-full mt-2 border border-slate-900 overflow-hidden">
+                            <div class="bg-emerald-400 h-full" :style="'width: ' + getProgress('topic1') + '%'"></div>
+                        </div>
+                    </button>
+
+                    <!-- Level 2 Button -->
+                    <button @click="switchTab('topic2')" 
+                            :class="currentTab === 'topic2' ? 'bg-orange-300 text-slate-900 scale-102 font-black' : 'bg-white text-slate-700 hover:bg-orange-100'" 
+                            class="w-full cartoon-btn p-3 flex flex-col items-start transition-all relative">
+                        <div class="absolute -top-2 -right-2 bg-pink-500 text-white border-2 border-slate-900 rounded-full w-6 h-6 flex items-center justify-center text-xs font-black">2</div>
+                        <span class="text-xs font-extrabold uppercase text-slate-500">Aras 2</span>
+                        <span class="text-sm font-black text-left">Asas Sintaks & Operasi</span>
+                        <div class="w-full bg-slate-200 h-2 rounded-full mt-2 border border-slate-900 overflow-hidden">
+                            <div class="bg-emerald-400 h-full" :style="'width: ' + getProgress('topic2') + '%'"></div>
+                        </div>
+                    </button>
+
+                    <!-- Level 3 Locked -->
+                    <div class="w-full cartoon-btn bg-slate-100 border-2 border-dashed border-slate-400 p-3 opacity-75 flex flex-col items-start cursor-not-allowed">
+                        <div class="flex justify-between w-full items-center">
+                            <span class="text-xs font-extrabold uppercase text-slate-400">Aras 3</span>
+                            <span class="text-xs font-bold bg-purple-200 text-purple-700 px-1.5 py-0.5 rounded border border-purple-400">Locked 🚧</span>
+                        </div>
+                        <span class="text-sm font-bold text-slate-500">Kawalan Struktur</span>
+                    </div>
+
+                    <!-- Level 4 Locked -->
+                    <div class="w-full cartoon-btn bg-slate-100 border-2 border-dashed border-slate-400 p-3 opacity-75 flex flex-col items-start cursor-not-allowed">
+                        <div class="flex justify-between w-full items-center">
+                            <span class="text-xs font-extrabold uppercase text-slate-400">Aras 4</span>
+                            <span class="text-xs font-bold bg-purple-200 text-purple-700 px-1.5 py-0.5 rounded border border-purple-400">Locked 🚧</span>
+                        </div>
+                        <span class="text-sm font-bold text-slate-500">Tatasusunan (Array)</span>
+                    </div>
+
+                    <!-- Level 5 Locked -->
+                    <div class="w-full cartoon-btn bg-slate-100 border-2 border-dashed border-slate-400 p-3 opacity-75 flex flex-col items-start cursor-not-allowed">
+                        <div class="flex justify-between w-full items-center">
+                            <span class="text-xs font-extrabold uppercase text-slate-400">Aras 5</span>
+                            <span class="text-xs font-bold bg-purple-200 text-purple-700 px-1.5 py-0.5 rounded border border-purple-400">Locked 🚧</span>
+                        </div>
+                        <span class="text-sm font-bold text-slate-500">Fungsi (Function)</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Maskot Kartun & Maklum balas Dinamik -->
+            <div class="cartoon-card bg-emerald-100 p-5 border-4 border-slate-900 relative overflow-hidden">
+                <div class="bubble-speech p-3 mb-4 text-xs font-extrabold text-slate-800">
+                    <p x-text="mascotDialogue"></p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="text-4xl animate-bounce">
+                        <span x-text="mascotEmoji">🤖</span>
+                    </div>
+                    <div>
+                        <p class="font-black text-sm text-slate-950">Cikgu Kiko</p>
+                        <p class="text-[10px] font-bold text-slate-500">Pakar Algoritma Anda</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Bahagian Kandungan Utama / Aras Pembelajaran -->
+        <main class="lg:col-span-3 space-y-8">
+            
+            <!-- ARAS 1: INTERAKTIF PENGENALAN -->
+            <div x-show="currentTab === 'topic1'" class="space-y-8" x-cloak>
+                <div class="cartoon-card bg-yellow-100 p-6">
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="bg-pink-500 text-white font-black text-xs px-3 py-1 rounded-full border-2 border-slate-900">Aras 1</span>
+                        <h2 class="text-2xl md:text-3xl font-extrabold text-slate-950">Dunia Pengenalan Pengaturcaraan</h2>
+                    </div>
+                    <p class="text-sm font-medium text-slate-700">Selamat datang ke pengembaraan pertama anda! Selesaikan cabaran interaktif berikut untuk menguasai asas logika komputer, algoritma dan carta alir.</p>
+                </div>
+
+                <!-- Cabaran 1.1: Pengelas Kitaran IPO -->
+                <div class="cartoon-card p-6 space-y-4">
+                    <div class="flex items-center justify-between border-b-4 border-slate-900 pb-3">
+                        <h3 class="text-lg md:text-xl font-black text-slate-950 flex items-center gap-2">
+                            <span class="bg-blue-400 border-2 border-slate-900 rounded-full w-8 h-8 flex items-center justify-center text-xs text-white font-black">1</span>
+                            <span>Cabaran 1: Pengelas Kitaran IPO</span>
+                        </h3>
+                        <span class="text-xs font-bold bg-blue-100 text-blue-800 border-2 border-blue-500 px-2 py-0.5 rounded-full">+50 XP</span>
+                    </div>
+                    <p class="text-xs font-bold text-slate-500">Komputer memerlukan Input, memprosesnya melalui Formula (Proses), dan mengeluarkan keputusan (Output). Letakkan peranti/elemen di bawah ke kategori yang betul!</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                        <!-- Ruang Isihan Input -->
+                        <div class="cartoon-card bg-sky-100/50 p-4 min-h-[140px] flex flex-col justify-between">
+                            <h4 class="font-black text-sm text-sky-800 flex items-center gap-1">
+                                <i class="fa-solid fa-sign-in"></i> <span>1. INPUT</span>
+                            </h4>
+                            <div class="flex flex-wrap gap-2 py-2">
+                                <template x-for="item in ipoPlaced.input">
+                                    <button @click="removeIpoItem(item, 'input')" class="cartoon-btn bg-sky-200 px-2 py-1 text-xs font-bold flex items-center gap-1 hover:bg-red-200">
+                                        <span x-text="item.label"></span> <i class="fa-solid fa-xmark text-[10px]"></i>
+                                    </button>
+                                </template>
+                                <template x-if="ipoPlaced.input.length === 0">
+                                    <span class="text-xs italic text-sky-500">Kosong... Letakkan item</span>
+                                </template>
+                            </div>
+                            <div class="bg-sky-200/50 border-2 border-dashed border-sky-400 text-[10px] text-center py-2 rounded-lg font-bold text-sky-700">Tangki Input</div>
+                        </div>
+
+                        <!-- Ruang Isihan Process -->
+                        <div class="cartoon-card bg-purple-100/50 p-4 min-h-[140px] flex flex-col justify-between">
+                            <h4 class="font-black text-sm text-purple-800 flex items-center gap-1">
+                                <i class="fa-solid fa-gears"></i> <span>2. PROSES</span>
+                            </h4>
+                            <div class="flex flex-wrap gap-2 py-2">
+                                <template x-for="item in ipoPlaced.proses">
+                                    <button @click="removeIpoItem(item, 'proses')" class="cartoon-btn bg-purple-200 px-2 py-1 text-xs font-bold flex items-center gap-1 hover:bg-red-200">
+                                        <span x-text="item.label"></span> <i class="fa-solid fa-xmark text-[10px]"></i>
+                                    </button>
+                                </template>
+                                <template x-if="ipoPlaced.proses.length === 0">
+                                    <span class="text-xs italic text-purple-500">Kosong... Letakkan item</span>
+                                </template>
+                            </div>
+                            <div class="bg-purple-200/50 border-2 border-dashed border-purple-400 text-[10px] text-center py-2 rounded-lg font-bold text-purple-700">Tangki Proses</div>
+                        </div>
+
+                        <!-- Ruang Isihan Output -->
+                        <div class="cartoon-card bg-emerald-100/50 p-4 min-h-[140px] flex flex-col justify-between">
+                            <h4 class="font-black text-sm text-emerald-800 flex items-center gap-1">
+                                <i class="fa-solid fa-sign-out"></i> <span>3. OUTPUT</span>
+                            </h4>
+                            <div class="flex flex-wrap gap-2 py-2">
+                                <template x-for="item in ipoPlaced.output">
+                                    <button @click="removeIpoItem(item, 'output')" class="cartoon-btn bg-emerald-200 px-2 py-1 text-xs font-bold flex items-center gap-1 hover:bg-red-200">
+                                        <span x-text="item.label"></span> <i class="fa-solid fa-xmark text-[10px]"></i>
+                                    </button>
+                                </template>
+                                <template x-if="ipoPlaced.output.length === 0">
+                                    <span class="text-xs italic text-emerald-500">Kosong... Letakkan item</span>
+                                </template>
+                            </div>
+                            <div class="bg-emerald-200/50 border-2 border-dashed border-emerald-400 text-[10px] text-center py-2 rounded-lg font-bold text-emerald-700">Tangki Output</div>
+                        </div>
+                    </div>
+
+                    <!-- Item Boleh Isih (Bank Elemen) -->
+                    <div class="p-4 bg-slate-50 border-2 border-slate-900 rounded-xl">
+                        <p class="text-xs font-black text-slate-700 mb-2 flex items-center gap-1">
+                            <i class="fa-solid fa-box-open"></i> <span>Item Menunggu Tugasan (Klik untuk isih):</span>
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <template x-for="item in ipoItems.filter(i => !i.assigned)">
+                                <div class="flex gap-1 border-2 border-slate-900 rounded-lg overflow-hidden bg-white shadow-[2px_2px_0px_#000]">
+                                    <span class="px-2.5 py-1 text-xs font-black bg-slate-100 border-r-2 border-slate-900" x-text="item.label"></span>
+                                    <button @click="placeIpoItem(item, 'input')" class="px-2 bg-sky-200 hover:bg-sky-300 text-[10px] font-black border-r border-slate-900">INPUT</button>
+                                    <button @click="placeIpoItem(item, 'proses')" class="px-2 bg-purple-200 hover:bg-purple-300 text-[10px] font-black border-r border-slate-900">PROSES</button>
+                                    <button @click="placeIpoItem(item, 'output')" class="px-2 bg-emerald-200 hover:bg-emerald-300 text-[10px] font-black">OUTPUT</button>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end gap-3 pt-2">
+                        <button @click="resetIpoChallenge()" class="cartoon-btn bg-slate-200 hover:bg-slate-300 px-4 py-2 text-xs font-bold text-slate-800">Ulang Semula</button>
+                        <button @click="checkIpoChallenge()" class="cartoon-btn bg-yellow-400 hover:bg-yellow-300 px-5 py-2 text-xs font-black text-slate-900">Semak Tangki 🧪</button>
+                    </div>
+                </div>
+
+                <!-- Cabaran 1.2: Penyusun Langkah Penyelesaian Masalah -->
+                <div class="cartoon-card p-6 space-y-4">
+                    <div class="flex items-center justify-between border-b-4 border-slate-900 pb-3">
+                        <h3 class="text-lg md:text-xl font-black text-slate-950 flex items-center gap-2">
+                            <span class="bg-purple-400 border-2 border-slate-900 rounded-full w-8 h-8 flex items-center justify-center text-xs text-white font-black">2</span>
+                            <span>Cabaran 2: Aturan Logik Penyelesaian Masalah</span>
+                        </h3>
+                        <span class="text-xs font-bold bg-purple-100 text-purple-800 border-2 border-purple-500 px-2 py-0.5 rounded-full">+50 XP</span>
+                    </div>
+                    <p class="text-xs font-bold text-slate-500">Susun semula fasa penyelesaian masalah di bawah mengikut turutan yang tepat (Pertama di atas, Terakhir di bawah).</p>
+
+                    <div class="space-y-2 max-w-xl mx-auto">
+                        <template x-for="(step, index) in stepsOrder" :key="step.id">
+                            <div class="cartoon-card bg-white p-3 flex items-center justify-between border-2 border-slate-900 shadow-[2px_2px_0px_#000]">
+                                <div class="flex items-center gap-3">
+                                    <span class="w-8 h-8 rounded-full bg-pink-300 text-slate-950 font-black border-2 border-slate-900 flex items-center justify-center text-sm" x-text="index + 1"></span>
+                                    <div>
+                                        <p class="font-extrabold text-sm text-slate-900" x-text="step.title"></p>
+                                        <p class="text-[11px] text-slate-500" x-text="step.desc"></p>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <button @click="moveStep(index, -1)" class="w-6 h-6 bg-slate-100 hover:bg-slate-200 rounded border border-slate-900 flex items-center justify-center text-xs"><i class="fa-solid fa-chevron-up"></i></button>
+                                    <button @click="moveStep(index, 1)" class="w-6 h-6 bg-slate-100 hover:bg-slate-200 rounded border border-slate-900 flex items-center justify-center text-xs"><i class="fa-solid fa-chevron-down"></i></button>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+
+                    <div class="flex justify-end pt-2">
+                        <button @click="checkProblemSolvingSteps()" class="cartoon-btn bg-pink-400 hover:bg-pink-300 px-5 py-2 text-xs font-black text-slate-900">Sahkan Susunan 🧱</button>
+                    </div>
+                </div>
+
+                <!-- Cabaran 1.3: Detektif Jejak Algoritma Kiko-Bot -->
+                <div class="cartoon-card p-6 space-y-4">
+                    <div class="flex items-center justify-between border-b-4 border-slate-900 pb-3">
+                        <h3 class="text-lg md:text-xl font-black text-slate-950 flex items-center gap-2">
+                            <span class="bg-indigo-400 border-2 border-slate-900 rounded-full w-8 h-8 flex items-center justify-center text-xs text-white font-black">3</span>
+                            <span>Cabaran 3: Detektif Jejak Algoritma Kiko-Bot</span>
+                        </h3>
+                        <span class="text-xs font-bold bg-indigo-100 text-indigo-800 border-2 border-indigo-500 px-2 py-0.5 rounded-full">+75 XP</span>
+                    </div>
+                    <p class="text-xs font-bold text-slate-500">Perhatikan algoritma pembagian gula-gula di bawah. Selesaikan perhitungan logika 'Dry Run' komputer untuk mencari nilai akhirnya!</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Blok Algoritma -->
+                        <div class="cartoon-card bg-slate-950 text-emerald-400 p-4 font-mono text-xs space-y-1 border-4 border-slate-900">
+                            <p class="text-slate-400">// Algoritma Pembahagian Gula-gula Kartun</p>
+                            <p>1. MULA</p>
+                            <p>2. Setkan <span class="text-yellow-300">bilangan_gula_gula</span> = 17</p>
+                            <p>3. Setkan <span class="text-yellow-300">bilangan_rakan</span> = 5</p>
+                            <p>4. Kira <span class="text-pink-300">baki_gula_gula</span> = bilangan_gula_gula % bilangan_rakan</p>
+                            <p>5. Kira <span class="text-pink-300">gula_gula_setiap_rakan</span> = (bilangan_gula_gula - baki_gula_gula) / bilangan_rakan</p>
+                            <p>6. JIKA <span class="text-pink-300">baki_gula_gula</span> &gt; 1 MAKA</p>
+                            <p class="pl-4">Papar "Kiko Gembira! Banyak baki!"</p>
+                            <p>   JIKA TIDAK</p>
+                            <p class="pl-4">Papar "Kiko Sedih!"</p>
+                            <p>7. TAMAT</p>
+                        </div>
+
+                        <!-- Ruang Input Jawapan Murid -->
+                        <div class="cartoon-card bg-white p-4 space-y-4 border-2 border-slate-900">
+                            <h4 class="font-black text-sm text-slate-900 border-b-2 border-slate-200 pb-1 flex items-center gap-1">
+                                <i class="fa-solid fa-calculator"></i> Laporan Pengesan Output
+                            </h4>
+                            
+                            <div class="space-y-3">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">A. Berapakah nilai akhir bagi <code class="font-mono bg-slate-100 px-1 rounded text-red-500">baki_gula_gula</code>?</label>
+                                    <input type="number" x-model.number="algoAnswers.baki" class="w-full cartoon-btn p-2 text-xs bg-slate-50 border" placeholder="Masukkan nombor">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">B. Berapakah nilai <code class="font-mono bg-slate-100 px-1 rounded text-red-500">gula_gula_setiap_rakan</code>?</label>
+                                    <input type="number" x-model.number="algoAnswers.setiap" class="w-full cartoon-btn p-2 text-xs bg-slate-50 border" placeholder="Masukkan nombor">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">C. Apakah mesej yang akan dipaparkan oleh sistem?</label>
+                                    <select x-model="algoAnswers.mesej" class="w-full cartoon-btn p-2 text-xs bg-slate-50 border">
+                                        <option value="">-- Pilih Keputusan Output --</option>
+                                        <option value="sedih">"Kiko Sedih!"</option>
+                                        <option value="gembira">"Kiko Gembira! Banyak baki!"</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end pt-2">
+                        <button @click="checkAlgoTracing()" class="cartoon-btn bg-indigo-400 hover:bg-indigo-300 px-5 py-2 text-xs font-black text-slate-900">Nyahpepijat Algoritma 🔍</button>
+                    </div>
+                </div>
+
+                <!-- Cabaran 1.4: Arkitek Carta Alir Interaktif -->
+                <div class="cartoon-card p-6 space-y-4">
+                    <div class="flex items-center justify-between border-b-4 border-slate-900 pb-3">
+                        <h3 class="text-lg md:text-xl font-black text-slate-950 flex items-center gap-2">
+                            <span class="bg-teal-400 border-2 border-slate-900 rounded-full w-8 h-8 flex items-center justify-center text-xs text-white font-black">4</span>
+                            <span>Cabaran 4: Arkitek Carta Alir Interaktif</span>
+                        </h3>
+                        <span class="text-xs font-bold bg-teal-100 text-teal-800 border-2 border-teal-500 px-2 py-0.5 rounded-full">+100 XP</span>
+                    </div>
+                    
+                    <div class="bg-amber-50 p-4 border-2 border-slate-900 rounded-xl">
+                        <p class="text-xs font-extrabold text-amber-900 flex items-center gap-1">
+                            <i class="fa-solid fa-file-contract"></i> <span>SENARIO MASALAH:</span>
+                        </p>
+                        <p class="text-xs text-slate-800 mt-1">
+                            "Bina carta alir mengira gaji kasar pekerja. Gaji dikira berasaskan formula: <code class="bg-white px-1 py-0.5 rounded border">gaji = jam * kadar</code>. Syaratnya, <code class="bg-white px-1 py-0.5 rounded border">jam</code> mesti lebih dari 0. Jika tidak, papar ralat 'Jam Tidak Sah'."
+                        </p>
+                        <p class="text-xs font-black text-slate-600 mt-2">
+                            👉 <span class="text-pink-600">Langkah:</span> Klik pada mana-mana blok biru di bawah, kemudian klik pada petak sasaran hijau <span class="bg-emerald-200 border border-emerald-500 px-1 text-[10px] rounded">[ ? ]</span> di carta alir untuk meletakkannya!
+                        </p>
+                    </div>
+
+                    <!-- Layout Diagram Carta Alir Mini -->
+                    <div class="flex flex-col items-center space-y-3 py-4 bg-slate-50 border-2 border-slate-900 rounded-2xl overflow-x-auto min-w-full">
+                        
+                        <!-- Terminator Mula -->
+                        <div class="flow-terminator bg-amber-300 px-6 py-2 text-xs font-bold text-slate-900 min-w-[120px] text-center shadow-[2px_2px_0px_#000]">
+                            MULA
+                        </div>
+                        <div class="h-4 w-1 bg-slate-900"></div>
+
+                        <!-- SLOT 1: Input -->
+                        <button @click="selectSlot(1)" class="flow-data bg-emerald-100 hover:bg-emerald-200 px-6 py-2 text-xs font-black text-slate-800 min-w-[180px] text-center border-dashed border-2 border-slate-900 transition-colors"
+                             :class="flowBuilderSlots[1] ? 'bg-white border-solid' : 'bg-emerald-100'">
+                            <span x-text="flowBuilderSlots[1] ? flowBuilderSlots[1].text : '[ Slot 1: Input ]'"></span>
+                        </button>
+                        <div class="h-4 w-1 bg-slate-900"></div>
+
+                        <!-- SLOT 2: Decision / Syarat -->
+                        <div class="flex flex-col items-center">
+                            <button @click="selectSlot(2)" class="flow-process rotate-45 w-24 h-24 hover:bg-emerald-200 flex items-center justify-center border-dashed border-2 border-slate-900 transition-colors p-2 shadow-[2px_2px_0px_#000]"
+                                 :class="flowBuilderSlots[2] ? 'bg-white border-solid rotate-0 w-auto h-auto px-4 py-2 rounded-xl' : 'bg-emerald-100'">
+                                <span :class="flowBuilderSlots[2] ? '' : '-rotate-45'" class="text-[10px] font-black text-center text-slate-800" x-text="flowBuilderSlots[2] ? flowBuilderSlots[2].text : '[ Slot 2: Syarat ]'"></span>
+                            </button>
+                        </div>
+
+                        <!-- Pecahan Ya / Tidak -->
+                        <div class="flex w-full max-w-lg justify-between px-8">
+                            <div class="flex flex-col items-center w-1/2 relative">
+                                <span class="text-[10px] font-black text-emerald-600 self-start ml-8">Ya (True)</span>
+                                <div class="h-4 w-1 bg-slate-900"></div>
+                                <!-- SLOT 3: Process -->
+                                <button @click="selectSlot(3)" class="flow-process bg-emerald-100 hover:bg-emerald-200 px-4 py-2 text-xs font-black text-slate-800 min-w-[140px] text-center border-dashed border-2 border-slate-900 transition-colors"
+                                     :class="flowBuilderSlots[3] ? 'bg-white border-solid' : 'bg-emerald-100'">
+                                    <span x-text="flowBuilderSlots[3] ? flowBuilderSlots[3].text : '[ Slot 3: Proses ]'"></span>
+                                </button>
+                                <div class="h-4 w-1 bg-slate-900"></div>
+                                <!-- SLOT 4: Output Ya -->
+                                <button @click="selectSlot(4)" class="flow-data bg-emerald-100 hover:bg-emerald-200 px-4 py-2 text-xs font-black text-slate-800 min-w-[140px] text-center border-dashed border-2 border-slate-900 transition-colors"
+                                     :class="flowBuilderSlots[4] ? 'bg-white border-solid' : 'bg-emerald-100'">
+                                    <span x-text="flowBuilderSlots[4] ? flowBuilderSlots[4].text : '[ Slot 4: Output ]'"></span>
+                                </button>
+                            </div>
+                            
+                            <div class="flex flex-col items-center w-1/2 relative">
+                                <span class="text-[10px] font-black text-red-600 self-end mr-8">Tidak (False)</span>
+                                <div class="h-4 w-1 bg-slate-900"></div>
+                                <!-- SLOT 5: Output Tidak -->
+                                <button @click="selectSlot(5)" class="flow-data bg-emerald-100 hover:bg-emerald-200 px-4 py-2 text-xs font-black text-slate-800 min-w-[140px] text-center border-dashed border-2 border-slate-900 transition-colors"
+                                     :class="flowBuilderSlots[5] ? 'bg-white border-solid' : 'bg-emerald-100'">
+                                    <span x-text="flowBuilderSlots[5] ? flowBuilderSlots[5].text : '[ Slot 5: Output Ralat ]'"></span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="h-4 w-1 bg-slate-900"></div>
+                        <!-- Terminator Tamat -->
+                        <div class="flow-terminator bg-amber-300 px-6 py-2 text-xs font-bold text-slate-900 min-w-[120px] text-center shadow-[2px_2px_0px_#000]">
+                            TAMAT
+                        </div>
+                    </div>
+
+                    <!-- Pilihan Blok Berwarna Biru -->
+                    <div class="p-4 bg-slate-100 border-2 border-slate-900 rounded-xl space-y-3">
+                        <p class="text-xs font-black text-slate-800 flex items-center gap-1">
+                            <i class="fa-solid fa-cubes text-blue-500"></i> <span>Blok Pembina Carta Alir Menunggu Giliran:</span>
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <template x-for="block in flowBuilderBlocks" :key="block.id">
+                                <button @click="chooseBlock(block)" 
+                                        :class="selectedBlockId === block.id ? 'bg-blue-400 border-dashed scale-102 border-blue-600' : (block.placedSlot ? 'bg-slate-200 text-slate-400 cursor-not-allowed border-slate-300 opacity-60' : 'bg-sky-200 hover:bg-sky-300 text-slate-900')"
+                                        class="cartoon-btn px-3 py-1.5 text-xs font-mono font-bold flex items-center gap-2"
+                                        :disabled="block.placedSlot">
+                                    <span x-text="block.text"></span>
+                                    <i class="fa-solid fa-hand-pointer text-[10px]" x-show="!block.placedSlot"></i>
+                                </button>
+                            </template>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end gap-2 pt-2">
+                        <button @click="resetFlowBuilder()" class="cartoon-btn bg-slate-200 hover:bg-slate-300 px-4 py-2 text-xs font-bold text-slate-800">Set Semula</button>
+                        <button @click="checkFlowBuilder()" class="cartoon-btn bg-teal-400 hover:bg-teal-300 px-5 py-2 text-xs font-black text-slate-900">Uji Aliran Carta 🚀</button>
+                    </div>
+                </div>
+
+                <!-- Cabaran 1.5: Pengecam Simbol Carta Alir Dinamik -->
+                <div class="cartoon-card p-6 space-y-4">
+                    <div class="flex items-center justify-between border-b-4 border-slate-900 pb-3">
+                        <h3 class="text-lg md:text-xl font-black text-slate-950 flex items-center gap-2">
+                            <span class="bg-emerald-400 border-2 border-slate-900 rounded-full w-8 h-8 flex items-center justify-center text-xs text-white font-black">5</span>
+                            <span>Cabaran 5: Arked Teka Simbol Carta Alir</span>
+                        </h3>
+                        <span class="text-xs font-bold bg-emerald-100 text-emerald-800 border-2 border-emerald-500 px-2 py-0.5 rounded-full">+50 XP</span>
+                    </div>
+                    
+                    <div class="bg-yellow-50 p-4 border-2 border-slate-900 rounded-xl">
+                        <p class="text-xs font-extrabold text-amber-900 flex items-center gap-1">
+                            <i class="fa-solid fa-circle-info"></i> <span>TUGASAN ANDA:</span>
+                        </p>
+                        <p class="text-sm font-bold text-slate-800">
+                            Cari dan KLIK pada simbol yang mewakili: <span class="bg-pink-300 text-slate-900 font-black px-2 py-0.5 rounded border border-slate-900 text-xs" x-text="flowchartChallengeText()"></span>
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        <template x-for="symbol in flowchartSymbols" :key="symbol.name">
+                            <button @click="guessFlowchartSymbol(symbol)" 
+                                    class="cartoon-card cartoon-card-hover p-4 flex flex-col items-center justify-center min-h-[140px] border-2 bg-white"
+                                    :class="symbol.correctState === 'yes' ? 'border-emerald-500 bg-emerald-50' : (symbol.correctState === 'no' ? 'border-red-500 bg-red-50' : 'border-slate-900')">
+                                <div class="w-24 h-16 flex items-center justify-center" x-html="symbol.svg"></div>
+                                <span class="text-xs font-black text-slate-800 mt-2" x-text="symbol.label"></span>
+                                <div class="mt-1">
+                                    <span x-show="symbol.correctState === 'yes'" class="text-xs text-emerald-600 font-bold"><i class="fa-solid fa-circle-check"></i> Betul!</span>
+                                    <span x-show="symbol.correctState === 'no'" class="text-xs text-red-600 font-bold"><i class="fa-solid fa-circle-xmark"></i> Salah!</span>
+                                </div>
+                            </button>
+                        </template>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-slate-100 p-3 rounded-xl border border-slate-300">
+                        <span class="text-xs font-bold text-slate-600">Skor Simbol: <span x-text="flowchartScore"></span> / 5</span>
+                        <button @click="resetFlowchartGame()" class="cartoon-btn bg-slate-200 hover:bg-slate-300 px-3 py-1 text-xs font-bold">Mula Baru</button>
+                    </div>
+                </div>
+
+                <!-- Cabaran 1.6: Penyusun Baris Pseudo Kod -->
+                <div class="cartoon-card p-6 space-y-4">
+                    <div class="flex items-center justify-between border-b-4 border-slate-900 pb-3">
+                        <h3 class="text-lg md:text-xl font-black text-slate-950 flex items-center gap-2">
+                            <span class="bg-blue-400 border-2 border-slate-900 rounded-full w-8 h-8 flex items-center justify-center text-xs text-white font-black">6</span>
+                            <span>Cabaran 6: Teka-Teki Penyusun Pseudo Kod</span>
+                        </h3>
+                        <span class="text-xs font-bold bg-blue-100 text-blue-800 border-2 border-blue-500 px-2 py-0.5 rounded-full">+50 XP</span>
+                    </div>
+                    <p class="text-xs font-bold text-slate-500">Bina atur cara pseudo kod untuk mengira purata dua nombor dengan menyusun kembali baris arahan di bawah secara teratur.</p>
+
+                    <!-- Papan Kerja Susunan -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="cartoon-card bg-slate-50 p-4 border-2 border-slate-900">
+                            <h4 class="font-black text-xs text-slate-700 mb-2 uppercase tracking-wider flex items-center gap-1">
+                                <i class="fa-solid fa-scroll text-yellow-500"></i> <span>Draf Pseudo Kod Anda:</span>
+                            </h4>
+                            <div class="space-y-2 min-h-[220px] bg-slate-200/50 p-2 rounded-xl border border-slate-400 flex flex-col justify-start">
+                                <template x-for="(line, idx) in pseudoPlaced">
+                                    <div class="cartoon-card bg-white p-2 flex items-center justify-between text-xs font-mono border-2 border-slate-900 shadow-[2px_2px_0px_#000]">
+                                        <div class="flex items-center gap-2">
+                                            <span class="font-bold text-slate-400" x-text="(idx + 1) + '.'"></span>
+                                            <span class="text-slate-900" x-text="line.text"></span>
+                                        </div>
+                                        <button @click="removePseudoLine(line)" class="text-red-500 hover:text-red-700 p-1"><i class="fa-solid fa-trash"></i></button>
+                                    </div>
+                                </template>
+                                <template x-if="pseudoPlaced.length === 0">
+                                    <p class="text-xs text-slate-500 italic text-center my-auto">Klik butang "+" pada pilihan kod di sebelah untuk mula menyusun.</p>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- Blok Pilihan -->
+                        <div class="cartoon-card bg-amber-50 p-4 border-2 border-slate-900">
+                            <h4 class="font-black text-xs text-amber-800 mb-2 uppercase tracking-wider">
+                                🧱 Pilihan Blok Kod (Klik untuk tambah):
+                            </h4>
+                            <div class="space-y-2">
+                                <template x-for="line in pseudoPool" :key="line.id">
+                                    <button @click="addPseudoLine(line)" 
+                                            :disabled="line.placed" 
+                                            :class="line.placed ? 'bg-slate-200 text-slate-400 border-slate-300 opacity-60 cursor-not-allowed' : 'bg-white text-slate-800 hover:bg-amber-100'"
+                                            class="w-full cartoon-btn text-left p-2.5 text-xs font-mono flex justify-between items-center shadow-[2px_2px_0px_#000]">
+                                        <span x-text="line.text"></span>
+                                        <i class="fa-solid fa-plus text-[10px] text-amber-600" x-show="!line.placed"></i>
+                                    </button>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end gap-2 pt-2">
+                        <button @click="resetPseudoChallenge()" class="cartoon-btn bg-slate-200 hover:bg-slate-300 px-4 py-2 text-xs font-bold text-slate-800">Set Semula</button>
+                        <button @click="checkPseudoChallenge()" class="cartoon-btn bg-indigo-400 hover:bg-indigo-300 px-5 py-2 text-xs font-black text-slate-900">Compile & Run 🚀</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ARAS 2: INTERAKTIF ASAS SINTAKS & OPERATOR -->
+            <div x-show="currentTab === 'topic2'" class="space-y-8" x-cloak>
+                <div class="cartoon-card bg-orange-100 p-6">
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="bg-pink-500 text-white font-black text-xs px-3 py-1 rounded-full border-2 border-slate-900">Aras 2</span>
+                        <h2 class="text-2xl md:text-3xl font-extrabold text-slate-950">Dunia Asas Pengaturcaraan & Operator</h2>
+                    </div>
+                    <p class="text-sm font-medium text-slate-700">Tahniah kerana berjaya melangkah ke dunia sintaks! Di sini kita akan mempelajari mekanik penamaan variabel, pengkelasan jenis data, pengenalan ralat komputer, dan kalkulator operator secara langsung.</p>
+                </div>
+
+                <!-- Cabaran 2.1: Klinik Penguji Pemboleh Ubah -->
+                <div class="cartoon-card p-6 space-y-4">
+                    <div class="flex items-center justify-between border-b-4 border-slate-900 pb-3">
+                        <h3 class="text-lg md:text-xl font-black text-slate-950 flex items-center gap-2">
+                            <span class="bg-yellow-300 border-2 border-slate-900 rounded-full w-8 h-8 flex items-center justify-center text-xs text-slate-900 font-black">7</span>
+                            <span>Cabaran 7: Makmal Analisis Pemboleh Ubah (Variable)</span>
+                        </h3>
+                        <span class="text-xs font-bold bg-yellow-100 text-yellow-800 border-2 border-yellow-500 px-2 py-0.5 rounded-full">+75 XP</span>
+                    </div>
+                    <p class="text-xs font-bold text-slate-500">Komputer mempunyai peraturan ketat dalam menamakan variabel. Uji idea pemboleh ubah anda di bawah dan saksikan diagnosis sistem secara masa nyata!</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-3">
+                            <label class="block text-xs font-black text-slate-700">Tulis Idea Nama Pemboleh Ubah Anda:</label>
+                            <input type="text" x-model="variableInput" @input="diagnoseVariable()" 
+                                   class="w-full cartoon-btn p-3 bg-white border-2 text-slate-900 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-yellow-300"
+                                   placeholder="Contoh: jumlah_pelajar, isLulus, 1stPlace">
+                            
+                            <!-- Syarat Panduan Visual -->
+                            <div class="cartoon-card bg-slate-50 p-3 text-xs space-y-1 text-slate-600 border border-slate-300 shadow-[2px_2px_0px_#000]">
+                                <p class="font-bold text-slate-800">📋 Peraturan Asas:</p>
+                                <p :class="varRules.startChar ? 'text-emerald-600' : 'text-red-500 font-bold'" class="flex items-center gap-1">
+                                    <i class="fa-solid" :class="varRules.startChar ? 'fa-circle-check' : 'fa-circle-xmark'"></i>
+                                    <span>Mesti bermula dengan huruf atau garis bawah (`_`).</span>
+                                </p>
+                                <p :class="varRules.noSpaces ? 'text-emerald-600' : 'text-red-500 font-bold'" class="flex items-center gap-1">
+                                    <i class="fa-solid" :class="varRules.noSpaces ? 'fa-circle-check' : 'fa-circle-xmark'"></i>
+                                    <span>Tiada ruang kosong (space).</span>
+                                </p>
+                                <p :class="varRules.noSpecial ? 'text-emerald-600' : 'text-red-500 font-bold'" class="flex items-center gap-1">
+                                    <i class="fa-solid" :class="varRules.noSpecial ? 'fa-circle-check' : 'fa-circle-xmark'"></i>
+                                    <span>Hanya alfanumerik & `_` sahaja (Tiada @, #, $, %, dsb).</span>
+                                </p>
+                                <p :class="varRules.noKeyword ? 'text-emerald-600' : 'text-red-500 font-bold'" class="flex items-center gap-1">
+                                    <i class="fa-solid" :class="varRules.noKeyword ? 'fa-circle-check' : 'fa-circle-xmark'"></i>
+                                    <span>Bukan kata kunci tersimpan sistem (seperti class, int, float, dll).</span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Keputusan Diagnosis Dinamik -->
+                        <div class="cartoon-card p-4 flex flex-col justify-between"
+                             :class="varIsValid ? 'bg-emerald-100 border-emerald-500' : 'bg-red-100 border-red-500'">
+                            <div>
+                                <h4 class="font-black text-sm text-slate-900 border-b-2 border-slate-900 pb-1 flex items-center gap-2">
+                                    <i class="fa-solid fa-microchip"></i> <span>Status Penganalisis Pemboleh Ubah</span>
+                                </h4>
+                                <div class="mt-4 text-center">
+                                    <template x-if="variableInput.trim() === ''">
+                                        <p class="text-slate-500 italic text-sm">Menunggu input nama...</p>
+                                    </template>
+                                    <template x-if="variableInput.trim() !== ''">
+                                        <div>
+                                            <span x-text="variableInput" class="px-3 py-1 font-mono text-sm bg-white border border-slate-900 rounded-lg inline-block shadow-[2px_2px_0px_#000]"></span>
+                                            <p class="text-lg font-black mt-2" :class="varIsValid ? 'text-emerald-700' : 'text-red-700'" x-text="varIsValid ? 'NAMA SAH! 🎉' : 'NAMA TIDAK SAH! ❌'"></p>
+                                            <p class="text-xs text-slate-600 mt-2" x-text="varFeedback"></p>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-end pt-3">
+                                <button @click="collectVariableXP()" :disabled="!varIsValid || varCollected" 
+                                        :class="(!varIsValid || varCollected) ? 'bg-slate-300 text-slate-400 cursor-not-allowed border-slate-400 opacity-50 shadow-none transform-none' : 'bg-yellow-400 hover:bg-yellow-300 text-slate-950 font-black'"
+                                        class="cartoon-btn px-4 py-2 text-xs">
+                                    <span x-text="varCollected ? 'XP Sudah Diambil' : 'Kumpul +75 XP'"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cabaran 2.2: Pengisih Jenis Data (Data Types) -->
+                <div class="cartoon-card p-6 space-y-4">
+                    <div class="flex items-center justify-between border-b-4 border-slate-900 pb-3">
+                        <h3 class="text-lg md:text-xl font-black text-slate-950 flex items-center gap-2">
+                            <span class="bg-pink-400 border-2 border-slate-900 rounded-full w-8 h-8 flex items-center justify-center text-xs text-white font-black">8</span>
+                            <span>Cabaran 8: Tangki Isihan Jenis Data Mencabar (Data Types)</span>
+                        </h3>
+                        <span class="text-xs font-bold bg-pink-100 text-pink-800 border-2 border-pink-500 px-2 py-0.5 rounded-full">+75 XP</span>
+                    </div>
+                    <p class="text-xs font-bold text-slate-500">Awasi tanda petik tunggal <code class="bg-slate-100 px-1 py-0.5 rounded font-mono text-pink-600">' '</code>, tanda petik kembar <code class="bg-slate-100 px-1 py-0.5 rounded font-mono text-pink-600">" "</code>, dan julat nombor! Kelaskan semua literal berikut:</p>
+
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+                        <!-- Integer -->
+                        <div class="cartoon-card bg-sky-100/40 p-3 min-h-[160px] flex flex-col justify-between">
+                            <h4 class="font-black text-xs text-sky-800 border-b border-slate-300 pb-1">Integer (int)</h4>
+                            <div class="flex flex-wrap gap-1 py-1">
+                                <template x-for="val in datatypePlaced.integer">
+                                    <button @click="removeDatatypeItem(val, 'integer')" class="bg-sky-200 hover:bg-red-200 border border-slate-900 rounded px-1.5 py-0.5 text-[10px] font-mono flex items-center gap-1">
+                                        <span x-text="val.literal"></span> <i class="fa-solid fa-xmark text-[8px]"></i>
+                                    </button>
+                                </template>
+                            </div>
+                            <span class="text-[9px] text-sky-500 text-center font-bold">Nombor Bulat</span>
+                        </div>
+
+                        <!-- Float -->
+                        <div class="cartoon-card bg-orange-100/40 p-3 min-h-[160px] flex flex-col justify-between">
+                            <h4 class="font-black text-xs text-orange-800 border-b border-slate-300 pb-1">Float/Double</h4>
+                            <div class="flex flex-wrap gap-1 py-1">
+                                <template x-for="val in datatypePlaced.float">
+                                    <button @click="removeDatatypeItem(val, 'float')" class="bg-orange-200 hover:bg-red-200 border border-slate-900 rounded px-1.5 py-0.5 text-[10px] font-mono flex items-center gap-1">
+                                        <span x-text="val.literal"></span> <i class="fa-solid fa-xmark text-[8px]"></i>
+                                    </button>
+                                </template>
+                            </div>
+                            <span class="text-[9px] text-orange-500 text-center font-bold">Perpuluhan</span>
+                        </div>
+
+                        <!-- Character -->
+                        <div class="cartoon-card bg-purple-100/40 p-3 min-h-[160px] flex flex-col justify-between">
+                            <h4 class="font-black text-xs text-purple-800 border-b border-slate-300 pb-1">Character (char)</h4>
+                            <div class="flex flex-wrap gap-1 py-1">
+                                <template x-for="val in datatypePlaced.char">
+                                    <button @click="removeDatatypeItem(val, 'char')" class="bg-purple-200 hover:bg-red-200 border border-slate-900 rounded px-1.5 py-0.5 text-[10px] font-mono flex items-center gap-1">
+                                        <span x-text="val.literal"></span> <i class="fa-solid fa-xmark text-[8px]"></i>
+                                    </button>
+                                </template>
+                            </div>
+                            <span class="text-[9px] text-purple-500 text-center font-bold">Satu Aksara / 'A'</span>
+                        </div>
+
+                        <!-- String -->
+                        <div class="cartoon-card bg-emerald-100/40 p-3 min-h-[160px] flex flex-col justify-between">
+                            <h4 class="font-black text-xs text-emerald-800 border-b border-slate-300 pb-1">String</h4>
+                            <div class="flex flex-wrap gap-1 py-1">
+                                <template x-for="val in datatypePlaced.string">
+                                    <button @click="removeDatatypeItem(val, 'string')" class="bg-emerald-200 hover:bg-red-200 border border-slate-900 rounded px-1.5 py-0.5 text-[10px] font-mono flex items-center gap-1">
+                                        <span x-text="val.literal"></span> <i class="fa-solid fa-xmark text-[8px]"></i>
+                                    </button>
+                                </template>
+                            </div>
+                            <span class="text-[9px] text-emerald-500 text-center font-bold">Teks Petik Kembar</span>
+                        </div>
+
+                        <!-- Boolean -->
+                        <div class="cartoon-card bg-pink-100/40 p-3 min-h-[160px] flex flex-col justify-between">
+                            <h4 class="font-black text-xs text-pink-800 border-b border-slate-300 pb-1">Boolean (bool)</h4>
+                            <div class="flex flex-wrap gap-1 py-1">
+                                <template x-for="val in datatypePlaced.bool">
+                                    <button @click="removeDatatypeItem(val, 'bool')" class="bg-pink-200 hover:bg-red-200 border border-slate-900 rounded px-1.5 py-0.5 text-[10px] font-mono flex items-center gap-1">
+                                        <span x-text="val.literal"></span> <i class="fa-solid fa-xmark text-[8px]"></i>
+                                    </button>
+                                </template>
+                            </div>
+                            <span class="text-[9px] text-pink-500 text-center font-bold">true / false sahaja</span>
+                        </div>
+                    </div>
+
+                    <!-- Elements waiting to be sorted -->
+                    <div class="p-4 bg-slate-50 border-2 border-slate-900 rounded-xl">
+                        <p class="text-xs font-black text-slate-700 mb-2 flex items-center gap-1">
+                            <i class="fa-solid fa-box-open"></i> <span>Ketik Pilihan Data (Klik untuk letak dalam tangki):</span>
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <template x-for="item in datatypeItems.filter(i => !i.assigned)">
+                                <div class="flex border-2 border-slate-900 rounded-lg overflow-hidden bg-white shadow-[2px_2px_0px_#000]">
+                                    <span class="px-2 py-1 text-xs font-mono font-black text-slate-900 border-r-2 border-slate-900" x-text="item.literal"></span>
+                                    <button @click="placeDatatypeItem(item, 'integer')" class="px-1.5 bg-sky-200 hover:bg-sky-300 text-[9px] font-bold border-r border-slate-900">int</button>
+                                    <button @click="placeDatatypeItem(item, 'float')" class="px-1.5 bg-orange-200 hover:bg-orange-300 text-[9px] font-bold border-r border-slate-900">float</button>
+                                    <button @click="placeDatatypeItem(item, 'char')" class="px-1.5 bg-purple-200 hover:bg-purple-300 text-[9px] font-bold border-r border-slate-900">char</button>
+                                    <button @click="placeDatatypeItem(item, 'string')" class="px-1.5 bg-emerald-200 hover:bg-emerald-300 text-[9px] font-bold border-r border-slate-900">str</button>
+                                    <button @click="placeDatatypeItem(item, 'bool')" class="px-1.5 bg-pink-200 hover:bg-pink-300 text-[9px] font-bold">bool</button>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end gap-3 pt-2">
+                        <button @click="resetDatatypeChallenge()" class="cartoon-btn bg-slate-200 hover:bg-slate-300 px-4 py-2 text-xs font-bold text-slate-800">Set Semula</button>
+                        <button @click="checkDatatypeChallenge()" class="cartoon-btn bg-pink-400 hover:bg-pink-300 px-5 py-2 text-xs font-black text-slate-900">Sahkan Pengelasan 🧪</button>
+                    </div>
+                </div>
+
+                <!-- Cabaran 2.3: Penyiasat Ralat Kod -->
+                <div class="cartoon-card p-6 space-y-4">
+                    <div class="flex items-center justify-between border-b-4 border-slate-900 pb-3">
+                        <h3 class="text-lg md:text-xl font-black text-slate-950 flex items-center gap-2">
+                            <span class="bg-red-400 border-2 border-slate-900 rounded-full w-8 h-8 flex items-center justify-center text-xs text-white font-black">9</span>
+                            <span>Cabaran 9: Klinik Forensik Ralat (Debugger)</span>
+                        </h3>
+                        <span class="text-xs font-bold bg-red-100 text-red-800 border-2 border-red-500 px-2 py-0.5 rounded-full">+75 XP</span>
+                    </div>
+                    <p class="text-xs font-bold text-slate-500">Setiap kod atur cara di bawah mengandungi kesilapan (ralat). Cari jenis ralat yang dialami oleh setiap kod!</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <template x-for="err in errorChallenges" :key="err.id">
+                            <div class="cartoon-card p-4 border-2 border-slate-900 bg-white flex flex-col justify-between">
+                                <div>
+                                    <span class="bg-red-100 text-red-700 border border-red-300 text-[10px] font-bold px-2 py-0.5 rounded-full" x-text="err.codeLang"></span>
+                                    <pre class="bg-slate-950 text-red-400 p-3 rounded-lg text-xs font-mono my-3 border border-slate-800 overflow-x-auto" x-text="err.codeBlock"></pre>
+                                    <p class="text-xs font-bold text-slate-600 mb-3" x-text="err.description"></p>
+                                </div>
+                                <div class="space-y-2 pt-2 border-t border-slate-100">
+                                    <p class="text-[11px] font-black text-slate-500">Pilih Jenis Ralat:</p>
+                                    <div class="flex flex-col gap-1.5">
+                                        <button @click="selectErrorAnswer(err, 'syntax')" :class="err.selected === 'syntax' ? 'bg-indigo-600 text-white' : 'bg-slate-100 hover:bg-slate-200 text-slate-700'" class="cartoon-btn text-left p-1.5 text-xs font-bold">A. Ralat Sintaks (Syntax)</button>
+                                        <button @click="selectErrorAnswer(err, 'runtime')" :class="err.selected === 'runtime' ? 'bg-indigo-600 text-white' : 'bg-slate-100 hover:bg-slate-200 text-slate-700'" class="cartoon-btn text-left p-1.5 text-xs font-bold">B. Ralat Masa Nyata (Runtime)</button>
+                                        <button @click="selectErrorAnswer(err, 'logical')" :class="err.selected === 'logical' ? 'bg-indigo-600 text-white' : 'bg-slate-100 hover:bg-slate-200 text-slate-700'" class="cartoon-btn text-left p-1.5 text-xs font-bold">C. Ralat Logik (Logical)</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+
+                    <div class="flex justify-end pt-2">
+                        <button @click="checkErrorChallenges()" class="cartoon-btn bg-emerald-400 hover:bg-emerald-300 px-5 py-2 text-xs font-black text-slate-900">Sah & Selesaikan Ralat 🛠️</button>
+                    </div>
+                </div>
+
+                <!-- Cabaran 2.4 (BARU): Klinik Operator Increment & Decrement (Pre vs Post) -->
+                <div class="cartoon-card p-6 space-y-4">
+                    <div class="flex items-center justify-between border-b-4 border-slate-900 pb-3">
+                        <h3 class="text-lg md:text-xl font-black text-slate-950 flex items-center gap-2">
+                            <span class="bg-yellow-300 border-2 border-slate-900 rounded-full w-8 h-8 flex items-center justify-center text-xs text-slate-900 font-black">10</span>
+                            <span>Cabaran 10: Makmal Increment & Decrement (Pre vs Post)</span>
+                        </h3>
+                        <span class="text-xs font-bold bg-yellow-100 text-yellow-800 border-2 border-yellow-500 px-2 py-0.5 rounded-full">+100 XP</span>
+                    </div>
+                    <p class="text-xs font-bold text-slate-500">Kaji perbezaan operasi penambahan/penolakan komputer. Selesaikan tugasan pengiraan nilai akhir di bawah:</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Skenario A -->
+                        <div class="cartoon-card p-4 bg-white border-2 border-slate-900 space-y-3">
+                            <span class="bg-indigo-100 text-indigo-700 font-bold text-[10px] px-2 py-0.5 rounded">A. Post-Increment (x++)</span>
+                            <pre class="bg-slate-950 text-emerald-400 p-2 rounded text-xs font-mono">int x = 4;<n>int y = x++;</pre>
+                            <p class="text-xs text-slate-500">Nilai <code class="font-mono">x</code> disalin ke <code class="font-mono">y</code> dahulu, kemudian baru <code class="font-mono">x</code> ditambah 1.</p>
+                            
+                            <div class="space-y-2 pt-2">
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-700">Apakah nilai akhir <code class="font-mono text-red-500">x</code>?</label>
+                                    <input type="number" x-model.number="incDecAnswers.x_final" class="w-full cartoon-btn p-1.5 text-xs bg-slate-50 border">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-700">Apakah nilai akhir <code class="font-mono text-red-500">y</code>?</label>
+                                    <input type="number" x-model.number="incDecAnswers.y_final" class="w-full cartoon-btn p-1.5 text-xs bg-slate-50 border">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Skenario B -->
+                        <div class="cartoon-card p-4 bg-white border-2 border-slate-900 space-y-3">
+                            <span class="bg-pink-100 text-pink-700 font-bold text-[10px] px-2 py-0.5 rounded">B. Pre-Increment (++a)</span>
+                            <pre class="bg-slate-950 text-emerald-400 p-2 rounded text-xs font-mono">int a = 10;<n>int b = ++a;</pre>
+                            <p class="text-xs text-slate-500">Nilai <code class="font-mono">a</code> ditambah 1 dahulu, kemudian nilai baru tersebut disalin ke <code class="font-mono">b</code>.</p>
+                            
+                            <div class="space-y-2 pt-2">
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-700">Apakah nilai akhir <code class="font-mono text-red-500">a</code>?</label>
+                                    <input type="number" x-model.number="incDecAnswers.a_final" class="w-full cartoon-btn p-1.5 text-xs bg-slate-50 border">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-700">Apakah nilai akhir <code class="font-mono text-red-500">b</code>?</label>
+                                    <input type="number" x-model.number="incDecAnswers.b_final" class="w-full cartoon-btn p-1.5 text-xs bg-slate-50 border">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Skenario C -->
+                        <div class="cartoon-card p-4 bg-white border-2 border-slate-900 space-y-3">
+                            <span class="bg-orange-100 text-orange-700 font-bold text-[10px] px-2 py-0.5 rounded">C. Gabungan Decrement</span>
+                            <pre class="bg-slate-950 text-emerald-400 p-2 rounded text-[11px] font-mono">int p = 7;<n>int q = p-- + --p;</pre>
+                            <p class="text-[11px] text-slate-500">Gunakan prinsip turutan: hitung sebutan pertama kiri ke kanan!</p>
+                            
+                            <div class="space-y-2 pt-1">
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-700">Apakah nilai akhir <code class="font-mono text-red-500">p</code>?</label>
+                                    <input type="number" x-model.number="incDecAnswers.p_final" class="w-full cartoon-btn p-1.5 text-xs bg-slate-50 border">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-700">Apakah nilai akhir <code class="font-mono text-red-500">q</code>?</label>
+                                    <input type="number" x-model.number="incDecAnswers.q_final" class="w-full cartoon-btn p-1.5 text-xs bg-slate-50 border">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end pt-2">
+                        <button @click="checkIncDecChallenge()" class="cartoon-btn bg-yellow-400 hover:bg-yellow-300 px-5 py-2 text-xs font-black text-slate-900">Sahkan Nilai Operator ⚙️</button>
+                    </div>
+                </div>
+
+                <!-- Cabaran 2.5 (BARU): Kejohanan Keutamaan Operator (Operator Precedence) -->
+                <div class="cartoon-card p-6 space-y-4">
+                    <div class="flex items-center justify-between border-b-4 border-slate-900 pb-3">
+                        <h3 class="text-lg md:text-xl font-black text-slate-950 flex items-center gap-2">
+                            <span class="bg-indigo-400 border-2 border-slate-900 rounded-full w-8 h-8 flex items-center justify-center text-xs text-white font-black">11</span>
+                            <span>Cabaran 11: Mesin Pempermudah Precedence</span>
+                        </h3>
+                        <span class="text-xs font-bold bg-indigo-100 text-indigo-800 border-2 border-indigo-500 px-2 py-0.5 rounded-full">+100 XP</span>
+                    </div>
+                    
+                    <div class="bg-amber-50 p-4 border-2 border-slate-900 rounded-xl">
+                        <p class="text-xs font-extrabold text-amber-900 flex items-center gap-1">
+                            <i class="fa-solid fa-crown text-yellow-500"></i> <span>Mekanik Keutamaan (BODMAS / PEMDAS & Logical):</span>
+                        </p>
+                        <p class="text-xs text-slate-700 mt-1">
+                            Komputer menyelesaikan operasi mengikut tahap kuasa: <br>
+                            <span class="font-black">Kurungan ()</span> ➔ <span class="font-black">Unary (! , ++, --)</span> ➔ <span class="font-black">Darab/Bahagi (* , / , %)</span> ➔ <span class="font-black">Tambah/Tolak (+ , -)</span> ➔ <span class="font-black">Hubungan (&gt;, &lt;, ==, !=)</span> ➔ <span class="font-black">Logikal (&&, ||)</span>
+                        </p>
+                    </div>
+
+                    <!-- Interactive Step-by-Step Precedence Game with Multiple Questions -->
+                    <div class="cartoon-card p-5 bg-slate-900 text-white space-y-4 border-4 border-slate-900">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-800 pb-3 gap-2">
+                            <h4 class="text-xs font-bold text-sky-400 uppercase tracking-widest flex items-center gap-1">
+                                <i class="fa-solid fa-brain animate-pulse"></i>
+                                <span>Kuiz Precedence: Set <span x-text="currentPrecedenceIdx + 1"></span> daripada 3</span>
+                            </h4>
+                            <div class="flex gap-1">
+                                <template x-for="(puzzle, pIdx) in precedencePuzzles">
+                                    <span class="w-3 h-3 rounded-full border border-slate-600"
+                                          :class="pIdx === currentPrecedenceIdx ? 'bg-yellow-400' : (pIdx < currentPrecedenceIdx ? 'bg-emerald-500' : 'bg-slate-800')"></span>
+                                </template>
+                            </div>
+                            <span class="text-[11px] bg-sky-900 text-sky-200 px-2 py-0.5 rounded border border-sky-700 font-bold" x-text="'Langkah ' + precedenceStep + ' dari 3'"></span>
+                        </div>
+
+                        <!-- Expression Display -->
+                        <div class="text-center py-4 bg-slate-950 rounded-xl border border-slate-800">
+                            <p class="text-xs text-slate-400 mb-1">Ungkapan Logik Aktif:</p>
+                            <p class="text-xl md:text-2xl font-mono font-black text-yellow-300" x-text="precedencePuzzles[currentPrecedenceIdx].expression"></p>
+                        </div>
+
+                        <!-- STEP 1: Choose first operator -->
+                        <div x-show="precedenceStep === 1" class="space-y-3">
+                            <p class="text-xs font-bold text-slate-300 text-center" x-text="precedencePuzzles[currentPrecedenceIdx].steps[0].question"></p>
+                            <div class="flex flex-wrap justify-center gap-2 max-w-md mx-auto">
+                                <template x-for="op in precedencePuzzles[currentPrecedenceIdx].steps[0].ops">
+                                    <button @click="choosePrecedenceOperator(1, op)" 
+                                            :class="selectedOperator1 === op ? 'bg-pink-600' : 'bg-slate-800 hover:bg-slate-700'" 
+                                            class="cartoon-btn px-4 py-2 text-xs font-mono font-bold" x-text="op"></button>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- STEP 2: Choose second operator -->
+                        <div x-show="precedenceStep === 2" class="space-y-3" x-cloak>
+                            <p class="text-xs text-emerald-400 text-center font-bold">✨ Hebat! Langkah 1 berjaya.</p>
+                            <p class="text-xs font-bold text-slate-300 text-center" x-text="precedencePuzzles[currentPrecedenceIdx].steps[1].question"></p>
+                            <div class="flex flex-wrap justify-center gap-2 max-w-md mx-auto">
+                                <template x-for="op in precedencePuzzles[currentPrecedenceIdx].steps[1].ops">
+                                    <button @click="choosePrecedenceOperator(2, op)" 
+                                            :class="selectedOperator2 === op ? 'bg-pink-600' : 'bg-slate-800 hover:bg-slate-700'" 
+                                            class="cartoon-btn px-4 py-2 text-xs font-mono font-bold" x-text="op"></button>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- STEP 3: Solve the final Boolean/Numeric value -->
+                        <div x-show="precedenceStep === 3" class="space-y-3" x-cloak>
+                            <p class="text-xs text-emerald-400 text-center font-bold">✨ Langkah 2 berjaya diselesaikan!</p>
+                            <p class="text-xs font-bold text-slate-300 text-center" x-text="precedencePuzzles[currentPrecedenceIdx].steps[2].question"></p>
+                            <div class="flex justify-center gap-3 max-w-xs mx-auto">
+                                <template x-for="op in precedencePuzzles[currentPrecedenceIdx].steps[2].ops">
+                                    <button @click="solvePrecedenceBoolean(op)" 
+                                            class="cartoon-btn bg-emerald-500 hover:bg-emerald-400 text-slate-950 px-5 py-2.5 text-xs font-black" x-text="op"></button>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-slate-100 p-3 rounded-xl border border-slate-300">
+                        <span class="text-xs text-slate-600 font-bold">Ujian Keutamaan Komputer (Selesaikan 3 Set)</span>
+                        <button @click="resetPrecedenceGame()" class="cartoon-btn bg-slate-200 hover:bg-slate-300 px-3 py-1 text-xs font-bold">Set Semula Kuiz 🔄</button>
+                    </div>
+                </div>
+
+                <!-- Cabaran 2.6: Operator Pengaturcaraan Matematik -->
+                <div class="cartoon-card p-6 space-y-4">
+                    <div class="flex items-center justify-between border-b-4 border-slate-900 pb-3">
+                        <h3 class="text-lg md:text-xl font-black text-slate-950 flex items-center gap-2">
+                            <span class="bg-emerald-400 border-2 border-slate-900 rounded-full w-8 h-8 flex items-center justify-center text-xs text-white font-black">12</span>
+                            <span>Cabaran 12: Arena Matematik, Relational & Logical Operators</span>
+                        </h3>
+                        <span class="text-xs font-bold bg-emerald-100 text-emerald-800 border-2 border-emerald-500 px-2 py-0.5 rounded-full">+100 XP</span>
+                    </div>
+                    <p class="text-xs font-bold text-slate-500">Jawab kesemua 6 soalan di bawah untuk melengkapkan pengembaraan asas operator komputer!</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Q1: Modulus -->
+                        <div class="cartoon-card p-4 bg-white border-2 border-slate-900 space-y-2">
+                            <span class="bg-purple-100 text-purple-700 font-bold text-[10px] px-2 py-0.5 rounded">1. Operator Modulus (%)</span>
+                            <p class="text-xs font-black text-slate-900">Berapakah baki bagi ungkapan: <code class="bg-slate-100 px-1 py-0.5 rounded font-mono">11 % 3</code>?</p>
+                            <div class="grid grid-cols-4 gap-2 pt-1">
+                                <template x-for="ans in [1, 2, 3, 0]">
+                                    <button @click="operatorAnswers.mod = ans" 
+                                            :class="operatorAnswers.mod === ans ? 'bg-purple-400 text-slate-950 border-slate-950 font-black' : 'bg-slate-50 text-slate-700 hover:bg-slate-100'"
+                                            class="cartoon-btn p-1.5 text-xs font-bold text-center" x-text="ans"></button>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- Q2: Relational -->
+                        <div class="cartoon-card p-4 bg-white border-2 border-slate-900 space-y-2">
+                            <span class="bg-sky-100 text-sky-700 font-bold text-[10px] px-2 py-0.5 rounded">2. Relational Operator (== vs !=)</span>
+                            <p class="text-xs font-black text-slate-900">Apakah nilai Boolean bagi perbandingan: <code class="bg-slate-100 px-1 py-0.5 rounded font-mono">10 != 10</code>?</p>
+                            <div class="grid grid-cols-2 gap-2 pt-1">
+                                <template x-for="ans in ['true', 'false']">
+                                    <button @click="operatorAnswers.rel = ans" 
+                                            :class="operatorAnswers.rel === ans ? 'bg-sky-400 text-slate-950 border-slate-950 font-black' : 'bg-slate-50 text-slate-700 hover:bg-slate-100'"
+                                            class="cartoon-btn p-1.5 text-xs font-bold text-center text-uppercase" x-text="ans"></button>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- Q3: Division behavior -->
+                        <div class="cartoon-card p-4 bg-white border-2 border-slate-900 space-y-2">
+                            <span class="bg-orange-100 text-orange-700 font-bold text-[10px] px-2 py-0.5 rounded">3. Pembahagian Integer (C++/Java)</span>
+                            <p class="text-xs font-black text-slate-900">Berapakah hasil operasi integer: <code class="bg-slate-100 px-1 py-0.5 rounded font-mono">13 / 4</code>?</p>
+                            <div class="grid grid-cols-4 gap-2 pt-1">
+                                <template x-for="ans in [3, 4, 3.25, 1]">
+                                    <button @click="operatorAnswers.div = ans" 
+                                            :class="operatorAnswers.div === ans ? 'bg-orange-400 text-slate-950 border-slate-950 font-black' : 'bg-slate-50 text-slate-700 hover:bg-slate-100'"
+                                            class="cartoon-btn p-1.5 text-xs font-bold text-center" x-text="ans"></button>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- Q4: Logical AND -->
+                        <div class="cartoon-card p-4 bg-white border-2 border-slate-900 space-y-2">
+                            <span class="bg-emerald-100 text-emerald-700 font-bold text-[10px] px-2 py-0.5 rounded">4. Operator Logik AND (&&)</span>
+                            <p class="text-xs font-black text-slate-900">Apakah nilai akhir bagi: <code class="bg-slate-100 px-1 py-0.5 rounded font-mono">(5 &gt; 3) &amp;&amp; (2 &gt; 4)</code>?</p>
+                            <div class="grid grid-cols-2 gap-2 pt-1">
+                                <template x-for="ans in ['true', 'false']">
+                                    <button @click="operatorAnswers.and = ans" 
+                                            :class="operatorAnswers.and === ans ? 'bg-emerald-400 text-slate-950 border-slate-950 font-black' : 'bg-slate-50 text-slate-700 hover:bg-slate-100'"
+                                            class="cartoon-btn p-1.5 text-xs font-bold text-center" x-text="ans"></button>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- Q5: Relational Complex -->
+                        <div class="cartoon-card p-4 bg-white border-2 border-slate-900 space-y-2">
+                            <span class="bg-pink-100 text-pink-700 font-bold text-[10px] px-2 py-0.5 rounded">5. Relational Operator (&gt;=)</span>
+                            <p class="text-xs font-black text-slate-900">Adakah ungkapan: <code class="bg-slate-100 px-1 py-0.5 rounded font-mono">18 &gt;= 18</code> bernilai True?</p>
+                            <div class="grid grid-cols-2 gap-2 pt-1">
+                                <template x-for="ans in ['true', 'false']">
+                                    <button @click="operatorAnswers.gte = ans" 
+                                            :class="operatorAnswers.gte === ans ? 'bg-pink-400 text-slate-950 border-slate-950 font-black' : 'bg-slate-50 text-slate-700 hover:bg-slate-100'"
+                                            class="cartoon-btn p-1.5 text-xs font-bold text-center" x-text="ans"></button>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- Q6: Logical NOT -->
+                        <div class="cartoon-card p-4 bg-white border-2 border-slate-900 space-y-2">
+                            <span class="bg-indigo-100 text-indigo-700 font-bold text-[10px] px-2 py-0.5 rounded">6. Operator Logik NOT (!)</span>
+                            <p class="text-xs font-black text-slate-900">Apakah nilai bagi ungkapan: <code class="bg-slate-100 px-1 py-0.5 rounded font-mono">!(10 == 10)</code>?</p>
+                            <div class="grid grid-cols-2 gap-2 pt-1">
+                                <template x-for="ans in ['true', 'false']">
+                                    <button @click="operatorAnswers.not = ans" 
+                                            :class="operatorAnswers.not === ans ? 'bg-indigo-400 text-slate-950 border-slate-950 font-black' : 'bg-slate-50 text-slate-700 hover:bg-slate-100'"
+                                            class="cartoon-btn p-1.5 text-xs font-bold text-center" x-text="ans"></button>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end pt-2">
+                        <button @click="checkOperatorChallenge()" class="cartoon-btn bg-pink-400 hover:bg-pink-300 px-5 py-2 text-xs font-black text-slate-900">Sahkan Semua Keputusan 🎯</button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Modal Tahniah / Kemenangan Besar -->
+    <div x-show="showVictoryModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-[999]" x-cloak>
+        <div class="cartoon-card max-w-md w-full bg-yellow-100 p-8 text-center space-y-6 relative border-4 border-slate-900 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+            <div class="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-yellow-300 border-4 border-slate-900 rounded-full w-24 h-24 flex items-center justify-center shadow-[4px_4px_0_0_#000]">
+                <span class="text-5xl animate-bounce">🏆</span>
+            </div>
+            
+            <div class="pt-8 space-y-2">
+                <h3 class="text-3xl font-black text-slate-950 tracking-tight">Kemenangan Gilang-Gemilang!</h3>
+                <p class="text-sm font-bold text-slate-600">Anda telah menamatkan semua aktiviti pengembaraan pengaturcaraan dan berjaya memegang takhta tertinggi.</p>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl border-2 border-slate-900 inline-block shadow-[4px_4px_0_0_#000]">
+                <p class="text-xs font-bold text-slate-500 uppercase">Lencana Dicapai</p>
+                <p class="text-lg font-black text-pink-600">🌟 Sifu Wira Algoritma 🌟</p>
+                <div class="flex justify-center gap-1 mt-2 text-yellow-400 text-lg">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+            </div>
+
+            <div>
+                <button @click="showVictoryModal = false" class="cartoon-btn w-full bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-black py-3 text-sm">
+                    Kembali Ke Papan Permainan
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- UI Message Alerts -->
+<div class="fixed bottom-6 right-6 z-[1000] space-y-2" x-cloak>
+    <template x-for="alert in alerts" :key="alert.id">
+        <div :class="alert.type === 'success' ? 'bg-emerald-200 border-emerald-500' : 'bg-red-200 border-red-500'" 
+             class="cartoon-card p-4 min-w-[280px] flex items-center justify-between border-2 border-slate-900 shadow-[4px_4px_0_0_#000] animate-slide-in">
+            <div class="flex items-center gap-3">
+                <span class="text-2xl" x-text="alert.type === 'success' ? '🎉' : '⚠️'"></span>
+                <div>
+                    <p class="text-xs font-bold text-slate-800" x-text="alert.message"></p>
+                </div>
+            </div>
+            <button @click="dismissAlert(alert.id)" class="text-slate-500 hover:text-slate-800 font-bold ml-2">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+    </template>
+</div>
+
+<!-- Footer Hak Cipta -->
+<footer class="bg-slate-950 border-t-8 border-slate-900 py-6 mt-12 text-center">
+    <div class="max-w-7xl mx-auto px-4">
+        <p class="font-black text-xs md:text-sm text-yellow-300 tracking-wider">
+            HAK MILIK @2026 PN FARIHAN ELYANA ZAHARI, JTMK PTSS
+        </p>
+    </div>
+</footer>
+
+<!-- SOUND SYSTEM & LOGIC -->
+<script>
+    // Sound generator utilizing browser Web Audio API (8-Bit Retro Sounds)
+        const playSynthSound = (type) => {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                if (!ctx) return;
+                
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                if (type === 'correct') {
+                    // Cute 8-bit upbeat tone
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(300, ctx.currentTime);
+                    osc.frequency.setValueAtTime(600, ctx.currentTime + 0.08);
+                    osc.frequency.setValueAtTime(900, ctx.currentTime + 0.16);
+                    gain.gain.setValueAtTime(0.1, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.3);
+                } else if (type === 'wrong') {
+                    // Low buzzer sound
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(120, ctx.currentTime);
+                    osc.frequency.linearRampToValueAtTime(60, ctx.currentTime + 0.25);
+                    gain.gain.setValueAtTime(0.12, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.25);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.25);
+                } else if (type === 'click') {
+                    // Pop sound
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(500, ctx.currentTime);
+                    gain.gain.setValueAtTime(0.08, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.05);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.05);
+                } else if (type === 'victory') {
+                    // Quick retro arcade fanfare
+                    const notes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99];
+                    notes.forEach((freq, index) => {
+                        const noteOsc = ctx.createOscillator();
+                        const noteGain = ctx.createGain();
+                        noteOsc.connect(noteGain);
+                        noteGain.connect(ctx.destination);
+                        
+                        noteOsc.type = 'square';
+                        noteOsc.frequency.setValueAtTime(freq, ctx.currentTime + index * 0.08);
+                        noteGain.gain.setValueAtTime(0.05, ctx.currentTime + index * 0.08);
+                        noteGain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + index * 0.08 + 0.3);
+                        
+                        noteOsc.start(ctx.currentTime + index * 0.08);
+                        noteOsc.stop(ctx.currentTime + index * 0.08 + 0.3);
+                    });
+                }
+            } catch (err) {
+                console.warn('AudioContext is blocked or not supported:', err);
+            }
+        };
+
+        function gameSystem() {
+            return {
+                currentTab: 'topic1',
+                xp: 0,
+                showVictoryModal: false,
+                mascotEmoji: '🤖',
+                mascotDialogue: 'Hai pengembara cilik! Saya Cikgu Kiko. Sedia untuk memulakan cabaran logik komputer hari ini? Pilih aras di peta!',
+                
+                // Custom Alert Notifications
+                alerts: [],
+                addAlert(message, type = 'success') {
+                    const id = Date.now();
+                    this.alerts.push({ id, message, type });
+                    if (type === 'success') {
+                        playSynthSound('correct');
+                    } else {
+                        playSynthSound('wrong');
+                    }
+                    setTimeout(() => this.dismissAlert(id), 4000);
+                },
+                dismissAlert(id) {
+                    this.alerts = this.alerts.filter(a => a.id !== id);
+                },
+
+                // Task progress trackers
+                progressState: {
+                    topic1: { ipo: false, steps: false, algo: false, flowBuilder: false, flow: false, pseudo: false },
+                    topic2: { variable: false, datatypes: false, debugger: false, incdec: false, precedence: false, operators: false }
+                },
+
+                // CABARAN 1.1: IPO Sorter States
+                ipoItems: [
+                    { id: 1, label: "Papan Kekunci (Keyboard)", type: "input", assigned: false },
+                    { id: 2, label: "Pengira Gaji (Formula)", type: "proses", assigned: false },
+                    { id: 3, label: "Laporan Gaji Skrin", type: "output", assigned: false },
+                    { id: 4, label: "Tetikus (Mouse)", type: "input", assigned: false },
+                    { id: 5, label: "Pengisihan Nama Pelajar", type: "proses", assigned: false },
+                    { id: 6, label: "Kertas Pencetak (Printed Report)", type: "output", assigned: false }
+                ],
+                ipoPlaced: { input: [], proses: [], output: [] },
+
+                // CABARAN 1.2: Problem Solving Steps
+                stepsOrder: [
+                    { id: 'b', title: 'Kenal pasti Pemalar & Data Lain', desc: 'Mencari nilai tetap seperti GST (0.06) atau Pi (3.14159)' },
+                    { id: 'a', title: 'Kenal pasti Input & Output', desc: 'Menentukan apa data masuk dan keputusan yang diinginkan oleh pengguna' },
+                    { id: 'c', title: 'Kenal pasti Apa Perlu Dikira', desc: 'Merumuskan formula matematik / langkah pengiraan untuk diproses' }
+                ],
+
+                // CABARAN 1.3: Algorithm Tracing States
+                algoAnswers: {
+                    baki: null,
+                    setiap: null,
+                    mesej: ""
+                },
+
+                // CABARAN 1.4: Flowchart Builder States
+                selectedBlockId: null,
+                flowBuilderSlots: {
+                    1: null, // Input slot (Parallelogram)
+                    2: null, // Decision slot (Diamond)
+                    3: null, // Process slot (Rectangle)
+                    4: null, // Output slot - True
+                    5: null  // Output slot - False
+                },
+                flowBuilderBlocks: [
+                    { id: 'b1', text: "INPUT jam, kadar", type: 'input', placedSlot: null, correctSlot: 1 },
+                    { id: 'b2', text: "Adakah jam > 0 ?", type: 'decision', placedSlot: null, correctSlot: 2 },
+                    { id: 'b3', text: "gaji = jam * kadar", type: 'process', placedSlot: null, correctSlot: 3 },
+                    { id: 'b4', text: "OUTPUT gaji", type: 'output', placedSlot: null, correctSlot: 4 },
+                    { id: 'b5', text: 'OUTPUT "Jam Tidak Sah"', type: 'output', placedSlot: null, correctSlot: 5 }
+                ],
+
+                // CABARAN 1.5: Flowchart Symbol Quiz States
+                flowchartSymbols: [
+                    {
+                        name: 'terminator',
+                        label: 'Terminator',
+                        svg: `<svg width="100%" height="100%" viewBox="0 0 100 50"><rect x="5" y="10" width="90" height="30" rx="15" ry="15" fill="#facc15" stroke="#000" stroke-width="3"/></svg>`,
+                        desc: 'Mula / Tamat dalam carta alir',
+                        correctState: 'none'
+                    },
+                    {
+                        name: 'process',
+                        label: 'Process',
+                        svg: `<svg width="100%" height="100%" viewBox="0 0 100 50"><rect x="5" y="10" width="90" height="30" fill="#f472b6" stroke="#000" stroke-width="3"/></svg>`,
+                        desc: 'Mengira formula matematik atau tindakan',
+                        correctState: 'none'
+                    },
+                    {
+                        name: 'decision',
+                        label: 'Decision',
+                        svg: `<svg width="100%" height="100%" viewBox="0 0 100 50"><polygon points="50,5 90,25 50,45 10,25" fill="#60a5fa" stroke="#000" stroke-width="3"/></svg>`,
+                        desc: 'Menguji syarat pilihan benar/salah',
+                        correctState: 'none'
+                    },
+                    {
+                        name: 'data',
+                        label: 'Data (Input/Output)',
+                        svg: `<svg width="100%" height="100%" viewBox="0 0 100 50"><polygon points="20,10 95,10 80,40 5,40" fill="#34d399" stroke="#000" stroke-width="3"/></svg>`,
+                        desc: 'Membaca atau mencetak maklumat',
+                        correctState: 'none'
+                    },
+                    {
+                        name: 'connector',
+                        label: 'On-Page Connector',
+                        svg: `<svg width="100%" height="100%" viewBox="0 0 100 50"><circle cx="50" cy="25" r="15" fill="#a78bfa" stroke="#000" stroke-width="3"/></svg>`,
+                        desc: 'Menyambungkan aliran yang terputus di halaman yang sama',
+                        correctState: 'none'
+                    }
+                ],
+                currentFlowIndex: 0,
+                flowQuestionsOrder: ['terminator', 'data', 'decision', 'process', 'connector'],
+                flowchartScore: 0,
+
+                // CABARAN 1.6: Pseudo Code Assembler States
+                pseudoPool: [
+                    { id: 1, text: "MULA", order: 1, placed: false },
+                    { id: 2, text: "INPUT nombor1, nombor2", order: 2, placed: false },
+                    { id: 3, text: "PROSES: purata = (nombor1 + nombor2) / 2", order: 3, placed: false },
+                    { id: 4, text: "OUTPUT purata", order: 4, placed: false },
+                    { id: 5, text: "TAMAT", order: 5, placed: false }
+                ],
+                pseudoPlaced: [],
+
+                // CABARAN 2.1: Variable Sandbox Validator States
+                variableInput: '',
+                varFeedback: 'Cuba tulis nama variabel di sebelah kiri.',
+                varIsValid: false,
+                varCollected: false,
+                varRules: { startChar: false, noSpaces: false, noSpecial: false, noKeyword: false },
+
+                // CABARAN 2.2: Datatype Sorter States (Terperinci & Mencabar)
+                datatypeItems: [
+                    { id: 1, literal: "2147483647", type: "integer", assigned: false },
+                    { id: 2, literal: "3.14159", type: "float", assigned: false },
+                    { id: 3, literal: "'B'", type: "char", assigned: false },
+                    { id: 4, literal: '"Buku Kod"', type: "string", assigned: false },
+                    { id: 5, literal: "false", type: "bool", assigned: false },
+                    { id: 6, literal: "-102", type: "integer", assigned: false },
+                    { id: 7, literal: "0.005", type: "float", assigned: false },
+                    { id: 8, literal: "'#'", type: "char", assigned: false },
+                    { id: 9, literal: "'9'", type: "char", assigned: false },
+                    { id: 10, literal: '"true"', type: "string", assigned: false }
+                ],
+                datatypePlaced: { integer: [], float: [], char: [], string: [], bool: [] },
+
+                // CABARAN 2.3: Debugger Challenges
+                errorChallenges: [
+                    {
+                        id: 1,
+                        codeLang: 'Python',
+                        codeBlock: `if x > 10\n    print("Besar!")`,
+                        description: 'Apakah jenis ralat akibat tertinggal tanda noktah bertindih ":" selepas if?',
+                        selected: null,
+                        correct: 'syntax'
+                    },
+                    {
+                        id: 2,
+                        codeLang: 'C++',
+                        codeBlock: `int a = 100;\nint b = 0;\nint hasil = a / b;`,
+                        description: 'Apakah jenis ralat apabila pengiraan dibahagi sifar dijalankan di pertengahan pelaksanaan sistem?',
+                        selected: null,
+                        correct: 'runtime'
+                    },
+                    {
+                        id: 3,
+                        codeLang: 'JavaScript',
+                        codeBlock: `// Mahu kira luas segiempat\nlet p = 5, l = 4;\nlet luas = p + l; // Terguna formula tambah`,
+                        description: 'Hasil dikira tidak bertepatan dengan teori luas matematik sebenar tetapi sistem tidak crash.',
+                        selected: null,
+                        correct: 'logical'
+                    }
+                ],
+
+                // CABARAN 2.4 (BARU): Increment & Decrement States
+                incDecAnswers: {
+                    x_final: null,
+                    y_final: null,
+                    a_final: null,
+                    b_final: null,
+                    p_final: null,
+                    q_final: null
+                },
+
+                // CABARAN 2.5 (KEMAS KINI): Dynamic Precedence Game States
+                currentPrecedenceIdx: 0,
+                precedenceStep: 1,
+                selectedOperator1: null,
+                selectedOperator2: null,
+                precedencePuzzles: [
+                    {
+                        id: 1,
+                        expression: "12 - 4 * 2 + 1 > 3",
+                        steps: [
+                            { question: "Soalan 1: Operator manakah yang akan dinilai komputer TERLEBIH DAHULU?", ops: ["-", "*", "+"], correct: "*" },
+                            { question: "Soalan 2: Antara Tolak (-) dan Tambah (+) yang sama taraf, yang mana diselesaikan dahulu (kiri ke kanan)?", ops: ["-", "+", ">"], correct: "-" },
+                            { question: "Soalan 3: Ungkapan kini disederhanakan kepada '5 > 3'. Apakah nilai Boolean akhirnya?", ops: ["true", "false"], correct: "true" }
+                        ]
+                    },
+                    {
+                        id: 2,
+                        expression: "(8 + 2) * 3 - 5 != 25",
+                        steps: [
+                            { question: "Soalan 1: Kumpulan mana atau operator manakah yang wajib diselesaikan terlebih dahulu?", ops: ["+", "*", "-"], correct: "+" },
+                            { question: "Soalan 2: Ungkapan kini: '10 * 3 - 5 != 25'. Operator manakah seterusnya?", ops: ["*", "-", "!="], correct: "*" },
+                            { question: "Soalan 3: Ungkapan kini: '30 - 5 != 25' ➔ '25 != 25'. Apakah nilai Boolean akhir?", ops: ["true", "false"], correct: "false" }
+                        ]
+                    },
+                    {
+                        id: 3,
+                        expression: "16 / 4 + 3 * 2 == 10",
+                        steps: [
+                            { question: "Soalan 1: Bahagi (/) & darab (*) sama precedence. Manakah diselesaikan dahulu dari kiri ke kanan?", ops: ["/", "*", "+"], correct: "/" },
+                            { question: "Soalan 2: Ungkapan kini: '4 + 3 * 2 == 10'. Operator manakah diselesaikan dahulu?", ops: ["+", "*", "=="], correct: "*" },
+                            { question: "Soalan 3: Ungkapan kini: '4 + 6 == 10' ➔ '10 == 10'. Apakah hasil akhir komputer?", ops: ["true", "false"], correct: "true" }
+                        ]
+                    }
+                ],
+
+                // CABARAN 2.6: Expanded Operators Answers
+                operatorAnswers: { mod: null, rel: null, div: null, and: null, gte: null, not: null },
+
+                // Initializer
+                init() {
+                    const savedXp = localStorage.getItem('kembara_kod_xp_v2');
+                    if (savedXp) {
+                        this.xp = parseInt(savedXp);
+                    }
+                    this.mascotDialogue = "Selamat datang pengembara cilik! Mari belajar pengaturcaraan secara menyeronokkan.";
+                },
+
+                switchTab(tab) {
+                    playSynthSound('click');
+                    this.currentTab = tab;
+                    if (tab === 'topic1') {
+                        this.mascotEmoji = '🦊';
+                        this.mascotDialogue = 'Tahap 1: Selesaikan kitaran IPO, carta alir, dan algoritma untuk melepasi gerbang permulaan.';
+                    } else if (tab === 'topic2') {
+                        this.mascotEmoji = '🦁';
+                        this.mascotDialogue = 'Tahap 2: Masa untuk menguji pemboleh ubah, ralat kod, operasi Increment/Decrement serta keutamaan Precedence!';
+                    }
+                },
+
+                resetProgress() {
+                    playSynthSound('wrong');
+                    this.xp = 0;
+                    this.showVictoryModal = false;
+                    localStorage.removeItem('kembara_kod_xp_v2');
+                    
+                    this.resetIpoChallenge();
+                    this.resetPseudoChallenge();
+                    this.resetDatatypeChallenge();
+                    this.resetFlowchartGame();
+                    this.resetFlowBuilder();
+                    this.resetPrecedenceGame();
+                    
+                    this.algoAnswers = { baki: null, setiap: null, mesej: "" };
+                    this.variableInput = '';
+                    this.varCollected = false;
+                    this.varFeedback = 'Cuba tulis nama variabel di sebelah kiri.';
+                    this.errorChallenges.forEach(ec => ec.selected = null);
+                    this.operatorAnswers = { mod: null, rel: null, div: null, and: null, gte: null, not: null };
+                    this.incDecAnswers = { x_final: null, y_final: null, a_final: null, b_final: null, p_final: null, q_final: null };
+                    
+                    // Reset progress state
+                    this.progressState = {
+                        topic1: { ipo: false, steps: false, algo: false, flowBuilder: false, flow: false, pseudo: false },
+                        topic2: { variable: false, datatypes: false, debugger: false, incdec: false, precedence: false, operators: false }
+                    };
+
+                    this.addAlert("Kemajuan pengembaraan anda telah dibersihkan!", "error");
+                },
+
+                // UTILITIES
+                awardXp(amount, moduleKey, exerciseKey) {
+                    if (this.progressState[moduleKey][exerciseKey]) {
+                        this.addAlert("Anda sudah menyelesaikan cabaran ini sebelum ini!", "error");
+                        return;
+                    }
+                    this.xp += amount;
+                    this.progressState[moduleKey][exerciseKey] = true;
+                    localStorage.setItem('kembara_kod_xp_v2', this.xp);
+                    playSynthSound('correct');
+                    this.addAlert(`+${amount} XP Dinikmati!`, 'success');
+                    
+                    this.mascotEmoji = '🤩';
+                    this.mascotDialogue = `Kerja yang sangat bagus! XP anda kini bertambah sebanyak ${amount} mata!`;
+
+                    // Victory at 900+ XP
+                    if (this.xp >= 900) {
+                        setTimeout(() => {
+                            this.showVictoryModal = true;
+                            playSynthSound('victory');
+                        }, 500);
+                    }
+                },
+
+                calculateStars() {
+                    return Math.floor(this.xp / 100);
+                },
+
+                getRankTitle() {
+                    if (this.xp === 0) return 'Novis Kod 🍼';
+                    if (this.xp < 300) return 'Pelatih Asas ⚙️';
+                    if (this.xp < 600) return 'Pahlawan Logik 🛡️';
+                    if (this.xp < 900) return 'Pakar Struktur 🔮';
+                    return 'Sifu Wira Algoritma 👑';
+                },
+
+                getProgress(tab) {
+                    const tasks = this.progressState[tab];
+                    const total = Object.keys(tasks).length;
+                    const completed = Object.values(tasks).filter(Boolean).length;
+                    return Math.round((completed / total) * 100);
+                },
+
+                // CABARAN 1.1: IPO SORTER LOGIC
+                placeIpoItem(item, destination) {
+                    playSynthSound('click');
+                    item.assigned = true;
+                    this.ipoPlaced[destination].push(item);
+                },
+
+                removeIpoItem(item, origin) {
+                    playSynthSound('click');
+                    item.assigned = false;
+                    this.ipoPlaced[origin] = this.ipoPlaced[origin].filter(i => i.id !== item.id);
+                },
+
+                resetIpoChallenge() {
+                    this.ipoPlaced = { input: [], proses: [], output: [] };
+                    this.ipoItems.forEach(i => i.assigned = false);
+                },
+
+                checkIpoChallenge() {
+                    let correctCount = 0;
+                    let totalPlaced = 0;
+
+                    Object.keys(this.ipoPlaced).forEach(key => {
+                        this.ipoPlaced[key].forEach(item => {
+                            totalPlaced++;
+                            if (item.type === key) {
+                                correctCount++;
+                            }
+                        });
+                    });
+
+                    if (totalPlaced < this.ipoItems.length) {
+                        playSynthSound('wrong');
+                        this.mascotEmoji = '🤔';
+                        this.mascotDialogue = 'Tangki pengelas masih belum penuh! Tolong susun semua peranti/elemen dahulu.';
+                        this.addAlert("Sila isikan semua elemen dalam tangki!", "error");
+                        return;
+                    }
+
+                    if (correctCount === this.ipoItems.length) {
+                        this.awardXp(50, 'topic1', 'ipo');
+                    } else {
+                        playSynthSound('wrong');
+                        this.mascotEmoji = '😿';
+                        this.mascotDialogue = `Alamak, ada ${this.ipoItems.length - correctCount} elemen dalam tangki yang tersalah isih. Sila semak semula!`;
+                        this.addAlert("Terdapat kesalahan dikesan! Cubalah lagi.", "error");
+                    }
+                },
+
+                // CABARAN 1.2: PROBLEM SOLVING STEPS
+                moveStep(index, direction) {
+                    playSynthSound('click');
+                    const targetIndex = index + direction;
+                    if (targetIndex < 0 || targetIndex >= this.stepsOrder.length) return;
+                    
+                    const temp = this.stepsOrder[index];
+                    this.stepsOrder[index] = this.stepsOrder[targetIndex];
+                    this.stepsOrder[targetIndex] = temp;
+                },
+
+                checkProblemSolvingSteps() {
+                    const correctIds = ['a', 'b', 'c'];
+                    let isAllCorrect = true;
+
+                    this.stepsOrder.forEach((step, idx) => {
+                        if (step.id !== correctIds[idx]) {
+                            isAllCorrect = false;
+                        }
+                    });
+
+                    if (isAllCorrect) {
+                        this.awardXp(50, 'topic1', 'steps');
+                    } else {
+                        playSynthSound('wrong');
+                        this.mascotEmoji = '🙀';
+                        this.mascotDialogue = 'Susunan anda masih belum logik! Fikirkan: Kita mesti cari input/output (a) dulu, disusuli pemalar (b), barulah kita membina formula pengiraan (c).';
+                        this.addAlert("Fasa tidak teratur! Rujuk panduan Cikgu Kiko.", "error");
+                    }
+                },
+
+                // CABARAN 1.3: ALGORITHM TRACING VERIFICATION
+                checkAlgoTracing() {
+                    const isBakiCorrect = (this.algoAnswers.baki === 2);
+                    const isSetiapCorrect = (this.algoAnswers.setiap === 3);
+                    const isMesejCorrect = (this.algoAnswers.mesej === 'gembira');
+
+                    if (isBakiCorrect && isSetiapCorrect && isMesejCorrect) {
+                        this.awardXp(75, 'topic1', 'algo');
+                    } else {
+                        playSynthSound('wrong');
+                        this.mascotEmoji = '🤯';
+                        this.mascotDialogue = 'Pengiraan atau jawapan output anda tidak tepat. Ingat, operator "%" bermaksud mencari sisa baki selepas dibahagikan.';
+                        this.addAlert("Jawapan algoritma salah! Cuba hitung dengan teliti.", "error");
+                    }
+                },
+
+                // CABARAN 1.4: FLOWCHART BUILDER
+                chooseBlock(block) {
+                    playSynthSound('click');
+                    this.selectedBlockId = block.id;
+                    this.addAlert(`Blok "${block.text}" dipilih! Sekarang klik mana-mana slot hijau [ ? ] di carta alir.`, 'success');
+                },
+
+                selectSlot(slotNumber) {
+                    if (!this.selectedBlockId) {
+                        playSynthSound('wrong');
+                        this.addAlert("Pilih satu blok biru di bawah terlebih dahulu!", "error");
+                        return;
+                    }
+                    playSynthSound('click');
+                    const block = this.flowBuilderBlocks.find(b => b.id === this.selectedBlockId);
+                    
+                    if (block.placedSlot) {
+                        this.flowBuilderSlots[block.placedSlot] = null;
+                    }
+                    
+                    const existingBlockInSlot = this.flowBuilderSlots[slotNumber];
+                    if (existingBlockInSlot) {
+                        existingBlockInSlot.placedSlot = null;
+                    }
+
+                    this.flowBuilderSlots[slotNumber] = block;
+                    block.placedSlot = slotNumber;
+                    this.selectedBlockId = null;
+                },
+
+                resetFlowBuilder() {
+                    playSynthSound('click');
+                    this.flowBuilderSlots = { 1: null, 2: null, 3: null, 4: null, 5: null };
+                    this.flowBuilderBlocks.forEach(b => b.placedSlot = null);
+                    this.selectedBlockId = null;
+                },
+
+                checkFlowBuilder() {
+                    let isAllCorrect = true;
+                    for (let slot = 1; slot <= 5; slot++) {
+                        const block = this.flowBuilderSlots[slot];
+                        if (!block || block.correctSlot !== slot) {
+                            isAllCorrect = false;
+                        }
+                    }
+
+                    if (isAllCorrect) {
+                        this.awardXp(100, 'topic1', 'flowBuilder');
+                    } else {
+                        playSynthSound('wrong');
+                        this.mascotEmoji = '😢';
+                        this.mascotDialogue = 'Aliran carta alir anda masih mengandungi ralat susunan. Sila pastikan Input diletakkan di atas, Proses diletakkan pada cabang Ya, dan Ralat diletakkan pada cabang Tidak!';
+                        this.addAlert("Carta alir gagal diuji! Sila semak semula simbol.", "error");
+                    }
+                },
+
+                // CABARAN 1.5: FLOWCHART CLICK-TO-MATCH GAME
+                flowchartChallengeText() {
+                    const currentSymbolId = this.flowQuestionsOrder[this.currentFlowIndex];
+                    const matchedSymbol = this.flowchartSymbols.find(s => s.name === currentSymbolId);
+                    return matchedSymbol ? matchedSymbol.desc : 'Tamat Permainan';
+                },
+
+                guessFlowchartSymbol(symbol) {
+                    const targetSymbolName = this.flowQuestionsOrder[this.currentFlowIndex];
+                    
+                    if (symbol.name === targetSymbolName) {
+                        playSynthSound('correct');
+                        symbol.correctState = 'yes';
+                        this.flowchartScore++;
+                        this.addAlert("Simbol tepat!", "success");
+                    } else {
+                        playSynthSound('wrong');
+                        symbol.correctState = 'no';
+                        this.addAlert("Bukan simbol itu!", "error");
+                    }
+
+                    setTimeout(() => {
+                        if (this.currentFlowIndex < this.flowQuestionsOrder.length - 1) {
+                            this.currentFlowIndex++;
+                        } else {
+                            if (this.flowchartScore >= 4) {
+                                this.awardXp(50, 'topic1', 'flow');
+                            } else {
+                                this.mascotEmoji = '🥺';
+                                this.mascotDialogue = `Skor anda ${this.flowchartScore}/5. Sila klik 'Mula Baru' untuk dapatkan sekurang-kurangnya 4 markah betulan!`;
+                                this.addAlert("Selesaikan teka simbol sekurang-kurangnya 4/5!", "error");
+                            }
+                        }
+                    }, 800);
+                },
+
+                resetFlowchartGame() {
+                    this.currentFlowIndex = 0;
+                    this.flowchartScore = 0;
+                    this.flowchartSymbols.forEach(s => s.correctState = 'none');
+                },
+
+                // CABARAN 1.6: PSEUDO CODE ASSEMBLER
+                addPseudoLine(line) {
+                    playSynthSound('click');
+                    line.placed = true;
+                    this.pseudoPlaced.push(line);
+                },
+
+                removePseudoLine(line) {
+                    playSynthSound('click');
+                    line.placed = false;
+                    this.pseudoPlaced = this.pseudoPlaced.filter(l => l.id !== line.id);
+                },
+
+                resetPseudoChallenge() {
+                    this.pseudoPlaced = [];
+                    this.pseudoPool.forEach(p => p.placed = false);
+                },
+
+                checkPseudoChallenge() {
+                    if (this.pseudoPlaced.length < this.pseudoPool.length) {
+                        playSynthSound('wrong');
+                        this.addAlert("Sila susun kelima-lima baris pseudo kod dahulu!", "error");
+                        return;
+                    }
+
+                    let isSorted = true;
+                    this.pseudoPlaced.forEach((line, idx) => {
+                        if (line.order !== (idx + 1)) {
+                            isSorted = false;
+                        }
+                    });
+
+                    if (isSorted) {
+                        this.awardXp(50, 'topic1', 'pseudo');
+                    } else {
+                        playSynthSound('wrong');
+                        this.mascotEmoji = '🧐';
+                        this.mascotDialogue = 'Semak aturan aliran pseudo kod anda. Mulakan dengan MULA, isikan input, jalankan proses formula, papar output, dan tamatkan dengan TAMAT!';
+                        this.addAlert("Aturan kod gagal disusun betul!", "error");
+                    }
+                },
+
+                // CABARAN 2.1: VARIABLE SANDBOX
+                diagnoseVariable() {
+                    const text = this.variableInput.trim();
+                    this.varRules = { startChar: false, noSpaces: false, noSpecial: false, noKeyword: false };
+
+                    if (text === '') {
+                        this.varIsValid = false;
+                        this.varFeedback = 'Sila tulis idea nama variabel di atas.';
+                        return;
+                    }
+
+                    const startRegex = /^[a-zA-Z_]/;
+                    this.varRules.startChar = startRegex.test(text);
+                    this.varRules.noSpaces = !/\s/.test(text);
+                    
+                    const specialRegex = /^[a-zA-Z0-9_]+$/;
+                    this.varRules.noSpecial = specialRegex.test(text);
+
+                    const keywords = ['int', 'float', 'double', 'char', 'bool', 'string', 'if', 'else', 'while', 'for', 'return', 'class', 'struct'];
+                    this.varRules.noKeyword = !keywords.includes(text.toLowerCase());
+
+                    this.varIsValid = this.varRules.startChar && this.varRules.noSpaces && this.varRules.noSpecial && this.varRules.noKeyword;
+
+                    if (this.varIsValid) {
+                        this.varFeedback = `Syabas! "${text}" mematuhi piawaian kod dunia pengaturcaraan C++, Python & Java.`;
+                    } else {
+                        if (!this.varRules.startChar) {
+                            this.varFeedback = `Kesalahan: Nama pemboleh ubah tidak boleh bermula dengan angka atau simbol khas!`;
+                        } else if (!this.varRules.noSpaces) {
+                            this.varFeedback = `Kesalahan: Ada ruang kosong dikesan! Gunakan gaya camelCase atau snake_case.`;
+                        } else if (!this.varRules.noSpecial) {
+                            this.varFeedback = `Kesalahan: Mengandungi simbol terlarang (@, #, $, dsb).`;
+                        } else if (!this.varRules.noKeyword) {
+                            this.varFeedback = `Kesalahan: "${text}" ialah Kata Kunci Simpanan (Keyword) sistem komputer!`;
+                        }
+                    }
+                },
+
+                collectVariableXP() {
+                    if (this.varIsValid && !this.varCollected) {
+                        this.varCollected = true;
+                        this.awardXp(75, 'topic2', 'variable');
+                    }
+                },
+
+                // CABARAN 2.2: DATATYPE SORTER
+                placeDatatypeItem(item, destination) {
+                    playSynthSound('click');
+                    item.assigned = true;
+                    this.datatypePlaced[destination].push(item);
+                },
+
+                removeDatatypeItem(item, origin) {
+                    playSynthSound('click');
+                    item.assigned = false;
+                    this.datatypePlaced[origin] = this.datatypePlaced[origin].filter(i => i.id !== item.id);
+                },
+
+                resetDatatypeChallenge() {
+                    this.datatypePlaced = { integer: [], float: [], char: [], string: [], bool: [] };
+                    this.datatypeItems.forEach(i => i.assigned = false);
+                },
+
+                checkDatatypeChallenge() {
+                    let correctCount = 0;
+                    let totalPlaced = 0;
+
+                    Object.keys(this.datatypePlaced).forEach(key => {
+                        this.datatypePlaced[key].forEach(item => {
+                            totalPlaced++;
+                            if (item.type === key) {
+                                correctCount++;
+                            }
+                        });
+                    });
+
+                    if (totalPlaced < this.datatypeItems.length) {
+                        playSynthSound('wrong');
+                        this.mascotEmoji = '🤔';
+                        this.mascotDialogue = 'Pengelasan tangki jenis data masih ada yang belum lengkap!';
+                        this.addAlert("Sila isikan semua literal data terlebih dahulu!", "error");
+                        return;
+                    }
+
+                    if (correctCount === this.datatypeItems.length) {
+                        this.awardXp(75, 'topic2', 'datatypes');
+                    } else {
+                        playSynthSound('wrong');
+                        this.mascotEmoji = '😿';
+                        this.mascotDialogue = `Terdapat ${this.datatypeItems.length - correctCount} elemen literal tersalah tangki jenis data. Jom betulkan semula!`;
+                        this.addAlert("Kesalahan dikesan! Rujuk nota literal tanda petikan tunggal (' ') untuk char dan kembar (\" \") untuk string.", "error");
+                    }
+                },
+
+                // CABARAN 2.3: ERROR DEBUGGER CLINIC
+                selectErrorAnswer(challenge, option) {
+                    playSynthSound('click');
+                    challenge.selected = option;
+                },
+
+                checkErrorChallenges() {
+                    const unanswered = this.errorChallenges.some(ec => ec.selected === null);
+                    if (unanswered) {
+                        playSynthSound('wrong');
+                        this.addAlert("Sila jawab semua diagnosis kes ralat dahulu!", "error");
+                        return;
+                    }
+
+                    let correctCount = 0;
+                    this.errorChallenges.forEach(ec => {
+                        if (ec.selected === ec.correct) {
+                            correctCount++;
+                        }
+                    });
+
+                    if (correctCount === this.errorChallenges.length) {
+                        this.awardXp(75, 'topic2', 'debugger');
+                    } else {
+                        playSynthSound('wrong');
+                        this.mascotEmoji = '🤕';
+                        this.mascotDialogue = `Aduh, hanya ${correctCount} daripada ${this.errorChallenges.length} ralat yang didiagnosis secara tepat. Cuba kaji balik!`;
+                        this.addAlert("Semakan ralat gagal! Uji fikiran debug anda sekali lagi.", "error");
+                    }
+                },
+
+                // CABARAN 2.4 (BARU): INCREMENT & DECREMENT
+                checkIncDecChallenge() {
+                    const answers = this.incDecAnswers;
+                    if (answers.x_final === null || answers.y_final === null || answers.a_final === null || answers.b_final === null || answers.p_final === null || answers.q_final === null) {
+                        playSynthSound('wrong');
+                        this.addAlert("Sila isi semua ruangan kosong bagi nilai pemboleh ubah dahulu!", "error");
+                        return;
+                    }
+
+                    // Checking math:
+                    // Scenario A: int x = 4; int y = x++; => y = 4, x = 5
+                    const isACorrect = (answers.x_final === 5 && answers.y_final === 4);
+                    // Scenario B: int a = 10; int b = ++a; => a = 11, b = 11
+                    const isBCorrect = (answers.a_final === 11 && answers.b_final === 11);
+                    // Scenario C: int p = 7; int q = p-- + --p;
+                    // First step p-- evaluates to 7, p decrements to 6
+                    // Second step --p decrements p to 5 first, then evaluates to 5
+                    // q = 7 + 5 = 12, p final = 5
+                    const isCCorrect = (answers.p_final === 5 && answers.q_final === 12);
+
+                    if (isACorrect && isBCorrect && isCCorrect) {
+                        this.awardXp(100, 'topic2', 'incdec');
+                    } else {
+                        playSynthSound('wrong');
+                        this.mascotEmoji = '🥺';
+                        this.mascotDialogue = 'Aduh, pengiraan Increment/Decrement anda salah! Sila ingat beza Pre- (tambah dulu sebelum guna) dan Post- (guna dahulu sebelum tambah).';
+                        this.addAlert("Kesalahan dikesan! Semak semula nilai x, y, a, b, p atau q.", "error");
+                    }
+                },
+
+                // CABARAN 2.5 (KEMAS KINI): DYNAMIC MULTI-QUESTION PRECEDENCE GAME
+                choosePrecedenceOperator(step, op) {
+                    playSynthSound('click');
+                    const activePuzzle = this.precedencePuzzles[this.currentPrecedenceIdx];
+                    const targetCorrect = activePuzzle.steps[step - 1].correct;
+
+                    if (step === 1) {
+                        this.selectedOperator1 = op;
+                        if (op === targetCorrect) {
+                            this.addAlert(`Tepat sekali! Operator "${op}" diselesaikan terlebih dahulu.`, "success");
+                            setTimeout(() => { this.precedenceStep = 2; }, 800);
+                        } else {
+                            this.addAlert("Bukan operator itu! Sila semak semula jadual keutamaan.", "error");
+                        }
+                    } else if (step === 2) {
+                        this.selectedOperator2 = op;
+                        if (op === targetCorrect) {
+                            this.addAlert(`Langkah kedua selesai! Operator "${op}" dipilih dengan betul.`, "success");
+                            setTimeout(() => { this.precedenceStep = 3; }, 800);
+                        } else {
+                            this.addAlert("Salah aturan! Sila fikirkan keutamaan setara dari kiri ke kanan.", "error");
+                        }
+                    }
+                },
+
+                solvePrecedenceBoolean(val) {
+                    playSynthSound('click');
+                    const activePuzzle = this.precedencePuzzles[this.currentPrecedenceIdx];
+                    const targetCorrect = activePuzzle.steps[2].correct;
+
+                    if (val === targetCorrect) {
+                        if (this.currentPrecedenceIdx < this.precedencePuzzles.length - 1) {
+                            this.addAlert(`Set ${this.currentPrecedenceIdx + 1} selesai! Bersedia untuk Set seterusnya.`, "success");
+                            setTimeout(() => {
+                                this.currentPrecedenceIdx++;
+                                this.precedenceStep = 1;
+                                this.selectedOperator1 = null;
+                                this.selectedOperator2 = null;
+                            }, 1000);
+                        } else {
+                            this.awardXp(100, 'topic2', 'precedence');
+                            this.addAlert("Tahniah! Anda telah menguasai keutamaan ketiga-tiga set operator!", "success");
+                        }
+                    } else {
+                        playSynthSound('wrong');
+                        this.addAlert(`Salah! Hasil akhir ungkapan sepatutnya adalah "${targetCorrect}".`, "error");
+                    }
+                },
+
+                resetPrecedenceGame() {
+                    this.currentPrecedenceIdx = 0;
+                    this.precedenceStep = 1;
+                    this.selectedOperator1 = null;
+                    this.selectedOperator2 = null;
+                },
+
+                // CABARAN 2.6: OPERATOR CHALLENGE (VERIFIKASI 6 SOALAN)
+                checkOperatorChallenge() {
+                    const answers = this.operatorAnswers;
+                    if (answers.mod === null || answers.rel === null || answers.div === null || answers.and === null || answers.gte === null || answers.not === null) {
+                        playSynthSound('wrong');
+                        this.addAlert("Sila jawab kesemua 6 soalan kuiz terlebih dahulu!", "error");
+                        return;
+                    }
+
+                    // Answer Verification
+                    const isQ1Correct = (answers.mod === 2);
+                    const isQ2Correct = (answers.rel === 'false');
+                    const isQ3Correct = (answers.div === 3); // 13 / 4 in integer division is 3
+                    const isQ4Correct = (answers.and === 'false'); // (5>3) is true && (2>4) is false -> false
+                    const isQ5Correct = (answers.gte === 'true'); // 18 >= 18 is true
+                    const isQ6Correct = (answers.not === 'false'); // !(10==10) is !(true) -> false
+
+                    if (isQ1Correct && isQ2Correct && isQ3Correct && isQ4Correct && isQ5Correct && isQ6Correct) {
+                        this.awardXp(100, 'topic2', 'operators');
+                    } else {
+                        playSynthSound('wrong');
+                        this.mascotEmoji = '🤒';
+                        this.mascotDialogue = 'Masih ada jawapan anda yang tersasar! Ingat: Pembahagian integer membuang nilai perpuluhan, manakala operator logik && memerlukan kedua-duanya benar.';
+                        this.addAlert("Ujian operator gagal! Semak semula jawapan anda yang salah.", "error");
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
