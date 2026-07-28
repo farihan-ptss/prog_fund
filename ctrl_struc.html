@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hub Pembelajaran Interaktif: Struktur Kawalan Atur Cara</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        display: ['Fredoka', 'sans-serif'],
+                        mono: ['"Fira Code"', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#fff1f2',
+                            100: '#ffe4e6',
+                            200: '#fecdd3',
+                            400: '#fb7185',
+                            500: '#f43f5e',
+                            600: '#e11d48',
+                        },
+                        funYellow: '#FCD34D',
+                        funPurple: '#A78BFA',
+                        funCyan: '#38BDF8',
+                        funGreen: '#34D399',
+                        funOrange: '#FB923C'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 30%, #fce7f3 70%, #fef3c7 100%);
+            min-height: 100vh;
+        }
+        .font-display { font-family: 'Fredoka', cursive; }
+        .font-code { font-family: 'Fira Code', monospace; }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .bounce-gentle {
+            animation: bounceGentle 2s infinite;
+        }
+        @keyframes bounceGentle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        .code-highlight {
+            transition: all 0.2s ease;
+        }
+        .code-highlight:hover {
+            background-color: rgba(254, 240, 138, 0.3);
+        }
+
+        .active-line {
+            background-color: #fef9c3 !important;
+            border-left: 4px solid #f59e0b;
+        }
+    </style>
+</head>
+<body class="text-slate-800 flex flex-col min-h-screen">
+
+    <!-- Top Navigation Header -->
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-pink-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <div class="flex items-center justify-between">
+                <!-- Logo & Title -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('overview')">
+                    <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-pink-500 via-rose-400 to-amber-300 flex items-center justify-center text-white shadow-md shadow-pink-200 transform hover:scale-105 transition-transform">
+                        <i data-lucide="code-2" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-display text-xl sm:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-600 to-purple-600">
+                            KodingCeria! 🚀
+                        </h1>
+                        <p class="text-xs text-slate-500 font-medium">Hub Pembelajaran Interaktif Struktur Kawalan</p>
+                    </div>
+                </div>
+
+                <!-- Navigation Tabs -->
+                <nav class="hidden md:flex items-center gap-1 bg-slate-100/80 p-1.5 rounded-2xl border border-slate-200/60">
+                    <button onclick="switchTab('overview')" id="nav-overview" class="nav-btn px-4 py-2 rounded-xl text-sm font-bold transition-all flex items-center gap-2 bg-white text-pink-600 shadow-sm">
+                        <i data-lucide="layers" class="w-4 h-4"></i> 3.1 Asas
+                    </button>
+                    <button onclick="switchTab('selection')" id="nav-selection" class="nav-btn px-4 py-2 rounded-xl text-sm font-bold text-slate-600 hover:text-pink-600 transition-all flex items-center gap-2">
+                        <i data-lucide="git-fork" class="w-4 h-4"></i> 3.2 Pilihan
+                    </button>
+                    <button onclick="switchTab('iteration')" id="nav-iteration" class="nav-btn px-4 py-2 rounded-xl text-sm font-bold text-slate-600 hover:text-pink-600 transition-all flex items-center gap-2">
+                        <i data-lucide="rotate-cw" class="w-4 h-4"></i> 3.3 Iterasi
+                    </button>
+                    <button onclick="switchTab('quiz')" id="nav-quiz" class="nav-btn px-4 py-2 rounded-xl text-sm font-bold text-slate-600 hover:text-pink-600 transition-all flex items-center gap-2">
+                        <i data-lucide="trophy" class="w-4 h-4"></i> Cabaran Kuiz
+                    </button>
+                </nav>
+
+                <!-- Status Badge -->
+                <div class="hidden sm:flex items-center gap-2 bg-amber-100 border border-amber-200 px-3 py-1.5 rounded-full text-xs font-bold text-amber-800">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                    <span>BM Version 2.0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div class="flex md:hidden border-t border-slate-200 overflow-x-auto px-2 py-2 gap-2 bg-white/90">
+            <button onclick="switchTab('overview')" id="mob-overview" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-pink-500 text-white whitespace-nowrap">3.1 Asas</button>
+            <button onclick="switchTab('selection')" id="mob-selection" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 whitespace-nowrap">3.2 Pilihan</button>
+            <button onclick="switchTab('iteration')" id="mob-iteration" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 whitespace-nowrap">3.3 Iterasi</button>
+            <button onclick="switchTab('quiz')" id="mob-quiz" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 whitespace-nowrap">🎮 Kuiz</button>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow">
+
+        <!-- ========================================== -->
+        <!-- TAB 3.1: OVERVIEW & TYPES OF CONTROL STRUCTURE -->
+        <!-- ========================================== -->
+        <div id="tab-overview" class="tab-content space-y-8">
+            <!-- Hero Banner -->
+            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-purple-600 via-pink-500 to-amber-400 p-6 sm:p-10 text-white shadow-xl">
+                <div class="relative z-10 max-w-2xl">
+                    <span class="inline-block px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-bold uppercase tracking-wider mb-3">Modul 3.1</span>
+                    <h2 class="font-display text-3xl sm:text-4xl font-extrabold mb-3">Apa Itu Struktur Kawalan Atur Cara? 🤔</h2>
+                    <p class="text-white/90 text-sm sm:text-base leading-relaxed mb-6">
+                        Struktur kawalan ialah arahan yang menentukan **aliran pelaksanaan** kod dalam sesebuah program komputer. Tanpa struktur kawalan, komputer hanya menjalankan arahan dari atas ke bawah secara lurus!
+                    </p>
+                    <div class="flex flex-wrap gap-3">
+                        <button onclick="switchTab('selection')" class="bg-white text-purple-700 px-5 py-2.5 rounded-2xl font-bold text-sm shadow-md hover:bg-slate-100 hover:scale-105 transition-all flex items-center gap-2">
+                            Mula Belajar Pilihan <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- Mascot / Graphic Decorative -->
+                <div class="absolute right-4 bottom-0 opacity-20 lg:opacity-40 pointer-events-none transform translate-y-4">
+                    <i data-lucide="cpu" class="w-64 h-64 text-white"></i>
+                </div>
+            </div>
+
+            <!-- 3.1.1 Tiga Jenis Utama Struktur Kawalan -->
+            <div>
+                <div class="text-center max-w-xl mx-auto mb-8">
+                    <h3 class="font-display text-2xl font-bold text-slate-800 mb-2">3.1.1 Tiga Jenis Utama Struktur Kawalan</h3>
+                    <p class="text-slate-600 text-sm">Setiap program komputer dibina menggunakan gabungan 3 struktur asas ini:</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Card 1: Sequential -->
+                    <div class="bg-white rounded-3xl p-6 border-2 border-sky-100 shadow-lg shadow-sky-50 hover:border-sky-300 hover:shadow-xl transition-all group flex flex-col justify-between">
+                        <div>
+                            <div class="w-14 h-14 rounded-2xl bg-sky-100 text-sky-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                <i data-lucide="arrow-down-narrow-wide" class="w-8 h-8"></i>
+                            </div>
+                            <span class="text-xs font-bold text-sky-600 uppercase tracking-wider">A. Turutan (Sequential)</span>
+                            <h4 class="font-display text-xl font-bold text-slate-800 my-2">Berurutan Langkah demi Langkah</h4>
+                            <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                                Arahan dilaksanakan satu demi satu mengikut susunan berturut-turut dari atas ke bawah tanpa melompat atau mengulang.
+                            </p>
+                        </div>
+                        <div class="bg-sky-50 rounded-2xl p-4 font-code text-xs text-sky-900 border border-sky-100">
+                            1. Mula<br>
+                            2. Masukkan input A<br>
+                            3. Kira Jumlah = A + 10<br>
+                            4. Papar Jumlah<br>
+                            5. Tamat
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Selection -->
+                    <div class="bg-white rounded-3xl p-6 border-2 border-pink-100 shadow-lg shadow-pink-50 hover:border-pink-300 hover:shadow-xl transition-all group flex flex-col justify-between">
+                        <div>
+                            <div class="w-14 h-14 rounded-2xl bg-pink-100 text-pink-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                <i data-lucide="git-fork" class="w-8 h-8"></i>
+                            </div>
+                            <span class="text-xs font-bold text-pink-600 uppercase tracking-wider">B. Pilihan (Selection)</span>
+                            <h4 class="font-display text-xl font-bold text-slate-800 my-2">Membuat Keputusan</h4>
+                            <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                                Memilih laluan atau blok kod tertentu untuk dilaksanakan berdasarkan **syarat (condition)** sama ada BENAR (True) atau PALSU (False).
+                            </p>
+                        </div>
+                        <div class="bg-pink-50 rounded-2xl p-4 font-code text-xs text-pink-900 border border-pink-100">
+                            <strong>JIKA</strong> markah &gt;= 50:<br>
+                            &nbsp;&nbsp;Papar "Lulus!"<br>
+                            <strong>JIKA TIDAK</strong>:<br>
+                            &nbsp;&nbsp;Papar "Gagal"
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Iteration -->
+                    <div class="bg-white rounded-3xl p-6 border-2 border-purple-100 shadow-lg shadow-purple-50 hover:border-purple-300 hover:shadow-xl transition-all group flex flex-col justify-between">
+                        <div>
+                            <div class="w-14 h-14 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                <i data-lucide="rotate-cw" class="w-8 h-8"></i>
+                            </div>
+                            <span class="text-xs font-bold text-purple-600 uppercase tracking-wider">C. Iterasi (Iteration)</span>
+                            <h4 class="font-display text-xl font-bold text-slate-800 my-2">Pengulangan (Repetition)</h4>
+                            <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                                Mengulang blok arahan berulang kali berdasar syarat tertentu sehingga syarat penamatan dicapai.
+                            </p>
+                        </div>
+                        <div class="bg-purple-50 rounded-2xl p-4 font-code text-xs text-purple-900 border border-purple-100">
+                            <strong>ULANG</strong> (3 kali):<br>
+                            &nbsp;&nbsp;Papar "Selamat Datang!"<br>
+                            <strong>TAMAT ULANG</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visual Comparison Matrix -->
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm">
+                <h3 class="font-display text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <i data-lucide="sparkles" class="text-amber-500"></i> Ringkasan Perbandingan Visual
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                    <div class="p-4 bg-amber-50/60 rounded-2xl border border-amber-200">
+                        <div class="text-2xl mb-1">⬇️</div>
+                        <h5 class="font-bold text-amber-900">Turutan</h5>
+                        <p class="text-xs text-amber-700 mt-1">Lurus & Tanpa Lencongan</p>
+                    </div>
+                    <div class="p-4 bg-rose-50/60 rounded-2xl border border-rose-200">
+                        <div class="text-2xl mb-1">🔀</div>
+                        <h5 class="font-bold text-rose-900">Pilihan</h5>
+                        <p class="text-xs text-rose-700 mt-1">Simpangan Bercabang (If / Switch)</p>
+                    </div>
+                    <div class="p-4 bg-emerald-50/60 rounded-2xl border border-emerald-200">
+                        <div class="text-2xl mb-1">🔄</div>
+                        <h5 class="font-bold text-emerald-900">Iterasi</h5>
+                        <p class="text-xs text-emerald-700 mt-1">Gelung Berulang (While / For)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ========================================== -->
+        <!-- TAB 3.2: SELECTION CONTROL STRUCTURES -->
+        <!-- ========================================== -->
+        <div id="tab-selection" class="tab-content space-y-8 hidden">
+            <!-- Header Section -->
+            <div class="bg-gradient-to-r from-pink-500 to-rose-600 rounded-3xl p-6 sm:p-8 text-white shadow-lg">
+                <span class="inline-block px-3 py-1 bg-white/20 rounded-full text-xs font-bold uppercase tracking-wider mb-2">Modul 3.2</span>
+                <h2 class="font-display text-2xl sm:text-3xl font-extrabold">3.2 Struktur Kawalan Pilihan (Selection)</h2>
+                <p class="text-pink-100 text-sm mt-1">Membolehkan program membuat keputusan mengikut penyataan `if` dan `switch case`.</p>
+            </div>
+
+            <!-- 3.2.1 Explanation of Statements -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- If Statement Info -->
+                <div class="bg-white rounded-3xl p-6 border border-pink-200 shadow-sm">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-xl bg-pink-100 text-pink-600 flex items-center justify-center font-bold">
+                            if
+                        </div>
+                        <div>
+                            <h3 class="font-display text-lg font-bold text-slate-800">a. Penyataan 'if'</h3>
+                            <p class="text-xs text-slate-500">Pilihan berdasarkan ungkapan Boolean (Benar/Palsu)</p>
+                        </div>
+                    </div>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Menguji satu syarat. Jika syarat bernilai **TRUE**, blok kod di dalam penyataan akan dijalankan. Boleh berkembang kepada pelbagai variasi mengikut keperluan masalah.
+                    </p>
+                </div>
+
+                <!-- Switch Case Info -->
+                <div class="bg-white rounded-3xl p-6 border border-purple-200 shadow-sm">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center font-bold">
+                            switch
+                        </div>
+                        <div>
+                            <h3 class="font-display text-lg font-bold text-slate-800">b. Penyataan 'switch case'</h3>
+                            <p class="text-xs text-slate-500">Pilihan berbilang nilai padanan khas</p>
+                        </div>
+                    </div>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Digunakan apabila terdapat banyak pilihan nilai tetap (contoh: nombor hari 1-7 atau pilihan menu A/B/C). Membandingkan satu pembolehubah dengan pelbagai kes (case).
+                    </p>
+                </div>
+            </div>
+
+            <!-- 3.2.2 & 3.2.3: Syntax & Interactive Example for IF Statement Types -->
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                    <div>
+                        <h3 class="font-display text-xl font-bold text-slate-800">3.2.2 & 3.2.3 Sintaks & Atur Cara Jenis-jenis 'if'</h3>
+                        <p class="text-slate-500 text-sm">Pilih jenis penyataan 'if' di bawah untuk melihat sintaks dan cuba simulasi programnya!</p>
+                    </div>
+                    <!-- Type Selector Buttons -->
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="selectIfType('single')" id="if-btn-single" class="if-type-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-pink-500 text-white shadow-sm">Single if</button>
+                        <button onclick="selectIfType('ifelse')" id="if-btn-ifelse" class="if-type-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">if-else</button>
+                        <button onclick="selectIfType('ifelseif')" id="if-btn-ifelseif" class="if-type-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">if - else if - else</button>
+                        <button onclick="selectIfType('nested')" id="if-btn-nested" class="if-type-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">Nested if (Bersarang)</button>
+                    </div>
+                </div>
+
+                <!-- Active If Dynamic Content Display -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Syntax Panel -->
+                    <div class="bg-slate-900 rounded-2xl p-5 text-slate-100">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-3">
+                            <span class="text-xs font-bold text-pink-400 uppercase tracking-wider flex items-center gap-1.5">
+                                <i data-lucide="code" class="w-4 h-4"></i> Sintaks Formatif
+                            </span>
+                            <span id="if-syntax-title" class="text-xs bg-slate-800 px-2.5 py-1 rounded-md text-amber-300 font-mono">Single if</span>
+                        </div>
+                        <pre id="if-syntax-code" class="font-code text-xs sm:text-sm text-amber-200 leading-relaxed overflow-x-auto">
+if (syarat) {
+    // Kod dilaksanakan jika syarat TRUE
+}</pre>
+                        <div class="mt-4 p-3 bg-slate-800/80 rounded-xl border border-slate-700/80 text-xs text-slate-300">
+                            <strong>Penerangan:</strong> <span id="if-syntax-desc">Pilihan tunggal. Kod hanya berjalan jika syarat dipenuhi.</span>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Playground / Program Example -->
+                    <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h4 class="font-display font-bold text-slate-800 text-sm flex items-center gap-2">
+                                    <i data-lucide="play-circle" class="text-pink-500"></i> Simulasi Penyelesaian Masalah
+                                </h4>
+                                <span class="text-xs bg-pink-100 text-pink-700 font-bold px-2 py-0.5 rounded-full">Uji Input</span>
+                            </div>
+                            
+                            <p id="if-problem-statement" class="text-xs text-slate-600 mb-4 bg-white p-3 rounded-xl border border-slate-200">
+                                <strong>Masalah:</strong> Semak sama ada markah pengguna lulus (>= 50).
+                            </p>
+
+                            <!-- Dynamic Control Input -->
+                            <div class="space-y-3 mb-4">
+                                <div>
+                                    <label id="if-input-label" class="block text-xs font-bold text-slate-700 mb-1">Masukkan Markah (0 - 100):</label>
+                                    <input type="number" id="if-sim-input" value="75" min="0" max="100" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-bold text-sm focus:ring-2 focus:ring-pink-500 focus:outline-none" oninput="runIfSimulation()">
+                                </div>
+                                <div id="if-extra-input-container" class="hidden">
+                                    <label id="if-extra-input-label" class="block text-xs font-bold text-slate-700 mb-1">Adakah Ahli VIP?</label>
+                                    <select id="if-sim-extra" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-bold text-sm focus:ring-2 focus:ring-pink-500 focus:outline-none" onchange="runIfSimulation()">
+                                        <option value="ya">Ya (VIP)</option>
+                                        <option value="tidak">Tidak</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Simulation Output Display -->
+                        <div class="bg-white rounded-xl p-4 border-2 border-pink-200 shadow-inner">
+                            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Hasil Output Terminal:</div>
+                            <div id="if-sim-output" class="font-code text-sm font-bold text-emerald-600">
+                                Tahniah! Anda LULUS dalam ujian.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3.2.4 & 3.2.5: Switch Case Statement -->
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm">
+                <div class="mb-6">
+                    <span class="text-xs font-bold text-purple-600 uppercase tracking-wider">3.2.4 & 3.2.5</span>
+                    <h3 class="font-display text-xl font-bold text-slate-800">Sintaks & Program 'switch case'</h3>
+                    <p class="text-slate-500 text-sm">Menilai satu pembolehubah dan melompat ke label `case` yang sepadan.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Switch Syntax -->
+                    <div class="bg-slate-900 rounded-2xl p-5 text-slate-100">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-3">
+                            <span class="text-xs font-bold text-purple-400 uppercase tracking-wider flex items-center gap-1.5">
+                                <i data-lucide="code" class="w-4 h-4"></i> Sintaks Switch Case
+                            </span>
+                            <span class="text-xs bg-slate-800 px-2.5 py-1 rounded-md text-purple-300 font-mono">C / C++ / Java / JS</span>
+                        </div>
+                        <pre class="font-code text-xs sm:text-sm text-purple-200 leading-relaxed overflow-x-auto">
+switch (ungkapan) {
+    case nilai1:
+        // Kod jika ungkapan == nilai1
+        break;
+    case nilai2:
+        // Kod jika ungkapan == nilai2
+        break;
+    default:
+        // Kod jika tiada kes yang padan
+}</pre>
+                    </div>
+
+                    <!-- Switch Interactive Example -->
+                    <div class="bg-purple-50/50 rounded-2xl p-5 border border-purple-200 flex flex-col justify-between">
+                        <div>
+                            <h4 class="font-display font-bold text-slate-800 text-sm mb-2 flex items-center gap-2">
+                                <i data-lucide="gamepad-2" class="text-purple-600"></i> Contoh Masalah: Pilihan Menu Hari
+                            </h4>
+                            <p class="text-xs text-slate-600 mb-4">
+                                Masukkan nombor hari (1 hingga 7) untuk menentukan menu hidangan istimewa kafeteria.
+                            </p>
+
+                            <div class="mb-4">
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Pilih Nombor Hari (1-7):</label>
+                                <select id="switch-day-input" onchange="runSwitchSimulation()" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-bold text-sm bg-white focus:ring-2 focus:ring-purple-500 focus:outline-none">
+                                    <option value="1">1 - Isnin</option>
+                                    <option value="2">2 - Selasa</option>
+                                    <option value="3">3 - Rabu</option>
+                                    <option value="4">4 - Khamis</option>
+                                    <option value="5">5 - Jumaat</option>
+                                    <option value="6">6 - Sabtu</option>
+                                    <option value="7">7 - Ahad</option>
+                                    <option value="99">99 - Pilihan Tidak Sah</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-xl p-4 border border-purple-200 shadow-sm">
+                            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Hasil Output Switch Case:</div>
+                            <div id="switch-output" class="font-code text-sm font-bold text-purple-700">
+                                Menu Isnin: Nasi Lemak Ayam Goreng 🍗
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ========================================== -->
+        <!-- TAB 3.3: ITERATION CONTROL STRUCTURES -->
+        <!-- ========================================== -->
+        <div id="tab-iteration" class="tab-content space-y-8 hidden">
+            <!-- Header Section -->
+            <div class="bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-500 rounded-3xl p-6 sm:p-8 text-white shadow-lg">
+                <span class="inline-block px-3 py-1 bg-white/20 rounded-full text-xs font-bold uppercase tracking-wider mb-2">Modul 3.3</span>
+                <h2 class="font-display text-2xl sm:text-3xl font-extrabold">3.3 Struktur Kawalan Iterasi (Ulangan)</h2>
+                <p class="text-indigo-100 text-sm mt-1">Mengulang blok kod menggunakan `while`, `do-while`, dan `for` secara sistematik.</p>
+            </div>
+
+            <!-- 3.3.1 Structure & Types -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- while -->
+                <div class="bg-white rounded-3xl p-6 border-2 border-indigo-100 shadow-sm hover:border-indigo-300 transition-all">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold mb-3">
+                        while
+                    </div>
+                    <h3 class="font-display text-lg font-bold text-slate-800 mb-1">a. while</h3>
+                    <p class="text-xs text-indigo-600 font-bold mb-3">Semak syarat DAHULU (Pre-test loop)</p>
+                    <p class="text-slate-600 text-xs leading-relaxed">
+                        Syarat diuji terlebih dahulu sebelum blok kod dijalankan. Jika syarat dari awal bernilai Palsu, gelung tidak akan dijalankan walau sekali pun.
+                    </p>
+                </div>
+
+                <!-- do while -->
+                <div class="bg-white rounded-3xl p-6 border-2 border-emerald-100 shadow-sm hover:border-emerald-300 transition-all">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold mb-3">
+                        do..while
+                    </div>
+                    <h3 class="font-display text-lg font-bold text-slate-800 mb-1">b. do while</h3>
+                    <p class="text-xs text-emerald-600 font-bold mb-3">Semak syarat KEMUDIAN (Post-test loop)</p>
+                    <p class="text-slate-600 text-xs leading-relaxed">
+                        Kod dilaksanakan sekurang-kurangnya **SEKALI** sebelum syarat diuji di bahagian bawah.
+                    </p>
+                </div>
+
+                <!-- for -->
+                <div class="bg-white rounded-3xl p-6 border-2 border-amber-100 shadow-sm hover:border-amber-300 transition-all">
+                    <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center font-bold mb-3">
+                        for
+                    </div>
+                    <h3 class="font-display text-lg font-bold text-slate-800 mb-1">c. for</h3>
+                    <p class="text-xs text-amber-600 font-bold mb-3">Ulangan bilangan terpimpin / diketahui</p>
+                    <p class="text-slate-600 text-xs leading-relaxed">
+                        Sesuai digunakan apabila bilangan pengulangan sudah diketahui dengan jelas sebelum gelung bermula.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 3.3.2 3 Components of Iteration -->
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm">
+                <h3 class="font-display text-xl font-bold text-slate-800 mb-2">3.3.2 Komponen Utama Penyataan Iterasi 🧩</h3>
+                <p class="text-slate-500 text-sm mb-6">Setiap gelung berulang yang betul MESTI mempunyai 3 komponen ini bagi mengelakkan **infinite loop** (gelung tanpa henti):</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="p-5 rounded-2xl bg-sky-50 border border-sky-200">
+                        <div class="text-sky-600 font-bold text-xs uppercase mb-1">Komponen 1</div>
+                        <h4 class="font-display font-bold text-slate-800 text-base mb-2">a. Initialization (Permulaan)</h4>
+                        <p class="text-xs text-slate-600">
+                            Menetapkan nilai permulaan untuk pembolehubah pembilang (counter variable).<br>
+                            <em>Contoh: `i = 1;`</em>
+                        </p>
+                    </div>
+
+                    <div class="p-5 rounded-2xl bg-rose-50 border border-rose-200">
+                        <div class="text-rose-600 font-bold text-xs uppercase mb-1">Komponen 2</div>
+                        <h4 class="font-display font-bold text-slate-800 text-base mb-2">b. Termination (Penamatan)</h4>
+                        <p class="text-xs text-slate-600">
+                            Syarat Boolean yang mengawal sama ada gelung terus berulang atau berhenti.<br>
+                            <em>Contoh: `i <= 5;`</em>
+                        </p>
+                    </div>
+
+                    <div class="p-5 rounded-2xl bg-amber-50 border border-amber-200">
+                        <div class="text-amber-600 font-bold text-xs uppercase mb-1">Komponen 3</div>
+                        <h4 class="font-display font-bold text-slate-800 text-base mb-2">c. Increment / Decrement</h4>
+                        <p class="text-xs text-slate-600">
+                            Mengemas kini nilai pembilang pada setiap pusingan (tambah atau tolak).<br>
+                            <em>Contoh: `i++` atau `i--`</em>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3.3.3 & 3.3.4 Step-by-Step Interactive Loop Visualizer / Simulator -->
+            <div class="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 border-b border-slate-800 pb-4">
+                    <div>
+                        <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">3.3.3 & 3.3.4 Sintaks & Simulasi Interaktif</span>
+                        <h3 class="font-display text-2xl font-bold">Simulasi Langkah-demi-Langkah Gelung (Loop Visualizer) 🔄</h3>
+                    </div>
+
+                    <!-- Loop Selector -->
+                    <div class="flex items-center gap-2">
+                        <button onclick="setLoopMode('for')" id="btn-loop-for" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-500 text-white">Gelung 'for'</button>
+                        <button onclick="setLoopMode('while')" id="btn-loop-while" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">Gelung 'while'</button>
+                        <button onclick="setLoopMode('dowhile')" id="btn-loop-dowhile" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">Gelung 'do-while'</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Code View with highlighted active step -->
+                    <div class="space-y-4">
+                        <div class="bg-slate-950 p-4 rounded-2xl font-code text-xs sm:text-sm border border-slate-800 relative">
+                            <div class="text-slate-500 text-[10px] uppercase mb-2">// Kod Gelung Terpilih:</div>
+                            <div id="code-line-1" class="p-1.5 rounded code-line font-bold text-sky-400">for (let i = 1; i &lt;= 3; i++) {</div>
+                            <div id="code-line-2" class="p-1.5 rounded code-line pl-6 text-emerald-300">console.log("Pusingan ke-" + i);</div>
+                            <div id="code-line-3" class="p-1.5 rounded code-line font-bold text-sky-400">}</div>
+                        </div>
+
+                        <!-- Step Control Buttons -->
+                        <div class="flex items-center gap-3">
+                            <button onclick="stepLoopVisualizer()" class="flex-1 bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold py-3 px-4 rounded-2xl text-sm transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20">
+                                <i data-lucide="step-forward" class="w-4 h-4"></i> Langkah Seterusnya (Next Step)
+                            </button>
+                            <button onclick="resetLoopVisualizer()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-3 px-4 rounded-2xl text-sm transition-all">
+                                Semula 🔄
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Variable Monitor & Terminal Simulator -->
+                    <div class="space-y-4">
+                        <!-- State Box -->
+                        <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700 grid grid-cols-3 gap-3 text-center">
+                            <div class="bg-slate-900 p-2.5 rounded-xl border border-slate-700">
+                                <span class="text-[10px] text-slate-400 block uppercase font-bold">Pembolehubah `i`</span>
+                                <span id="var-i-val" class="font-code text-lg font-bold text-amber-400">1</span>
+                            </div>
+                            <div class="bg-slate-900 p-2.5 rounded-xl border border-slate-700">
+                                <span class="text-[10px] text-slate-400 block uppercase font-bold">Syarat Penamatan</span>
+                                <span id="var-cond-val" class="font-code text-xs font-bold text-emerald-400">1 &lt;= 3 (TRUE)</span>
+                            </div>
+                            <div class="bg-slate-900 p-2.5 rounded-xl border border-slate-700">
+                                <span class="text-[10px] text-slate-400 block uppercase font-bold">Status Gelung</span>
+                                <span id="var-status-val" class="font-code text-xs font-bold text-sky-400">Berjalan</span>
+                            </div>
+                        </div>
+
+                        <!-- Live Terminal Console -->
+                        <div class="bg-slate-950 rounded-2xl p-4 border border-slate-800 h-40 overflow-y-auto font-code text-xs">
+                            <div class="text-slate-500 border-b border-slate-800 pb-1 mb-2 text-[10px] uppercase font-bold">Terminal Output Console</div>
+                            <div id="loop-terminal-out" class="space-y-1 text-emerald-400">
+                                <span class="text-slate-600">// Tekan 'Langkah Seterusnya' untuk memulakan simulasi...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3.3.5 & 3.3.6 Jump Statements -->
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm">
+                <div class="mb-6">
+                    <span class="text-xs font-bold text-rose-600 uppercase tracking-wider">3.3.5 & 3.3.6</span>
+                    <h3 class="font-display text-xl font-bold text-slate-800">Penyataan Melompat (Jump Statements)</h3>
+                    <p class="text-slate-500 text-sm">Penyataan khas untuk mengendalikan atau mengubah aliran asal gelung secara tiba-tiba.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <!-- break -->
+                    <div class="p-5 rounded-2xl bg-rose-50 border border-rose-200">
+                        <div class="font-code font-bold text-rose-600 text-lg mb-1">break</div>
+                        <h4 class="font-bold text-slate-800 text-sm mb-2">Hentikan Gelung Serta-merta</h4>
+                        <p class="text-xs text-slate-600">
+                            Keluar secara paksa daripada gelung sepenuhnya, dan meneruskan arahan selepas blok gelung.
+                        </p>
+                    </div>
+
+                    <!-- continue -->
+                    <div class="p-5 rounded-2xl bg-amber-50 border border-amber-200">
+                        <div class="font-code font-bold text-amber-600 text-lg mb-1">continue</div>
+                        <h4 class="font-bold text-slate-800 text-sm mb-2">Langkau Pusingan Semasa</h4>
+                        <p class="text-xs text-slate-600">
+                            Melangkau baki kod dalam pusingan semasa dan terus melompat ke pusingan gelung seterusnya.
+                        </p>
+                    </div>
+
+                    <!-- exit() -->
+                    <div class="p-5 rounded-2xl bg-slate-100 border border-slate-300">
+                        <div class="font-code font-bold text-slate-700 text-lg mb-1">exit() / return</div>
+                        <h4 class="font-bold text-slate-800 text-sm mb-2">Tamatkan Keseluruhan Atur Cara</h4>
+                        <p class="text-xs text-slate-600">
+                            Menamatkan pelaksanaan keseluruhan program atau fungsi secara serta-merta.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Interactive Playground for Jump Statements -->
+                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200">
+                    <h4 class="font-display font-bold text-slate-800 text-sm mb-3 flex items-center gap-2">
+                        <i data-lucide="zap" class="text-amber-500"></i> Uji Program Penyataan Melompat (Jump Statement Demo)
+                    </h4>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Pilih Penyataan Melompat:</label>
+                            <select id="jump-mode-select" onchange="runJumpSimulation()" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-bold text-sm bg-white focus:ring-2 focus:ring-pink-500 focus:outline-none mb-3">
+                                <option value="break">break (Henti pada nombor 3)</option>
+                                <option value="continue">continue (Langkau nombor 3)</option>
+                            </select>
+
+                            <p class="text-xs text-slate-600">
+                                Program asal mengira dari <strong>1 hingga 5</strong>. Perhatikan bagaimana output berubah!
+                            </p>
+                        </div>
+
+                        <div class="bg-slate-900 rounded-xl p-4 text-white">
+                            <div class="text-[10px] font-bold text-amber-400 uppercase tracking-widest mb-1">Hasil Output Jump Statement:</div>
+                            <div id="jump-output" class="font-code text-xs text-emerald-400 whitespace-pre-line">
+                                1
+                                2
+                                [BREAK TERCETUS! Gelung Diberhentikan]
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ========================================== -->
+        <!-- TAB QUIZ & CHALLENGES -->
+        <!-- ========================================== -->
+        <div id="tab-quiz" class="tab-content space-y-8 hidden">
+            <!-- Header Banner -->
+            <div class="bg-gradient-to-r from-amber-400 via-orange-500 to-rose-500 rounded-3xl p-6 sm:p-8 text-white shadow-lg text-center">
+                <span class="inline-block px-3 py-1 bg-white/20 rounded-full text-xs font-bold uppercase tracking-wider mb-2">Uji Kefahaman Anda</span>
+                <h2 class="font-display text-3xl font-extrabold mb-2">Cabaran Kuiz Interaktif 🏆</h2>
+                <p class="text-white/90 text-sm max-w-xl mx-auto">
+                    Jawab soalan-soalan berikut untuk menguji pemahaman anda mengenai Struktur Kawalan Atur Cara!
+                </p>
+            </div>
+
+            <!-- Quiz Box Container -->
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-md max-w-2xl mx-auto">
+                <div id="quiz-container">
+                    <!-- Progress Bar -->
+                    <div class="flex items-center justify-between text-xs font-bold text-slate-500 mb-2">
+                        <span id="quiz-progress-text">Soalan 1 daripada 5</span>
+                        <span id="quiz-score-badge" class="text-pink-600">Skor: 0</span>
+                    </div>
+                    <div class="w-full bg-slate-100 rounded-full h-2.5 mb-6">
+                        <div id="quiz-progress-bar" class="bg-gradient-to-r from-pink-500 to-purple-500 h-2.5 rounded-full transition-all duration-300" style="width: 20%"></div>
+                    </div>
+
+                    <!-- Question Text -->
+                    <div class="mb-6">
+                        <h3 id="quiz-question-title" class="font-display text-lg font-bold text-slate-800 mb-2">
+                            1. Apakah jenis struktur kawalan yang melaksana arahan secara lurus dari atas ke bawah?
+                        </h3>
+                    </div>
+
+                    <!-- Options -->
+                    <div id="quiz-options-grid" class="space-y-3 mb-6">
+                        <!-- Dynamic Options rendered here -->
+                    </div>
+
+                    <!-- Feedback message -->
+                    <div id="quiz-feedback" class="hidden p-4 rounded-2xl text-xs font-bold mb-4"></div>
+
+                    <!-- Next Button -->
+                    <button id="quiz-next-btn" onclick="nextQuizQuestion()" class="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 rounded-2xl transition-all shadow-md hidden">
+                        Soalan Seterusnya ➔
+                    </button>
+                </div>
+
+                <!-- Final Score Screen (Hidden by default) -->
+                <div id="quiz-result-screen" class="hidden text-center py-8">
+                    <div class="w-20 h-20 rounded-full bg-amber-100 text-amber-500 flex items-center justify-center mx-auto mb-4 text-3xl bounce-gentle">
+                        🏆
+                    </div>
+                    <h3 class="font-display text-2xl font-bold text-slate-800 mb-2">Tahniah! Ujian Selesai!</h3>
+                    <p class="text-slate-600 text-sm mb-4">Skor Akhir Anda ialah:</p>
+                    <div id="final-score-text" class="text-4xl font-extrabold text-pink-600 font-display mb-6">4 / 5</div>
+                    <button onclick="resetQuiz()" class="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-6 py-3 rounded-2xl font-bold text-sm shadow-md hover:scale-105 transition-all">
+                        Cuba Lagi 🔄
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white/80 border-t border-slate-200 mt-12 py-6 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p>© 2026 KodingCeria! - Modul Pembelajaran Sains Komputer / Asas Sains Komputer</p>
+            <p class="flex items-center gap-1 font-semibold text-pink-600">
+                <span>Dibuat dengan Interaktif & Ceria</span> 🎉
+            </p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Lucide Icons Init
+        lucide.createIcons();
+
+        // Navigation Tab Switcher
+        function switchTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+            
+            // Show target tab
+            const target = document.getElementById('tab-' + tabId);
+            if (target) target.classList.remove('hidden');
+
+            // Update Nav styling
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-white', 'text-pink-600', 'shadow-sm');
+                btn.classList.add('text-slate-600');
+            });
+
+            const activeBtn = document.getElementById('nav-' + tabId);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-white', 'text-pink-600', 'shadow-sm');
+                activeBtn.classList.remove('text-slate-600');
+            }
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ===============================================
+        // TAB 3.2: IF STATEMENT SIMULATION LOGIC
+        // ===============================================
+        const ifTypesData = {
+            single: {
+                title: "Single if",
+                syntax: `if (syarat) {\n    // Kod dilaksanakan jika syarat TRUE\n}`,
+                desc: "Pilihan tunggal. Arahan hanya dijalankan apabila syarat bernilai BENAR.",
+                problem: "Masalah: Semak sama ada markah pengguna LULUS ( markah >= 50 ).",
+                hasExtraInput: false,
+                runSim: (score) => {
+                    if (score >= 50) {
+                        return `[Lulus]\nMarkah anda: ${score}. Syarat (markah >= 50) adalah TRUE.\nOutput: Tahniah! Anda LULUS dalam ujian! 🎉`;
+                    } else {
+                        return `[Tiada Output / Syarat FALSE]\nMarkah anda: ${score}. Syarat (markah >= 50) adalah FALSE.\nProgram tidak mencetak sebarang penyataan.`;
+                    }
+                }
+            },
+            ifelse: {
+                title: "if - else",
+                syntax: `if (syarat) {\n    // Blok Benar (TRUE)\n} else {\n    // Blok Palsu (FALSE)\n}`,
+                desc: "Dua pilihan dwicabang. Menyediakan laluan alternatif jika syarat utama PALSU.",
+                problem: "Masalah: Tentukan kelayakan umur memandu lesen kereta (umur >= 17).",
+                hasExtraInput: false,
+                runSim: (score) => {
+                    const age = score; // treat score input as age
+                    if (age >= 17) {
+                        return `Syarat (umur >= 17) : TRUE\nOutput: Anda LAYAK memohon lesen memandu! 🚗`;
+                    } else {
+                        return `Syarat (umur >= 17) : FALSE\nOutput: Maaf, anda BELUM LAYAK memohon lesen memandu (Perlu cukup 17 tahun). ⛔`;
+                    }
+                }
+            },
+            ifelseif: {
+                title: "if - else if - else",
+                syntax: `if (syarat1) {\n    // Kod jika syarat1 TRUE\n} else if (syarat2) {\n    // Kod jika syarat2 TRUE\n} else {\n    // Kod jika semua syarat FALSE\n}`,
+                desc: "Pilihan pelbagai cabang mengikut keutamaan gred.",
+                problem: "Masalah: Menentukan Gred Ujian berdasarkan Markah (80+ = A, 60+ = B, Lain-lain = C).",
+                hasExtraInput: false,
+                runSim: (score) => {
+                    if (score >= 80) {
+                        return `Syarat (markah >= 80) : TRUE\nOutput: Gred Anda ialah A! Cemerlang! 🌟`;
+                    } else if (score >= 60) {
+                        return `Syarat (markah >= 80) : FALSE\nSyarat (markah >= 60) : TRUE\nOutput: Gred Anda ialah B! Bagus! 👍`;
+                    } else {
+                        return `Semua syarat 'if' dan 'else if' : FALSE\nOutput: Gred Anda ialah C. Tingkatkan Usaha! 💪`;
+                    }
+                }
+            },
+            nested: {
+                title: "Nested if (if Bersarang)",
+                syntax: `if (syaratUtama) {\n    if (syaratSub) {\n        // Kod jika KEDUA-DUA syarat TRUE\n    }\n}`,
+                desc: "Penyataan 'if' berada di dalam blok 'if' yang lain.",
+                problem: "Masalah: Kelayakan Diskaun Wayang. Wajib umur < 18 DAN mesti bertaraf Ahli VIP.",
+                hasExtraInput: true,
+                runSim: (score, extra) => {
+                    const isVip = extra === 'ya';
+                    if (score < 18) {
+                        if (isVip) {
+                            return `Syarat 1 (Umur < 18) : TRUE\nSyarat 2 (Ahli VIP) : TRUE\nOutput: Tahniah! Anda mendapat Diskaun Tiket 50%! 🎟️✨`;
+                        } else {
+                            return `Syarat 1 (Umur < 18) : TRUE\nSyarat 2 (Ahli VIP) : FALSE\nOutput: Umur anda terlepas, tetapi anda BUKAN VIP. Tiada diskaun khas.`;
+                        }
+                    } else {
+                        return `Syarat 1 (Umur < 18) : FALSE\nOutput: Anda berumur 18 tahun ke atas. Tidak layak diskaun remaja.`;
+                    }
+                }
+            }
+        };
+
+        let currentIfType = 'single';
+
+        function selectIfType(type) {
+            currentIfType = type;
+            const data = ifTypesData[type];
+
+            // Update active buttons styling
+            document.querySelectorAll('.if-type-btn').forEach(btn => {
+                btn.classList.remove('bg-pink-500', 'text-white');
+                btn.classList.add('bg-slate-100', 'text-slate-700');
+            });
+            const activeBtn = document.getElementById('if-btn-' + type);
+            if(activeBtn) {
+                activeBtn.classList.add('bg-pink-500', 'text-white');
+                activeBtn.classList.remove('bg-slate-100', 'text-slate-700');
+            }
+
+            // Update labels & code
+            document.getElementById('if-syntax-title').innerText = data.title;
+            document.getElementById('if-syntax-code').innerText = data.syntax;
+            document.getElementById('if-syntax-desc').innerText = data.desc;
+            document.getElementById('if-problem-statement').innerHTML = `<strong>Masalah:</strong> ${data.problem}`;
+
+            if(type === 'ifelse') {
+                document.getElementById('if-input-label').innerText = "Masukkan Umur (Tahun):";
+                document.getElementById('if-sim-input').value = 18;
+            } else {
+                document.getElementById('if-input-label').innerText = "Masukkan Markah / Umur:";
+                document.getElementById('if-sim-input').value = 75;
+            }
+
+            // Extra input toggle
+            const extraContainer = document.getElementById('if-extra-input-container');
+            if(data.hasExtraInput) {
+                extraContainer.classList.remove('hidden');
+            } else {
+                extraContainer.classList.add('hidden');
+            }
+
+            runIfSimulation();
+        }
+
+        function runIfSimulation() {
+            const val = parseInt(document.getElementById('if-sim-input').value) || 0;
+            const extra = document.getElementById('if-sim-extra').value;
+            const data = ifTypesData[currentIfType];
+            const resultText = data.runSim(val, extra);
+            document.getElementById('if-sim-output').innerText = resultText;
+        }
+
+        // Switch Case Simulation
+        function runSwitchSimulation() {
+            const day = document.getElementById('switch-day-input').value;
+            const out = document.getElementById('switch-output');
+
+            switch(day) {
+                case '1':
+                    out.innerText = "case 1: Menu Isnin - Nasi Lemak Ayam Goreng 🍗";
+                    break;
+                case '2':
+                    out.innerText = "case 2: Menu Selasa - Mee Goreng Mamak Special 🍜";
+                    break;
+                case '3':
+                    out.innerText = "case 3: Menu Rabu - Chicken Chop SOS Lada Hitam 🥩";
+                    break;
+                case '4':
+                    out.innerText = "case 4: Menu Khamis - Nasi Kerabu Daging Bakar 🥗";
+                    break;
+                case '5':
+                    out.innerText = "case 5: Menu Jumaat - Nasi Kandar Lauk Campur 🍛";
+                    break;
+                case '6':
+                    out.innerText = "case 6: Menu Sabtu - Pizza Keju Mozzarella 🍕";
+                    break;
+                case '7':
+                    out.innerText = "case 7: Menu Ahad - Burger Daging Crispy 🍔";
+                    break;
+                default:
+                    out.innerText = "default: Hari tidak sah! Sila pilih nombor 1 hingga 7 sahaja. ❌";
+            }
+        }
+
+
+        // ===============================================
+        // TAB 3.3: LOOP STEP VISUALIZER LOGIC
+        // ===============================================
+        let loopMode = 'for';
+        let stepIndex = 0;
+        let loopI = 1;
+        let maxI = 3;
+
+        const loopCodeTemplates = {
+            for: [
+                { line: 1, code: 'for (let i = 1; i <= 3; i++) {', desc: 'Inisialisasi i=1, Semak i <= 3' },
+                { line: 2, code: '   console.log("Pusingan ke-" + i);', desc: 'Cetak output pusingan' },
+                { line: 3, code: '}', desc: 'Kemaskini i++ (Tambahkan i)' }
+            ],
+            while: [
+                { line: 1, code: 'let i = 1;\nwhile (i <= 3) {', desc: 'Semak syarat i <= 3' },
+                { line: 2, code: '   console.log("Pusingan ke-" + i);\n   i++;', desc: 'Cetak output dan tingkatkan i' },
+                { line: 3, code: '}', desc: 'Kembali ke penanda syarat' }
+            ],
+            dowhile: [
+                { line: 1, code: 'let i = 1;\ndo {', desc: 'Terus masuk ke dalam gelung' },
+                { line: 2, code: '   console.log("Pusingan ke-" + i);\n   i++;', desc: 'Cetak output & tingkatkan i' },
+                { line: 3, code: '} while (i <= 3);', desc: 'Semak syarat di bahagian bawah' }
+            ]
+        };
+
+        function setLoopMode(mode) {
+            loopMode = mode;
+            document.querySelectorAll('#btn-loop-for, #btn-loop-while, #btn-loop-dowhile').forEach(b => {
+                b.classList.remove('bg-emerald-500', 'text-white');
+                b.classList.add('bg-slate-800', 'text-slate-300');
+            });
+            document.getElementById('btn-loop-' + mode).classList.add('bg-emerald-500', 'text-white');
+            document.getElementById('btn-loop-' + mode).classList.remove('bg-slate-800');
+
+            resetLoopVisualizer();
+        }
+
+        function resetLoopVisualizer() {
+            stepIndex = 0;
+            loopI = 1;
+            document.getElementById('var-i-val').innerText = '1';
+            document.getElementById('var-cond-val').innerText = '1 <= 3 (TRUE)';
+            document.getElementById('var-status-val').innerText = 'Bersedia';
+            document.getElementById('loop-terminal-out').innerHTML = '<span class="text-slate-600">// Klik "Langkah Seterusnya" untuk memulakan...</span>';
+
+            highlightLine(1);
+        }
+
+        function highlightLine(lineNum) {
+            document.querySelectorAll('.code-line').forEach(el => el.classList.remove('active-line'));
+            const el = document.getElementById('code-line-' + lineNum);
+            if (el) el.classList.add('active-line');
+        }
+
+        function stepLoopVisualizer() {
+            const term = document.getElementById('loop-terminal-out');
+            
+            if (loopI > maxI) {
+                document.getElementById('var-status-val').innerText = 'Tamat Gelung 🏁';
+                document.getElementById('var-cond-val').innerText = `${loopI} <= 3 (FALSE)`;
+                term.innerHTML += `<div class="text-amber-400">// Syarat kini FALSE (${loopI} <= 3). Gelung TAMAT!</div>`;
+                return;
+            }
+
+            if (stepIndex % 2 === 0) {
+                // Line 2: Output execution
+                highlightLine(2);
+                document.getElementById('var-i-val').innerText = loopI;
+                document.getElementById('var-cond-val').innerText = `${loopI} <= 3 (TRUE)`;
+                document.getElementById('var-status-val').innerText = `Melaksana Pusingan ${loopI}`;
+                
+                term.innerHTML += `<div>> Pusingan ke-${loopI} dilaksanakan.</div>`;
+            } else {
+                // Line 3: Increment
+                highlightLine(3);
+                loopI++;
+                document.getElementById('var-i-val').innerText = loopI;
+                if(loopI <= maxI) {
+                    document.getElementById('var-cond-val').innerText = `${loopI} <= 3 (TRUE)`;
+                } else {
+                    document.getElementById('var-cond-val').innerText = `${loopI} <= 3 (FALSE)`;
+                }
+            }
+            stepIndex++;
+        }
+
+        // Jump Statement Simulation
+        function runJumpSimulation() {
+            const mode = document.getElementById('jump-mode-select').value;
+            const out = document.getElementById('jump-output');
+
+            if (mode === 'break') {
+                out.innerText = `Gelung Mula (i = 1 hingga 5):\n` +
+                                `i = 1 -> Papar 1\n` +
+                                `i = 2 -> Papar 2\n` +
+                                `i = 3 -> Syarat (i == 3) BENAR! ===> [BREAK DIJALANKAN]\n` +
+                                `[Gelung Terhenti Serta-Merta] Nilai 3, 4, 5 TIDAK DICETAK.`;
+            } else {
+                out.innerText = `Gelung Mula (i = 1 hingga 5):\n` +
+                                `i = 1 -> Papar 1\n` +
+                                `i = 2 -> Papar 2\n` +
+                                `i = 3 -> Syarat (i == 3) BENAR! ===> [CONTINUE DIJALANKAN - Nombor 3 Dilangkau!]\n` +
+                                `i = 4 -> Papar 4\n` +
+                                `i = 5 -> Papar 5`;
+            }
+        }
+
+
+        // ===============================================
+        // QUIZ SYSTEM LOGIC
+        // ===============================================
+        const quizData = [
+            {
+                q: "1. Apakah struktur kawalan yang melaksana arahan satu demi satu dari atas ke bawah?",
+                options: ["Turutan (Sequential)", "Pilihan (Selection)", "Iterasi (Iteration)", "Lompatan (Jump)"],
+                ans: 0
+            },
+            {
+                q: "2. Penyataan struktur pilihan manakah yang paling sesuai untuk menguji pelbagai pilihan nilai tetap (contoh: 1, 2, 3)?",
+                options: ["while", "if-else", "switch case", "for"],
+                ans: 2
+            },
+            {
+                q: "3. Komponen iterasi manakah yang menentukan syarat sama ada gelung perlu diteruskan atau dihentikan?",
+                options: ["Initialization", "Termination", "Increment", "Decrement"],
+                ans: 1
+            },
+            {
+                q: "4. Apakah perbezaan utama antara 'while' dan 'do-while'?",
+                options: [
+                    "'while' mengulang tanpa henti",
+                    "'do-while' menguji syarat terlebih dahulu sebelum laksana kod",
+                    "'do-while' melaksanakan kod sekurang-kurangnya SEKALI walaupun syarat palsu",
+                    "Tiada sebarang perbezaan"
+                ],
+                ans: 2
+            },
+            {
+                q: "5. Penyataan melompat manakah yang digunakan untuk MELANGKAU pusingan semasa dan terus ke pusingan gelung seterusnya?",
+                options: ["break", "continue", "exit()", "stop"],
+                ans: 1
+            }
+        ];
+
+        let currentQuizIdx = 0;
+        let score = 0;
+        let answered = false;
+
+        function loadQuizQuestion() {
+            answered = false;
+            const q = quizData[currentQuizIdx];
+            document.getElementById('quiz-question-title').innerText = q.q;
+            document.getElementById('quiz-progress-text').innerText = `Soalan ${currentQuizIdx + 1} daripada ${quizData.length}`;
+            document.getElementById('quiz-score-badge').innerText = `Skor: ${score}`;
+            document.getElementById('quiz-progress-bar').style.width = `${((currentQuizIdx + 1) / quizData.length) * 100}%`;
+
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.classList.add('hidden');
+
+            const nextBtn = document.getElementById('quiz-next-btn');
+            nextBtn.classList.add('hidden');
+
+            const grid = document.getElementById('quiz-options-grid');
+            grid.innerHTML = '';
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-2xl border-2 border-slate-200 hover:border-pink-400 hover:bg-pink-50/50 transition-all font-bold text-sm text-slate-700 flex items-center justify-between group";
+                btn.innerHTML = `<span>${opt}</span> <i data-lucide="circle" class="w-4 h-4 text-slate-300 group-hover:text-pink-500"></i>`;
+                btn.onclick = () => selectQuizAnswer(idx, btn);
+                grid.appendChild(btn);
+            });
+            lucide.createIcons();
+        }
+
+        function selectQuizAnswer(idx, btn) {
+            if (answered) return;
+            answered = true;
+
+            const q = quizData[currentQuizIdx];
+            const feedback = document.getElementById('quiz-feedback');
+            const nextBtn = document.getElementById('quiz-next-btn');
+
+            if (idx === q.ans) {
+                score++;
+                btn.classList.remove('border-slate-200');
+                btn.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-800');
+                feedback.className = "p-4 rounded-2xl text-xs font-bold mb-4 bg-emerald-100 text-emerald-800 border border-emerald-300";
+                feedback.innerText = "Tepat sekali! Jawapan anda BENAR. 🎯";
+            } else {
+                btn.classList.remove('border-slate-200');
+                btn.classList.add('border-rose-500', 'bg-rose-50', 'text-rose-800');
+                feedback.className = "p-4 rounded-2xl text-xs font-bold mb-4 bg-rose-100 text-rose-800 border border-rose-300";
+                feedback.innerText = `Jawapan kurang tepat. Jawapan yang betul ialah: "${q.options[q.ans]}".`;
+            }
+
+            document.getElementById('quiz-score-badge').innerText = `Skor: ${score}`;
+            feedback.classList.remove('hidden');
+            nextBtn.classList.remove('hidden');
+        }
+
+        function nextQuizQuestion() {
+            currentQuizIdx++;
+            if (currentQuizIdx < quizData.length) {
+                loadQuizQuestion();
+            } else {
+                showQuizResults();
+            }
+        }
+
+        function showQuizResults() {
+            document.getElementById('quiz-container').classList.add('hidden');
+            document.getElementById('quiz-result-screen').classList.remove('hidden');
+            document.getElementById('final-score-text').innerText = `${score} / ${quizData.length}`;
+        }
+
+        function resetQuiz() {
+            currentQuizIdx = 0;
+            score = 0;
+            document.getElementById('quiz-result-screen').classList.add('hidden');
+            document.getElementById('quiz-container').classList.remove('hidden');
+            loadQuizQuestion();
+        }
+
+        // On Load Initializations
+        window.onload = () => {
+            selectIfType('single');
+            runSwitchSimulation();
+            runJumpSimulation();
+            loadQuizQuestion();
+        };
+    </script>
+</body>
+</html>
