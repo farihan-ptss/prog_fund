@@ -1,0 +1,1724 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array (Tatasusunan) - Hub Interaktif Konsep Tatasusunan (C++)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            200: '#c7d2fe',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            800: '#3730a3',
+                            900: '#312e81'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        @keyframes pulse-subtle {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.04); }
+        }
+        .active-cell {
+            animation: pulse-subtle 1.8s infinite ease-in-out;
+        }
+        @keyframes slideDownIn {
+            0% { transform: translateY(-24px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        .element-drop {
+            animation: slideDownIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        @keyframes floatIndex {
+            0% { transform: translateY(12px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        .index-float {
+            animation: floatIndex 0.4s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 via-slate-100/70 to-indigo-50/40 text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <header class="bg-white/95 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-50 shadow-sm transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+            <div class="flex items-center space-x-3.5">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-brand-700 via-brand-600 to-indigo-500 flex items-center justify-center text-white font-bold text-2xl shadow-md shadow-brand-500/20">
+                    <i class="fa-solid fa-layer-group"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight leading-none">
+                            Array <span class="text-brand-600">(Tatasusunan)</span>
+                        </h1>
+                        <span class="text-[11px] px-2.5 py-0.5 rounded-full bg-brand-100 text-brand-800 font-bold uppercase tracking-wider border border-brand-200 hidden sm:inline-block">
+                            Topik 4.1
+                        </span>
+                    </div>
+                    <p class="text-xs sm:text-sm font-medium text-slate-500 mt-1">
+                        Hub Interaktif Konsep Tatasusunan
+                    </p>
+                </div>
+            </div>
+
+            <!-- C++ Exclusive Environment Badge -->
+            <div class="flex items-center gap-2 bg-slate-900 text-white px-3.5 py-1.5 rounded-2xl border border-slate-800 shadow-sm">
+                <span class="w-2.5 h-2.5 rounded-full bg-blue-400 animate-ping"></span>
+                <span class="text-xs font-mono font-bold tracking-wider text-blue-300 flex items-center gap-1.5">
+                    <i class="fa-solid fa-file-code"></i> Bahasa C++
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-12 w-full flex-1 flex flex-col">
+        
+        <!-- Showcase Subtopics - Compact Display Buttons -->
+        <div class="mb-6">
+            <div class="flex items-center justify-between gap-2 mb-2.5 px-1">
+                <h2 class="text-xs font-extrabold uppercase tracking-widest text-slate-500 flex items-center gap-2">
+                    <i class="fa-solid fa-layer-group text-brand-600"></i> Pilih Topik:
+                </h2>
+                <span class="text-[11px] font-bold text-emerald-700 bg-emerald-100/80 px-2.5 py-0.5 rounded-full border border-emerald-200 hidden sm:flex items-center gap-1">
+                    <i class="fa-solid fa-circle-check text-emerald-600 text-[10px]"></i> Silibus 4.1.1 &ndash; 4.1.11 (C++)
+                </span>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2" id="subtopicDisplayGrid">
+                <button onclick="switchTab('mod-411')" id="tab-btn-mod-411" class="subtopic-card px-3 py-2 rounded-xl text-xs font-bold border border-brand-600 bg-brand-600 text-white shadow-md ring-2 ring-brand-400/25 transition-all flex items-center justify-center gap-1.5 text-center">
+                    <i class="fa-solid fa-shapes text-[11px]"></i>
+                    <span>Pengenalan & Anatomi</span>
+                </button>
+
+                <button onclick="switchTab('mod-413')" id="tab-btn-mod-413" class="subtopic-card px-3 py-2 rounded-xl text-xs font-bold border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:border-brand-300 transition-all flex items-center justify-center gap-1.5 text-center shadow-xs">
+                    <i class="fa-solid fa-bars text-[11px] text-blue-600"></i>
+                    <span>Tatasusunan 1D</span>
+                </button>
+
+                <button onclick="switchTab('mod-417')" id="tab-btn-mod-417" class="subtopic-card px-3 py-2 rounded-xl text-xs font-bold border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:border-brand-300 transition-all flex items-center justify-center gap-1.5 text-center shadow-xs">
+                    <i class="fa-solid fa-border-all text-[11px] text-purple-600"></i>
+                    <span>Tatasusunan 2D</span>
+                </button>
+
+                <button onclick="switchTab('mod-4110')" id="tab-btn-mod-4110" class="subtopic-card px-3 py-2 rounded-xl text-xs font-bold border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:border-brand-300 transition-all flex items-center justify-center gap-1.5 text-center shadow-xs">
+                    <i class="fa-solid fa-wand-magic-sparkles text-[11px] text-emerald-600"></i>
+                    <span>Manipulasi</span>
+                </button>
+
+                <button onclick="switchTab('mod-4111')" id="tab-btn-mod-4111" class="subtopic-card px-3 py-2 rounded-xl text-xs font-bold border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:border-brand-300 transition-all flex items-center justify-center gap-1.5 text-center shadow-xs">
+                    <i class="fa-solid fa-bug text-[11px] text-amber-600"></i>
+                    <span>Makmal Kod</span>
+                </button>
+
+                <button onclick="switchTab('mod-quiz')" id="tab-btn-mod-quiz" class="subtopic-card px-3 py-2 rounded-xl text-xs font-bold border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:border-brand-300 transition-all flex items-center justify-center gap-1.5 text-center shadow-xs">
+                    <i class="fa-solid fa-trophy text-[11px] text-pink-600"></i>
+                    <span>Kuiz Uji Minda</span>
+                </button>
+            </div>
+        </div>
+
+        <main class="w-full">
+            
+            <section id="mod-411" class="tab-content space-y-6">
+                <!-- Banner Header -->
+                <div class="bg-gradient-to-r from-brand-700 via-indigo-600 to-indigo-800 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+                    <div class="absolute -right-10 -bottom-10 w-72 h-72 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
+                    <div class="relative z-10">
+                        <span class="inline-block px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-bold uppercase tracking-wider mb-3">
+                            Subtopik 4.1 &bull; 4.1.1 &bull; 4.1.2 (C++)
+                        </span>
+                        <h2 class="text-2xl sm:text-3xl font-black tracking-tight">Pengenalan & Anatomi Tatasusunan (Array)</h2>
+                        <p class="mt-2 text-indigo-100 max-w-3xl text-xs sm:text-sm leading-relaxed">
+                            Ketahui sebab utama tatasusunan digunakan dalam C++, definisi jenis data homogen, serta visualisasi langsung bagaimana <strong>Saiz (Size)</strong>, <strong>Indeks (Index)</strong>, dan <strong>Elemen (Element)</strong> berinteraksi di dalam memori komputer.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Theory Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-md transition">
+                        <div class="w-11 h-11 rounded-2xl bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-lg mb-4">
+                            <i class="fa-solid fa-lightbulb"></i>
+                        </div>
+                        <h3 class="text-base font-bold text-slate-900">4.1 Mengapa Perlu Tatasusunan dalam C++?</h3>
+                        <p class="text-slate-600 text-xs sm:text-sm mt-2 leading-relaxed">
+                            Jika kita perlu menyimpan data umur bagi sekumpulan pelajar, tanpa tatasusunan kita terpaksa mencipta banyak pembolehubah individu:
+                            <code class="code-font text-xs bg-slate-100 px-1.5 py-0.5 rounded text-brand-700">int umur1, umur2, umur3, umur4;</code>.
+                        </p>
+                        <div class="mt-4 p-3.5 bg-slate-50 rounded-2xl border border-slate-200 text-xs text-slate-700">
+                            <strong class="text-slate-900">Kelebihan Menggunakan Tatasusunan C++:</strong>
+                            <ul class="list-disc pl-4 mt-2 space-y-1.5 text-slate-600">
+                                <li>Semua data disimpan di bawah <strong>satu nama tatasusunan</strong> sahaja (contoh: <code class="code-font text-brand-700 font-bold">umurPelajar</code>).</li>
+                                <li>Disimpan dalam alamat memori komputer yang <strong>bersebelahan (contiguous memory allocation)</strong>.</li>
+                                <li>Masa capaian sangat pantas <strong>O(1)</strong> menggunakan indeks aritmetik penunjuk (pointer arithmetic) dalam C++.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-md transition">
+                        <div class="w-11 h-11 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-lg mb-4">
+                            <i class="fa-solid fa-book-bookmark"></i>
+                        </div>
+                        <h3 class="text-base font-bold text-slate-900">4.1.1 Definisi Tatasusunan (Array Definition)</h3>
+                        <p class="text-slate-600 text-xs sm:text-sm mt-2 leading-relaxed">
+                            <strong>Tatasusunan</strong> ialah koleksi elemen-elemen yang mempunyai <strong>jenis data yang sama (homogen)</strong>, disimpan secara bersiri dalam blok memori berterusan dengan saiz yang telah ditetapkan semasa perisytiharan.
+                        </p>
+                        <div class="mt-4 p-3.5 bg-emerald-50 rounded-2xl border border-emerald-200 text-xs text-emerald-900 space-y-1">
+                            <p class="font-bold flex items-center gap-1.5"><i class="fa-solid fa-circle-info text-emerald-600"></i> Contoh Deklarasi C++:</p>
+                            <p class="code-font text-xs font-semibold text-emerald-800">int umurPelajar[4]; // Saiz tetap 4 integer</p>
+                            <p class="text-[11px] text-emerald-700">Setiap integer memperuntukkan 4 bait memori fizikal yang berturutan.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 sm:p-7 rounded-3xl border border-slate-200 shadow-md">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-100 pb-4 mb-6">
+                        <div>
+                            <span class="text-xs font-extrabold text-brand-600 uppercase tracking-wider flex items-center gap-1.5">
+                                <i class="fa-solid fa-play text-xs"></i> 4.1.2 Animasi Interaktif Komponen Tatasusunan
+                            </span>
+                            <h3 class="text-lg sm:text-xl font-black text-slate-900 mt-0.5">
+                                Simulasi Konsep: Saiz (Size) &rarr; Indeks (Index) &rarr; Elemen (Element)
+                            </h3>
+                            <p class="text-xs text-slate-500 mt-0.5">
+                                Contoh kes C++: <code class="code-font font-bold text-brand-700 bg-brand-50 px-2 py-0.5 rounded">int umurPelajar[4] = {18, 21, 24, 20};</code>
+                            </p>
+                        </div>
+
+                        <!-- Step controls -->
+                        <div class="flex flex-wrap items-center gap-2">
+                            <button onclick="setAnimStep(1)" id="btnStep1" class="px-3 py-1.5 rounded-xl text-xs font-bold border border-brand-600 bg-brand-600 text-white shadow-xs transition">
+                                1. Tunjuk Saiz
+                            </button>
+                            <button onclick="setAnimStep(2)" id="btnStep2" class="px-3 py-1.5 rounded-xl text-xs font-bold border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition">
+                                2. Tunjuk Indeks
+                            </button>
+                            <button onclick="setAnimStep(3)" id="btnStep3" class="px-3 py-1.5 rounded-xl text-xs font-bold border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition">
+                                3. Isi Elemen
+                            </button>
+                            <button onclick="replayAnimation()" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 transition flex items-center gap-1">
+                                <i class="fa-solid fa-rotate-left"></i> Ulangi
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Animation Theater View -->
+                    <div class="bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 rounded-3xl p-6 text-white border border-slate-800 shadow-inner relative overflow-hidden">
+                        
+                        <!-- Top State Indicator Bar -->
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3 mb-6 text-xs">
+                            <div class="flex items-center gap-2">
+                                <span class="px-2.5 py-0.5 rounded-md bg-brand-500/20 text-brand-300 font-mono font-bold border border-brand-500/30 text-[11px]" id="animCurrentStepBadge">
+                                    LANGKAH 1 DARI 3
+                                </span>
+                                <span class="text-slate-300 font-medium" id="animTitleLabel">Memperuntukkan Saiz Memori Fizikal</span>
+                            </div>
+                            <div class="font-mono text-xs text-amber-400 bg-slate-800/90 px-3 py-1 rounded-xl border border-slate-700 flex items-center gap-2">
+                                <span class="text-slate-400">Sintaks C++:</span>
+                                <span id="animSyntaxLive">int umurPelajar[4];</span>
+                            </div>
+                        </div>
+
+                        <!-- Interactive Diagram Container -->
+                        <div class="py-6 overflow-x-auto">
+                            <div class="min-w-[620px] mx-auto flex flex-col items-center">
+                                
+                                <!-- Floating Index Row (Step 2 & 3) -->
+                                <div class="flex items-center mb-3 transition-all duration-500" id="animIndexRow">
+                                    <div class="w-24 text-right pr-4 text-xs font-bold font-mono text-blue-400 uppercase tracking-wider flex items-center justify-end gap-1.5">
+                                        <i class="fa-solid fa-fingerprint text-xs"></i> Indeks:
+                                    </div>
+                                    <div class="flex gap-4 sm:gap-6" id="animIndexSlots">
+                                        <!-- Injected via JS -->
+                                    </div>
+                                </div>
+
+                                <!-- Physical Memory Slots (Step 1, 2, 3) -->
+                                <div class="flex items-center" id="animMemoryRow">
+                                    <div class="w-24 text-right pr-4 text-xs font-bold font-mono text-emerald-400 uppercase tracking-wider flex items-center justify-end gap-1.5">
+                                        <i class="fa-solid fa-microchip text-xs"></i> Memori:
+                                    </div>
+                                    <div class="flex gap-4 sm:gap-6" id="animMemorySlots">
+                                        <!-- Injected via JS -->
+                                    </div>
+                                </div>
+
+                                <!-- Memory Address Row (Hex) -->
+                                <div class="flex items-center mt-3" id="animAddressRow">
+                                    <div class="w-24 text-right pr-4 text-[10px] font-mono text-slate-500 uppercase">
+                                        Alamat (4B):
+                                    </div>
+                                    <div class="flex gap-4 sm:gap-6" id="animAddressSlots">
+                                        <!-- Injected via JS -->
+                                    </div>
+                                </div>
+
+                                <!-- Size Bracket Visualizer (Step 1) -->
+                                <div class="mt-6 w-[380px] sm:w-[460px] flex flex-col items-center transition-all duration-500" id="animSizeBracketContainer">
+                                    <div class="w-full flex items-center">
+                                        <div class="h-3 border-l-2 border-b-2 border-brand-400 w-1/2 rounded-bl-lg"></div>
+                                        <div class="w-3 h-3 rotate-45 border-r-2 border-b-2 border-brand-400 -mt-1.5 -ml-1.5"></div>
+                                        <div class="h-3 border-r-2 border-b-2 border-brand-400 w-1/2 rounded-br-lg -ml-1.5"></div>
+                                    </div>
+                                    <div class="mt-2 text-center">
+                                        <span class="inline-block px-3 py-1 rounded-full bg-brand-500/20 text-brand-300 border border-brand-500/30 text-xs font-bold font-mono">
+                                            Saiz (Size) = 4 Elemen
+                                        </span>
+                                        <p class="text-[11px] text-slate-400 mt-1">Bilangan slot memori tetap yang diperuntukkan dalam sistem.</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- Step Narrative Card -->
+                        <div class="mt-4 p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                            <div class="flex items-start gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-brand-500/20 text-brand-300 flex items-center justify-center font-bold text-lg shrink-0 mt-0.5" id="animStepIcon">
+                                    <i class="fa-solid fa-ruler-combined"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-sm font-bold text-white" id="animStepHeader">Langkah 1: Peruntukan Saiz (Size)</h4>
+                                    <p class="text-xs text-slate-300 mt-1 leading-relaxed" id="animStepExplanation">
+                                        Pernyataan <code class="code-font text-amber-300">int umurPelajar[4];</code> menempah 4 slot memori berterusan berturutan. Setiap slot bersaiz 4 bait mengikut jenis data <code class="code-font text-indigo-300">int</code> dalam C++.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-2 self-end sm:self-center shrink-0">
+                                <button onclick="prevAnimStep()" id="btnPrevAnim" class="px-3.5 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-xl text-xs font-bold transition disabled:opacity-40">
+                                    <i class="fa-solid fa-arrow-left mr-1"></i> Sebelum
+                                </button>
+                                <button onclick="nextAnimStep()" id="btnNextAnim" class="px-4 py-2 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold shadow-md transition flex items-center gap-1.5">
+                                    <span>Langkah Seterusnya</span> <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Interactive Component Breakdown Cards -->
+                    <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="p-4 bg-slate-50 rounded-2xl border-2 border-amber-200 transition hover:bg-amber-50/50">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs font-bold text-amber-800 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-ruler-combined text-amber-600"></i> c. Saiz (Size)
+                                </span>
+                                <span class="text-[10px] font-mono bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-bold">Saiz = 4</span>
+                            </div>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Jumlah slot memori yang ditempah. Dalam C++, saiz tatasusunan biasa bersifat tetap (fixed) dan ditentukan semasa deklarasi.
+                            </p>
+                            <div class="mt-2.5 pt-2 border-t border-amber-200 text-[11px] font-mono text-amber-900">
+                                Bilangan slot: <strong>4 ruang</strong>
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-slate-50 rounded-2xl border-2 border-blue-200 transition hover:bg-blue-50/50">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs font-bold text-blue-800 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-fingerprint text-blue-600"></i> a. Indeks (Index)
+                                </span>
+                                <span class="text-[10px] font-mono bg-blue-100 text-blue-800 px-2 py-0.5 rounded font-bold">0 hingga 3</span>
+                            </div>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Nombor kedudukan bagi setiap slot. Mengikut peraturan <strong>Zero-based Indexing</strong>, bermula dari <strong>0</strong> hingga <strong>(Saiz - 1)</strong>.
+                            </p>
+                            <div class="mt-2.5 pt-2 border-t border-blue-200 text-[11px] font-mono text-blue-900">
+                                Indeks sah: <strong>[0], [1], [2], [3]</strong>
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-slate-50 rounded-2xl border-2 border-emerald-200 transition hover:bg-emerald-50/50">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs font-bold text-emerald-800 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-cube text-emerald-600"></i> b. Elemen (Element)
+                                </span>
+                                <span class="text-[10px] font-mono bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">Nilai Data</span>
+                            </div>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Nilai sebenar yang diletakkan ke dalam setiap slot. Contoh nilai umur pelajar: <strong>18</strong>, <strong>21</strong>, <strong>24</strong>, dan <strong>20</strong>.
+                            </p>
+                            <div class="mt-2.5 pt-2 border-t border-emerald-200 text-[11px] font-mono text-emerald-900">
+                                Capaian: <strong>umurPelajar[2] = 24</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <section id="mod-413" class="tab-content hidden space-y-6">
+                <!-- Banner Header -->
+                <div class="bg-gradient-to-r from-blue-700 via-indigo-600 to-blue-800 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+                    <div class="relative z-10">
+                        <span class="inline-block px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-bold uppercase tracking-wider mb-3">
+                            Subtopik 4.1.3a &bull; 4.1.4 &bull; 4.1.5 &bull; 4.1.6 (C++)
+                        </span>
+                        <h2 class="text-2xl sm:text-3xl font-black tracking-tight">Tatasusunan Satu Dimensi (1D Array)</h2>
+                        <p class="mt-2 text-blue-100 max-w-3xl text-xs sm:text-sm leading-relaxed">
+                            Perisytiharan (<code class="code-font">declaration</code>), inisialisasi (<code class="code-font">initialization</code>), serta capaian dan pengemaskinian elemen individu dalam C++.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Theory Cards: Declare & Initialize in C++ -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-3xl border border-slate-200/90 shadow-sm flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="w-8 h-8 rounded-xl bg-blue-100 text-blue-700 text-xs flex items-center justify-center font-bold">4.1.4</span>
+                                <h3 class="font-bold text-slate-900 text-base">Perisytiharan Tatasusunan 1D (Declare)</h3>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+                                Dalam C++, perisytiharan menentukan <strong>jenis data</strong>, <strong>nama tatasusunan</strong>, dan <strong>saiz elemen</strong> di dalam kurungan siku <code class="code-font text-brand-700">[ ]</code>.
+                            </p>
+                            <div class="bg-slate-900 rounded-2xl p-4 text-xs code-font text-slate-200">
+                                <p class="text-slate-400">// Sintaks C++:</p>
+                                <p class="text-emerald-400 font-semibold mt-1">int markah[6];</p>
+                            </div>
+                        </div>
+                        <p class="text-[11px] text-slate-500 mt-4 italic flex items-center gap-1.5">
+                            <i class="fa-solid fa-circle-info text-blue-500"></i> Memperuntukkan 6 slot integer di dalam memori tanpa nilai awal (nilai rawak/garbage value sebelum diisi).
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-3xl border border-slate-200/90 shadow-sm flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 text-xs flex items-center justify-center font-bold">4.1.5</span>
+                                <h3 class="font-bold text-slate-900 text-base">Inisialisasi Tatasusunan 1D (Initialize)</h3>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+                                Meletakkan nilai permulaan ke dalam elemen menggunakan kurungan beralun <code class="code-font text-brand-700">{ }</code> semasa perisytiharan dilakukan.
+                            </p>
+                            <div class="bg-slate-900 rounded-2xl p-4 text-xs code-font text-slate-200">
+                                <p class="text-slate-400">// Inisialisasi Senarai Nilai C++:</p>
+                                <p class="text-amber-400 font-semibold mt-1">int markah[6] = {55, 82, 74, 91, 63, 88};</p>
+                            </div>
+                        </div>
+                        <p class="text-[11px] text-slate-500 mt-4 italic flex items-center gap-1.5">
+                            <i class="fa-solid fa-check-double text-emerald-500"></i> Nilai disusun automatik mengikut indeks: <code class="code-font text-[10px]">markah[0]=55, markah[1]=82</code> ...
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Interactive 1D Lab -->
+                <div class="bg-white p-6 rounded-3xl border border-slate-200/90 shadow-sm">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-4 mb-5">
+                        <div>
+                            <span class="text-xs font-bold text-brand-600 uppercase tracking-wider">4.1.6 Capaian Elemen Individu (C++)</span>
+                            <h3 class="text-base sm:text-lg font-bold text-slate-900">Makmal Capaian & Kemas Kini Tatasusunan 1D</h3>
+                        </div>
+                        <button onclick="reset1DArray()" class="text-xs px-3.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition font-semibold">
+                            <i class="fa-solid fa-rotate-left mr-1.5"></i> Reset Asal
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">Pilih Indeks untuk Dicapai (0 - 5):</label>
+                            <div class="flex gap-2">
+                                <input type="number" id="input1DIndex" min="0" max="5" value="2" class="w-full px-3 py-2 text-xs bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 focus:outline-none font-mono">
+                                <button onclick="accessElement1D()" class="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold shrink-0 transition">
+                                    Capai
+                                </button>
+                            </div>
+                            <span class="text-[11px] text-slate-500 mt-1.5 block">Sintaks C++: <code class="code-font text-brand-700">cout &lt;&lt; markah[indeks];</code></span>
+                        </div>
+
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">Kemas Kini Nilai Elemen:</label>
+                            <div class="flex gap-2">
+                                <input type="number" id="input1DValue" placeholder="Nilai baru" value="99" class="w-full px-3 py-2 text-xs bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none font-mono">
+                                <button onclick="updateElement1D()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shrink-0 transition">
+                                    Simpan
+                                </button>
+                            </div>
+                            <span class="text-[11px] text-slate-500 mt-1.5 block">Sintaks C++: <code class="code-font text-emerald-700">markah[i] = nilai;</code></span>
+                        </div>
+
+                        <div class="bg-slate-900 text-white p-4 rounded-2xl flex flex-col justify-center">
+                            <span class="text-[10px] text-slate-400 font-mono uppercase tracking-wider">Hasil Pelaksanaan C++:</span>
+                            <div id="output1DResult" class="font-mono text-sm font-semibold text-emerald-400 mt-1">
+                                markah[2] = 74
+                            </div>
+                            <span class="text-[11px] text-slate-400 mt-0.5" id="output1DSubtext">Lokasi Memori Maya: 0x1008</span>
+                        </div>
+                    </div>
+
+                    <!-- 1D Visual Array Display -->
+                    <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200/80 flex flex-col items-center">
+                        <div class="text-xs text-slate-500 font-mono mb-4">Tatasusunan C++: <strong class="text-slate-900">int markah[6]</strong></div>
+                        <div class="flex flex-wrap gap-3 justify-center items-center" id="array1DVisualRow">
+                            <!-- Injected dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="mod-417" class="tab-content hidden space-y-6">
+                <!-- Banner Header -->
+                <div class="bg-gradient-to-r from-purple-700 via-violet-600 to-indigo-800 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+                    <div class="relative z-10">
+                        <span class="inline-block px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-bold uppercase tracking-wider mb-3">
+                            Subtopik 4.1.3b &bull; 4.1.7 &bull; 4.1.8 &bull; 4.1.9 (C++)
+                        </span>
+                        <h2 class="text-2xl sm:text-3xl font-black tracking-tight">Tatasusunan Dua Dimensi (2D Array)</h2>
+                        <p class="mt-2 text-purple-100 max-w-3xl text-xs sm:text-sm leading-relaxed">
+                            Matriks bergrid berstruktur <strong>Baris (Row)</strong> dan <strong>Lajur (Column)</strong> menggunakan dua pasang kurungan siku <code class="code-font">jadual[baris][lajur]</code> dalam C++.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 2D Concepts in C++ -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-3xl border border-slate-200/90 shadow-sm">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="w-8 h-8 rounded-xl bg-purple-100 text-purple-700 text-xs flex items-center justify-center font-bold">4.1.7</span>
+                            <h3 class="font-bold text-slate-900 text-base">Perisytiharan Tatasusunan 2D (Declare)</h3>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+                            Dalam C++, tatasusunan 2D diisytiharkan dengan menyatakan bilangan baris dan lajur dalam dua kurungan siku berasingan:
+                        </p>
+                        <div class="bg-slate-900 rounded-2xl p-4 text-xs code-font text-slate-200">
+                            <p class="text-slate-400">// Sintaks C++ (3 Baris, 4 Lajur):</p>
+                            <p class="text-purple-300 font-semibold mt-1">int jadual[3][4];</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-3xl border border-slate-200/90 shadow-sm">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="w-8 h-8 rounded-xl bg-violet-100 text-violet-700 text-xs flex items-center justify-center font-bold">4.1.8</span>
+                            <h3 class="font-bold text-slate-900 text-base">Inisialisasi Tatasusunan 2D (Initialize)</h3>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+                            Diisytiharkan bersama senarai kurungan beralun bersarang bagi mewakili setiap baris data:
+                        </p>
+                        <div class="bg-slate-900 rounded-2xl p-4 text-xs code-font text-slate-200">
+                            <p class="text-slate-400">// Inisialisasi Matriks 3 x 4:</p>
+                            <p class="text-amber-300 font-semibold mt-1 leading-relaxed">
+                                int jadual[3][4] = {<br>
+                                &nbsp;&nbsp;{12, 45, 67, 89},<br>
+                                &nbsp;&nbsp;{34, 90, 42, 11},<br>
+                                &nbsp;&nbsp;{78, 23, 56, 95}<br>
+                                };
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2D Interactive Grid -->
+                <div class="bg-white p-6 rounded-3xl border border-slate-200/90 shadow-sm">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-4 mb-5">
+                        <div>
+                            <span class="text-xs font-bold text-brand-600 uppercase tracking-wider">4.1.9 Capaian Elemen Individu 2D</span>
+                            <h3 class="text-base sm:text-lg font-bold text-slate-900">Grid Interaktif Matriks 2 Dimensi (3 Baris &times; 4 Lajur)</h3>
+                        </div>
+                        <span class="text-xs bg-purple-100 text-purple-800 font-bold px-3 py-1 rounded-full">
+                            Sintaks C++: jadual[baris][lajur]
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
+                        <div class="lg:col-span-2 overflow-x-auto p-5 bg-slate-50 rounded-2xl border border-slate-200 flex justify-center">
+                            <div class="inline-block min-w-fit">
+                                <div class="flex ml-14 mb-2 space-x-2 text-xs font-mono font-bold text-indigo-700">
+                                    <div class="w-14 sm:w-16 text-center">Lajur [0]</div>
+                                    <div class="w-14 sm:w-16 text-center">Lajur [1]</div>
+                                    <div class="w-14 sm:w-16 text-center">Lajur [2]</div>
+                                    <div class="w-14 sm:w-16 text-center">Lajur [3]</div>
+                                </div>
+                                <div class="space-y-2.5" id="matrix2DGridContainer">
+                                    <!-- Injected via JS -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Inspector Card -->
+                        <div class="bg-slate-900 text-white p-5 rounded-3xl border border-slate-800 space-y-4 shadow-md">
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-purple-400 flex items-center gap-2">
+                                <i class="fa-solid fa-crosshairs"></i> Pemeriksa Koordinat Sel C++
+                            </h4>
+                            <div class="space-y-2.5 text-xs">
+                                <div class="flex justify-between border-b border-slate-800 pb-2">
+                                    <span class="text-slate-400">Indeks Baris (Row):</span>
+                                    <span class="font-mono font-bold text-amber-400" id="inspect2DRow">1</span>
+                                </div>
+                                <div class="flex justify-between border-b border-slate-800 pb-2">
+                                    <span class="text-slate-400">Indeks Lajur (Col):</span>
+                                    <span class="font-mono font-bold text-emerald-400" id="inspect2DCol">2</span>
+                                </div>
+                                <div class="flex justify-between border-b border-slate-800 pb-2">
+                                    <span class="text-slate-400">Nilai Elemen:</span>
+                                    <span class="font-mono font-bold text-white text-base" id="inspect2DVal">42</span>
+                                </div>
+                            </div>
+                            <div class="pt-2">
+                                <label class="text-[11px] text-slate-400 block mb-1">Pernyataan Capaian C++:</label>
+                                <div class="bg-slate-800 p-3 rounded-xl font-mono text-xs text-indigo-300 border border-slate-700" id="inspect2DCode">
+                                    int nilai = jadual[1][2]; // Nilai: 42
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="mod-4110" class="tab-content hidden space-y-6">
+                <!-- Banner Header -->
+                <div class="bg-gradient-to-r from-emerald-700 via-teal-600 to-emerald-800 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+                    <div class="relative z-10">
+                        <span class="inline-block px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-bold uppercase tracking-wider mb-3">
+                            Subtopik 4.1.10 (C++)
+                        </span>
+                        <h2 class="text-2xl sm:text-3xl font-black tracking-tight">Manipulasi Elemen Tatasusunan</h2>
+                        <p class="mt-2 text-emerald-100 max-w-3xl text-xs sm:text-sm leading-relaxed">
+                            Simulasi visual operasi lazim pengaturcaraan C++ menggunakan gelung: <strong>Jelajah (Traversal)</strong>, <strong>Jumlah & Purata (Sum & Average)</strong>, <strong>Carian Maksimum (Max)</strong>, dan <strong>Carian Linear (Linear Search)</strong>.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-3xl border border-slate-200/90 shadow-sm space-y-6">
+                    <!-- Algo Selector -->
+                    <div class="flex flex-wrap gap-2.5 border-b border-slate-100 pb-4">
+                        <button onclick="selectAlgo('traverse')" id="algo-btn-traverse" class="algo-tab-btn px-4 py-2.5 rounded-xl text-xs font-bold bg-brand-600 text-white shadow-sm transition">
+                            1. Traversi (Gelung Gelintar)
+                        </button>
+                        <button onclick="selectAlgo('sum')" id="algo-btn-sum" class="algo-tab-btn px-4 py-2.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
+                            2. Jumlah & Purata
+                        </button>
+                        <button onclick="selectAlgo('maxmin')" id="algo-btn-maxmin" class="algo-tab-btn px-4 py-2.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
+                            3. Nilai Maksimum (Max)
+                        </button>
+                        <button onclick="selectAlgo('search')" id="algo-btn-search" class="algo-tab-btn px-4 py-2.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
+                            4. Carian Linear (Linear Search)
+                        </button>
+                    </div>
+
+                    <!-- Visual Animation Canvas -->
+                    <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200 flex flex-col items-center">
+                        <div class="w-full flex justify-between items-center mb-4 text-xs">
+                            <span class="font-bold text-slate-700">Data Tatasusunan C++: <code class="code-font text-brand-700">int data[6] = {45, 88, 72, 95, 60, 83};</code></span>
+                            <span class="text-slate-500 font-mono" id="manipulationStepStatus">Status: Sedia</span>
+                        </div>
+
+                        <div class="flex flex-wrap gap-3 justify-center py-4" id="manipulationBoxes">
+                            <!-- Injected by JS -->
+                        </div>
+
+                        <div class="w-full mt-4 flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-slate-200">
+                            <div class="text-xs text-slate-600 flex items-center gap-2">
+                                <span class="font-bold text-slate-800">Indeks Semasa (<code class="code-font text-brand-700 font-bold">int i</code>):</span>
+                                <span id="currentLoopPointer" class="font-mono bg-white px-3 py-1 rounded-lg border border-slate-300 font-bold text-brand-700 text-sm">-</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div id="searchParamWrapper" class="hidden flex items-center gap-2 mr-2">
+                                    <span class="text-xs font-bold text-slate-700">Nilai Sasaran:</span>
+                                    <input type="number" id="searchTargetValue" value="95" class="w-16 px-2.5 py-1 text-xs border rounded-lg bg-white font-mono">
+                                </div>
+                                <button onclick="startAlgorithmExecution()" id="btnStartAlgo" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-md transition flex items-center gap-2">
+                                    <i class="fa-solid fa-play"></i> Mulakan Simulasi
+                                </button>
+                                <button onclick="resetManipulationArray()" class="px-3.5 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl text-xs font-bold transition">
+                                    <i class="fa-solid fa-rotate-left"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Code snippet & Variables watch in C++ -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="bg-slate-900 text-slate-200 p-5 rounded-3xl font-mono text-xs overflow-x-auto shadow-md">
+                            <div class="flex justify-between items-center text-slate-400 mb-3 border-b border-slate-800 pb-2">
+                                <span class="font-sans font-bold text-white text-xs flex items-center gap-2">
+                                    <i class="fa-solid fa-code text-brand-400"></i> Logik Atur Cara C++
+                                </span>
+                                <span class="text-[10px] bg-blue-900/60 text-blue-300 px-2.5 py-0.5 rounded-full font-bold border border-blue-700">C++</span>
+                            </div>
+                            <pre id="algoCodeSnippet" class="text-slate-300 leading-relaxed font-mono">// Pilih algoritma di atas</pre>
+                        </div>
+
+                        <div class="bg-slate-50 p-5 rounded-3xl border border-slate-200 flex flex-col justify-between">
+                            <div>
+                                <h4 class="text-xs font-bold text-slate-900 uppercase tracking-wider mb-3 flex items-center gap-2">
+                                    <i class="fa-solid fa-chart-pie text-emerald-600"></i> Pemantau Pembolehubah (Watch)
+                                </h4>
+                                <div class="space-y-2.5 text-xs font-mono">
+                                    <div class="flex justify-between bg-white p-3 rounded-xl border border-slate-200 shadow-xs">
+                                        <span class="text-slate-500">Jumlah (jumlah):</span>
+                                        <span class="font-bold text-slate-900" id="varSumVal">0</span>
+                                    </div>
+                                    <div class="flex justify-between bg-white p-3 rounded-xl border border-slate-200 shadow-xs">
+                                        <span class="text-slate-500">Maksimum Semasa (max):</span>
+                                        <span class="font-bold text-emerald-600" id="varMaxVal">-</span>
+                                    </div>
+                                    <div class="flex justify-between bg-white p-3 rounded-xl border border-slate-200 shadow-xs">
+                                        <span class="text-slate-500">Status Carian:</span>
+                                        <span class="font-bold text-brand-700" id="varSearchStatus">Sedia</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4 p-3.5 rounded-2xl bg-indigo-50 border border-indigo-200 text-xs text-indigo-900 font-medium">
+                                <strong class="block text-slate-800 mb-0.5"><i class="fa-solid fa-comment-dots text-brand-600 mr-1"></i> Ulasan Langkah:</strong>
+                                <span id="manipulationConsoleLog" class="text-slate-600 font-mono">Tekan butang "Mulakan Simulasi" untuk menjalankan animasi langkah-demi-langkah.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="mod-4111" class="tab-content hidden space-y-6">
+                <!-- Banner Header -->
+                <div class="bg-gradient-to-r from-amber-600 via-orange-600 to-amber-700 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+                    <div class="relative z-10">
+                        <span class="inline-block px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-bold uppercase tracking-wider mb-3">
+                            Subtopik 4.1.11 (C++)
+                        </span>
+                        <h2 class="text-2xl sm:text-3xl font-black tracking-tight">Penyelesaian Masalah & Makmal Debugging C++</h2>
+                        <p class="mt-2 text-amber-100 max-w-3xl text-xs sm:text-sm leading-relaxed">
+                            Membina atur cara C++ lengkap, menguji set data input/output, serta mengesan dan membaiki ralat sempadan indeks (Off-by-One / Buffer Overflow).
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-3xl border border-slate-200/90 shadow-sm space-y-6">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+                        <div>
+                            <span class="text-xs font-bold text-amber-700 uppercase tracking-wider">Senario Masalah Praktikal</span>
+                            <h3 class="text-base sm:text-lg font-bold text-slate-900">Sistem Analisis Rekod Suhu Mingguan (7 Hari)</h3>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="loadScenario('normal')" class="px-3.5 py-2 text-xs font-bold bg-brand-50 text-brand-700 rounded-xl hover:bg-brand-100 transition">
+                                Senario Bersih
+                            </button>
+                            <button onclick="loadScenario('bugged')" class="px-3.5 py-2 text-xs font-bold bg-rose-50 text-rose-700 rounded-xl hover:bg-rose-100 transition flex items-center gap-1.5">
+                                <i class="fa-solid fa-bug"></i> Cabaran Nyahpepijat (Bug)!
+                            </button>
+                        </div>
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                        <strong>Tugasan C++:</strong> Simpan 7 bacaan suhu harian ke dalam tatasusunan <code class="code-font text-brand-700">double suhu[7]</code>. Kira jumlah suhu, purata mingguan, dan suhu maksimum.
+                    </p>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                        <!-- Code Editor -->
+                        <div class="lg:col-span-7 flex flex-col">
+                            <div class="bg-slate-800 text-slate-300 px-4 py-3 rounded-t-2xl text-xs font-mono flex justify-between items-center">
+                                <span class="flex items-center gap-2">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-red-500 inline-block"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-yellow-500 inline-block"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-green-500 inline-block"></span>
+                                    <span class="text-slate-400 ml-2">analisis_suhu.cpp</span>
+                                </span>
+                                <span class="text-[11px] text-blue-300 font-bold">C++ Source</span>
+                            </div>
+                            <textarea id="codeSandboxEditor" rows="15" class="w-full p-4 bg-slate-900 text-emerald-400 font-mono text-xs rounded-b-2xl focus:outline-none focus:ring-2 focus:ring-amber-500 border border-slate-800 resize-none leading-relaxed code-font" spellcheck="false"></textarea>
+                            
+                            <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
+                                <span class="text-xs text-slate-500">Uji atur cara C++ anda dengan pelbagai nilai input.</span>
+                                <button onclick="runSandboxCode()" class="px-5 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl text-xs shadow-md transition flex items-center gap-2">
+                                    <i class="fa-solid fa-play"></i> Jalankan & Kompil (C++ Compiler)
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Test cases & Terminal Output -->
+                        <div class="lg:col-span-5 flex flex-col justify-between space-y-4">
+                            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                                <label class="text-xs font-bold text-slate-800 block mb-2">Input Ujian (Data Suhu 7 Hari - °C):</label>
+                                <div class="grid grid-cols-7 gap-1">
+                                    <input type="number" id="temp-0" value="31" class="text-center font-mono text-xs p-1.5 bg-white border border-slate-300 rounded-lg">
+                                    <input type="number" id="temp-1" value="32" class="text-center font-mono text-xs p-1.5 bg-white border border-slate-300 rounded-lg">
+                                    <input type="number" id="temp-2" value="29" class="text-center font-mono text-xs p-1.5 bg-white border border-slate-300 rounded-lg">
+                                    <input type="number" id="temp-3" value="35" class="text-center font-mono text-xs p-1.5 bg-white border border-slate-300 rounded-lg">
+                                    <input type="number" id="temp-4" value="30" class="text-center font-mono text-xs p-1.5 bg-white border border-slate-300 rounded-lg">
+                                    <input type="number" id="temp-5" value="28" class="text-center font-mono text-xs p-1.5 bg-white border border-slate-300 rounded-lg">
+                                    <input type="number" id="temp-6" value="33" class="text-center font-mono text-xs p-1.5 bg-white border border-slate-300 rounded-lg">
+                                </div>
+                            </div>
+
+                            <div class="bg-slate-900 rounded-2xl p-4 border border-slate-800 text-xs font-mono flex-1 min-h-[170px] flex flex-col shadow-inner">
+                                <div class="flex justify-between items-center text-slate-400 border-b border-slate-800 pb-2 mb-2">
+                                    <span class="text-[11px] font-bold text-slate-200">Terminal G++ Output:</span>
+                                    <span id="sandboxTerminalStatus" class="text-[10px] px-2.5 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800">Sedia</span>
+                                </div>
+                                <div id="sandboxTerminalLogs" class="text-slate-300 flex-1 overflow-y-auto space-y-1 text-[11px]">
+                                    <p class="text-slate-500">> Klik "Jalankan & Kompil" untuk menguji kod C++.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="mod-quiz" class="tab-content hidden space-y-6">
+                <div class="bg-gradient-to-r from-pink-600 via-rose-600 to-pink-700 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+                    <div class="relative z-10">
+                        <span class="inline-block px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-bold uppercase tracking-wider mb-3">
+                            Penilaian Kendiri (C++)
+                        </span>
+                        <h2 class="text-2xl sm:text-3xl font-black tracking-tight">Kuiz Interaktif Konsep Tatasusunan</h2>
+                        <p class="mt-2 text-pink-100 max-w-3xl text-xs sm:text-sm leading-relaxed">
+                            Uji kefahaman anda merangkumi indeks, saiz, array 1D, 2D serta pengendalian sempadan memori dalam C++.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm max-w-3xl mx-auto">
+                    <div class="flex justify-between items-center mb-6">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider" id="quizStepTracker">Soalan 1 daripada 5</span>
+                        <div class="text-xs font-bold px-3.5 py-1.5 rounded-full bg-brand-100 text-brand-800" id="quizScoreTracker">
+                            Skor: 0 / 5
+                        </div>
+                    </div>
+
+                    <div id="quizQuestionBody" class="space-y-4">
+                        <!-- Injected by JS -->
+                    </div>
+
+                    <div class="mt-6 pt-4 border-t border-slate-100 flex justify-end">
+                        <button onclick="nextQuizQuestion()" id="btnNextQuiz" class="px-6 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold shadow-md transition">
+                            Soalan Seterusnya <i class="fa-solid fa-arrow-right ml-1.5"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <footer class="bg-white border-t border-slate-200/80 py-6 text-center text-xs text-slate-500 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p class="font-bold text-slate-700 text-sm">Hak milik 2026@Pn Farihan Elyana Zahari - JTMK PTSS</p>
+        </div>
+    </footer>
+
+    <script>
+        // State Management
+        let currentActiveTab = 'mod-411';
+
+        // 4.1.2 Interactive Animation State
+        let currentAnimStep = 1; // 1 = Size, 2 = Index, 3 = Elements
+        const animData = [
+            { index: 0, val: 18, addr: '0x1000' },
+            { index: 1, val: 21, addr: '0x1004' },
+            { index: 2, val: 24, addr: '0x1008' },
+            { index: 3, val: 20, addr: '0x100C' }
+        ];
+
+        // 1D Array State (C++)
+        const sample1D = [
+            { index: 0, val: 55, address: '0x1000' },
+            { index: 1, val: 82, address: '0x1004' },
+            { index: 2, val: 74, address: '0x1008' },
+            { index: 3, val: 91, address: '0x100C' },
+            { index: 4, val: 63, address: '0x1010' },
+            { index: 5, val: 88, address: '0x1014' }
+        ];
+
+        // 2D Array State (3 Rows x 4 Cols)
+        const sample2D = [
+            [12, 45, 67, 89],
+            [34, 90, 42, 11],
+            [78, 23, 56, 95]
+        ];
+
+        // Manipulation Array Demo (C++)
+        const manipArray = [45, 88, 72, 95, 60, 83];
+        let currentSelectedAlgo = 'traverse';
+        let isAlgorithmRunning = false;
+
+        // Quiz Question Pool (C++ Tailored)
+        const quizData = [
+            {
+                q: "Dalam pengaturcaraan C++, apakah nombor indeks permulaan bagi elemen pertama tatasusunan (Zero-based Indexing)?",
+                options: ["1", "0", "-1", "Saiz tatasusunan"],
+                ans: 1,
+                exp: "Dalam C++, penomboran indeks tatasusunan sentiasa bermula dari 0."
+            },
+            {
+                q: "Bagi perisytiharan C++ `int umurPelajar[4];`, berapakah nombor indeks bagi elemen yang paling terakhir?",
+                options: ["4", "3", "5", "0"],
+                ans: 1,
+                exp: "Indeks elemen terakhir sentiasa dikira dengan (Saiz - 1). Bagi saiz 4, indeks terakhir ialah 4 - 1 = 3."
+            },
+            {
+                q: "Bagi tatasusunan 2D C++ `int jadual[3][4];`, berapakah jumlah keseluruhan elemen yang boleh dimuatkan?",
+                options: ["7", "12", "16", "24"],
+                ans: 1,
+                exp: "Kapasiti tatasusunan dua dimensi diperoleh dengan mendarabkan baris dengan lajur: 3 x 4 = 12 elemen."
+            },
+            {
+                q: "Dalam C++, apakah yang berlaku jika atur cara cuba mengakses `markah[6]` bagi tatasusunan `int markah[6]`?",
+                options: [
+                    "Akses memori di luar had (Buffer Overflow / Undefined Behavior)",
+                    "Kompiler membesarkan saiz tatasusunan secara automatik",
+                    "Elemen akan menghasilkan nilai 0 secara tetap",
+                    "Atur cara melompat semula ke indeks 0"
+                ],
+                ans: 0,
+                exp: "Bagi saiz 6, indeks sah hanyalah 0 hingga 5. Mengakses markah[6] merupakan ralat 'out of bounds' yang boleh menyebabkan kelakuan tidak menentu atau pencerobohan memori."
+            },
+            {
+                q: "Semasa mencari nilai maksimum dalam tatasusunan C++, mengapakah pembolehubah `max` disyorkan dimulakan dengan `markah[0]`?",
+                options: [
+                    "Supaya atur cara tetap tepat walaupun kesemua nilai dalam tatasusunan bernilai negatif",
+                    "Kerana C++ tidak membenarkan nilai integer 0",
+                    "Untuk menjimatkan kitaran pemproses komputer",
+                    "Supaya kod kelihatan lebih panjang"
+                ],
+                ans: 0,
+                exp: "Menetapkan max = markah[0] memastikan nilai maksimum yang dicari adalah tepat walaupun kesemua elemen ialah nombor negatif."
+            }
+        ];
+        let currentQuizIndex = 0;
+        let userQuizScore = 0;
+        let hasAnsweredCurrent = false;
+
+        function switchTab(tabId) {
+            currentActiveTab = tabId;
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            const target = document.getElementById(tabId);
+            if (target) {
+                target.classList.remove('hidden');
+                window.scrollTo({ top: target.offsetTop - 120, behavior: 'smooth' });
+            }
+
+            document.querySelectorAll('.subtopic-card').forEach(btn => {
+                btn.className = "subtopic-card px-3 py-2 rounded-xl text-xs font-bold border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:border-brand-300 transition-all flex items-center justify-center gap-1.5 text-center shadow-xs";
+            });
+
+            const activeBtn = document.getElementById(`tab-btn-${tabId}`);
+            if (activeBtn) {
+                activeBtn.className = "subtopic-card px-3 py-2 rounded-xl text-xs font-bold border border-brand-600 bg-brand-600 text-white shadow-md ring-2 ring-brand-400/25 transition-all flex items-center justify-center gap-1.5 text-center";
+            }
+        }
+
+        // ==========================================
+        // 4.1.2 ANIMASI INTERAKTIF (SAIZ, INDEKS, ELEMEN)
+        // ==========================================
+        function renderInteractiveAnimation() {
+            const indexSlots = document.getElementById('animIndexSlots');
+            const memorySlots = document.getElementById('animMemorySlots');
+            const addressSlots = document.getElementById('animAddressSlots');
+            const bracket = document.getElementById('animSizeBracketContainer');
+            if (!indexSlots || !memorySlots || !addressSlots) return;
+
+            indexSlots.innerHTML = '';
+            memorySlots.innerHTML = '';
+            addressSlots.innerHTML = '';
+
+            animData.forEach((item) => {
+                // 1. Index Slot
+                const idxDiv = document.createElement('div');
+                idxDiv.className = "w-16 sm:w-20 text-center";
+                if (currentAnimStep >= 2) {
+                    idxDiv.innerHTML = `
+                        <span class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-blue-500 text-white font-mono font-bold text-xs shadow-md border border-blue-400 index-float">
+                            ${item.index}
+                        </span>
+                        <div class="text-[10px] font-mono text-blue-300 mt-1">[${item.index}]</div>
+                    `;
+                } else {
+                    idxDiv.innerHTML = `<span class="inline-block w-8 h-8 rounded-xl opacity-0"></span>`;
+                }
+                indexSlots.appendChild(idxDiv);
+
+                // 2. Physical Memory Slot
+                const memDiv = document.createElement('div');
+                memDiv.className = `w-16 sm:w-20 h-16 sm:h-20 rounded-2xl border-2 flex flex-col items-center justify-center text-center transition-all duration-300 ${
+                    currentAnimStep === 1 
+                        ? 'border-brand-400 bg-brand-950/40 shadow-lg shadow-brand-500/10' 
+                        : currentAnimStep === 2
+                        ? 'border-blue-400/80 bg-slate-800'
+                        : 'border-emerald-400 bg-emerald-950/40 shadow-lg shadow-emerald-500/10'
+                }`;
+
+                if (currentAnimStep === 3) {
+                    memDiv.innerHTML = `
+                        <span class="text-lg sm:text-xl font-black font-mono text-emerald-400 element-drop">${item.val}</span>
+                        <span class="text-[9px] font-mono text-emerald-300/70">Elemen</span>
+                    `;
+                } else if (currentAnimStep === 2) {
+                    memDiv.innerHTML = `
+                        <span class="text-xs font-mono text-slate-400">Kosong</span>
+                        <span class="text-[9px] font-mono text-blue-300/80 mt-0.5">Slot ${item.index}</span>
+                    `;
+                } else {
+                    memDiv.innerHTML = `
+                        <i class="fa-solid fa-cube text-brand-400 text-sm opacity-60"></i>
+                        <span class="text-[9px] font-mono text-slate-400 mt-1">Slot #${item.index + 1}</span>
+                    `;
+                }
+                memorySlots.appendChild(memDiv);
+
+                // 3. Address Slot
+                const addrDiv = document.createElement('div');
+                addrDiv.className = "w-16 sm:w-20 text-center font-mono text-[10px] text-slate-400";
+                addrDiv.innerText = item.addr;
+                addressSlots.appendChild(addrDiv);
+            });
+
+            // Update bracket visibility
+            if (bracket) {
+                if (currentAnimStep === 1) {
+                    bracket.classList.remove('opacity-30');
+                    bracket.classList.add('opacity-100', 'scale-100');
+                } else {
+                    bracket.classList.remove('opacity-100');
+                    bracket.classList.add('opacity-40');
+                }
+            }
+
+            updateAnimationNarrative();
+        }
+
+        function setAnimStep(step) {
+            currentAnimStep = step;
+
+            // Update step buttons
+            for (let s = 1; s <= 3; s++) {
+                const btn = document.getElementById(`btnStep${s}`);
+                if (btn) {
+                    if (s === step) {
+                        btn.className = "px-3 py-1.5 rounded-xl text-xs font-bold border border-brand-600 bg-brand-600 text-white shadow-xs transition";
+                    } else {
+                        btn.className = "px-3 py-1.5 rounded-xl text-xs font-bold border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition";
+                    }
+                }
+            }
+
+            renderInteractiveAnimation();
+        }
+
+        function nextAnimStep() {
+            if (currentAnimStep < 3) {
+                setAnimStep(currentAnimStep + 1);
+            } else {
+                setAnimStep(1); // loop back
+            }
+        }
+
+        function prevAnimStep() {
+            if (currentAnimStep > 1) {
+                setAnimStep(currentAnimStep - 1);
+            }
+        }
+
+        function replayAnimation() {
+            setAnimStep(1);
+        }
+
+        function updateAnimationNarrative() {
+            const stepBadge = document.getElementById('animCurrentStepBadge');
+            const titleLabel = document.getElementById('animTitleLabel');
+            const syntaxLive = document.getElementById('animSyntaxLive');
+            const stepIcon = document.getElementById('animStepIcon');
+            const stepHeader = document.getElementById('animStepHeader');
+            const stepExp = document.getElementById('animStepExplanation');
+            const btnPrev = document.getElementById('btnPrevAnim');
+            const btnNext = document.getElementById('btnNextAnim');
+
+            if (btnPrev) btnPrev.disabled = (currentAnimStep === 1);
+
+            if (currentAnimStep === 1) {
+                stepBadge.innerText = 'LANGKAH 1 DARI 3';
+                titleLabel.innerText = 'Peruntukan Saiz Memori Fizikal (Size: 4)';
+                syntaxLive.innerText = 'int umurPelajar[4];';
+                stepIcon.innerHTML = '<i class="fa-solid fa-ruler-combined"></i>';
+                stepHeader.innerText = 'Langkah 1: Tunjuk Saiz (Size)';
+                stepExp.innerHTML = 'Kompiler C++ menempah <strong>4 slot memori fizikal berterusan (contiguous)</strong>. Bilangan 4 ini dinamakan <strong>Saiz (Size)</strong>. Setiap slot diperuntukkan 4 bait memori untuk jenis data <code class="code-font text-indigo-300">int</code>.';
+                btnNext.innerHTML = '<span>Tunjuk Indeks</span> <i class="fa-solid fa-arrow-right"></i>';
+            } else if (currentAnimStep === 2) {
+                stepBadge.innerText = 'LANGKAH 2 DARI 3';
+                titleLabel.innerText = 'Penomboran Indeks Berasaskan Sifar (Zero-based Index)';
+                syntaxLive.innerText = 'umurPelajar[0] .. umurPelajar[3]';
+                stepIcon.innerHTML = '<i class="fa-solid fa-fingerprint"></i>';
+                stepHeader.innerText = 'Langkah 2: Tunjuk Indeks (Index)';
+                stepExp.innerHTML = 'Setiap slot diberikan nombor kedudukan yang dinamakan <strong>Indeks</strong>. Dalam C++, indeks sentiasa bermula daripada <strong>0</strong> hingga <strong>(Saiz - 1) iaitu 3</strong>. Indeks membolehkan capaian pantas terus ke alamat memori.';
+                btnNext.innerHTML = '<span>Isi Elemen</span> <i class="fa-solid fa-arrow-right"></i>';
+            } else if (currentAnimStep === 3) {
+                stepBadge.innerText = 'LANGKAH 3 DARI 3';
+                titleLabel.innerText = 'Memasukkan Nilai Data Sebenar (Elements)';
+                syntaxLive.innerText = 'int umurPelajar[4] = {18, 21, 24, 20};';
+                stepIcon.innerHTML = '<i class="fa-solid fa-cube"></i>';
+                stepHeader.innerText = 'Langkah 3: Isi Elemen (Element)';
+                stepExp.innerHTML = 'Nilai data sebenar dimasukkan ke dalam setiap slot: <code class="code-font text-emerald-300">umurPelajar[0] = 18</code>, <code class="code-font text-emerald-300">umurPelajar[1] = 21</code>, <code class="code-font text-emerald-300">umurPelajar[2] = 24</code>, dan <code class="code-font text-emerald-300">umurPelajar[3] = 20</code>.';
+                btnNext.innerHTML = '<span>Ulang Semula</span> <i class="fa-solid fa-rotate-left"></i>';
+            }
+        }
+
+        // ==========================================
+        // 1D ARRAY FUNCTIONS (C++)
+        // ==========================================
+        function render1DVisualizer() {
+            const container = document.getElementById('array1DVisualRow');
+            if (!container) return;
+            container.innerHTML = '';
+
+            sample1D.forEach((item) => {
+                const card = document.createElement('div');
+                card.id = `elem-1d-${item.index}`;
+                card.className = "w-20 sm:w-24 p-2.5 rounded-2xl bg-white border-2 border-slate-200 flex flex-col items-center text-center transition-all duration-300 shadow-xs";
+                
+                card.innerHTML = `
+                    <span class="text-[10px] font-mono text-slate-400">i = ${item.index}</span>
+                    <span class="text-base sm:text-lg font-mono font-bold text-slate-800 my-0.5 elem-value">${item.val}</span>
+                    <span class="text-[9px] font-mono text-slate-400 border-t border-slate-100 pt-1 w-full">${item.address}</span>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function accessElement1D() {
+            const idxInput = parseInt(document.getElementById('input1DIndex').value);
+            const resOutput = document.getElementById('output1DResult');
+            const subOutput = document.getElementById('output1DSubtext');
+
+            if (isNaN(idxInput) || idxInput < 0 || idxInput >= sample1D.length) {
+                resOutput.innerText = `Ralat: Indeks [${idxInput}] di luar had!`;
+                resOutput.className = 'font-mono text-xs font-semibold text-rose-400 mt-1';
+                subOutput.innerText = 'C++ Buffer Overflow: Tatasusunan hanya mempunyai indeks 0 hingga ' + (sample1D.length - 1);
+                return;
+            }
+
+            sample1D.forEach(item => {
+                const el = document.getElementById(`elem-1d-${item.index}`);
+                if (item.index === idxInput) {
+                    el.className = "w-20 sm:w-24 p-2.5 rounded-2xl bg-brand-600 border-2 border-brand-700 text-white flex flex-col items-center text-center scale-105 shadow-md transition-all duration-300";
+                    el.querySelector('.elem-value').classList.replace('text-slate-800', 'text-white');
+                } else {
+                    el.className = "w-20 sm:w-24 p-2.5 rounded-2xl bg-white border-2 border-slate-200 flex flex-col items-center text-center transition-all duration-300 shadow-xs";
+                    el.querySelector('.elem-value').classList.replace('text-white', 'text-slate-800');
+                }
+            });
+
+            const targetItem = sample1D[idxInput];
+            resOutput.innerText = `cout << markah[${idxInput}]; // Output: ${targetItem.val}`;
+            resOutput.className = 'font-mono text-sm font-semibold text-emerald-400 mt-1';
+            subOutput.innerText = `Dicapai secara langsung pada alamat memori: ${targetItem.address}`;
+        }
+
+        function updateElement1D() {
+            const idxInput = parseInt(document.getElementById('input1DIndex').value);
+            const valInput = parseInt(document.getElementById('input1DValue').value);
+            const resOutput = document.getElementById('output1DResult');
+            const subOutput = document.getElementById('output1DSubtext');
+
+            if (isNaN(idxInput) || idxInput < 0 || idxInput >= sample1D.length) {
+                resOutput.innerText = `Ralat: Indeks [${idxInput}] di luar had!`;
+                resOutput.className = 'font-mono text-xs font-semibold text-rose-400 mt-1';
+                subOutput.innerText = 'Sila gunakan indeks sah 0 hingga 5.';
+                return;
+            }
+
+            if (isNaN(valInput)) {
+                resOutput.innerText = 'Sila masukkan nombor sah!';
+                return;
+            }
+
+            sample1D[idxInput].val = valInput;
+            render1DVisualizer();
+
+            const el = document.getElementById(`elem-1d-${idxInput}`);
+            el.className = "w-20 sm:w-24 p-2.5 rounded-2xl bg-emerald-600 border-2 border-emerald-700 text-white flex flex-col items-center text-center scale-105 shadow-md";
+            el.querySelector('.elem-value').classList.replace('text-slate-800', 'text-white');
+
+            resOutput.innerText = `markah[${idxInput}] = ${valInput};`;
+            resOutput.className = 'font-mono text-sm font-semibold text-amber-300 mt-1';
+            subOutput.innerText = `Nilai pada memori ${sample1D[idxInput].address} telah dikemas kini kepada ${valInput}.`;
+        }
+
+        function reset1DArray() {
+            sample1D[0].val = 55;
+            sample1D[1].val = 82;
+            sample1D[2].val = 74;
+            sample1D[3].val = 91;
+            sample1D[4].val = 63;
+            sample1D[5].val = 88;
+            render1DVisualizer();
+            document.getElementById('input1DIndex').value = 2;
+            accessElement1D();
+        }
+
+        // ==========================================
+        // 2D ARRAY FUNCTIONS (C++)
+        // ==========================================
+        function render2DMatrix() {
+            const container = document.getElementById('matrix2DGridContainer');
+            if (!container) return;
+            container.innerHTML = '';
+
+            for (let r = 0; r < 3; r++) {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = "flex items-center space-x-2";
+
+                const rowLabel = document.createElement('div');
+                rowLabel.className = "w-14 text-xs font-mono font-bold text-indigo-700 text-right pr-2";
+                rowLabel.innerText = `Baris [${r}]`;
+                rowDiv.appendChild(rowLabel);
+
+                for (let c = 0; c < 4; c++) {
+                    const cellVal = sample2D[r][c];
+                    const cellBtn = document.createElement('button');
+                    cellBtn.type = "button";
+                    cellBtn.id = `cell-2d-${r}-${c}`;
+                    cellBtn.className = "w-14 sm:w-16 h-14 sm:h-16 rounded-2xl border-2 border-slate-200 bg-white hover:border-purple-400 flex flex-col items-center justify-center transition-all";
+                    cellBtn.onclick = () => select2DCell(r, c, cellVal);
+
+                    cellBtn.innerHTML = `
+                        <span class="text-sm sm:text-base font-bold font-mono text-slate-800">${cellVal}</span>
+                        <span class="text-[9px] font-mono text-slate-400">[${r}][${c}]</span>
+                    `;
+                    rowDiv.appendChild(cellBtn);
+                }
+
+                container.appendChild(rowDiv);
+            }
+
+            select2DCell(1, 2, sample2D[1][2]);
+        }
+
+        function select2DCell(r, c, val) {
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 4; j++) {
+                    const el = document.getElementById(`cell-2d-${i}-${j}`);
+                    if (el) {
+                        el.className = "w-14 sm:w-16 h-14 sm:h-16 rounded-2xl border-2 border-slate-200 bg-white hover:border-purple-400 flex flex-col items-center justify-center transition-all";
+                    }
+                }
+            }
+
+            const active = document.getElementById(`cell-2d-${r}-${c}`);
+            if (active) {
+                active.className = "w-14 sm:w-16 h-14 sm:h-16 rounded-2xl border-2 border-purple-600 bg-purple-50 flex flex-col items-center justify-center scale-105 shadow-md active-cell transition-all";
+            }
+
+            document.getElementById('inspect2DRow').innerText = r;
+            document.getElementById('inspect2DCol').innerText = c;
+            document.getElementById('inspect2DVal').innerText = val;
+            document.getElementById('inspect2DCode').innerText = `int nilai = jadual[${r}][${c}]; // Mendapat nilai ${val}`;
+        }
+
+        // ==========================================
+        // 4.1.10 MANIPULATION FUNCTIONS (C++)
+        // ==========================================
+        function selectAlgo(algoType) {
+            if (isAlgorithmRunning) return;
+            currentSelectedAlgo = algoType;
+
+            document.querySelectorAll('.algo-tab-btn').forEach(btn => {
+                btn.className = 'algo-tab-btn px-4 py-2.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition';
+            });
+            document.getElementById(`algo-btn-${algoType}`).className = 'algo-tab-btn px-4 py-2.5 rounded-xl text-xs font-bold bg-brand-600 text-white shadow-sm transition';
+
+            const searchParam = document.getElementById('searchParamWrapper');
+            if (algoType === 'search') {
+                searchParam.classList.remove('hidden');
+            } else {
+                searchParam.classList.add('hidden');
+            }
+
+            resetManipulationArray();
+            updateAlgoCodeSnippet();
+        }
+
+        function renderManipulationBoxes() {
+            const container = document.getElementById('manipulationBoxes');
+            if (!container) return;
+            container.innerHTML = '';
+
+            manipArray.forEach((val, idx) => {
+                const box = document.createElement('div');
+                box.id = `manip-box-${idx}`;
+                box.className = "w-16 sm:w-20 p-2.5 rounded-2xl bg-white border-2 border-slate-200 flex flex-col items-center justify-center text-center shadow-xs transition-all duration-300";
+                box.innerHTML = `
+                    <span class="text-[10px] font-mono text-slate-400">i = ${idx}</span>
+                    <span class="text-base font-bold font-mono text-slate-800 my-0.5">${val}</span>
+                `;
+                container.appendChild(box);
+            });
+        }
+
+        function resetManipulationArray() {
+            renderManipulationBoxes();
+            document.getElementById('currentLoopPointer').innerText = '-';
+            document.getElementById('varSumVal').innerText = '0';
+            document.getElementById('varMaxVal').innerText = '-';
+            document.getElementById('varSearchStatus').innerText = 'Sedia';
+            document.getElementById('manipulationStepStatus').innerText = 'Status: Sedia';
+            document.getElementById('manipulationConsoleLog').innerText = 'Tekan butang "Mulakan Simulasi" untuk menjalankan animasi langkah-demi-langkah.';
+            document.getElementById('btnStartAlgo').disabled = false;
+        }
+
+        function updateAlgoCodeSnippet() {
+            const snippetEl = document.getElementById('algoCodeSnippet');
+
+            if (currentSelectedAlgo === 'traverse') {
+                snippetEl.innerText = 
+`// C++ Traversal
+int saiz = 6;
+for (int i = 0; i < saiz; i++) {
+    cout << "Indeks [" << i << "] = " << data[i] << endl;
+}`;
+            } else if (currentSelectedAlgo === 'sum') {
+                snippetEl.innerText = 
+`// C++ Jumlah & Purata
+int jumlah = 0;
+int saiz = 6;
+for (int i = 0; i < saiz; i++) {
+    jumlah += data[i];
+}
+double purata = (double)jumlah / saiz;
+cout << "Jumlah: " << jumlah << ", Purata: " << purata << endl;`;
+            } else if (currentSelectedAlgo === 'maxmin') {
+                snippetEl.innerText = 
+`// C++ Cari Nilai Maksimum
+int saiz = 6;
+int max = data[0]; // Inisialisasi selamat dengan elemen pertama
+for (int i = 1; i < saiz; i++) {
+    if (data[i] > max) {
+        max = data[i];
+    }
+}
+cout << "Maksimum: " << max << endl;`;
+            } else if (currentSelectedAlgo === 'search') {
+                snippetEl.innerText = 
+`// C++ Carian Linear (Linear Search)
+int sasaran = 95;
+int kedudukan = -1;
+int saiz = 6;
+
+for (int i = 0; i < saiz; i++) {
+    if (data[i] == sasaran) {
+        kedudukan = i;
+        break; // Ditemui! Hentikan gelung
+    }
+}`;
+            }
+        }
+
+        async function startAlgorithmExecution() {
+            if (isAlgorithmRunning) return;
+            isAlgorithmRunning = true;
+            document.getElementById('btnStartAlgo').disabled = true;
+
+            const logEl = document.getElementById('manipulationConsoleLog');
+            const pointerEl = document.getElementById('currentLoopPointer');
+            const statusEl = document.getElementById('manipulationStepStatus');
+
+            if (currentSelectedAlgo === 'traverse') {
+                for (let i = 0; i < manipArray.length; i++) {
+                    pointerEl.innerText = i;
+                    statusEl.innerText = `Menjelajah Indeks [${i}]...`;
+                    highlightBox(i, 'active');
+                    logEl.innerText = `Gelung melawat indeks [${i}] dengan nilai = ${manipArray[i]}`;
+                    await delay(800);
+                    highlightBox(i, 'visited');
+                }
+                logEl.innerText = 'Traversi selesai! Semua 6 elemen telah berjaya dicetak mengikut urutan indeks.';
+            } else if (currentSelectedAlgo === 'sum') {
+                let accumulatedSum = 0;
+                for (let i = 0; i < manipArray.length; i++) {
+                    pointerEl.innerText = i;
+                    accumulatedSum += manipArray[i];
+                    document.getElementById('varSumVal').innerText = accumulatedSum;
+                    highlightBox(i, 'active');
+                    logEl.innerText = `Indeks [${i}]: Menambah nilai ${manipArray[i]} ke dalam jumlah terkumpul = ${accumulatedSum}`;
+                    await delay(800);
+                    highlightBox(i, 'visited');
+                }
+                const avg = (accumulatedSum / manipArray.length).toFixed(2);
+                logEl.innerText = `Kiraan Selesai: Jumlah Keseluruhan = ${accumulatedSum}, Purata = ${avg}`;
+            } else if (currentSelectedAlgo === 'maxmin') {
+                let currentMax = manipArray[0];
+                document.getElementById('varMaxVal').innerText = currentMax;
+                highlightBox(0, 'max');
+                logEl.innerText = `Inisialisasi pembolehubah max dengan nilai data[0] = ${currentMax}`;
+                await delay(900);
+
+                for (let i = 1; i < manipArray.length; i++) {
+                    pointerEl.innerText = i;
+                    highlightBox(i, 'active');
+                    logEl.innerText = `Membandingkan nilai data[${i}] (${manipArray[i]}) dengan Max semasa (${currentMax})`;
+                    await delay(800);
+
+                    if (manipArray[i] > currentMax) {
+                        currentMax = manipArray[i];
+                        document.getElementById('varMaxVal').innerText = currentMax;
+                        logEl.innerText = `Nilai lebih besar dijumpai! Max dikemas kini kepada = ${currentMax}`;
+                        renderManipulationBoxes();
+                        highlightBox(i, 'max');
+                    } else {
+                        highlightBox(i, 'visited');
+                    }
+                    await delay(700);
+                }
+                logEl.innerText = `Carian selesai: Nilai maksimum tatasusunan ialah ${currentMax}.`;
+            } else if (currentSelectedAlgo === 'search') {
+                const target = parseInt(document.getElementById('searchTargetValue').value);
+                let foundIndex = -1;
+                document.getElementById('varSearchStatus').innerText = `Mencari nilai ${target}...`;
+
+                for (let i = 0; i < manipArray.length; i++) {
+                    pointerEl.innerText = i;
+                    highlightBox(i, 'active');
+                    logEl.innerText = `Menyemak adakah data[${i}] (${manipArray[i]}) == ${target}?`;
+                    await delay(800);
+
+                    if (manipArray[i] === target) {
+                        foundIndex = i;
+                        highlightBox(i, 'found');
+                        document.getElementById('varSearchStatus').innerText = `Ditemui pada Indeks [${i}]!`;
+                        logEl.innerText = `BERJAYA! Nilai sasaran ${target} dijumpai pada indeks [${i}]. Pernyataan break dilaksanakan.`;
+                        break;
+                    } else {
+                        highlightBox(i, 'visited');
+                    }
+                }
+
+                if (foundIndex === -1) {
+                    document.getElementById('varSearchStatus').innerText = `Nilai ${target} tidak wujud`;
+                    logEl.innerText = `Carian tamat. Nilai ${target} tidak dijumpai di dalam tatasusunan.`;
+                }
+            }
+
+            statusEl.innerText = 'Status: Selesai';
+            isAlgorithmRunning = false;
+            document.getElementById('btnStartAlgo').disabled = false;
+        }
+
+        function highlightBox(index, type) {
+            const b = document.getElementById(`manip-box-${index}`);
+            if (!b) return;
+
+            if (type === 'active') {
+                b.className = "w-16 sm:w-20 p-2.5 rounded-2xl bg-amber-400 border-2 border-amber-500 text-slate-900 flex flex-col items-center justify-center text-center scale-105 shadow-md transition-all";
+            } else if (type === 'visited') {
+                b.className = "w-16 sm:w-20 p-2.5 rounded-2xl bg-slate-100 border-2 border-slate-300 text-slate-600 flex flex-col items-center justify-center text-center opacity-80 transition-all";
+            } else if (type === 'max' || type === 'found') {
+                b.className = "w-16 sm:w-20 p-2.5 rounded-2xl bg-emerald-500 border-2 border-emerald-600 text-white font-bold flex flex-col items-center justify-center text-center scale-110 shadow-lg transition-all";
+            }
+        }
+
+        function delay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        // ==========================================
+        // 4.1.11 C++ SANDBOX & DEBUG LAB
+        // ==========================================
+        const cleanScenarioCodeCPP = 
+`#include <iostream>
+#include <iomanip>
+using namespace std;
+
+int main() {
+    // Tatasusunan 1D menyimpan 7 bacaan suhu dalam C++
+    double suhu[7] = {31.0, 32.0, 29.0, 35.0, 30.0, 28.0, 33.0};
+    int saiz = 7;
+    
+    double jumlah = 0.0;
+    double maxSuhu = suhu[0];
+    
+    // Gelung pemprosesan
+    for (int i = 0; i < saiz; i++) {
+        jumlah += suhu[i];
+        
+        if (suhu[i] > maxSuhu) {
+            maxSuhu = suhu[i];
+        }
+    }
+    
+    double purata = jumlah / saiz;
+    
+    cout << "Jumlah Suhu: " << jumlah << " C" << endl;
+    cout << "Purata Suhu Mingguan: " << fixed << setprecision(2) << purata << " C" << endl;
+    cout << "Suhu Tertinggi: " << maxSuhu << " C" << endl;
+    
+    return 0;
+}`;
+
+        const buggedScenarioCodeCPP = 
+`#include <iostream>
+using namespace std;
+
+int main() {
+    double suhu[7] = {31.0, 32.0, 29.0, 35.0, 30.0, 28.0, 33.0};
+    int saiz = 7;
+    
+    double jumlah = 0.0;
+    double maxSuhu = 0.0; // Isu: Nilai lalai tidak selamat bagi suhu negatif
+    
+    // BUG: Ralat Off-by-one (i <= saiz akan membaca memori haram suhu[7]!)
+    for (int i = 0; i <= saiz; i++) {
+        jumlah += suhu[i];
+        
+        if (suhu[i] > maxSuhu) {
+            maxSuhu = suhu[i];
+        }
+    }
+    
+    cout << "Jumlah: " << jumlah << endl;
+    return 0;
+}`;
+
+        function loadScenario(type) {
+            const editor = document.getElementById('codeSandboxEditor');
+            const terminalLogs = document.getElementById('sandboxTerminalLogs');
+            const terminalStatus = document.getElementById('sandboxTerminalStatus');
+
+            if (type === 'normal') {
+                editor.value = cleanScenarioCodeCPP;
+                terminalStatus.className = 'text-[10px] px-2.5 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800';
+                terminalStatus.innerText = 'Kod C++ Piawai Dimuatkan';
+                terminalLogs.innerHTML = '<p class="text-slate-400">> Kod bersih C++ sedia untuk dikompil (g++).</p>';
+            } else {
+                editor.value = buggedScenarioCodeCPP;
+                terminalStatus.className = 'text-[10px] px-2.5 py-0.5 rounded bg-rose-950 text-rose-400 border border-rose-800';
+                terminalStatus.innerText = 'Mod Pepijat Aktif (C++)';
+                terminalLogs.innerHTML = `
+                    <p class="text-rose-400 font-bold">> AMARAN PEPIJAT DIKESAN:</p>
+                    <p class="text-slate-400">1. Syarat gelung <code class="text-amber-300">i <= saiz</code> akan mengakses <code class="text-rose-300">suhu[7]</code> (Buffer Overflow).</p>
+                    <p class="text-slate-400">2. Baiki syarat gelung tersebut dalam editor kepada <code class="text-emerald-400">i < saiz</code> dan kompil semula!</p>
+                `;
+            }
+        }
+
+        function runSandboxCode() {
+            const code = document.getElementById('codeSandboxEditor').value;
+            const terminalLogs = document.getElementById('sandboxTerminalLogs');
+            const terminalStatus = document.getElementById('sandboxTerminalStatus');
+
+            const tempInputs = [];
+            for (let i = 0; i < 7; i++) {
+                const val = parseFloat(document.getElementById(`temp-${i}`).value) || 0;
+                tempInputs.push(val);
+            }
+
+            terminalLogs.innerHTML = '<p class="text-slate-400">> g++ -O2 analisis_suhu.cpp -o analisis_suhu ...</p>';
+
+            setTimeout(() => {
+                if (code.includes('i <= saiz') || code.includes('i<=saiz') || code.includes('i <= 7') || code.includes('i<=7')) {
+                    terminalStatus.className = 'text-[10px] px-2.5 py-0.5 rounded bg-rose-950 text-rose-400 border border-rose-800';
+                    terminalStatus.innerText = 'Buffer Overflow / Memory Error';
+                    terminalLogs.innerHTML += `
+                        <p class="text-rose-400 mt-2 font-bold font-mono">> ./analisis_suhu</p>
+                        <p class="text-rose-400 font-mono">Segmentation fault: Core dumped (Memori haram diakses pada indeks 7!)</p>
+                        <div class="mt-2.5 p-2.5 bg-rose-950/60 rounded-xl border border-rose-800 text-[10px] text-rose-300">
+                            <strong>Panduan Nyahpepijat C++:</strong> Tatasusunan bersaiz 7 hanya mempunyai indeks sah 0 hingga 6 sahaja. Tukar syarat gelung <code class="font-bold text-white">i &lt;= saiz</code> kepada <code class="font-bold text-white">i &lt; saiz</code>.
+                        </div>
+                    `;
+                    return;
+                }
+
+                let sum = 0;
+                let max = tempInputs[0];
+                for (let i = 0; i < tempInputs.length; i++) {
+                    sum += tempInputs[i];
+                    if (tempInputs[i] > max) {
+                        max = tempInputs[i];
+                    }
+                }
+                const avg = (sum / tempInputs.length).toFixed(2);
+
+                terminalStatus.className = 'text-[10px] px-2.5 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800';
+                terminalStatus.innerText = 'Build & Run Success (C++)';
+
+                terminalLogs.innerHTML += `
+                    <p class="text-emerald-400 font-mono mt-1 font-bold">> Output Pelaksanaan Atur Cara C++:</p>
+                    <p class="text-slate-200 font-mono">Jumlah Suhu: ${sum.toFixed(1)} C</p>
+                    <p class="text-slate-200 font-mono">Purata Suhu Mingguan: ${avg} C</p>
+                    <p class="text-slate-200 font-mono">Suhu Tertinggi: ${max.toFixed(1)} C</p>
+                    <p class="text-emerald-400 text-[10px] mt-2 font-sans"><i class="fa-solid fa-circle-check mr-1"></i> Status: Selesai dengan kod keluar 0 (Process exited with code 0).</p>
+                `;
+            }, 450);
+        }
+
+        // ==========================================
+        // QUIZ FUNCTIONS (C++)
+        // ==========================================
+        function renderCurrentQuiz() {
+            const q = quizData[currentQuizIndex];
+            const tracker = document.getElementById('quizStepTracker');
+            const container = document.getElementById('quizQuestionBody');
+            const btnNext = document.getElementById('btnNextQuiz');
+
+            hasAnsweredCurrent = false;
+            tracker.innerText = `Soalan ${currentQuizIndex + 1} daripada ${quizData.length}`;
+            btnNext.innerText = currentQuizIndex === quizData.length - 1 ? "Lihat Keputusan Penuh" : "Soalan Seterusnya";
+
+            let optionsHtml = '';
+            q.options.forEach((opt, idx) => {
+                optionsHtml += `
+                    <button type="button" onclick="selectQuizAnswer(${idx})" id="quiz-opt-${idx}" class="w-full text-left p-3.5 rounded-2xl border border-slate-200 hover:border-brand-500 hover:bg-slate-50 transition-all text-xs sm:text-sm font-medium text-slate-700 flex items-center justify-between">
+                        <span><strong class="font-mono mr-2">${String.fromCharCode(65 + idx)}.</strong> ${opt}</span>
+                        <i class="fa-regular fa-circle text-slate-300 opt-icon"></i>
+                    </button>
+                `;
+            });
+
+            container.innerHTML = `
+                <div class="mb-4">
+                    <h4 class="text-base sm:text-lg font-bold text-slate-900 leading-snug">${q.q}</h4>
+                </div>
+                <div class="space-y-2.5">
+                    ${optionsHtml}
+                </div>
+                <div id="quizExplanationCard" class="hidden mt-4 p-4 rounded-2xl text-xs leading-relaxed transition"></div>
+            `;
+        }
+
+        function selectQuizAnswer(selectedIdx) {
+            if (hasAnsweredCurrent) return;
+            hasAnsweredCurrent = true;
+
+            const q = quizData[currentQuizIndex];
+            const isCorrect = (selectedIdx === q.ans);
+
+            if (isCorrect) {
+                userQuizScore++;
+                document.getElementById('quizScoreTracker').innerText = `Skor: ${userQuizScore} / ${quizData.length}`;
+            }
+
+            q.options.forEach((_, idx) => {
+                const btn = document.getElementById(`quiz-opt-${idx}`);
+                if (idx === q.ans) {
+                    btn.className = "w-full text-left p-3.5 rounded-2xl border-2 border-emerald-500 bg-emerald-50 text-xs sm:text-sm font-bold text-emerald-900 flex items-center justify-between";
+                    btn.querySelector('.opt-icon').className = "fa-solid fa-circle-check text-emerald-600";
+                } else if (idx === selectedIdx && !isCorrect) {
+                    btn.className = "w-full text-left p-3.5 rounded-2xl border-2 border-rose-500 bg-rose-50 text-xs sm:text-sm font-medium text-rose-900 flex items-center justify-between";
+                    btn.querySelector('.opt-icon').className = "fa-solid fa-circle-xmark text-rose-600";
+                } else {
+                    btn.classList.add('opacity-50');
+                }
+            });
+
+            const expCard = document.getElementById('quizExplanationCard');
+            expCard.classList.remove('hidden');
+            if (isCorrect) {
+                expCard.className = 'mt-4 p-4 rounded-2xl text-xs leading-relaxed bg-emerald-50 border border-emerald-200 text-emerald-900';
+                expCard.innerHTML = `<strong>Tepat Sekali!</strong> ${q.exp}`;
+            } else {
+                expCard.className = 'mt-4 p-4 rounded-2xl text-xs leading-relaxed bg-rose-50 border border-rose-200 text-rose-900';
+                expCard.innerHTML = `<strong>Kurang Tepat.</strong> ${q.exp}`;
+            }
+        }
+
+        function nextQuizQuestion() {
+            if (!hasAnsweredCurrent && currentQuizIndex < quizData.length) {
+                const expCard = document.getElementById('quizExplanationCard');
+                if (expCard) {
+                    expCard.classList.remove('hidden');
+                    expCard.className = 'mt-4 p-3 rounded-2xl text-xs bg-amber-50 border border-amber-200 text-amber-900';
+                    expCard.innerHTML = '<i class="fa-solid fa-triangle-exclamation mr-1"></i> Sila pilih jawapan sebelum meneruskan!';
+                }
+                return;
+            }
+
+            currentQuizIndex++;
+            if (currentQuizIndex < quizData.length) {
+                renderCurrentQuiz();
+            } else {
+                showFinalQuizSummary();
+            }
+        }
+
+        function showFinalQuizSummary() {
+            const container = document.getElementById('quizQuestionBody');
+            const tracker = document.getElementById('quizStepTracker');
+            const btnNext = document.getElementById('btnNextQuiz');
+
+            tracker.innerText = 'Keputusan Akhir';
+            btnNext.style.display = 'none';
+
+            const percentage = Math.round((userQuizScore / quizData.length) * 100);
+            let feedback = "Teruskan mengulang kaji konsep tatasusunan C++!";
+            let badgeColor = "bg-amber-100 text-amber-800";
+
+            if (percentage >= 80) {
+                feedback = "Tahniah! Anda telah menguasai konsep tatasusunan C++ 1D, 2D serta manipulasi gelung dengan cemerlang!";
+                badgeColor = "bg-emerald-100 text-emerald-800";
+            } else if (percentage >= 50) {
+                feedback = "Pencapaian yang baik! Luangkan masa mengulang kaji bahagian sempadan memori tatasusunan C++ dan indeks matriks 2D.";
+            }
+
+            container.innerHTML = `
+                <div class="text-center py-6">
+                    <div class="w-20 h-20 mx-auto rounded-3xl bg-indigo-50 border-4 border-brand-500 flex items-center justify-center text-brand-600 text-3xl font-black mb-3 shadow-inner">
+                        ${userQuizScore}/${quizData.length}
+                    </div>
+                    <span class="inline-block px-3.5 py-1 rounded-full text-xs font-bold ${badgeColor} mb-2">
+                        Markah: ${percentage}%
+                    </span>
+                    <h3 class="text-xl font-black text-slate-900">Ujian Pemahaman C++ Selesai</h3>
+                    <p class="text-slate-600 text-xs mt-2 max-w-md mx-auto leading-relaxed">${feedback}</p>
+                    
+                    <button onclick="restartQuiz()" class="mt-6 px-6 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold shadow-md transition">
+                        <i class="fa-solid fa-rotate-left mr-1.5"></i> Ambil Semula Kuiz
+                    </button>
+                </div>
+            `;
+        }
+
+        function restartQuiz() {
+            currentQuizIndex = 0;
+            userQuizScore = 0;
+            document.getElementById('quizScoreTracker').innerText = `Skor: 0 / ${quizData.length}`;
+            document.getElementById('btnNextQuiz').style.display = 'inline-block';
+            renderCurrentQuiz();
+        }
+
+        // ==========================================
+        // INITIALIZATION ON DOM READY
+        // ==========================================
+        window.addEventListener('DOMContentLoaded', () => {
+            renderInteractiveAnimation();
+            render1DVisualizer();
+            render2DMatrix();
+            renderManipulationBoxes();
+            updateAlgoCodeSnippet();
+            loadScenario('normal');
+            renderCurrentQuiz();
+        });
+    </script>
+</body>
+</html>
