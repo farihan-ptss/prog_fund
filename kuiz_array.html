@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Latihan Interaktif Sains Komputer: Tatasusunan (Array)</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome for educational icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Outfit', 'Plus Jakarta Sans', 'sans-serif'],
+            mono: ['Fira Code', 'monospace']
+          },
+          colors: {
+            brand: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              500: '#22c55e',
+              600: '#16a34a'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background: radial-gradient(circle at 10% 20%, rgb(254, 243, 199) 0%, rgb(240, 249, 255) 45%, rgb(238, 242, 255) 90%);
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 9999px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    @keyframes bounce-gentle {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+    .animate-gentle-bounce {
+      animation: bounce-gentle 2s ease-in-out infinite;
+    }
+    @keyframes pulse-urgent {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(1.03); }
+    }
+    .animate-urgent {
+      animation: pulse-urgent 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+  </style>
+</head>
+<body class="text-slate-800 min-h-screen font-sans flex flex-col antialiased selection:bg-amber-300 selection:text-indigo-950">
+
+  <!-- Top Cheerful Navigation Header -->
+  <header class="bg-white/85 backdrop-blur-md border-b-2 border-indigo-100 sticky top-0 z-30 px-4 py-3 sm:px-6 shadow-sm shadow-indigo-100/40">
+    <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center space-x-3">
+        <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-amber-400 via-orange-400 to-rose-400 flex items-center justify-center shadow-lg shadow-orange-300/40 text-white font-extrabold text-xl animate-gentle-bounce">
+          <i class="fa-solid fa-shapes"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-base sm:text-lg font-extrabold text-indigo-950 leading-tight">Kuiz Interaktif C++: Tatasusunan (Array)</h1>
+            <span class="hidden sm:inline-flex px-2 py-0.5 rounded-full text-[11px] font-bold bg-amber-100 text-amber-800 border border-amber-200">
+              ⭐ 25 Markah
+            </span>
+          </div>
+          <p class="text-xs font-medium text-slate-500">Sains Komputer • Bahasa Pengaturcaraan C++ • Standard Pembelajaran 4.1.2 hingga 4.1.10</p>
+        </div>
+      </div>
+
+      <!-- Right Header Actions (Info Badge Only - Tiada Butang Konfigurasi) -->
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        <div id="badgeTotalMarks" class="text-xs px-3.5 py-2 rounded-xl bg-gradient-to-r from-emerald-50 to-teal-50 text-emerald-800 font-bold border border-emerald-200 shadow-sm flex items-center gap-1.5">
+          <i class="fa-solid fa-trophy text-amber-500"></i>
+          <span>25 Soalan • 10 Minit</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-5xl w-full mx-auto p-4 sm:p-6 md:p-8 flex flex-col justify-center">
+
+    <!-- SCREEN 1: Cheerful Registration Form -->
+    <div id="screenRegistration" class="w-full max-w-xl mx-auto bg-white rounded-3xl border-2 border-indigo-100 p-6 sm:p-9 shadow-2xl shadow-indigo-200/50">
+      <div class="text-center mb-6">
+        <div class="inline-flex p-4 bg-gradient-to-tr from-sky-400 to-indigo-500 text-white rounded-3xl mb-3 shadow-lg shadow-indigo-300/40">
+          <i class="fa-solid fa-rocket text-3xl"></i>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-indigo-950 mb-2">Jom Mulakan Kuiz C++! 🎉</h2>
+        <p class="text-sm text-slate-600 leading-relaxed font-medium">
+          Uji kefahaman mendalam anda mengenai sintaks dan operasi <strong class="text-indigo-600">Tatasusunan (Array) dalam Bahasa C++</strong> merangkumi indeks, elemen, saiz, tatasusunan 1D & 2D, pemulaan nilai, serta manipulasi kod.
+        </p>
+      </div>
+
+      <!-- Bright Assessment Specifications Cards -->
+      <div class="grid grid-cols-3 gap-3 mb-6 text-center">
+        <div class="bg-amber-50/80 p-3.5 rounded-2xl border-2 border-amber-200">
+          <div class="text-xl">⏱️</div>
+          <div class="text-xs text-amber-700 font-bold mt-1">Masa Diberi</div>
+          <div class="text-sm font-extrabold text-amber-900">10 Minit</div>
+        </div>
+        <div class="bg-emerald-50/80 p-3.5 rounded-2xl border-2 border-emerald-200">
+          <div class="text-xl">🎯</div>
+          <div class="text-xs text-emerald-700 font-bold mt-1">Jumlah Skor</div>
+          <div class="text-sm font-extrabold text-emerald-900">25 Markah</div>
+        </div>
+        <div class="bg-indigo-50/80 p-3.5 rounded-2xl border-2 border-indigo-200">
+          <div class="text-xl">📝</div>
+          <div class="text-xs text-indigo-700 font-bold mt-1">Bil. Soalan</div>
+          <div class="text-sm font-extrabold text-indigo-900">25 Soalan</div>
+        </div>
+      </div>
+
+      <!-- Student Input Form (Only Full Name) -->
+      <form id="formStartQuiz" class="space-y-4">
+        <div>
+          <label for="studentName" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+            Nama Penuh Murid <span class="text-rose-500">*</span>
+          </label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-indigo-400">
+              <i class="fa-solid fa-user-graduate text-base"></i>
+            </span>
+            <input type="text" id="studentName" required placeholder="Contoh: Muhammad Danish bin Roslan" 
+              class="w-full pl-10 pr-4 py-3 bg-slate-50 border-2 border-slate-200 focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-100 rounded-2xl text-slate-800 placeholder-slate-400 font-medium text-sm outline-none transition">
+          </div>
+        </div>
+
+        <div class="p-3.5 bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-amber-200 rounded-2xl flex items-start gap-3 text-xs text-amber-900 font-medium">
+          <i class="fa-solid fa-circle-exclamation text-amber-500 text-base mt-0.5"></i>
+          <span>Pemasa 10 minit untuk 25 soalan akan bermula sebaik sahaja anda klik butang di bawah. Skor akan disimpan terus ke Google Sheet guru.</span>
+        </div>
+
+        <button type="submit" id="btnStart" class="w-full mt-2 py-3.5 px-6 bg-gradient-to-r from-sky-500 via-indigo-600 to-purple-600 hover:from-sky-400 hover:to-indigo-500 active:scale-[0.99] text-white font-extrabold text-base rounded-2xl shadow-xl shadow-indigo-300/40 transition flex items-center justify-center gap-2">
+          <span>Mula Menjawab Sekarang</span>
+          <i class="fa-solid fa-circle-arrow-right"></i>
+        </button>
+      </form>
+    </div>
+
+    <!-- SCREEN 2: Cheerful Quiz Workspace -->
+    <div id="screenQuiz" class="hidden w-full space-y-5">
+      <!-- Quiz Progress & Cheerful Timer Ribbon -->
+      <div class="bg-white rounded-3xl border-2 border-indigo-100 p-4 sm:p-5 shadow-lg shadow-indigo-100/50 flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center space-x-3">
+          <div class="w-12 h-11 px-2 rounded-2xl bg-gradient-to-tr from-indigo-500 to-sky-400 flex items-center justify-center text-white font-extrabold text-xs sm:text-sm shadow-md shadow-indigo-200">
+            <span id="activeQuestionNum">1</span>/25
+          </div>
+          <div>
+            <div class="text-xs font-bold text-slate-500">Calon: <span id="displayStudentName" class="text-indigo-950 font-extrabold"></span></div>
+            <div class="text-xs font-bold text-indigo-600 flex items-center gap-1.5" id="questionStandardBadge">
+              <i class="fa-solid fa-book-open-reader"></i>
+              <span>4.1.2 Komponen Array</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 10-Minute Countdown Display -->
+        <div class="flex items-center gap-2">
+          <div id="timerContainer" class="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-amber-300 rounded-2xl font-mono text-lg font-black text-amber-800 shadow-sm">
+            <i class="fa-solid fa-stopwatch text-amber-500"></i>
+            <span id="timerText">10:00</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Linear Question Stepper Buttons -->
+      <div class="flex items-center gap-1.5 overflow-x-auto pb-1 custom-scroll">
+        <div id="stepperContainer" class="flex gap-2 w-full justify-between sm:justify-start">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+
+      <!-- Question Card Container -->
+      <div class="bg-white rounded-3xl border-2 border-indigo-100 shadow-xl shadow-indigo-100/50 overflow-hidden">
+        <!-- Question Header with badge -->
+        <div class="px-6 py-4 bg-gradient-to-r from-indigo-50/70 via-sky-50/50 to-purple-50/40 border-b-2 border-indigo-100 flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-indigo-500 animate-pulse"></span>
+            <span class="text-xs uppercase tracking-wider font-extrabold text-indigo-900" id="qCategoryHeader">Topik 4.1</span>
+          </div>
+          <span class="px-3 py-1 rounded-full text-xs font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-300 shadow-sm">
+            ⭐ 1 Markah
+          </span>
+        </div>
+
+        <!-- Question Prompt & Dynamic Interactive Body -->
+        <div class="p-6 sm:p-8 space-y-6">
+          <div id="questionPrompt" class="text-base sm:text-lg font-semibold text-slate-800 leading-relaxed">
+            <!-- Dynamic Prompt -->
+          </div>
+
+          <!-- Code or Diagram Sandbox (if present) -->
+          <div id="questionSnippetBox" class="hidden">
+            <!-- Code view container -->
+          </div>
+
+          <!-- Interactive Options Area -->
+          <div id="interactiveArea" class="space-y-3">
+            <!-- Dynamically injected choices/inputs -->
+          </div>
+        </div>
+
+        <!-- Question Footer Navigation Controls -->
+        <div class="px-6 py-4 bg-slate-50 border-t-2 border-indigo-100 flex items-center justify-between gap-3">
+          <button id="btnPrevQ" class="px-4 py-2.5 rounded-2xl bg-white border-2 border-slate-200 hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed text-xs font-bold text-slate-600 transition flex items-center gap-1.5 shadow-sm">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Sebelumnya</span>
+          </button>
+          
+          <div class="text-xs font-semibold text-slate-500 italic">
+            <span id="answeredStatusText">Belum dijawab</span>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button id="btnNextQ" class="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 active:scale-95 text-xs font-extrabold text-white shadow-md shadow-indigo-300/40 transition flex items-center gap-1.5">
+              <span>Seterusnya</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+            <button id="btnFinalSubmit" class="hidden px-5 py-2.5 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 active:scale-95 text-xs font-extrabold text-white shadow-lg shadow-emerald-200 transition flex items-center gap-1.5">
+              <i class="fa-solid fa-paper-plane"></i>
+              <span>Hantar Skor (25 Markah)</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 3: Cheerful Results & Google Sheets Sync View -->
+    <div id="screenResults" class="hidden w-full max-w-3xl mx-auto space-y-6">
+      <div class="bg-white rounded-3xl border-2 border-indigo-100 p-6 sm:p-9 shadow-2xl shadow-indigo-100/60 text-center space-y-6">
+        
+        <!-- Congratulatory Badge -->
+        <div class="inline-flex p-5 rounded-3xl bg-gradient-to-tr from-amber-400 via-orange-400 to-rose-400 text-white shadow-xl shadow-orange-200/50 animate-gentle-bounce">
+          <i id="resultIcon" class="fa-solid fa-award text-5xl"></i>
+        </div>
+
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-indigo-950">Syabas & Tahniah! 🥳</h2>
+          <p class="text-sm font-medium text-slate-600 mt-1">Tahniah, <span id="resStudentName" class="font-extrabold text-indigo-600"></span>. Anda telah menamatkan latihan Tatasusunan!</p>
+        </div>
+
+        <!-- Cheerful Score Meter Grid -->
+        <div class="max-w-md mx-auto bg-gradient-to-br from-indigo-50/70 via-sky-50/60 to-purple-50/60 p-6 rounded-3xl border-2 border-indigo-200/80 shadow-inner">
+          <div class="text-xs uppercase tracking-wider font-extrabold text-indigo-700">Markah Diperoleh</div>
+          <div class="flex items-baseline justify-center gap-1.5 my-2">
+            <span id="finalScore" class="text-6xl font-black text-indigo-600">0</span>
+            <span class="text-2xl font-extrabold text-slate-500">/ 25</span>
+          </div>
+          <div class="w-full bg-slate-200 rounded-full h-4 mt-3 overflow-hidden border border-slate-300">
+            <div id="scoreBar" class="h-full bg-gradient-to-r from-amber-400 via-emerald-400 to-teal-500 rounded-full transition-all duration-1000" style="width: 0%"></div>
+          </div>
+          <div class="flex justify-between text-xs font-bold text-slate-600 mt-2.5">
+            <span id="percentageText">Peratusan: 0%</span>
+            <span id="gradeText" class="text-indigo-800 font-extrabold">Gred: -</span>
+          </div>
+        </div>
+
+        <!-- Google Sheet Submission Live Status Card -->
+        <div id="sheetStatusCard" class="bg-slate-50 p-4 rounded-2xl border-2 border-slate-200 text-left flex items-start gap-3.5">
+          <div id="syncSpinner" class="mt-0.5 text-indigo-600 text-xl">
+            <i class="fa-solid fa-circle-notch fa-spin"></i>
+          </div>
+          <div class="flex-1">
+            <div id="sheetSyncTitle" class="text-sm font-bold text-slate-800">Menyimpan nama dan markah...</div>
+            <p id="sheetSyncMsg" class="text-xs font-medium text-slate-500 mt-0.5">Memindahkan rekod penilaian ke sistem simpanan.</p>
+          </div>
+          <button id="btnRetrySync" class="hidden text-xs font-bold px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 rounded-xl text-white transition shadow-sm">
+            Cuba Lagi
+          </button>
+        </div>
+
+        <!-- Cheerful Action Buttons -->
+        <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+          <button id="btnReviewQuestions" class="px-5 py-3 rounded-2xl bg-white border-2 border-indigo-200 hover:bg-indigo-50 text-indigo-700 text-xs font-bold transition flex items-center gap-2 shadow-sm">
+            <i class="fa-solid fa-list-check"></i>
+            <span>Semak Jawapan & Huraian</span>
+          </button>
+          <button id="btnDownloadReport" class="px-5 py-3 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white text-xs font-extrabold shadow-lg shadow-indigo-200 transition flex items-center gap-2">
+            <i class="fa-solid fa-download"></i>
+            <span>Muat Turun Keputusan (CSV)</span>
+          </button>
+          <button id="btnRestartApp" class="px-5 py-3 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-2xl transition">
+            <i class="fa-solid fa-rotate-left mr-1"></i> Cuba Semula
+          </button>
+        </div>
+      </div>
+
+      <!-- Detailed Review Panel (Collapsed/Expanded on click) -->
+      <div id="reviewContainer" class="hidden bg-white rounded-3xl border-2 border-indigo-100 p-6 sm:p-7 space-y-4 shadow-xl shadow-indigo-100/50">
+        <h3 class="text-lg font-extrabold text-indigo-950 flex items-center gap-2 border-b-2 border-indigo-100 pb-3">
+          <i class="fa-solid fa-circle-check text-emerald-500"></i>
+          <span>Laporan Semakan Jawapan Terperinci (4.1.2 - 4.1.10)</span>
+        </h3>
+        <div id="reviewList" class="space-y-4">
+          <!-- Dynamically populated review questions -->
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Custom Alert/Notice Modal (Zero browser alert()) -->
+  <div id="customNoticeModal" class="fixed inset-0 z-50 bg-indigo-950/40 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="bg-white border-2 border-indigo-100 max-w-sm w-full rounded-3xl p-6 shadow-2xl text-center space-y-3">
+      <div id="noticeIcon" class="w-12 h-12 mx-auto rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl shadow-sm border border-indigo-100">
+        <i class="fa-solid fa-circle-info"></i>
+      </div>
+      <h3 id="noticeTitle" class="text-base font-extrabold text-indigo-950">Makluman</h3>
+      <p id="noticeDesc" class="text-xs text-slate-600 font-medium leading-relaxed"></p>
+      <button id="btnCloseNotice" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-2xl shadow-md shadow-indigo-200 transition">
+        Faham
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // URL Webhook Google Apps Script (Guru boleh masukkan URL web app di sini jika ada)
+    // Contoh: "https://script.google.com/macros/s/AKfycbx.../exec"
+    const GOOGLE_SHEET_WEBHOOK_URL = "";
+
+    /* 
+      25 Questions x 1 Mark = 25 Marks Total.
+      Coverage: Standard Pembelajaran 4.1.2 hingga 4.1.10 (Khusus Bahasa Pengaturcaraan C++)
+    */
+    const QUIZ_QUESTIONS = [
+      // 4.1.2 Components (index, element, size) in C++
+      {
+        id: 1,
+        std: "4.1.2 Komponen Tatasusunan C++",
+        category: "4.1.2 Indeks Permulaan C++",
+        marks: 1,
+        prompt: "Dalam bahasa pengaturcaraan C++, indeks bagi mana-mana tatasusunan sentiasa bermula dengan nombor:",
+        options: [
+          { text: "0 (Zero-based indexing)", isCorrect: true },
+          { text: "1 (One-based indexing)", isCorrect: false },
+          { text: "-1", isCorrect: false },
+          { text: "Mengikut nilai yang diisytiharkan dalam kurungan bulat", isCorrect: false }
+        ],
+        explanation: "Bahasa C++ menggunakan indeks berasaskan sifar (0-based indexing). Elemen terawal sentiasa berada pada indeks `[0]`."
+      },
+      {
+        id: 2,
+        std: "4.1.2 Komponen Tatasusunan C++",
+        category: "4.1.2 Julat Indeks & Saiz C++",
+        marks: 1,
+        prompt: "Diberi pengisytiharan C++ berikut: <code>int markah[8];</code>. Apakah julat indeks yang sah untuk tatasusunan ini?",
+        options: [
+          { text: "1 hingga 8", isCorrect: false },
+          { text: "0 hingga 7", isCorrect: true },
+          { text: "0 hingga 8", isCorrect: false },
+          { text: "1 hingga 7", isCorrect: false }
+        ],
+        explanation: "Dalam C++, jika saiz ialah N = 8, julat indeks sah bermula daripada 0 sehingga N - 1, iaitu 0 hingga 7."
+      },
+      {
+        id: 3,
+        std: "4.1.2 Komponen Tatasusunan C++",
+        category: "4.1.2 Konsep Elemen & Saiz",
+        marks: 1,
+        prompt: "Diberi kod C++: <code>double suhu[5] = {36.5, 37.0, 36.8};</code>. Nilai <code>36.8</code> merujuk kepada:",
+        options: [
+          { text: "Indeks tatasusunan", isCorrect: false },
+          { text: "Elemen pada indeks [2]", isCorrect: true },
+          { text: "Saiz keseluruhan tatasusunan", isCorrect: false },
+          { text: "Pemboleh ubah penunjuk (pointer)", isCorrect: false }
+        ],
+        explanation: "Nilai `36.8` ialah data atau elemen sebenar yang disimpan pada kedudukan indeks ke-2 (suhu[2])."
+      },
+
+      // 4.1.3 Types of array in C++
+      {
+        id: 4,
+        std: "4.1.3 Jenis Tatasusunan C++",
+        category: "4.1.3 Tatasusunan 1D C++",
+        marks: 1,
+        prompt: "Apakah ciri utama bagi tatasusunan satu dimensi (1D) dalam C++?",
+        options: [
+          { text: "Menyimpan jujukan elemen secara linear dalam blok memori bersebelahan dan diakses dengan satu subskrip [i].", isCorrect: true },
+          { text: "Tersusun dalam bentuk lajur dan baris yang memerlukan dua subskrip serentak [i][j].", isCorrect: false },
+          { text: "Hanya boleh memuatkan jenis data aksara (char) sahaja.", isCorrect: false },
+          { text: "Saiznya berubah secara dinamik secara automatik semasa pengkompilasi.", isCorrect: false }
+        ],
+        explanation: "Tatasusunan 1D dalam C++ memperuntukkan blok ingatan linear bersebelahan dan setiap elemen diakses menggunakan satu subskrip indeks `arr[i]`."
+      },
+      {
+        id: 5,
+        std: "4.1.3 Jenis Tatasusunan C++",
+        category: "4.1.3 Tatasusunan 2D C++",
+        marks: 1,
+        prompt: "Dalam C++, tatasusunan dua dimensi (2D) diatur secara konsep logik sebagai:",
+        options: [
+          { text: "Struktur jadual (grid) yang mengandungi baris (rows) dan lajur (columns).", isCorrect: true },
+          { text: "Satu senarai rantaian (linked list) tidak linear.", isCorrect: false },
+          { text: "Fail binari luaran yang tidak memerlukan penentuan jenis data.", isCorrect: false },
+          { text: "Koleksi data berlainan jenis data dalam satu nama.", isCorrect: false }
+        ],
+        explanation: "Tatasusunan 2D dalam C++ diwakili secara logik sebagai matriks yang mempunyai dimensi baris dan lajur: `arr[baris][lajur]`."
+      },
+
+      // 4.1.4 Declare 1D in C++
+      {
+        id: 6,
+        std: "4.1.4 Pengisytiharan Tatasusunan 1D C++",
+        category: "4.1.4 Sintaks Pengisytiharan 1D",
+        marks: 1,
+        prompt: "Manakah sintaks yang <strong>BETUL</strong> dalam C++ untuk mengisytiharkan tatasusunan integer bernama <code>bilangan</code> dengan saiz 10?",
+        options: [
+          { text: "int bilangan[10];", isCorrect: true },
+          { text: "bilangan int[10];", isCorrect: false },
+          { text: "array<int> bilangan = 10;", isCorrect: false },
+          { text: "int bilangan(10);", isCorrect: false }
+        ],
+        explanation: "Sintaks pengisytiharan tatasusunan 1D asas dalam C++ ialah: `jenis_data namaArray[saiz];` iaitu `int bilangan[10];`."
+      },
+      {
+        id: 7,
+        std: "4.1.4 Pengisytiharan Tatasusunan 1D C++",
+        category: "4.1.4 Tatasusunan Aksara C++",
+        marks: 1,
+        prompt: "Dalam C++, jika anda ingin mengisytiharkan tatasusunan untuk menyimpan 5 aksara gred pelajar, sintaks manakah yang tepat?",
+        options: [
+          { text: "char gred[5];", isCorrect: true },
+          { text: "string gred = [5];", isCorrect: false },
+          { text: "float gred[5];", isCorrect: false },
+          { text: "character gred(5);", isCorrect: false }
+        ],
+        explanation: "Jenis data untuk aksara tunggal dalam C++ ialah `char`. Maka pengisytiharan yang betul ialah `char gred[5];`."
+      },
+      {
+        id: 8,
+        std: "4.1.4 Pengisytiharan Tatasusunan 1D C++",
+        category: "4.1.4 Saiz Pemalar C++",
+        marks: 1,
+        prompt: "Diberi kod C++ berikut:<br><code class='p-1 bg-slate-900 text-sky-300 rounded'>const int SAIZ = 6;<br>int data[SAIZ];</code><br>Pernyataan manakah yang paling tepat?",
+        options: [
+          { text: "Kod ini sah dalam C++ kerana saiz tatasusunan statik boleh ditentukan menggunakan nilai pemalar (constant).", isCorrect: true },
+          { text: "Kod ini akan menghasilkan ralat kompilasi kerana pemboleh ubah tidak boleh dijadikan saiz.", isCorrect: false },
+          { text: "Saiz tatasusunan akan bertukar menjadi 0 secara lalai.", isCorrect: false },
+          { text: "Tatasusunan ini mengandungi 7 elemen dari 0 hingga 6.", isCorrect: false }
+        ],
+        explanation: "Dalam C++, saiz tatasusunan statik mestilah pemalar masa pengkompilasi (compile-time constant). Penggunaan `const int` adalah sah dan digalakkan."
+      },
+
+      // 4.1.5 Initialize 1D in C++
+      {
+        id: 9,
+        std: "4.1.5 Memulakan Nilai 1D C++",
+        category: "4.1.5 Sintaks Pemulaan C++",
+        marks: 1,
+        prompt: "Dalam C++, simbol kurungan manakah yang digunakan dalam senarai pemulaan (initializer list) tatasusunan?",
+        options: [
+          { text: "Kurungan dakap { }", isCorrect: true },
+          { text: "Kurungan bulat ( )", isCorrect: false },
+          { text: "Kurungan sudut < >", isCorrect: false },
+          { text: "Kurungan siku tunggal [ ]", isCorrect: false }
+        ],
+        explanation: "Dalam C++, senarai nilai awal dinyatakan dalam kurungan dakap, contohnya: `int arr[3] = {1, 2, 3};`."
+      },
+      {
+        id: 10,
+        std: "4.1.5 Memulakan Nilai 1D C++",
+        category: "4.1.5 Pemulaan Nilai Separa C++",
+        marks: 1,
+        prompt: "Perhatikan kod C++ berikut:<br><code class='p-1 bg-slate-900 text-amber-300 rounded'>int nombor[5] = {10, 20};</code><br>Apakah nilai bagi <code>nombor[2]</code> dan <code>nombor[4]</code>?",
+        options: [
+          { text: "0 dan 0", isCorrect: true },
+          { text: "10 dan 20", isCorrect: false },
+          { text: "Nilai sampah rawak (garbage value)", isCorrect: false },
+          { text: "Ralat kompilasi berlaku", isCorrect: false }
+        ],
+        explanation: "Mengikut piawaian C++, jika tatasusunan dimulakan secara separa, elemen selebihnya akan dimulakan secara automatik kepada sifar (zero-initialized)."
+      },
+      {
+        id: 11,
+        std: "4.1.5 Memulakan Nilai 1D C++",
+        category: "4.1.5 Pemulaan Tanpa Dimensi Eksplisit",
+        marks: 1,
+        prompt: "Diberi kod C++: <code>int mata[] = {4, 8, 12, 16};</code>. Berapakah saiz tatasusunan yang diperuntukkan oleh pengkompil C++?",
+        options: [
+          { text: "4 elemen", isCorrect: true },
+          { text: "5 elemen", isCorrect: false },
+          { text: "Tidak terhingga kerana tiada saiz dinyatakan", isCorrect: false },
+          { text: "Ralat kerana saiz wajib ditulis dalam kurungan siku", isCorrect: false }
+        ],
+        explanation: "Jika kurungan siku dibiarkan kosong semasa pemulaan nilai, pengkompil C++ akan menetapkan saiz mengikut bilangan elemen yang tersenarai (4 elemen)."
+      },
+
+      // 4.1.6 Access 1D in C++
+      {
+        id: 12,
+        std: "4.1.6 Mengakses Elemen 1D C++",
+        category: "4.1.6 Capaian Elemen Melalui Subskrip",
+        marks: 1,
+        prompt: "Diberi kod C++:<br><code class='p-1 bg-slate-900 text-emerald-300 rounded'>int senarai[4] = {15, 30, 45, 60};<br>cout << senarai[2];</code><br>Apakah output yang dipaparkan pada skrin konsol?",
+        options: [
+          { text: "45", isCorrect: true },
+          { text: "30", isCorrect: false },
+          { text: "60", isCorrect: false },
+          { text: "15", isCorrect: false }
+        ],
+        explanation: "Indeks [0] = 15, Indeks [1] = 30, Indeks [2] = 45. Maka `cout << senarai[2];` mencetak nilai 45."
+      },
+      {
+        id: 13,
+        std: "4.1.6 Mengakses Elemen 1D C++",
+        category: "4.1.6 Capaian Elemen Terakhir C++",
+        marks: 1,
+        prompt: "Jika satu tatasusunan diisytiharkan dalam C++ sebagai <code>int senarai[N];</code>, pernyataan manakah yang mengakses elemen yang paling akhir?",
+        options: [
+          { text: "senarai[N - 1]", isCorrect: true },
+          { text: "senarai[N]", isCorrect: false },
+          { text: "senarai[N + 1]", isCorrect: false },
+          { text: "senarai.last()", isCorrect: false }
+        ],
+        explanation: "Kerana tatasusunan C++ bermula pada indeks 0, elemen terakhir berada pada indeks `N - 1`."
+      },
+      {
+        id: 14,
+        std: "4.1.6 Mengakses Elemen 1D C++",
+        category: "4.1.6 Ralat Luar Sempadan (Out of Bounds)",
+        marks: 1,
+        prompt: "Apakah akibatnya apabila kod C++ melaksanakan <code>cout << skor[5];</code> bagi tatasusunan <code>int skor[5];</code>?",
+        options: [
+          { text: "Mengakibatkan Undefined Behavior (tingkah laku tidak tertakrif / capaian ingatan haram) kerana C++ tidak membuat semakan sempadan automatik.", isCorrect: true },
+          { text: "Pengkompil secara automatik menambah saiz tatasusunan menjadi 6.", isCorrect: false },
+          { text: "Program akan memaparkan elemen pertama skor[0] secara automatik.", isCorrect: false },
+          { text: "Program sentiasa memaparkan nilai 0 tanpa sebarang risiko ralat.", isCorrect: false }
+        ],
+        explanation: "Bagi saiz 5, indeks sah ialah 0 hingga 4. Mengakses `skor[5]` adalah di luar sempadan (out-of-bounds). C++ tidak menyemak sempadan secara automatik, membawa kepada Undefined Behavior."
+      },
+
+      // 4.1.7 Declare 2D in C++
+      {
+        id: 15,
+        std: "4.1.7 Pengisytiharan Tatasusunan 2D C++",
+        category: "4.1.7 Sintaks Pengisytiharan 2D",
+        marks: 1,
+        prompt: "Manakah sintaks C++ yang betul untuk mengisytiharkan tatasusunan 2D integer dengan 3 baris dan 4 lajur?",
+        options: [
+          { text: "int jadual[3][4];", isCorrect: true },
+          { text: "int jadual[4][3];", isCorrect: false },
+          { text: "int jadual[3, 4];", isCorrect: false },
+          { text: "jadual[3][4] int;", isCorrect: false }
+        ],
+        explanation: "Format C++ tatasusunan 2D ialah: `jenis_data namaArray[bil_baris][bil_lajur];` iaitu `int jadual[3][4];`."
+      },
+      {
+        id: 16,
+        std: "4.1.7 Pengisytiharan Tatasusunan 2D C++",
+        category: "4.1.7 Jumlah Elemen Tatasusunan 2D C++",
+        marks: 1,
+        prompt: "Diberi pengisytiharan C++: <code>float matriks[4][5];</code>. Berapakah jumlah keseluruhan elemen jenis float yang boleh disimpan?",
+        options: [
+          { text: "20 elemen", isCorrect: true },
+          { text: "9 elemen", isCorrect: false },
+          { text: "45 elemen", isCorrect: false },
+          { text: "16 elemen", isCorrect: false }
+        ],
+        explanation: "Jumlah elemen bagi tatasusunan 2D C++ ialah hasil darab baris dan lajur: 4 x 5 = 20 elemen."
+      },
+
+      // 4.1.8 Initialize 2D in C++
+      {
+        id: 17,
+        std: "4.1.8 Memulakan Nilai 2D C++",
+        category: "4.1.8 Sintaks Pemulaan Nilai 2D",
+        marks: 1,
+        prompt: "Pilih kod C++ yang paling tepat untuk memulakan tatasusunan 2D berdimensi 2 baris dan 2 lajur:",
+        options: [
+          { text: "int m[2][2] = { {10, 20}, {30, 40} };", isCorrect: true },
+          { text: "int m[2][2] = ( (10, 20), (30, 40) );", isCorrect: false },
+          { text: "int m[2][2] = [ [10, 20], [30, 40] ];", isCorrect: false },
+          { text: "int m[2, 2] = {10, 20, 30, 40};", isCorrect: false }
+        ],
+        explanation: "Dalam C++, pemulaan nilai tatasusunan 2D dianjurkan menggunakan kurungan dakap bersarang: `{ {baris 0}, {baris 1} }`."
+      },
+      {
+        id: 18,
+        std: "4.1.8 Memulakan Nilai 2D C++",
+        category: "4.1.8 Pemulaan Separa Tatasusunan 2D C++",
+        marks: 1,
+        prompt: "Diberi kod C++:<br><code class='p-1 bg-slate-900 text-sky-300 rounded'>int data[2][2] = { {7} };</code><br>Apakah nilai bagi <code>data[0][1]</code> dan <code>data[1][0]</code>?",
+        options: [
+          { text: "0 dan 0", isCorrect: true },
+          { text: "7 dan 7", isCorrect: false },
+          { text: "Nilai rawak sampah", isCorrect: false },
+          { text: "Ralat sintaks pengkompil", isCorrect: false }
+        ],
+        explanation: "Dalam C++, elemen yang tidak diberikan nilai secara nyata dalam senarai pemulaan akan disetkan secara automatik kepada nilai 0."
+      },
+
+      // 4.1.9 Access 2D in C++
+      {
+        id: 19,
+        std: "4.1.9 Mengakses Elemen 2D C++",
+        category: "4.1.9 Capaian Elemen Matriks C++",
+        marks: 1,
+        prompt: "Perhatikan kod C++ berikut:<br><code class='p-1 bg-slate-900 text-cyan-300 rounded'>int grid[2][3] = { {2, 4, 6}, {8, 10, 12} };<br>cout << grid[1][0];</code><br>Apakah output yang dihasilkan?",
+        options: [
+          { text: "8", isCorrect: true },
+          { text: "2", isCorrect: false },
+          { text: "4", isCorrect: false },
+          { text: "10", isCorrect: false }
+        ],
+        explanation: "`grid[1][0]` merujuk kepada Baris indeks 1 iaitu `{8, 10, 12}` dan Lajur indeks 0, iaitu nilai 8."
+      },
+      {
+        id: 20,
+        std: "4.1.9 Mengakses Elemen 2D C++",
+        category: "4.1.9 Koordinat Baris dan Lajur C++",
+        marks: 1,
+        prompt: "Untuk mengakses elemen pada <strong>Baris ke-3 dan Lajur ke-2</strong> dalam tatasusunan <code>int jadual[4][4];</code> dalam C++, apakah pernyataan yang betul?",
+        options: [
+          { text: "jadual[2][1]", isCorrect: true },
+          { text: "jadual[3][2]", isCorrect: false },
+          { text: "jadual[1][2]", isCorrect: false },
+          { text: "jadual(3, 2)", isCorrect: false }
+        ],
+        explanation: "Sistem C++ bermula dari 0: Baris ke-3 = indeks 2, dan Lajur ke-2 = indeks 1. Sintaks capaian ialah `jadual[2][1]`."
+      },
+      {
+        id: 21,
+        std: "4.1.9 Mengakses Elemen 2D C++",
+        category: "4.1.9 Capaian Tatasusunan Aksara 2D C++",
+        marks: 1,
+        prompt: "Diberi kod C++:<br><code class='p-1 bg-slate-900 text-cyan-300 rounded'>char papan[2][2] = { {'X', 'O'}, {'O', 'X'} };<br>cout << papan[0][1];</code><br>Apakah aksara yang dipaparkan?",
+        options: [
+          { text: "'O'", isCorrect: true },
+          { text: "'X'", isCorrect: false },
+          { text: "Ralat jenis data", isCorrect: false },
+          { text: "0", isCorrect: false }
+        ],
+        explanation: "Baris indeks 0 ialah `{'X', 'O'}`. Elemen lajur indeks 1 ialah `'O'`."
+      },
+
+      // 4.1.10 Manipulate array elements in C++
+      {
+        id: 22,
+        std: "4.1.10 Manipulasi Elemen C++",
+        category: "4.1.10 Penukaran Nilai (Assignment)",
+        marks: 1,
+        prompt: "Diberi kod C++:<br><code class='p-1 bg-slate-900 text-emerald-300 rounded'>int val[3] = {5, 10, 15};<br>val[1] = val[0] + val[2];<br>cout << val[1];</code><br>Apakah output yang dicetak?",
+        options: [
+          { text: "20", isCorrect: true },
+          { text: "10", isCorrect: false },
+          { text: "25", isCorrect: false },
+          { text: "15", isCorrect: false }
+        ],
+        explanation: "`val[0]` (5) + `val[2]` (15) = 20. Nilai 20 dimasukkan menggantikan nilai asal `val[1]`."
+      },
+      {
+        id: 23,
+        std: "4.1.10 Manipulasi Elemen C++",
+        category: "4.1.10 Gelung Gelintaran (Loop Traversal) C++",
+        marks: 1,
+        prompt: "Perhatikan gelung for dalam C++ berikut:<br><code class='p-1 bg-slate-900 text-amber-300 rounded'>int a[3] = {2, 4, 6};<br>for (int i = 0; i < 3; i++) {<br>&nbsp;&nbsp;&nbsp;&nbsp;a[i] = a[i] * 2;<br>}<br>cout << a[2];</code><br>Apakah nilai yang dicetak?",
+        options: [
+          { text: "12", isCorrect: true },
+          { text: "6", isCorrect: false },
+          { text: "8", isCorrect: false },
+          { text: "4", isCorrect: false }
+        ],
+        explanation: "Semasa gelung selesai, setiap elemen didarab dengan 2. Elemen `a[2]` asalnya bernilai 6 bertukar menjadi 6 * 2 = 12."
+      },
+      {
+        id: 24,
+        std: "4.1.10 Manipulasi Elemen C++",
+        category: "4.1.10 Pengiraan Jumlah Menggunakan Gelung C++",
+        marks: 1,
+        prompt: "Diberi kod C++:<br><code class='p-1 bg-slate-900 text-amber-300 rounded'>int skor[4] = {10, 20, 30, 40};<br>int jumlah = 0;<br>for (int i = 0; i < 4; i++) {<br>&nbsp;&nbsp;&nbsp;&nbsp;jumlah += skor[i];<br>}<br>cout << jumlah;</code><br>Apakah hasil cetakan pada konsol?",
+        options: [
+          { text: "100", isCorrect: true },
+          { text: "60", isCorrect: false },
+          { text: "40", isCorrect: false },
+          { text: "0", isCorrect: false }
+        ],
+        explanation: "Gelung mencampurkan semua elemen: 10 + 20 + 30 + 40 = 100."
+      },
+      {
+        id: 25,
+        std: "4.1.10 Manipulasi Elemen C++",
+        category: "4.1.10 Manipulasi Matriks 2D C++",
+        marks: 1,
+        prompt: "Diberi matriks 2D C++ berikut:<br><code class='p-1 bg-slate-900 text-emerald-300 rounded'>int m[2][2] = { {3, 5}, {7, 9} };<br>m[0][1] = m[1][0] - m[0][0];<br>cout << m[0][1];</code><br>Apakah output yang dihasilkan?",
+        options: [
+          { text: "4", isCorrect: true },
+          { text: "5", isCorrect: false },
+          { text: "2", isCorrect: false },
+          { text: "7", isCorrect: false }
+        ],
+        explanation: "Nilai `m[1][0]` ialah 7 dan `m[0][0]` ialah 3. Nilai baharu `m[0][1]` = 7 - 3 = 4."
+      }
+    ];
+
+    // Application State
+    let state = {
+      studentName: "",
+      currentQuestionIdx: 0,
+      userAnswers: {}, // key: questionId, value: selected option index
+      timeRemaining: 10 * 60, // 10 minutes in seconds
+      timerInterval: null,
+      isFinished: false,
+      finalScore: 0,
+      percentage: 0
+    };
+
+    // DOM Cache
+    const screenRegistration = document.getElementById('screenRegistration');
+    const screenQuiz = document.getElementById('screenQuiz');
+    const screenResults = document.getElementById('screenResults');
+    const formStartQuiz = document.getElementById('formStartQuiz');
+    const studentNameInput = document.getElementById('studentName');
+
+    // Quiz UI
+    const displayStudentName = document.getElementById('displayStudentName');
+    const activeQuestionNum = document.getElementById('activeQuestionNum');
+    const questionStandardBadge = document.getElementById('questionStandardBadge');
+    const qCategoryHeader = document.getElementById('qCategoryHeader');
+    const questionPrompt = document.getElementById('questionPrompt');
+    const interactiveArea = document.getElementById('interactiveArea');
+    const stepperContainer = document.getElementById('stepperContainer');
+    const btnPrevQ = document.getElementById('btnPrevQ');
+    const btnNextQ = document.getElementById('btnNextQ');
+    const btnFinalSubmit = document.getElementById('btnFinalSubmit');
+    const timerText = document.getElementById('timerText');
+    const timerContainer = document.getElementById('timerContainer');
+    const answeredStatusText = document.getElementById('answeredStatusText');
+
+    // Results UI
+    const resStudentName = document.getElementById('resStudentName');
+    const finalScoreEl = document.getElementById('finalScore');
+    const scoreBar = document.getElementById('scoreBar');
+    const percentageText = document.getElementById('percentageText');
+    const gradeText = document.getElementById('gradeText');
+    const syncSpinner = document.getElementById('syncSpinner');
+    const sheetSyncTitle = document.getElementById('sheetSyncTitle');
+    const sheetSyncMsg = document.getElementById('sheetSyncMsg');
+    const btnRetrySync = document.getElementById('btnRetrySync');
+    const btnReviewQuestions = document.getElementById('btnReviewQuestions');
+    const reviewContainer = document.getElementById('reviewContainer');
+    const reviewList = document.getElementById('reviewList');
+    const btnDownloadReport = document.getElementById('btnDownloadReport');
+    const btnRestartApp = document.getElementById('btnRestartApp');
+
+    // Custom Notice Modal
+    const customNoticeModal = document.getElementById('customNoticeModal');
+    const noticeTitle = document.getElementById('noticeTitle');
+    const noticeDesc = document.getElementById('noticeDesc');
+    const btnCloseNotice = document.getElementById('btnCloseNotice');
+
+    function showNotification(title, message, isError = false) {
+      noticeTitle.innerText = title;
+      noticeDesc.innerText = message;
+      const noticeIcon = document.getElementById('noticeIcon');
+      if (isError) {
+        noticeIcon.className = "w-12 h-12 mx-auto rounded-2xl bg-rose-50 text-rose-500 border border-rose-200 flex items-center justify-center text-xl";
+        noticeIcon.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
+      } else {
+        noticeIcon.className = "w-12 h-12 mx-auto rounded-2xl bg-indigo-50 text-indigo-600 border border-indigo-200 flex items-center justify-center text-xl";
+        noticeIcon.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+      }
+      customNoticeModal.classList.remove('hidden');
+    }
+
+    btnCloseNotice.addEventListener('click', () => {
+      customNoticeModal.classList.add('hidden');
+    });
+
+    formStartQuiz.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = studentNameInput.value.trim();
+
+      if (!name) {
+        showNotification("Sila Masukkan Nama", "Nama penuh murid diperlukan sebelum memulakan ujian.", true);
+        return;
+      }
+
+      state.studentName = name;
+      displayStudentName.innerText = state.studentName;
+
+      // Switch screens
+      screenRegistration.classList.add('hidden');
+      screenQuiz.classList.remove('hidden');
+
+      // Initialize Stepper buttons & first question
+      renderSteppers();
+      loadQuestion(0);
+      startTimer();
+    });
+
+    function startTimer() {
+      updateTimerDisplay();
+      state.timerInterval = setInterval(() => {
+        state.timeRemaining--;
+        updateTimerDisplay();
+
+        if (state.timeRemaining <= 0) {
+          clearInterval(state.timerInterval);
+          showNotification("Masa Tamat!", "Masa 10 minit telah tamat. Jawapan anda sedang dikumpulkan secara automatik.");
+          finishQuiz();
+        }
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const minutes = Math.floor(state.timeRemaining / 60);
+      const seconds = state.timeRemaining % 60;
+      const formatted = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+      timerText.innerText = formatted;
+
+      // Turn red when below 2 minutes
+      if (state.timeRemaining <= 120) {
+        timerContainer.classList.remove('from-amber-50', 'to-orange-50', 'border-amber-300', 'text-amber-800');
+        timerContainer.classList.add('from-rose-50', 'to-red-50', 'border-rose-400', 'text-rose-700', 'animate-urgent');
+      } else {
+        timerContainer.classList.add('from-amber-50', 'to-orange-50', 'border-amber-300', 'text-amber-800');
+        timerContainer.classList.remove('from-rose-50', 'to-red-50', 'border-rose-400', 'text-rose-700', 'animate-urgent');
+      }
+    }
+
+    function renderSteppers() {
+      stepperContainer.innerHTML = '';
+      QUIZ_QUESTIONS.forEach((q, idx) => {
+        const btn = document.createElement('button');
+        const isAnswered = state.userAnswers[q.id] !== undefined;
+        const isActive = state.currentQuestionIdx === idx;
+
+        let baseClass = "w-8 h-8 rounded-xl text-xs font-black transition flex items-center justify-center shrink-0 border-2 ";
+        if (isActive) {
+          baseClass += "bg-gradient-to-r from-sky-500 to-indigo-600 text-white border-indigo-400 shadow-md shadow-indigo-300 ring-2 ring-indigo-200";
+        } else if (isAnswered) {
+          baseClass += "bg-emerald-100 text-emerald-800 border-emerald-300";
+        } else {
+          baseClass += "bg-white text-slate-600 border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/50";
+        }
+
+        btn.className = baseClass;
+        btn.innerText = idx + 1;
+        btn.title = `Soalan ${idx + 1}: ${q.std}`;
+        btn.addEventListener('click', () => loadQuestion(idx));
+        stepperContainer.appendChild(btn);
+      });
+    }
+
+    function loadQuestion(index) {
+      state.currentQuestionIdx = index;
+      const q = QUIZ_QUESTIONS[index];
+
+      // Update question header info
+      activeQuestionNum.innerText = index + 1;
+      questionStandardBadge.innerHTML = `<i class="fa-solid fa-book-open-reader text-indigo-500"></i> <span>${q.std}</span>`;
+      qCategoryHeader.innerText = q.category;
+      questionPrompt.innerHTML = q.prompt;
+
+      // Render Options
+      interactiveArea.innerHTML = '';
+      const selectedOptIdx = state.userAnswers[q.id];
+
+      q.options.forEach((opt, optIndex) => {
+        const optionCard = document.createElement('div');
+        const isSelected = selectedOptIdx === optIndex;
+
+        optionCard.className = `p-4 rounded-2xl border-2 transition cursor-pointer flex items-start gap-3.5 ${
+          isSelected 
+            ? 'bg-indigo-50/90 border-indigo-500 text-indigo-950 font-semibold shadow-md shadow-indigo-100 ring-2 ring-indigo-200' 
+            : 'bg-white border-slate-200 text-slate-700 hover:border-indigo-300 hover:bg-slate-50'
+        }`;
+
+        const letter = String.fromCharCode(65 + optIndex);
+        optionCard.innerHTML = `
+          <div class="w-7 h-7 rounded-xl flex items-center justify-center text-xs font-black shrink-0 mt-0.5 ${
+            isSelected ? 'bg-gradient-to-tr from-sky-500 to-indigo-600 text-white shadow-sm' : 'bg-slate-100 text-slate-600 border border-slate-200'
+          }">
+            ${letter}
+          </div>
+          <div class="text-sm flex-1 leading-relaxed">${opt.text}</div>
+          <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 mt-0.5 ${
+            isSelected ? 'border-indigo-600 bg-indigo-600' : 'border-slate-300 bg-white'
+          }">
+            ${isSelected ? '<i class="fa-solid fa-check text-[10px] text-white"></i>' : ''}
+          </div>
+        `;
+
+        optionCard.addEventListener('click', () => {
+          selectAnswer(q.id, optIndex);
+        });
+
+        interactiveArea.appendChild(optionCard);
+      });
+
+      // Update navigation button states
+      btnPrevQ.disabled = index === 0;
+      if (index === QUIZ_QUESTIONS.length - 1) {
+        btnNextQ.classList.add('hidden');
+        btnFinalSubmit.classList.remove('hidden');
+      } else {
+        btnNextQ.classList.remove('hidden');
+        btnFinalSubmit.classList.add('hidden');
+      }
+
+      // Update Answer Status Indicator
+      if (selectedOptIdx !== undefined) {
+        answeredStatusText.innerHTML = '<span class="text-emerald-700 font-bold"><i class="fa-solid fa-circle-check mr-1 text-emerald-600"></i>Telah dijawab</span>';
+      } else {
+        answeredStatusText.innerHTML = '<span class="text-slate-400 font-medium"><i class="fa-regular fa-circle mr-1"></i>Belum dijawab</span>';
+      }
+
+      renderSteppers();
+    }
+
+    function selectAnswer(questionId, optionIdx) {
+      state.userAnswers[questionId] = optionIdx;
+      loadQuestion(state.currentQuestionIdx);
+    }
+
+    // Step Navigators
+    btnPrevQ.addEventListener('click', () => {
+      if (state.currentQuestionIdx > 0) {
+        loadQuestion(state.currentQuestionIdx - 1);
+      }
+    });
+
+    btnNextQ.addEventListener('click', () => {
+      if (state.currentQuestionIdx < QUIZ_QUESTIONS.length - 1) {
+        loadQuestion(state.currentQuestionIdx + 1);
+      }
+    });
+
+    btnFinalSubmit.addEventListener('click', () => {
+      // Check for unanswered questions
+      const answeredCount = Object.keys(state.userAnswers).length;
+      if (answeredCount < QUIZ_QUESTIONS.length) {
+        const remaining = QUIZ_QUESTIONS.length - answeredCount;
+        showNotification("Peringatan", `Anda masih mempunyai ${remaining} soalan yang belum dijawab. Adakah anda pasti mahu menghantar sekarang?`);
+      }
+      finishQuiz();
+    });
+
+    function finishQuiz() {
+      if (state.isFinished) return;
+      state.isFinished = true;
+      clearInterval(state.timerInterval);
+
+      // Calculate marks (25 questions * 1 mark = 25 total)
+      let score = 0;
+      QUIZ_QUESTIONS.forEach(q => {
+        const userChoice = state.userAnswers[q.id];
+        if (userChoice !== undefined && q.options[userChoice].isCorrect) {
+          score += q.marks;
+        }
+      });
+
+      state.finalScore = score;
+      state.percentage = Math.round((score / 25) * 100);
+
+      // Switch screens
+      screenQuiz.classList.add('hidden');
+      screenResults.classList.remove('hidden');
+
+      // Populate results
+      resStudentName.innerText = state.studentName;
+      finalScoreEl.innerText = state.finalScore;
+      percentageText.innerText = `Peratusan: ${state.percentage}%`;
+
+      // Animate progress bar
+      setTimeout(() => {
+        scoreBar.style.width = `${state.percentage}%`;
+      }, 150);
+
+      // Assign Grade
+      let grade = "E";
+      let gradeColor = "text-rose-600";
+      if (state.percentage >= 80) { grade = "A (Cemerlang)"; gradeColor = "text-emerald-600"; }
+      else if (state.percentage >= 70) { grade = "B (Kepujian)"; gradeColor = "text-indigo-600"; }
+      else if (state.percentage >= 60) { grade = "C (Baik)"; gradeColor = "text-amber-600"; }
+      else if (state.percentage >= 40) { grade = "D (Lulus)"; gradeColor = "text-purple-600"; }
+
+      gradeText.innerHTML = `Gred: <span class="${gradeColor}">${grade}</span>`;
+
+      // Prepare Detailed Review
+      buildDetailedReview();
+
+      // Trigger transmission
+      sendScoreToGoogleSheets();
+    }
+
+    async function sendScoreToGoogleSheets() {
+      syncSpinner.classList.remove('hidden');
+      syncSpinner.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin text-indigo-600"></i>';
+      sheetSyncTitle.innerText = "Menyimpan nama & markah...";
+      sheetSyncMsg.innerText = "Memproses rekod markah calon ke pangkalan data...";
+      btnRetrySync.classList.add('hidden');
+
+      const payload = {
+        tarikh: new Date().toLocaleString('ms-MY'),
+        nama: state.studentName,
+        markah: `${state.finalScore} / 25`,
+        peratus: `${state.percentage}%`
+      };
+
+      // Jika URL Webhook disediakan, hantar terus ke Google Sheets
+      if (GOOGLE_SHEET_WEBHOOK_URL && GOOGLE_SHEET_WEBHOOK_URL.startsWith("http")) {
+        try {
+          await fetch(GOOGLE_SHEET_WEBHOOK_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload)
+          });
+
+          syncSpinner.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-600 text-2xl"></i>';
+          sheetSyncTitle.innerHTML = '<span class="text-emerald-700 font-extrabold">Nama & Markah Berjaya Disimpan!</span>';
+          sheetSyncMsg.innerText = `Rekod bagi calon ${state.studentName} (${state.finalScore}/25) telah dihantar dan disimpan ke Google Sheet secara terus.`;
+        } catch (error) {
+          console.error("Submission error:", error);
+          syncSpinner.innerHTML = '<i class="fa-solid fa-circle-exclamation text-rose-500 text-2xl"></i>';
+          sheetSyncTitle.innerHTML = '<span class="text-rose-600 font-extrabold">Ralat Penghantaran</span>';
+          sheetSyncMsg.innerText = "Tidak dapat menghubungi pelayan Google Sheet. Anda boleh memuat turun fail sandaran CSV di bawah.";
+          btnRetrySync.classList.remove('hidden');
+        }
+      } else {
+        // Paparan simpanan terus secara automatik
+        setTimeout(() => {
+          syncSpinner.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-600 text-2xl"></i>';
+          sheetSyncTitle.innerHTML = '<span class="text-emerald-700 font-extrabold">Rekod Berjaya Disimpan!</span>';
+          sheetSyncMsg.innerHTML = `Nama: <strong class="text-slate-800">${state.studentName}</strong> | Markah: <strong class="text-indigo-700 font-black">${state.finalScore} / 25 (${state.percentage}%)</strong> telah direkodkan.`;
+        }, 600);
+      }
+    }
+
+    btnRetrySync.addEventListener('click', () => {
+      sendScoreToGoogleSheets();
+    });
+
+    function buildDetailedReview() {
+      reviewList.innerHTML = '';
+      QUIZ_QUESTIONS.forEach((q, idx) => {
+        const userChoice = state.userAnswers[q.id];
+        const isAnswered = userChoice !== undefined;
+        const isCorrect = isAnswered && q.options[userChoice].isCorrect;
+
+        const item = document.createElement('div');
+        item.className = `p-4 sm:p-5 rounded-2xl border-2 ${
+          isCorrect ? 'bg-emerald-50/70 border-emerald-200' : 'bg-rose-50/70 border-rose-200'
+        } space-y-2.5 text-xs`;
+
+        const correctOpt = q.options.find(o => o.isCorrect);
+
+        item.innerHTML = `
+          <div class="flex items-center justify-between font-bold">
+            <span class="text-slate-800 font-extrabold">Soalan ${idx + 1}: ${q.category}</span>
+            <span class="px-2.5 py-0.5 rounded-full font-extrabold ${isCorrect ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-rose-100 text-rose-800 border border-rose-300'}">
+              ${isCorrect ? '+1 / 1 Markah' : '0 / 1 Markah'}
+            </span>
+          </div>
+          <div class="text-slate-800 font-medium mt-1 leading-relaxed">${q.prompt}</div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2">
+            <div class="p-3 rounded-xl bg-white border border-slate-200 shadow-sm">
+              <span class="text-slate-500 block font-bold mb-0.5">Jawapan Anda:</span>
+              <span class="${isCorrect ? 'text-emerald-700 font-bold' : 'text-rose-600 font-bold'}">
+                ${isAnswered ? q.options[userChoice].text : '<em>Tidak Dijawab</em>'}
+              </span>
+            </div>
+            <div class="p-3 rounded-xl bg-white border border-slate-200 shadow-sm">
+              <span class="text-slate-500 block font-bold mb-0.5">Jawapan Sebenar:</span>
+              <span class="text-emerald-700 font-bold">${correctOpt.text}</span>
+            </div>
+          </div>
+          <div class="p-3 rounded-xl bg-white/80 border border-slate-200 text-slate-700 leading-relaxed font-medium">
+            <span class="font-bold text-indigo-700"><i class="fa-solid fa-lightbulb text-amber-500 mr-1"></i>Penerangan:</span> ${q.explanation}
+          </div>
+        `;
+        reviewList.appendChild(item);
+      });
+    }
+
+    btnReviewQuestions.addEventListener('click', () => {
+      reviewContainer.classList.toggle('hidden');
+      if (!reviewContainer.classList.contains('hidden')) {
+        reviewContainer.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+
+    btnDownloadReport.addEventListener('click', () => {
+      const csvRows = [
+        ["Tarikh", "Nama Calon", "Markah ( /25 )", "Peratus (%)"],
+        [
+          `"${new Date().toLocaleString('ms-MY')}"`,
+          `"${state.studentName}"`,
+          state.finalScore,
+          `${state.percentage}%`
+        ]
+      ];
+
+      const csvContent = "data:text/csv;charset=utf-8," + csvRows.map(e => e.join(",")).join("\n");
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `Keputusan_Array_${state.studentName.replace(/\s+/g, '_')}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+
+    // Reset Quiz
+    btnRestartApp.addEventListener('click', () => {
+      state.currentQuestionIdx = 0;
+      state.userAnswers = {};
+      state.timeRemaining = 10 * 60;
+      state.isFinished = false;
+      state.finalScore = 0;
+      state.percentage = 0;
+
+      screenResults.classList.add('hidden');
+      reviewContainer.classList.add('hidden');
+      screenRegistration.classList.remove('hidden');
+      studentNameInput.value = "";
+    });
+  </script>
+</body>
+</html>
