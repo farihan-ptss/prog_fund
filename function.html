@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hub Pembelajaran Interaktif: Topik 5 - Functions</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['Fira Code', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              900: '#1e1b4b'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    pre, code { font-family: 'Fira Code', monospace; }
+    .tab-active {
+      background-color: #4f46e5 !important;
+      color: #ffffff !important;
+      border-color: #4f46e5 !important;
+      box-shadow: 0 4px 14px rgba(79, 70, 229, 0.25);
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.05); opacity: 0.4; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+    .pulse-effect {
+      animation: pulse-ring 2s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white">
+
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-cyan-500 flex items-center justify-center font-mono font-bold text-white shadow-md shadow-indigo-500/20">
+          f(x)
+        </div>
+        <div>
+          <h1 class="font-bold text-lg text-slate-900 leading-tight flex items-center gap-2">
+            Topik 5: Fungsi (Functions)
+            <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">Hub Interaktif Cerah</span>
+          </h1>
+          <p class="text-xs text-slate-500">Pengaturcaraan Komputer • 5.1 & 5.2 Lengkap</p>
+        </div>
+      </div>
+
+      <!-- Quick progress meter -->
+      <div class="flex items-center gap-3 bg-slate-50 px-4 py-1.5 rounded-full border border-slate-200 shadow-inner">
+        <span class="text-xs text-slate-600 font-medium">Kemajuan Topik:</span>
+        <div class="w-28 bg-slate-200 h-2.5 rounded-full overflow-hidden">
+          <div id="learning-progress" class="bg-gradient-to-r from-indigo-500 to-emerald-500 h-full w-1/6 transition-all duration-300"></div>
+        </div>
+        <span id="progress-text" class="text-xs font-mono font-bold text-indigo-600">20%</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 flex flex-col w-full">
+    <!-- Navigation Tabs Grid (No Horizontal Scroll Needed) -->
+    <nav class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-2 pb-4 mb-6 border-b border-slate-200 text-xs sm:text-sm font-medium w-full">
+      <button onclick="switchTab('mod-511')" id="btn-mod-511" class="tab-btn w-full px-2.5 sm:px-3 py-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-200/70 border border-slate-200 bg-white transition tab-active flex items-center justify-start gap-1.5 sm:gap-2 shadow-xs">
+        <span class="text-[11px] font-mono px-1.5 py-0.5 rounded bg-black/10 shrink-0">5.1.1-2</span>
+        <span class="truncate">Definisi & Kebaikan</span>
+      </button>
+      <button onclick="switchTab('mod-513')" id="btn-mod-513" class="tab-btn w-full px-2.5 sm:px-3 py-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-200/70 border border-slate-200 bg-white transition flex items-center justify-start gap-1.5 sm:gap-2 shadow-xs">
+        <span class="text-[11px] font-mono px-1.5 py-0.5 rounded bg-black/5 shrink-0">5.1.3</span>
+        <span class="truncate">Jenis Fungsi</span>
+      </button>
+      <button onclick="switchTab('mod-514')" id="btn-mod-514" class="tab-btn w-full px-2.5 sm:px-3 py-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-200/70 border border-slate-200 bg-white transition flex items-center justify-start gap-1.5 sm:gap-2 shadow-xs">
+        <span class="text-[11px] font-mono px-1.5 py-0.5 rounded bg-black/5 shrink-0">5.1.4</span>
+        <span class="truncate">3 Bahagian</span>
+      </button>
+      <button onclick="switchTab('mod-515')" id="btn-mod-515" class="tab-btn w-full px-2.5 sm:px-3 py-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-200/70 border border-slate-200 bg-white transition flex items-center justify-start gap-1.5 sm:gap-2 shadow-xs">
+        <span class="text-[11px] font-mono px-1.5 py-0.5 rounded bg-black/5 shrink-0">5.1.5</span>
+        <span class="truncate">4 Kategori UDF</span>
+      </button>
+      <button onclick="switchTab('mod-520')" id="btn-mod-520" class="tab-btn w-full px-2.5 sm:px-3 py-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-200/70 border border-slate-200 bg-white transition flex items-center justify-start gap-1.5 sm:gap-2 shadow-xs">
+        <span class="text-[11px] font-mono px-1.5 py-0.5 rounded bg-black/5 shrink-0">5.2</span>
+        <span class="truncate">Passing (Val/Ref)</span>
+      </button>
+      <button onclick="switchTab('mod-examples')" id="btn-mod-examples" class="tab-btn w-full px-2.5 sm:px-3 py-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-200/70 border border-slate-200 bg-white transition flex items-center justify-start gap-1.5 sm:gap-2 shadow-xs">
+        <span class="text-[11px] font-mono px-1.5 py-0.5 rounded bg-indigo-100 text-indigo-700 font-bold shrink-0">32+</span>
+        <span class="truncate">Bank Contoh</span>
+      </button>
+      <button onclick="switchTab('mod-quiz')" id="btn-mod-quiz" class="tab-btn w-full px-2.5 sm:px-3 py-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-200/70 border border-slate-200 bg-white transition flex items-center justify-start gap-1.5 sm:gap-2 shadow-xs">
+        <span class="text-[11px] font-mono px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-700 shrink-0">Kuiz</span>
+        <span class="truncate">Ujian Kendiri</span>
+      </button>
+    </nav>
+
+    <!-- CONTENT WRAPPER -->
+    <main class="flex-1">
+
+      <section id="section-mod-511" class="tab-content block space-y-6">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <!-- 5.1.1 Define function card -->
+          <div class="lg:col-span-6 bg-white border border-slate-200 rounded-2xl p-6 shadow-sm relative overflow-hidden">
+            <div class="absolute -right-8 -top-8 w-32 h-32 bg-indigo-100 rounded-full blur-2xl"></div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs font-mono font-bold px-2.5 py-1 rounded bg-indigo-50 text-indigo-700 border border-indigo-200">5.1.1 DEFINE FUNCTION</span>
+              <span class="text-xs text-slate-400 font-medium">Konsep Teras</span>
+            </div>
+            <h2 class="text-2xl font-bold text-slate-900 mb-3">Apakah itu Fungsi (Function)?</h2>
+            <p class="text-slate-600 leading-relaxed mb-4 text-sm">
+              <strong class="text-indigo-600 font-semibold">Fungsi</strong> ialah satu blok kod modular yang serba lengkap, dinamakan untuk melaksanakan tugas khusus, dan boleh diguna semula (<em class="italic">reusable</em>) berulang kali di mana-mana bahagian program.
+            </p>
+
+            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 mb-5">
+              <p class="text-xs uppercase tracking-wider text-slate-500 font-semibold mb-2">Analogi Dunia Nyata: Pengisar Jus (Blender)</p>
+              <div class="flex items-center gap-3 text-sm text-slate-700">
+                <div class="bg-white p-2.5 rounded-lg border border-slate-200 text-center shadow-xs flex-1">
+                  <div class="text-xl mb-1">🍎🍊</div>
+                  <div class="text-[11px] font-mono text-indigo-700 font-medium">Input (Argumen)</div>
+                </div>
+                <div class="text-indigo-500 font-bold">➔</div>
+                <div class="bg-white p-2.5 rounded-lg border border-indigo-200 text-center shadow-xs flex-1">
+                  <div class="text-xl mb-1">⚙️ f(x)</div>
+                  <div class="text-[11px] font-mono text-indigo-700 font-semibold">Fungsi: buatJus()</div>
+                </div>
+                <div class="text-indigo-500 font-bold">➔</div>
+                <div class="bg-white p-2.5 rounded-lg border border-slate-200 text-center shadow-xs flex-1">
+                  <div class="text-xl mb-1">🧃</div>
+                  <div class="text-[11px] font-mono text-indigo-700 font-medium">Output (Return)</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="border-l-4 border-indigo-500 pl-4 py-1 text-xs text-slate-500">
+              <span class="font-bold text-slate-800">Kata Kunci Utama:</span> Modulariti, Berdikari (<em class="italic">Self-contained</em>), Input/Output, Pelaksanaan atas panggilan (<em class="italic">Invoked on demand</em>).
+            </div>
+          </div>
+
+          <div class="lg:col-span-6 bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs font-mono font-bold px-2.5 py-1 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">5.1.2 ADVANTAGES OF FUNCTION</span>
+              <span class="text-xs text-slate-400 font-medium">Kelebihan Menggunakan Fungsi</span>
+            </div>
+            <h2 class="text-2xl font-bold text-slate-900 mb-3">Mengapa Perlu Guna Fungsi?</h2>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              <!-- Adv 1 -->
+              <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 hover:border-indigo-300 transition">
+                <div class="flex items-center gap-2 text-indigo-600 font-semibold text-sm mb-1">
+                  <span>♻️</span> Kebolehgunaan Semula
+                </div>
+                <p class="text-xs text-slate-600">Tulis sekali, panggil berulang kali tanpa perlu menaip semula kod yang serupa (prinsip DRY: Don't Repeat Yourself).</p>
+              </div>
+
+              <!-- Adv 2 -->
+              <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 hover:border-emerald-300 transition">
+                <div class="flex items-center gap-2 text-emerald-700 font-semibold text-sm mb-1">
+                  <span>🧩</span> Modulariti & Teratur
+                </div>
+                <p class="text-xs text-slate-600">Memecahkan atur cara besar yang kompleks kepada unit-unit kecil yang mudah diurus (Divide and Conquer).</p>
+              </div>
+
+              <!-- Adv 3 -->
+              <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 hover:border-amber-300 transition">
+                <div class="flex items-center gap-2 text-amber-700 font-semibold text-sm mb-1">
+                  <span>🐞</span> Nyahpepijat Mudah
+                </div>
+                <p class="text-xs text-slate-600">Ralat (<em class="italic">bug</em>) dapat dikesan dan dibetulkan terus di dalam fungsi tertentu tanpa menjejaskan kod lain.</p>
+              </div>
+
+              <!-- Adv 4 -->
+              <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 hover:border-purple-300 transition">
+                <div class="flex items-center gap-2 text-purple-700 font-semibold text-sm mb-1">
+                  <span>👥</span> Kerjasama Pasukan
+                </div>
+                <p class="text-xs text-slate-600">Pengaturcara berbeza boleh membina modul fungsi berasingan serentak sebelum disatukan ke program utama.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+            <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
+              <span>⚡</span> Simulasi Visual: Program Tanpa Fungsi vs Dengan Fungsi
+            </h3>
+            <span class="text-xs text-slate-500 font-medium">Bandingkan perbezaan kecekapan kod</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-rose-50/60 border border-rose-200 rounded-xl p-4">
+              <div class="flex items-center justify-between pb-2 mb-2 border-b border-rose-200">
+                <span class="text-xs font-bold text-rose-700 flex items-center gap-1.5">❌ Tanpa Fungsi (Berulang & Padat)</span>
+                <span class="text-[11px] text-rose-600 font-mono font-medium">18 Baris Kod</span>
+              </div>
+              <pre class="text-xs font-mono text-slate-800 bg-white p-3 rounded-lg border border-rose-200/80 leading-relaxed overflow-x-auto"><code>// Kira Purata Murid 1
+total1 = m1 + m2 + m3;
+avg1 = total1 / 3.0;
+cout &lt;&lt; "Purata 1: " &lt;&lt; avg1;
+
+// Kira Purata Murid 2 (Kod berulang!)
+total2 = m4 + m5 + m6;
+avg2 = total2 / 3.0;
+cout &lt;&lt; "Purata 2: " &lt;&lt; avg2;
+
+// Kira Purata Murid 3 (Kod berulang lagi!)
+total3 = m7 + m8 + m9;
+avg3 = total3 / 3.0;
+cout &lt;&lt; "Purata 3: " &lt;&lt; avg3;</code></pre>
+            </div>
+
+            <div class="bg-emerald-50/60 border border-emerald-200 rounded-xl p-4">
+              <div class="flex items-center justify-between pb-2 mb-2 border-b border-emerald-200">
+                <span class="text-xs font-bold text-emerald-700 flex items-center gap-1.5">✅ Dengan Fungsi (Ringkas & Modular)</span>
+                <span class="text-[11px] text-emerald-600 font-mono font-medium">Cuma Panggil 1 Fungsi</span>
+              </div>
+              <pre class="text-xs font-mono text-slate-800 bg-white p-3 rounded-lg border border-emerald-200/80 leading-relaxed overflow-x-auto"><code>// Takrif sekali sahaja
+double kiraPurata(double a, double b, double c) {
+    return (a + b + c) / 3.0;
+}
+
+// Guna berkali-kali!
+cout &lt;&lt; kiraPurata(m1, m2, m3);
+cout &lt;&lt; kiraPurata(m4, m5, m6);
+cout &lt;&lt; kiraPurata(m7, m8, m9);</code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="section-mod-513" class="tab-content hidden space-y-6">
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+          <div class="mb-5">
+            <span class="text-xs font-mono font-bold px-2.5 py-1 rounded bg-indigo-50 text-indigo-700 border border-indigo-200">5.1.3 TYPES OF FUNCTIONS</span>
+            <h2 class="text-2xl font-bold text-slate-900 mt-2">Dua Kategori Utama Fungsi</h2>
+            <p class="text-slate-600 text-sm mt-1">Dalam pengaturcaraan C/C++, fungsi terbahagi kepada fungsi sedia ada perpustakaan dan fungsi yang dicipta sendiri.</p>
+          </div>
+
+          <!-- Types cards -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- (a) Library/Built-in Functions -->
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-5 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <h3 class="text-lg font-bold text-cyan-800 flex items-center gap-2">
+                    <span>📚</span> a. Library / Built-in Functions
+                  </h3>
+                  <span class="text-[11px] bg-cyan-100 text-cyan-800 px-2 py-0.5 rounded border border-cyan-200 font-semibold">Pratafsir (Pre-defined)</span>
+                </div>
+                <p class="text-xs text-slate-600 leading-relaxed mb-4">
+                  Fungsi yang telah dibina siap dalam perpustakaan piawai bahasa pengaturcaraan. Pengaturcara hanya perlu memasukkan fail pengepala (<code class="text-pink-600 font-mono font-medium">#include &lt;header&gt;</code>) sebelum menggunakannya.
+                </p>
+
+                <!-- Interactive Library Function Tester -->
+                <div class="bg-white rounded-lg p-4 border border-slate-200 mb-4 shadow-xs">
+                  <div class="text-xs font-bold text-slate-700 mb-2 flex items-center justify-between">
+                    <span>Cuba Uji Fungsi Matematik (<code class="text-indigo-600">&lt;cmath&gt;</code>)</span>
+                    <span class="text-[10px] text-indigo-600 font-semibold bg-indigo-50 px-2 py-0.5 rounded">Live Demo</span>
+                  </div>
+                  <div class="grid grid-cols-2 gap-2 text-xs mb-3">
+                    <div>
+                      <label class="block text-slate-600 mb-1 font-medium">Nombor Asas (x):</label>
+                      <input id="lib-input-x" type="number" value="16" class="w-full bg-slate-50 border border-slate-300 rounded px-2.5 py-1.5 text-slate-900 font-mono focus:border-indigo-500 focus:bg-white focus:outline-none">
+                    </div>
+                    <div>
+                      <label class="block text-slate-600 mb-1 font-medium">Kuasa (y):</label>
+                      <input id="lib-input-y" type="number" value="2" class="w-full bg-slate-50 border border-slate-300 rounded px-2.5 py-1.5 text-slate-900 font-mono focus:border-indigo-500 focus:bg-white focus:outline-none">
+                    </div>
+                  </div>
+                  <button onclick="runBuiltinDemo()" class="w-full py-2 rounded-lg bg-cyan-600 hover:bg-cyan-700 text-white font-medium text-xs transition shadow-xs">
+                    Jalankan Fungsi Library!
+                  </button>
+                  <div id="lib-result-box" class="mt-3 bg-slate-50 p-3 rounded border border-slate-200 text-xs font-mono text-slate-800">
+                    <div>sqrt(16) = <span class="text-indigo-700 font-bold">4.00</span> (punca kuasa dua)</div>
+                    <div>pow(16, 2) = <span class="text-indigo-700 font-bold">256.00</span> (kuasa)</div>
+                  </div>
+                </div>
+
+                <div class="text-xs space-y-1 text-slate-500 font-mono">
+                  <div class="font-semibold text-slate-700">Contoh header lain:</div>
+                  <div class="text-slate-600">• <code class="text-cyan-700">&lt;cmath&gt;</code>: sqrt(), pow(), abs(), sin()</div>
+                  <div class="text-slate-600">• <code class="text-cyan-700">&lt;cctype&gt;</code>: toupper(), tolower(), isdigit()</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-5 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <h3 class="text-lg font-bold text-emerald-800 flex items-center gap-2">
+                    <span>🛠️</span> b. User-defined Functions
+                  </h3>
+                  <span class="text-[11px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded border border-emerald-200 font-semibold">Ciptaan Pengaturcara</span>
+                </div>
+                <p class="text-xs text-slate-600 leading-relaxed mb-4">
+                  Fungsi yang direka dan ditulis sendiri oleh pembangun atur cara mengikut keperluan spesifik sistem yang sedang dibangunkan.
+                </p>
+
+                <div class="bg-white rounded-lg p-4 border border-slate-200 mb-4 shadow-xs">
+                  <div class="text-xs font-bold text-slate-700 mb-2 flex items-center justify-between">
+                    <span>Contoh C++: Kira Diskaun Pelanggan</span>
+                    <span class="text-[10px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 font-mono font-medium">Kastam</span>
+                  </div>
+                  <pre class="text-xs font-mono text-slate-800 bg-slate-50 p-3 rounded border border-slate-200 overflow-x-auto leading-relaxed"><code>// Fungsi yang dicipta sendiri
+double kiraDiskaun(double harga, double peratus) {
+    double jimat = harga * (peratus / 100.0);
+    return harga - jimat;
+}
+
+int main() {
+    double hargaAkhir = kiraDiskaun(120.0, 15.0);
+    cout &lt;&lt; "Bayaran: RM" &lt;&lt; hargaAkhir; // RM102.0
+    return 0;
+}</code></pre>
+                </div>
+
+                <div class="text-xs space-y-1.5 text-slate-600">
+                  <div class="font-semibold text-slate-800">Ciri-ciri Utama:</div>
+                  <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                    <span>Fleksibel mengikut logik sistem projek.</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                    <span>Mempunyai 3 komponen utama (Prototype, Definition, Call).</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 overflow-x-auto rounded-xl border border-slate-200 shadow-xs">
+            <table class="w-full text-xs text-left text-slate-700">
+              <thead class="bg-slate-100 text-slate-800 font-bold uppercase tracking-wider">
+                <tr>
+                  <th class="p-3.5 border-b border-slate-200">Aspek Perbandingan</th>
+                  <th class="p-3.5 border-b border-slate-200 text-cyan-800">Library / Built-in</th>
+                  <th class="p-3.5 border-b border-slate-200 text-emerald-800">User-Defined</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200 bg-white">
+                <tr class="hover:bg-slate-50">
+                  <td class="p-3.5 font-semibold text-slate-900">Pencipta</td>
+                  <td class="p-3.5">Pereka bahasa / Piawaian Kompiler (Standard Library).</td>
+                  <td class="p-3.5">Pengaturcara / Pembangun projek sendiri.</td>
+                </tr>
+                <tr class="hover:bg-slate-50">
+                  <td class="p-3.5 font-semibold text-slate-900">Keperluan Fail Header</td>
+                  <td class="p-3.5">Wajib disertakan (contoh: <code class="text-cyan-700 font-mono font-medium">#include &lt;cmath&gt;</code>).</td>
+                  <td class="p-3.5">Tidak perlu header khas (hanya prototype jika takrifan di bawah <code class="text-indigo-600 font-mono">main()</code>).</td>
+                </tr>
+                <tr class="hover:bg-slate-50">
+                  <td class="p-3.5 font-semibold text-slate-900">Kebolehubahan (Modifiability)</td>
+                  <td class="p-3.5">Kod teras dalaman tidak boleh diubah.</td>
+                  <td class="p-3.5">Bebas diubah suai mengikut keperluan pada bila-bila masa.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="section-mod-514" class="tab-content hidden space-y-6">
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+          <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+            <div>
+              <span class="text-xs font-mono font-bold px-2.5 py-1 rounded bg-indigo-50 text-indigo-700 border border-indigo-200">5.1.4 PARTS OF FUNCTIONS</span>
+              <h2 class="text-2xl font-bold text-slate-900 mt-1">3 Bahagian Utama Fungsi</h2>
+              <p class="text-xs text-slate-500">Klik butang bahagian di bawah untuk meneliti kedudukan dan fungsinya dalam kod C++.</p>
+            </div>
+            <!-- Interactive selector -->
+            <div class="flex flex-wrap gap-2">
+              <button onclick="highlightPart('prototype')" id="btn-part-proto" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white shadow-xs">
+                a. Prototype / Declaration
+              </button>
+              <button onclick="highlightPart('call')" id="btn-part-call" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200">
+                b. Function Call
+              </button>
+              <button onclick="highlightPart('definition')" id="btn-part-def" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200">
+                c. Function Definition
+              </button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <!-- Left: Interactive Code View with visual highlights -->
+            <div class="lg:col-span-7 bg-slate-900 border border-slate-800 rounded-xl p-4 font-mono text-xs overflow-x-auto relative shadow-inner">
+              <div class="text-[11px] text-slate-400 pb-2 mb-3 border-b border-slate-800 flex justify-between">
+                <span>program_struktur.cpp</span>
+                <span id="active-part-indicator" class="text-indigo-400 font-semibold">Bahagian Aktif: Prototype</span>
+              </div>
+
+              <!-- Line by line code -->
+              <div class="text-slate-400 space-y-1">
+                <div><span class="text-slate-600 select-none mr-2">01</span><span class="text-purple-400">#include</span> <span class="text-emerald-400">&lt;iostream&gt;</span></div>
+                <div><span class="text-slate-600 select-none mr-2">02</span><span class="text-purple-400">using namespace</span> std;</div>
+                <div><span class="text-slate-600 select-none mr-2">03</span></div>
+                
+                <!-- Prototype line -->
+                <div id="code-line-proto" class="p-2 rounded bg-indigo-950/90 border border-indigo-400 text-indigo-100 transition-all duration-300">
+                  <span class="text-slate-400 select-none mr-2">04</span><span class="text-yellow-300 font-bold">int</span> <span class="text-cyan-300 font-bold">tambah</span>(<span class="text-yellow-300">int</span> a, <span class="text-yellow-300">int</span> b); <span class="text-slate-400 italic">// ◄ (a) Function Prototype (WAJIB diakhiri ';')</span>
+                </div>
+
+                <div><span class="text-slate-600 select-none mr-2">05</span></div>
+                <div><span class="text-slate-600 select-none mr-2">06</span><span class="text-yellow-400">int</span> <span class="text-cyan-400">main</span>() {</div>
+                <div><span class="text-slate-600 select-none mr-2">07</span>    <span class="text-yellow-400">int</span> hasil;</div>
+
+                <!-- Call line -->
+                <div id="code-line-call" class="p-2 rounded opacity-40 transition-all duration-300">
+                  <span class="text-slate-400 select-none mr-2">08</span>    hasil = <span class="text-cyan-400 font-bold">tambah</span>(<span class="text-orange-400">10</span>, <span class="text-orange-400">25</span>); <span class="text-slate-400 italic">// ◄ (b) Function Call (hantar nilai sebenar)</span>
+                </div>
+
+                <div><span class="text-slate-600 select-none mr-2">09</span>    cout &lt;&lt; <span class="text-emerald-400">"Jumlah: "</span> &lt;&lt; hasil &lt;&lt; endl;</div>
+                <div><span class="text-slate-600 select-none mr-2">10</span>    <span class="text-purple-400">return</span> <span class="text-orange-400">0</span>;</div>
+                <div><span class="text-slate-600 select-none mr-2">11</span>}</div>
+                <div><span class="text-slate-600 select-none mr-2">12</span></div>
+
+                <!-- Definition lines -->
+                <div id="code-line-def" class="p-2 rounded opacity-40 transition-all duration-300">
+                  <div><span class="text-slate-400 select-none mr-2">13</span><span class="text-yellow-300 font-bold">int</span> <span class="text-cyan-300 font-bold">tambah</span>(<span class="text-yellow-300 font-bold">int</span> a, <span class="text-yellow-300 font-bold">int</span> b) { <span class="text-slate-400 italic">// ◄ (c) Function Header (tiada ';')</span></div>
+                  <div><span class="text-slate-400 select-none mr-2">14</span>    <span class="text-purple-300">return</span> a + b;            <span class="text-slate-400 italic">// ◄ Function Body</span></div>
+                  <div><span class="text-slate-400 select-none mr-2">15</span>}</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="lg:col-span-5 bg-slate-50 border border-slate-200 rounded-xl p-5 flex flex-col justify-between">
+              <div id="part-explanation-content">
+                <!-- Injected dynamically -->
+              </div>
+              <div class="mt-4 pt-3 border-t border-slate-200 text-xs text-slate-500 flex items-center justify-between">
+                <span>Peringatan Peperiksaan:</span>
+                <span class="text-amber-700 font-bold bg-amber-100 px-2 py-0.5 rounded">Prototype WAJIB ada ';'</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="section-mod-515" class="tab-content hidden space-y-6">
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+          <div class="mb-5">
+            <span class="text-xs font-mono font-bold px-2.5 py-1 rounded bg-indigo-50 text-indigo-700 border border-indigo-200">5.1.5 4 KATEGORI FUNGSI UDF</span>
+            <h2 class="text-2xl font-bold text-slate-900 mt-1">Kombinasi Parameter/Argumen & Nilai Pulangan (Return)</h2>
+            <p class="text-sm text-slate-600">Setiap fungsi UDF boleh dibina mengikut salah satu daripada 4 pola kombinasi asas berikut.</p>
+          </div>
+
+          <!-- 4 Tab selectors -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-6">
+            <button onclick="selectCategory('catA')" id="btn-cat-catA" class="category-btn p-3 rounded-xl border text-left bg-indigo-50 border-indigo-500 text-indigo-950 transition shadow-xs">
+              <div class="text-[11px] font-mono text-indigo-700 font-bold">KATEGORI (a)</div>
+              <div class="text-xs font-bold mt-1">No Arg, No Return</div>
+              <div class="text-[10px] text-slate-500 font-mono mt-0.5">void nama()</div>
+            </button>
+            <button onclick="selectCategory('catB')" id="btn-cat-catB" class="category-btn p-3 rounded-xl border text-left bg-slate-50 border-slate-200 text-slate-700 hover:border-slate-300 transition shadow-xs">
+              <div class="text-[11px] font-mono text-cyan-700 font-bold">KATEGORI (b)</div>
+              <div class="text-xs font-bold mt-1">No Arg, Return</div>
+              <div class="text-[10px] text-slate-500 font-mono mt-0.5">type nama()</div>
+            </button>
+            <button onclick="selectCategory('catC')" id="btn-cat-catC" class="category-btn p-3 rounded-xl border text-left bg-slate-50 border-slate-200 text-slate-700 hover:border-slate-300 transition shadow-xs">
+              <div class="text-[11px] font-mono text-amber-700 font-bold">KATEGORI (c)</div>
+              <div class="text-xs font-bold mt-1">Accept Arg, No Return</div>
+              <div class="text-[10px] text-slate-500 font-mono mt-0.5">void nama(params)</div>
+            </button>
+            <button onclick="selectCategory('catD')" id="btn-cat-catD" class="category-btn p-3 rounded-xl border text-left bg-slate-50 border-slate-200 text-slate-700 hover:border-slate-300 transition shadow-xs">
+              <div class="text-[11px] font-mono text-emerald-700 font-bold">KATEGORI (d)</div>
+              <div class="text-xs font-bold mt-1">Accept Arg, Return</div>
+              <div class="text-[10px] text-slate-500 font-mono mt-0.5">type nama(params)</div>
+            </button>
+          </div>
+
+          <!-- Dynamic Category Content Box -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <div class="lg:col-span-7 bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-inner">
+              <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
+                <span id="cat-badge" class="text-xs font-bold px-2.5 py-1 rounded bg-indigo-500/20 text-indigo-300">Pola: void cetakSalam()</span>
+                <span class="text-xs text-slate-400">Contoh Kod C++</span>
+              </div>
+              <pre class="text-xs font-mono text-slate-200 overflow-x-auto leading-relaxed" id="cat-code-display">
+                <!-- Injected via JavaScript -->
+              </pre>
+            </div>
+
+            <div class="lg:col-span-5 bg-slate-50 border border-slate-200 rounded-xl p-5 flex flex-col justify-between">
+              <div>
+                <h3 class="font-bold text-slate-900 text-sm mb-2 flex items-center gap-2">
+                  <span>▶️</span> Simulator Output Langsung
+                </h3>
+                <p id="cat-explainer" class="text-xs text-slate-600 mb-4 leading-relaxed">
+                  Fungsi tidak menerima apa-apa nilai dari pemanggil, dan tidak memulangkan apa-apa nilai keluar. Semua pemprosesan dan cetakan dibuat di dalam fungsi sendiri.
+                </p>
+
+                <!-- Dynamic inputs -->
+                <div id="cat-input-container" class="space-y-3 mb-4">
+                  <!-- Injected dynamically based on category -->
+                </div>
+              </div>
+
+              <div>
+                <button onclick="executeCategorySimulation()" class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 font-semibold text-white text-xs transition shadow-md shadow-indigo-600/20 flex items-center justify-center gap-2">
+                  <span>Jalankan Fungsi Sekarang</span>
+                </button>
+                <div class="mt-3 bg-slate-900 p-3 rounded-lg border border-slate-800 font-mono text-xs">
+                  <div class="text-[10px] text-slate-400 mb-1 font-bold">TERMINAL OUTPUT:</div>
+                  <div id="cat-output-terminal" class="text-emerald-400">Klik butang untuk memulakan panggilan fungsi...</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="section-mod-520" class="tab-content hidden space-y-6">
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+          <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+            <div>
+              <span class="text-xs font-mono font-bold px-2.5 py-1 rounded bg-indigo-50 text-indigo-700 border border-indigo-200">5.2 PARAMETER PASSING TECHNIQUES</span>
+              <h2 class="text-2xl font-bold text-slate-900 mt-1">5.2.1, 5.2.2 & 5.2.3: Pass by Value vs Pass by Reference</h2>
+              <p class="text-xs text-slate-500">Teknik penghantaran data dari program pemanggil (<code class="text-indigo-600">main</code>) kepada parameter fungsi.</p>
+            </div>
+            
+            <!-- Technique Switcher -->
+            <div class="bg-slate-100 p-1 rounded-xl border border-slate-200 flex">
+              <button onclick="togglePassingMode('val')" id="mode-val-btn" class="px-4 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white transition shadow-xs">
+                Pass by Value
+              </button>
+              <button onclick="togglePassingMode('ref')" id="mode-ref-btn" class="px-4 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900 transition">
+                Pass by Reference (&)
+              </button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <!-- Left: Interactive Memory Diagram -->
+            <div class="lg:col-span-7 bg-slate-50 border border-slate-200 rounded-xl p-5 shadow-xs">
+              <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-200">
+                <div class="flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-indigo-600 animate-ping"></span>
+                  <span class="text-xs font-bold text-slate-800">Simulasi Memori Komputer (RAM Stack Frame)</span>
+                </div>
+                <div class="text-[11px] text-slate-500 font-mono font-semibold" id="sim-step-indicator">Langkah 0/3</div>
+              </div>
+
+              <!-- Memory Boxes -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 my-2">
+                <!-- Caller Stack Frame (main) -->
+                <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-xs">
+                  <div class="text-[11px] font-mono text-indigo-700 font-bold mb-2 pb-1 border-b border-slate-100 flex justify-between">
+                    <span>STACK FRAME: main()</span>
+                    <span class="text-slate-400 font-normal">Kawasan Panggil</span>
+                  </div>
+                  <div class="space-y-3">
+                    <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-between">
+                      <div>
+                        <div class="text-xs font-mono font-bold text-slate-800">num (Asal)</div>
+                        <div class="text-[10px] text-slate-500 font-mono">Alamat: 0x7ffd1</div>
+                      </div>
+                      <div id="mem-val-main" class="text-xl font-mono font-bold text-amber-700 bg-white px-3 py-1 rounded border border-slate-200 shadow-xs">
+                        10
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mt-2 text-[10px] text-slate-500 italic">Nilai asal dalam fungsi main()</div>
+                </div>
+
+                <!-- Called Stack Frame (fungsi ubahNilai) -->
+                <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-xs" id="func-stack-frame">
+                  <div class="text-[11px] font-mono text-cyan-700 font-bold mb-2 pb-1 border-b border-slate-100 flex justify-between">
+                    <span id="stack-frame-title">STACK FRAME: ubah(int n)</span>
+                    <span class="text-slate-400 font-normal">Fungsi</span>
+                  </div>
+                  <div class="space-y-3">
+                    <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-between" id="param-box-border">
+                      <div>
+                        <div class="text-xs font-mono font-bold text-slate-800" id="param-name-display">Parameter: n</div>
+                        <div class="text-[10px] text-slate-500 font-mono" id="param-addr-display">Alamat: 0x7ffd5 (Salinan berasingan)</div>
+                      </div>
+                      <div id="mem-val-func" class="text-xl font-mono font-bold text-indigo-700 bg-white px-3 py-1 rounded border border-slate-200 shadow-xs">
+                        10
+                      </div>
+                    </div>
+                  </div>
+                  <div id="connection-note" class="mt-2 text-[10px] text-slate-500 italic">Salinan baharu dibuat dalam memori.</div>
+                </div>
+              </div>
+
+              <!-- Controller Buttons -->
+              <div class="mt-5 flex flex-wrap gap-2 items-center">
+                <button onclick="nextSimStep()" id="sim-next-btn" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 font-semibold text-xs text-white transition flex items-center gap-1.5 shadow-xs">
+                  <span>Langkah Seterusnya ➔</span>
+                </button>
+                <button onclick="resetSim()" class="px-3 py-2 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 text-xs text-slate-700 font-medium transition shadow-xs">
+                  Tetapkan Semula (Reset)
+                </button>
+                <span id="step-narration" class="text-xs text-slate-600 italic ml-2">Klik 'Langkah Seterusnya' untuk perhatikan pergerakan memori.</span>
+              </div>
+            </div>
+
+            <div class="lg:col-span-5 bg-slate-50 border border-slate-200 rounded-xl p-5 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 font-mono">5.2.3 Kod C++ Sebenar</h3>
+                  <span id="code-lang-tag" class="text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-100 text-indigo-700 font-semibold">Pass by Value</span>
+                </div>
+                <pre id="passing-code-display" class="text-xs font-mono text-slate-200 bg-slate-900 p-3.5 rounded-lg border border-slate-800 overflow-x-auto leading-relaxed shadow-inner">
+<!-- dynamically updated -->
+                </pre>
+              </div>
+
+              <!-- 5.2.2 Comparison Table Quick View -->
+              <div class="mt-4 pt-3 border-t border-slate-200">
+                <h4 class="text-xs font-bold text-slate-800 mb-2">5.2.2 Rumusan Ringkas Perbezaan:</h4>
+                <div class="text-[11px] space-y-1.5 text-slate-600">
+                  <div class="flex items-start gap-1.5">
+                    <span class="text-indigo-600 font-bold">•</span>
+                    <span><strong class="text-slate-800">Value:</strong> Menghantar <em>salinan nilai</em> sahaja. Nilai asal di <code>main()</code> kekal selamat.</span>
+                  </div>
+                  <div class="flex items-start gap-1.5">
+                    <span class="text-emerald-700 font-bold">•</span>
+                    <span><strong class="text-slate-800">Reference:</strong> Menghantar <em>alamat memori</em> (simbol <code>&</code>). Nilai asal di <code>main()</code> ikut berubah.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6">
+            <h3 class="text-sm font-bold text-slate-900 mb-3 flex items-center gap-2">
+              <span>📊</span> Jadual Perbandingan Terperinci (5.2.2)
+            </h3>
+            <div class="overflow-x-auto rounded-xl border border-slate-200 shadow-xs">
+              <table class="w-full text-xs text-left text-slate-700">
+                <thead class="bg-slate-100 text-slate-800 uppercase text-[11px] tracking-wider font-semibold">
+                  <tr>
+                    <th class="p-3.5 border-b border-slate-200">Kriteria Penilaian</th>
+                    <th class="p-3.5 border-b border-slate-200 text-indigo-800">Pass by Value</th>
+                    <th class="p-3.5 border-b border-slate-200 text-emerald-800">Pass by Reference (&)</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200 bg-white">
+                  <tr class="hover:bg-slate-50">
+                    <td class="p-3.5 font-medium text-slate-900">Perkara Yang Dihantar</td>
+                    <td class="p-3.5">Salinan kandungan (<em class="italic">copy of actual value</em>).</td>
+                    <td class="p-3.5">Alamat / Rujukan terus memori (<em class="italic">memory address/alias</em>).</td>
+                  </tr>
+                  <tr class="hover:bg-slate-50">
+                    <td class="p-3.5 font-medium text-slate-900">Kesan Terhadap Pemboleh Ubah Asal</td>
+                    <td class="p-3.5 text-rose-700 font-semibold">TIDAK BERUBAH (Kekal asal).</td>
+                    <td class="p-3.5 text-emerald-700 font-semibold">BERUBAH mengikut operasi fungsi.</td>
+                  </tr>
+                  <tr class="hover:bg-slate-50">
+                    <td class="p-3.5 font-medium text-slate-900">Sintaks Parameter Header</td>
+                    <td class="p-3.5 font-mono text-indigo-700 font-semibold">void swap(int a, int b)</td>
+                    <td class="p-3.5 font-mono text-emerald-700 font-semibold">void swap(int &a, int &b)</td>
+                  </tr>
+                  <tr class="hover:bg-slate-50">
+                    <td class="p-3.5 font-medium text-slate-900">Penggunaan Memori</td>
+                    <td class="p-3.5">Memerlukan memori tambahan untuk simpanan salinan data.</td>
+                    <td class="p-3.5">Lebih jimat memori kerana berkongsi lokasi memori asal sedia ada.</td>
+                  </tr>
+                  <tr class="hover:bg-slate-50">
+                    <td class="p-3.5 font-medium text-slate-900">Contoh Kegunaan Terbaik</td>
+                    <td class="p-3.5">Apabila data asal perlu dilindungi (cth: paparan, pengiraan sementara).</td>
+                    <td class="p-3.5">Apabila fungsi perlu memulangkan lebih daripada 1 hasil (cth: pertukaran nilai/swap).</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="section-mod-quiz" class="tab-content hidden space-y-6">
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+          <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+            <div>
+              <span class="text-xs font-mono font-bold px-2.5 py-1 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">UJIAN KENDIRI INTERAKTIF</span>
+              <h2 class="text-2xl font-bold text-slate-900 mt-1">Kuiz Pengukuhan Topik 5</h2>
+              <p class="text-xs text-slate-500">Jawab 5 soalan objektif berasaskan sukatan 5.1.1 hingga 5.2.3 untuk menguji kefahaman anda.</p>
+            </div>
+            <div id="quiz-score-badge" class="px-4 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-mono text-slate-700 shadow-inner">
+              Skor: <span id="quiz-score" class="text-indigo-600 font-bold text-base">0</span> / 5
+            </div>
+          </div>
+
+          <div id="quiz-container" class="space-y-4">
+            <!-- Questions rendered via JS -->
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-slate-200 flex justify-between items-center">
+            <button onclick="resetQuiz()" class="px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs text-slate-700 font-medium transition border border-slate-200 shadow-xs">
+              Ulang Semula Kuiz
+            </button>
+            <div id="quiz-feedback-banner" class="text-xs text-slate-500">Pilih jawapan bagi setiap soalan untuk membuat semakan automatik.</div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <div id="custom-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white border border-slate-200 rounded-2xl max-w-md w-full p-6 shadow-2xl">
+      <h4 id="modal-title" class="text-lg font-bold text-slate-900 mb-2">Makluman</h4>
+      <p id="modal-body" class="text-sm text-slate-600 leading-relaxed mb-5"></p>
+      <div class="flex justify-end">
+        <button onclick="closeModal()" class="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold shadow-xs">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* State Management */
+    let currentTab = 'mod-511';
+    let currentPassingMode = 'val';
+    let currentSimStep = 0;
+
+    // Progress Tracker Map (6 Modules)
+    const visitedTabs = new Set(['mod-511']);
+
+    function updateProgress() {
+      const totalTabs = 6;
+      const percentage = Math.round((visitedTabs.size / totalTabs) * 100);
+      const progressBar = document.getElementById('learning-progress');
+      const progressText = document.getElementById('progress-text');
+      if (progressBar && progressText) {
+        progressBar.style.width = percentage + '%';
+        progressText.innerText = percentage + '%';
+      }
+    }
+
+    /* Modal handler without alert() */
+    function showModal(title, message) {
+      document.getElementById('modal-title').innerText = title;
+      document.getElementById('modal-body').innerText = message;
+      document.getElementById('custom-modal').classList.remove('hidden');
+    }
+    function closeModal() {
+      document.getElementById('custom-modal').classList.add('hidden');
+    }
+
+    /* Tab Switching Logic */
+    function switchTab(tabId) {
+      currentTab = tabId;
+      visitedTabs.add(tabId);
+      updateProgress();
+
+      // Update Tab Content
+      document.querySelectorAll('.tab-content').forEach(section => {
+        section.classList.add('hidden');
+      });
+      const targetSec = document.getElementById('section-' + tabId);
+      if (targetSec) targetSec.classList.remove('hidden');
+
+      // Update Tab Button Styles
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('tab-active');
+        btn.classList.add('text-slate-600');
+      });
+      const activeBtn = document.getElementById('btn-' + tabId);
+      if (activeBtn) {
+        activeBtn.classList.add('tab-active');
+        activeBtn.classList.remove('text-slate-600');
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function runBuiltinDemo() {
+      const xInput = parseFloat(document.getElementById('lib-input-x').value) || 0;
+      const yInput = parseFloat(document.getElementById('lib-input-y').value) || 0;
+
+      const sqrtRes = (xInput >= 0) ? Math.sqrt(xInput).toFixed(2) : "Ralat (Nombor negatif)";
+      const powRes = Math.pow(xInput, yInput).toFixed(2);
+      const ceilRes = Math.ceil(xInput);
+      const floorRes = Math.floor(xInput);
+
+      const resBox = document.getElementById('lib-result-box');
+      resBox.innerHTML = `
+        <div class="text-slate-500 pb-1 mb-1 border-b border-slate-200 font-medium">Keputusan Pengiraan:</div>
+        <div>sqrt(${xInput}) = <span class="text-indigo-700 font-bold">${sqrtRes}</span></div>
+        <div>pow(${xInput}, ${yInput}) = <span class="text-indigo-700 font-bold">${powRes}</span></div>
+        <div>ceil(${xInput}) = <span class="text-cyan-700 font-medium">${ceilRes}</span> | floor(${xInput}) = <span class="text-cyan-700 font-medium">${floorRes}</span></div>
+      `;
+    }
+
+    const partsData = {
+      prototype: {
+        title: "a. Function Prototype / Declaration",
+        tagColor: "text-indigo-700 bg-indigo-50 border border-indigo-200",
+        description: `Pengisytiharan fungsi memberitahu kompiler lebih awal tentang nama fungsi, jenis pulangan (return type), dan jenis parameter sebelum fungsi itu dipanggil. Ia diletakkan <strong>sebelum fungsi main()</strong> dan <strong>WAJIB diakhiri dengan tanda semikolon (;)</strong>.`,
+        points: [
+          "Memberitahu kompiler spesifikasi fungsi sebelum panggilan dibuat.",
+          "Membenarkan fungsi takrifan ditulis di bahagian bawah fail secara tersusun.",
+          "Sintaks umum: <code>return_type namaFungsi(jenis_param1, jenis_param2);</code>"
+        ]
+      },
+      call: {
+        title: "b. Function Call (Panggilan Fungsi)",
+        tagColor: "text-amber-700 bg-amber-50 border border-amber-200",
+        description: `Pernyataan yang melaksanakan atau mencetuskan fungsi tersebut. Semasa panggilan, pemanggil menghantar <strong>argumen sebenar (actual arguments)</strong> dan aliran kawalan komputer melompat terus ke blok fungsi berkaitan.`,
+        points: [
+          "Dipanggil di dalam <code>main()</code> atau mana-mana fungsi yang memerlukan tugas tersebut.",
+          "Menghantar argumen sebenar (contoh: <code>tambah(10, 25);</code>).",
+          "Jika fungsi memulangkan nilai, nilai itu boleh terus dipaparkan atau disimpan ke pemboleh ubah."
+        ]
+      },
+      definition: {
+        title: "c. Function Definition (Takrifan Fungsi)",
+        tagColor: "text-emerald-700 bg-emerald-50 border border-emerald-200",
+        description: `Kandungan lengkap fungsi yang merangkumi <strong>Header Fungsi</strong> dan <strong>Badan Kod (dalam { })</strong> yang melaksanakan tugasan sebenar serta pernyataan <code>return</code> (jika ada). Tiada semikolon pada baris header!`,
+        points: [
+          "Header fungsi: <code>int tambah(int a, int b)</code> (Tiada tanda semikolon!)",
+          "Parameter formal: pemboleh ubah <code>a</code> dan <code>b</code> menerima nilai yang dihantar.",
+          "Badan fungsi diapit oleh tanda kurungan kurawal <code>{ ... }</code>."
+        ]
+      }
+    };
+
+    function highlightPart(partKey) {
+      const data = partsData[partKey];
+      const indicator = document.getElementById('active-part-indicator');
+      const content = document.getElementById('part-explanation-content');
+
+      // Update buttons
+      ['proto', 'call', 'def'].forEach(k => {
+        const b = document.getElementById('btn-part-' + k);
+        b.className = "px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200";
+      });
+
+      const activeBtnMap = { prototype: 'proto', call: 'call', definition: 'def' };
+      document.getElementById('btn-part-' + activeBtnMap[partKey]).className = "px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white shadow-xs";
+
+      // Highlight code in editor
+      document.getElementById('code-line-proto').className = (partKey === 'prototype') 
+        ? "p-2 rounded bg-indigo-950/90 border border-indigo-400 text-indigo-100 transition-all duration-300"
+        : "p-2 rounded opacity-40 transition-all duration-300";
+        
+      document.getElementById('code-line-call').className = (partKey === 'call')
+        ? "p-2 rounded bg-amber-950/90 border border-amber-400 text-amber-100 transition-all duration-300"
+        : "p-2 rounded opacity-40 transition-all duration-300";
+
+      document.getElementById('code-line-def').className = (partKey === 'definition')
+        ? "p-2 rounded bg-emerald-950/90 border border-emerald-400 text-emerald-100 transition-all duration-300"
+        : "p-2 rounded opacity-40 transition-all duration-300";
+
+      indicator.innerText = "Bahagian Aktif: " + data.title;
+
+      let pointsHtml = data.points.map(pt => `<li class="flex items-start gap-1.5"><span class="text-indigo-600 font-bold">✔</span> <span>${pt}</span></li>`).join('');
+
+      content.innerHTML = `
+        <span class="text-xs font-mono font-bold px-2.5 py-1 rounded ${data.tagColor}">${data.title}</span>
+        <p class="text-xs text-slate-600 mt-3 leading-relaxed">${data.description}</p>
+        <ul class="mt-3 space-y-1.5 text-xs text-slate-600">
+          ${pointsHtml}
+        </ul>
+      `;
+    }
+
+    const categories = {
+      catA: {
+        name: "5.1.5 (a) Do Not Accept Arguments & Do Not Return Value",
+        badge: "void cetakSalam()",
+        desc: "Fungsi jenis ini bersikap kendiri. Ia tidak memerlukan sebarang nilai input dari pemanggil (parameter kosong atau <code>void</code>) dan tidak menghantar sebarang output balik ke <code>main()</code> (return type ialah <code>void</code>).",
+        code: `#include <iostream>
+using namespace std;
+
+// (a) Tidak terima argumen & tidak pulangkan nilai
+void cetakSalam() {
+    cout << "===========================" << endl;
+    cout << " Selamat Datang ke C++ Hub! " << endl;
+    cout << "===========================" << endl;
+}
+
+int main() {
+    cetakSalam(); // Panggilan mudah tanpa argumen
+    return 0;
+}`,
+        inputsHtml: `<div class="text-xs text-slate-500 italic bg-white p-2.5 rounded border border-slate-200">Fungsi ini tidak memerlukan input! Klik butang di bawah untuk membuat panggilan fungsi.</div>`,
+        execute: () => {
+          return `===========================
+ Selamat Datang ke C++ Hub! 
+===========================`;
+        }
+      },
+      catB: {
+        name: "5.1.5 (b) Do Not Accept Arguments & Return a Value",
+        badge: "int dapatkanNomborBertuah()",
+        desc: "Fungsi jenis ini tidak memerlukan input luar daripada pemanggil, namun ia memproses data dalamannya dan memulangkan satu nilai hasil (menggunakan kata kunci <code>return</code>) kepada pemanggil.",
+        code: `#include <iostream>
+#include <cstdlib>
+#include <ctime>
+using namespace std;
+
+// (b) Tiada argumen, tetapi memulangkan satu nilai (int)
+int dapatkanNomborBertuah() {
+    return (rand() % 100) + 1; // Pulangkan nombor 1-100
+}
+
+int main() {
+    int nombor = dapatkanNomborBertuah(); // Menerima nilai return
+    cout << "Nombor Bertuah Anda: " << nombor << endl;
+    return 0;
+}`,
+        inputsHtml: `<div class="text-xs text-slate-500 italic bg-white p-2.5 rounded border border-slate-200">Fungsi ini akan menjana nombor bertuah secara automatik lalu memulangkannya ke pemanggil.</div>`,
+        execute: () => {
+          const randNum = Math.floor(Math.random() * 100) + 1;
+          return `[main()] Memanggil dapatkanNomborBertuah()...\n[dapatkanNomborBertuah()] return ${randNum};\n[main()] Nombor Bertuah Diterima: ${randNum}`;
+        }
+      },
+      catC: {
+        name: "5.1.5 (c) Accept Arguments & Do Not Return Value",
+        badge: "void paparkanBintang(int baris)",
+        desc: "Fungsi jenis ini menerima satu atau lebih nilai argumen untuk diproses, namun tidak memulangkan sebarang nilai kembali kepada pemanggil (return type ialah <code>void</code>).",
+        code: `#include <iostream>
+using namespace std;
+
+// (c) Menerima argumen (baris), tiada return value (void)
+void paparkanBintang(int baris) {
+    for(int i = 1; i <= baris; i++) {
+        for(int j = 1; j <= i; j++) {
+            cout << "* ";
+        }
+        cout << endl;
+    }
+}
+
+int main() {
+    int n = 4;
+    paparkanBintang(n); // Hantar argumen ke fungsi
+    return 0;
+}`,
+        inputsHtml: `
+          <div>
+            <label class="block text-slate-600 text-xs mb-1 font-medium">Bilangan Baris Bintang (Argumen):</label>
+            <input id="cat-c-input" type="number" min="1" max="8" value="4" class="w-full bg-white border border-slate-300 rounded px-2.5 py-1.5 text-slate-800 font-mono text-xs focus:border-indigo-500 focus:outline-none">
+          </div>
+        `,
+        execute: () => {
+          const val = parseInt(document.getElementById('cat-c-input')?.value) || 3;
+          const rows = Math.min(Math.max(val, 1), 8);
+          let out = `[main()] Menghantar argumen (${rows}) ke paparkanBintang()\n`;
+          for(let i = 1; i <= rows; i++) {
+            out += "* ".repeat(i) + "\n";
+          }
+          return out.trim();
+        }
+      },
+      catD: {
+        name: "5.1.5 (d) Accept Arguments & Return Value",
+        badge: "double kiraLuasSegiempat(double p, double l)",
+        desc: "Pola yang paling lazim digunakan dalam algoritma pemprosesan. Fungsi menerima data luar melalui parameter formal, membuat perkiraan, dan memulangkan hasil akhir (return value).",
+        code: `#include <iostream>
+using namespace std;
+
+// (d) Terima argumen (panjang, lebar) dan pulangkan nilai (double)
+double kiraLuasSegiempat(double panjang, double lebar) {
+    double luas = panjang * lebar;
+    return luas; // Pulangkan hasil
+}
+
+int main() {
+    double p = 12.5, l = 4.0;
+    double hasil = kiraLuasSegiempat(p, l);
+    cout << "Luas: " << hasil << " cm persegi" << endl;
+    return 0;
+}`,
+        inputsHtml: `
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div>
+              <label class="block text-slate-600 mb-1 font-medium">Panjang (p):</label>
+              <input id="cat-d-p" type="number" value="12.5" step="0.5" class="w-full bg-white border border-slate-300 rounded px-2.5 py-1.5 text-slate-800 font-mono focus:border-indigo-500 focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-slate-600 mb-1 font-medium">Lebar (l):</label>
+              <input id="cat-d-l" type="number" value="4" step="0.5" class="w-full bg-white border border-slate-300 rounded px-2.5 py-1.5 text-slate-800 font-mono focus:border-indigo-500 focus:outline-none">
+            </div>
+          </div>
+        `,
+        execute: () => {
+          const p = parseFloat(document.getElementById('cat-d-p')?.value) || 0;
+          const l = parseFloat(document.getElementById('cat-d-l')?.value) || 0;
+          const luas = p * l;
+          return `[main()] Hantar argumen: p=${p}, l=${l}\n[kiraLuasSegiempat()] Mengira: ${p} * ${l} = ${luas}\n[kiraLuasSegiempat()] return ${luas};\n[main()] Nilai Luas Diterima: ${luas} unit persegi`;
+        }
+      }
+    };
+
+    let activeCategoryKey = 'catA';
+
+    function selectCategory(catKey) {
+      activeCategoryKey = catKey;
+      const data = categories[catKey];
+
+      // Update button active state
+      ['catA', 'catB', 'catC', 'catD'].forEach(k => {
+        const btn = document.getElementById('btn-cat-' + k);
+        btn.className = (k === catKey) 
+          ? "category-btn p-3 rounded-xl border text-left bg-indigo-50 border-indigo-500 text-indigo-950 transition shadow-xs"
+          : "category-btn p-3 rounded-xl border text-left bg-slate-50 border-slate-200 text-slate-700 hover:border-slate-300 transition shadow-xs";
+      });
+
+      document.getElementById('cat-badge').innerText = data.badge;
+      document.getElementById('cat-explainer').innerHTML = data.desc;
+      document.getElementById('cat-code-display').textContent = data.code;
+      document.getElementById('cat-input-container').innerHTML = data.inputsHtml;
+      document.getElementById('cat-output-terminal').innerText = "Sedia untuk dijalankan...";
+    }
+
+    function executeCategorySimulation() {
+      const data = categories[activeCategoryKey];
+      if (data && data.execute) {
+        document.getElementById('cat-output-terminal').innerText = data.execute();
+      }
+    }
+
+    const simStepsData = {
+      val: [
+        {
+          step: 1,
+          narration: "main() mengisytiharkan int num = 10 pada alamat memori 0x7ffd1.",
+          mainVal: 10,
+          funcVal: "-",
+          funcAddr: "Belum dipanggil",
+          funcNote: "Fungsi belum dipanggil.",
+          boxStyle: "border-slate-200 bg-slate-50"
+        },
+        {
+          step: 2,
+          narration: "ubah(num) dipanggil! SALINAN nilai 10 dibuat pada alamat memori baharu 0x7ffd5.",
+          mainVal: 10,
+          funcVal: 10,
+          funcAddr: "Alamat: 0x7ffd5 (Salinan Berasingan)",
+          funcNote: "Nilai disalin ke slot memori berasingan.",
+          boxStyle: "border-indigo-400 bg-indigo-50/70"
+        },
+        {
+          step: 3,
+          narration: "Dalam fungsi: n = 99. Cuma alamat 0x7ffd5 berubah! Alamat asal main() 0x7ffd1 KEKAL 10!",
+          mainVal: 10,
+          funcVal: 99,
+          funcAddr: "Alamat: 0x7ffd5 (Telah diubah)",
+          funcNote: "Nilai asal di main() TIDAK terjejas langsung!",
+          boxStyle: "border-amber-400 bg-amber-50/70"
+        }
+      ],
+      ref: [
+        {
+          step: 1,
+          narration: "main() mengisytiharkan int num = 10 pada alamat memori 0x7ffd1.",
+          mainVal: 10,
+          funcVal: "-",
+          funcAddr: "Belum dipanggil",
+          funcNote: "Fungsi belum dipanggil.",
+          boxStyle: "border-slate-200 bg-slate-50"
+        },
+        {
+          step: 2,
+          narration: "ubah(num) dipanggil! Parameter 'int &n' MERUJUK TERUS ke alamat 0x7ffd1 (Tiada salinan baru dibuat).",
+          mainVal: 10,
+          funcVal: "➔ 0x7ffd1",
+          funcAddr: "Alias Rujukan ke: 0x7ffd1",
+          funcNote: "'n' ialah nama alias kepada pemboleh ubah asal!",
+          boxStyle: "border-emerald-400 bg-emerald-50/70"
+        },
+        {
+          step: 3,
+          narration: "Dalam fungsi: n = 99. Kerana 'n' merujuk terus ke 0x7ffd1, nilai asal dalam main() IKUT BERUBAH ke 99!",
+          mainVal: 99,
+          funcVal: 99,
+          funcAddr: "0x7ffd1 kini mengandungi 99",
+          funcNote: "Nilai asal di main() BERUBAH serta-merta!",
+          boxStyle: "border-emerald-500 bg-emerald-100/70"
+        }
+      ]
+    };
+
+    const codeSamples523 = {
+      val: `// 5.2.3 Contoh Kod: Pass by Value
+#include <iostream>
+using namespace std;
+
+void ubahNilai(int n) { // Menerima salinan
+    n = 99; // Mengubah salinan sahaja
+    cout << "Dalam fungsi: n = " << n << endl; // Output: 99
+}
+
+int main() {
+    int num = 10;
+    cout << "Sebelum: " << num << endl; // Output: 10
+    ubahNilai(num);
+    cout << "Selepas: " << num << endl;  // Output: KEKAL 10!
+    return 0;
+}`,
+      ref: `// 5.2.3 Contoh Kod: Pass by Reference (&)
+#include <iostream>
+using namespace std;
+
+void ubahNilai(int &n) { // '&' bermaksud rujukan memori terus!
+    n = 99; // Mengubah terus memori asal!
+    cout << "Dalam fungsi: n = " << n << endl; // Output: 99
+}
+
+int main() {
+    int num = 10;
+    cout << "Sebelum: " << num << endl; // Output: 10
+    ubahNilai(num);
+    cout << "Selepas: " << num << endl;  // Output: BERUBAH KE 99!
+    return 0;
+}`
+    };
+
+    function togglePassingMode(mode) {
+      currentPassingMode = mode;
+      currentSimStep = 0;
+
+      const valBtn = document.getElementById('mode-val-btn');
+      const refBtn = document.getElementById('mode-ref-btn');
+      const langTag = document.getElementById('code-lang-tag');
+      const stackTitle = document.getElementById('stack-frame-title');
+      const paramName = document.getElementById('param-name-display');
+
+      if (mode === 'val') {
+        valBtn.className = "px-4 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white transition shadow-xs";
+        refBtn.className = "px-4 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900 transition";
+        langTag.innerText = "Pass by Value";
+        langTag.className = "text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-100 text-indigo-700 font-semibold";
+        stackTitle.innerText = "STACK FRAME: ubah(int n)";
+        paramName.innerText = "Parameter: int n (Salinan)";
+      } else {
+        refBtn.className = "px-4 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white transition shadow-xs";
+        valBtn.className = "px-4 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900 transition";
+        langTag.innerText = "Pass by Reference (&)";
+        langTag.className = "text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 font-semibold";
+        stackTitle.innerText = "STACK FRAME: ubah(int &n)";
+        paramName.innerText = "Parameter: int &n (Rujukan Langsung)";
+      }
+
+      document.getElementById('passing-code-display').textContent = codeSamples523[mode];
+      renderSimStep();
+    }
+
+    function renderSimStep() {
+      const steps = simStepsData[currentPassingMode];
+      const data = steps[currentSimStep];
+
+      document.getElementById('sim-step-indicator').innerText = `Langkah ${data.step} / 3`;
+      document.getElementById('step-narration').innerText = data.narration;
+      document.getElementById('mem-val-main').innerText = data.mainVal;
+      document.getElementById('mem-val-func').innerText = data.funcVal;
+      document.getElementById('param-addr-display').innerText = data.funcAddr;
+      document.getElementById('connection-note').innerText = data.funcNote;
+
+      const borderBox = document.getElementById('param-box-border');
+      borderBox.className = `p-2.5 rounded-lg border ${data.boxStyle} flex items-center justify-between transition-all duration-300`;
+
+      const nextBtn = document.getElementById('sim-next-btn');
+      if (currentSimStep >= 2) {
+        nextBtn.innerHTML = `<span>Selesai (Klik untuk Ulang) ↺</span>`;
+      } else {
+        nextBtn.innerHTML = `<span>Langkah Seterusnya ➔</span>`;
+      }
+    }
+
+    function nextSimStep() {
+      if (currentSimStep >= 2) {
+        currentSimStep = 0;
+      } else {
+        currentSimStep++;
+      }
+      renderSimStep();
+    }
+
+    function resetSim() {
+      currentSimStep = 0;
+      renderSimStep();
+    }
+
+    const quizQuestions = [
+      {
+        q: "1. Antara berikut, yang manakah merupakan kelebihan utama penggunaan fungsi dalam pengaturcaraan? (5.1.2)",
+        options: [
+          "Meningkatkan kelajuan jam fizikal pemproses komputer tanpa had.",
+          "Kebolehgunaan semula kod (reusability) dan mempermudah proses mengesan ralat (debugging).",
+          "Memaksa setiap pemboleh ubah menjadi pemboleh ubah jenis global.",
+          "Menghapuskan keperluan menyertakan sebarang fail perpustakaan piawai."
+        ],
+        correct: 1,
+        explanation: "Fungsi membolehkan kod ditulis sekali dan diguna semula (reusability), memecahkan kod besar kepada modul kecil, dan memudahkan proses pencarian ralat."
+      },
+      {
+        q: "2. Apakah perbezaan tatabahasa (sintaks) paling ketara antara 'Function Prototype' dan 'Function Header'? (5.1.4)",
+        options: [
+          "Prototype diakhiri dengan tanda semikolon (;), manakala header diikuti blok kurungan { }.",
+          "Prototype langsung tidak mempunyai jenis data nilai pulangan (return type).",
+          "Header fungsi wajib ditulis sebelum fungsi main() dipanggil sahaja.",
+          "Prototype hanya dibenarkan untuk fungsi sedia ada perpustakaan (built-in)."
+        ],
+        correct: 0,
+        explanation: "Prototype adalah pernyataan pengisytiharan yang wajib diakhiri dengan semikolon (;), manakala header memulakan blok takrifan kod fungsi tanpa semikolon."
+      },
+      {
+        q: "3. Diberi header fungsi: 'void cetakSlip(int id, double gaji)'. Fungsi ini tergolong dalam kategori yang mana? (5.1.5)",
+        options: [
+          "Tidak menerima argumen dan tidak memulangkan nilai.",
+          "Menerima argumen dan memulangkan nilai jenis double.",
+          "Menerima argumen (id, gaji) dan tidak memulangkan nilai (void).",
+          "Tidak menerima argumen tetapi memulangkan jenis void."
+        ],
+        correct: 2,
+        explanation: "Fungsi ini mempunyai senarai parameter (int id, double gaji) maka ia menerima argumen. Jenis pulangannya ialah 'void' yang menandakan tiada nilai dipulangkan."
+      },
+      {
+        q: "4. Apakah simbol dalam C++ yang digunakan pada parameter untuk menandakan kaedah 'Pass by Reference'? (5.2.1)",
+        options: [
+          "* (Asterisk)",
+          "& (Ampersand)",
+          "% (Modulus)",
+          "# (Hash)"
+        ],
+        correct: 1,
+        explanation: "Simbol ampersand (&) diletakkan bersebelahan jenis data parameter (contoh: int &n) untuk menandakan rujukan memori terus."
+      },
+      {
+        q: "5. Dalam teknik 'Pass by Value', apakah yang berlaku kepada pemboleh ubah asal di dalam main() sekiranya nilai parameter di dalam fungsi diubah? (5.2.2)",
+        options: [
+          "Nilai asal di dalam main() akan turut berubah secara automatik.",
+          "Nilai asal di dalam main() TIDAK BERUBAH kerana fungsi hanya mengubah salinan nilainya.",
+          "Kompiler akan memaparkan ralat 'Segmentation Fault'.",
+          "Pemboleh ubah di dalam main() akan terus dihapuskan dari memori."
+        ],
+        correct: 1,
+        explanation: "Pass by value hanya menghantar salinan data. Oleh itu, sebarang ubah suai di dalam fungsi langsung tidak mempengaruhi pemboleh ubah asal dalam main()."
+      }
+    ];
+
+    let userAnswers = {};
+
+    function renderQuiz() {
+      const container = document.getElementById('quiz-container');
+      container.innerHTML = quizQuestions.map((item, qIdx) => `
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-4.5" id="q-box-${qIdx}">
+          <p class="font-semibold text-slate-900 text-xs sm:text-sm mb-3">${item.q}</p>
+          <div class="space-y-2">
+            ${item.options.map((opt, oIdx) => `
+              <label class="flex items-center gap-3 p-2.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-100/80 cursor-pointer text-xs transition shadow-xs">
+                <input type="radio" name="q-${qIdx}" value="${oIdx}" onchange="selectAnswer(${qIdx}, ${oIdx})" class="text-indigo-600 focus:ring-indigo-500">
+                <span class="text-slate-700">${opt}</span>
+              </label>
+            `).join('')}
+          </div>
+          <div id="q-feedback-${qIdx}" class="mt-3 text-xs p-2.5 rounded-lg hidden font-mono"></div>
+        </div>
+      `).join('');
+    }
+
+    function selectAnswer(qIdx, optionIdx) {
+      userAnswers[qIdx] = optionIdx;
+      const q = quizQuestions[qIdx];
+      const feedbackEl = document.getElementById(`q-feedback-${qIdx}`);
+      const isCorrect = (optionIdx === q.correct);
+
+      feedbackEl.classList.remove('hidden', 'bg-rose-50', 'text-rose-800', 'border-rose-200', 'bg-emerald-50', 'text-emerald-800', 'border-emerald-200');
+      feedbackEl.classList.add('border');
+
+      if (isCorrect) {
+        feedbackEl.classList.add('bg-emerald-50', 'text-emerald-800', 'border-emerald-200');
+        feedbackEl.innerHTML = `<strong>Tepat! ✅</strong> ${q.explanation}`;
+      } else {
+        feedbackEl.classList.add('bg-rose-50', 'text-rose-800', 'border-rose-200');
+        feedbackEl.innerHTML = `<strong>Kurang tepat ❌</strong> ${q.explanation}`;
+      }
+
+      // Calculate score
+      let score = 0;
+      for (let i = 0; i < quizQuestions.length; i++) {
+        if (userAnswers[i] === quizQuestions[i].correct) score++;
+      }
+      document.getElementById('quiz-score').innerText = score;
+      document.getElementById('quiz-feedback-banner').innerText = `Dijawab: ${Object.keys(userAnswers).length} daripada ${quizQuestions.length} soalan.`;
+    }
+
+    function resetQuiz() {
+      userAnswers = {};
+      document.getElementById('quiz-score').innerText = '0';
+      document.getElementById('quiz-feedback-banner').innerText = 'Pilih jawapan bagi setiap soalan untuk membuat semakan automatik.';
+      renderQuiz();
+    }
+
+    /* Window on-load initialization */
+    window.onload = function() {
+      // Initialize anatomy highlighter
+      highlightPart('prototype');
+
+      // Initialize 4-category simulator
+      selectCategory('catA');
+
+      // Initialize Pass by value/reference code and simulator
+      togglePassingMode('val');
+
+      // Initialize Quiz
+      renderQuiz();
+
+      // Initial progress
+      updateProgress();
+    };
+  </script>
+</body>
+</html>
